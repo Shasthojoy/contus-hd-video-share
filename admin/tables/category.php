@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @Copyright Copyright (C) 2010-2011 Contus Support Interactive Private Limited
  * @license GNU/GPL http://www.gnu.org/copyleft/gpl.html,

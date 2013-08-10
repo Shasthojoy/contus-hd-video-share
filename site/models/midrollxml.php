@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version  $Id:playxml.php 1.5,  03-Feb-2011 $$
+ * @version     2.2,  03-Feb-2011 $$
  * @package	Joomla
  * @subpackage	hdflvplayer
  * @copyright   Copyright (C) 2011 Contus Support

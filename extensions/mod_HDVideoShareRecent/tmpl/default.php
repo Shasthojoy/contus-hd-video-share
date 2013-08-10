@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     1.3, Creation Date : March-24-2011
+ * @version     2.2, Creation Date : March-24-2011
  * @name        default.php
  * @location    /components/modules/mod_HDVideoShareRecent/tmpl/default.php
  * @package	Joomla 1.6
@@ -73,7 +73,7 @@ $seoOption = $result1[0]->seo_option;
                                              <div class="tooltip">
                                           <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $recentVideoVal . "&amp;" . $recentCategoryVal); ?>" ><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="125" height="69" title=""  /></p></a>
                                                
-                                                <div class="Tooltipwindow" >
+                                                <div class="Tooltipwindow clearfix" >
                                                <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage"/>
                                                     <?php echo '<div class="clearfix"><span class="clstoolleft">' . _HDVS_CATEGORY . ' : ' . '</span>' .'<span class="clstoolright">'. $result[$i]->category.'</span></div>'; ?>
                                                     <?php echo '<span class="clsdescription">' . _HDVS_DESCRIPTION . ' : ' . '</span>' .'<p>'. $result[$i]->description.'</p>'; ?>

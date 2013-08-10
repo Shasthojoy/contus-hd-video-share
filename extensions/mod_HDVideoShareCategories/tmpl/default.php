@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     1.3, Creation Date : March-24-2011
+ * @version     2.2, Creation Date : March-24-2011
  * @name        default.php
  * @location    /components/modules/mod_HDVideoShareCategories/tmpl/default.php
  * @package	Joomla 1.6

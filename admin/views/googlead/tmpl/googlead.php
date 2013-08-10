@@ -1,6 +1,6 @@
 <?php 
 /*
-* "ContusHDVideoShare Component" - Version 1.3
+* "ContusHDVideoShare Component" - Version 2.2
 * Author: Contus Support - http://www.contussupport.com
 * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
 * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html

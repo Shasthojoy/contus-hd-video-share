@@ -1,7 +1,7 @@
 <?php
 
 /*
- * "ContusHDVideoShare Component" - Version 1.3
+ * "ContusHDVideoShare Component" - Version 2.2
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -21,50 +21,42 @@ class contushdvideoshareViewplayer extends JView {
 
         /* CODE FOR SEO OPTION OR NOT - START */
         $video = JRequest::getVar('video');
-        $id = JRequest::getVar('id');
+        $id = JRequest::getInt('id');
         $flagVideo = is_numeric($video);
-        if (isset($video) && $video != "")
-         {
-            if ($flagVideo != 1)
-             {
+        if (isset($video) && $video != "") {
+            if ($flagVideo != 1) {
 
                 // joomla router replaced to : from - in query string
-                $video = str_replace(':','-',$video);
-
+                $videoTitle = JRequest::getString('video');
+                $video = str_replace(':', '-', $videoTitle);
                 $videodetails = $model->getVideoId($video);
                 $videoid = $videodetails->id;
                 $categoryid = $videodetails->playlistid;
-                 $videodetails->videourl = $videodetails->videourl;
-            } 
-            else
-            {
-                $videoid = JRequest::getVar('video');
+                $videodetails->videourl = $videodetails->videourl;
+            } else {
+                $videoid = JRequest::getInt('video');
                 $videodetails = $model->getVideodetail($videoid);
-                $categoryid = JRequest::getVar('category');
+                $categoryid = JRequest::getInt('category');
                 $videodetails->id = $videoid;
                 $videodetails->playlistid = $categoryid;
-                $videodetails->videourl = $videodetails->videourl; 
+                $videodetails->videourl = $videodetails->videourl;
             }
             $this->assignRef('videodetails', $videodetails);
-        } 
-        else if (isset($id) && $id != '')
-         {
+        } else if (isset($id) && $id != '') {
 
-            $videoid = JRequest::getVar('id');
+            $videoid = JRequest::getInt('id');
             $videodetails = $model->getVideodetail($videoid);
-            $categoryid = JRequest::getVar('catid');
+            $categoryid = JRequest::getInt('catid');
             $videodetails->id = $videoid;
             $videodetails->playlistid = $categoryid;
-             $videodetails->videourl = $videodetails->videourl; 
+            $videodetails->videourl = $videodetails->videourl;
+            $this->assignRef('videodetails', $videodetails);
+        } else {
+            $videodetails->id = $videoid;
+            $videodetails->playlistid = $categoryid;
+            $videodetails->videourl = '';
             $this->assignRef('videodetails', $videodetails);
         }
-        else
-            {
-                $videodetails->id = $videoid;
-                $videodetails->playlistid = $categoryid;
-                $videodetails->videourl = ''; 
-                $this->assignRef('videodetails', $videodetails);
-            }
         /* CODE FOR SEO OPTION OR NOT - END */
 
         //Code for html5 player
@@ -89,8 +81,8 @@ class contushdvideoshareViewplayer extends JView {
 
         $homepagebottomsettings = $model->gethomepagebottomsettings(); //calling the function in models homepagebottom.php
         $this->assignRef('homepagebottomsettings', $homepagebottomsettings); // assigning the reference for the results
-        
-        $homeAccessLevel=$model->getHTMLVideoAccessLevel();
+
+        $homeAccessLevel = $model->getHTMLVideoAccessLevel();
         $this->assignRef('homepageaccess', $homeAccessLevel);
         parent::display();
     }

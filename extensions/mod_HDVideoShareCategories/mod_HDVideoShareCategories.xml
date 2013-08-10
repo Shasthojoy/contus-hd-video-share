@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5" method="upgrade">
     <name>Video Category</name>
-    <version>2.1</version>
+    <version>2.2</version>
     <license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
     <copyright>Apptha 2011</copyright>
     <description>Video Category Module for ContusHDVideoShare</description>
