@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+     <extension type="package" version="1.6">
+     <name>HD Video share</name>
+     <author>Apptha</author>
+     <creationDate>March 2013</creationDate>
+     <packagename>hdvideoshare</packagename>
+     <version>3.2.1</version>
+     <copyright>Copyright (C) 2011 Powered by Apptha</copyright>
+    <license>GNU http://www.gnu.org/licenses/gpl-3.0.html</license>
+     <url>http://www.apptha.com/</url>
+     <packager>Apptha Team</packager>
+     <packagerurl>http://www.apptha.com/</packagerurl>
+     <description>Contus HD Video Share</description>
+     <update>http://www.apptha.com</update>
+         <files folder="packages">
+           <file type="component" id="hdvideoshare" >com_hdvideoshare.zip</file>
+           <file type="module" id="hdvideoShareCategories" client="site">mod_HDVideoShareCategories.zip</file>
+           <file type="module" id="hdvideoShareFeatured" client="site">mod_HDVideoShareFeatured.zip</file>
+           <file type="module" id="hdvideoSharePopular" client="site">mod_HDVideoSharePopular.zip</file>
+           <file type="module" id="hdvideoShareRecent" client="site">mod_HDVideoShareRecent.zip</file>
+           <file type="module" id="hdvideoShareRelated" client="site">mod_HDVideoShareRelated.zip</file>
+           <file type="module" id="hdvideoShareSearch" client="site">mod_HDVideoShareSearch.zip</file>
+         </files>
+ </extension>

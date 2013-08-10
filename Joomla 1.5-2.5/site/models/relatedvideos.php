@@ -1,0 +1,113 @@
+<?php
+/*
+ ***********************************************************/
+/**
+ * @name          : Joomla HD Video Share
+ * @version	      : 3.2.1
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @abstract      : Contus HD Video Share Component Related Videos Model
+ * @Creation Date : March 2010
+ * @Modified Date : March 2013
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
+defined( '_JEXEC' ) or die( 'Restricted access' );
+// import Joomla model library
+jimport( 'joomla.application.component.model' );
+/**
+ * Contushdvideoshare Component Related Vidos Model
+ */
+class Modelcontushdvideosharerelatedvideos extends JModel
+{
+/* function is to display the related videos */
+function getrelatedvideos()
+{
+        $db = $this->getDBO();
+        $session = JFactory::getSession();       
+        $categoryid=JRequest::getVar('catid','','get','int');
+        $limitrow=$this->getrelatedvideosrowcol();
+         $rows='';
+        $seoOption = $limitrow[0]->seo_option;
+		$category = $video = '';
+		if ($seoOption == 1)
+		{
+			$videoid = JRequest::getVar('video', '', 'get', 'string');
+			$videoid = str_replace(":", "-", $videoid);
+			if ($videoid != "") {
+				$videoid = $db->getEscaped($videoid);
+                        }
+                        $catidquery = "select playlistid from #__hdflv_upload where seotitle ='$videoid'";
+			$db->setQuery($catidquery);
+			$video = $db->loadResult();
+		}
+		else
+		{
+                    if(JRequest::getVar('id')) {
+			$videoid = JRequest::getVar('id');
+                    } else {
+                        $videoid = JRequest::getVar('video');
+                    }
+			$catidquery = "select playlistid from #__hdflv_upload where id ='$videoid'";
+			$db->setQuery($catidquery);
+			$video = $db->loadResult();
+		}
+
+                if(!isset($video) && $video=='')
+                    $video=0;
+                if(!isset($videoid) && $videoid=='')
+                    $videoid=0;
+
+        //Query for getting the pagination values for related video page
+        $totalquery="SELECT count(a.id) FROM #__hdflv_upload a
+        			 LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+        			 LEFT JOIN #__hdflv_category b on e.catid=b.id 
+                     WHERE a.published=1 and b.published=1 and  (a.playlistid=$video) ";
+        $db->setQuery( $totalquery );
+        $total = $db->loadResult();
+        $pageno = 1;
+        if(JRequest::getVar('page','','post','int'))
+        {
+            $pageno = JRequest::getVar('page','','post','int');
+        }
+        $length=$limitrow[0]->relatedrow * $limitrow[0]->relatedcol;
+        $pages = ceil($total/$length);
+        if($pageno==1)
+        $start=0;
+        else
+        $start= ($pageno - 1) * $length;
+        if (isset($videoid) && (isset($video)) && !empty($video)) {
+$query = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+						 	  a.times_viewed,a.seotitle,b.id as catid,b.category,b.seo_category,e.catid,e.vid
+        		  FROM #__hdflv_upload a 
+        		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+        		  LEFT JOIN #__hdflv_category b on e.catid=b.id 
+							  WHERE a.published=1 and b.published=1 and  (a.playlistid=$video )  group by a.id order by rand() LIMIT $start,$length";
+
+				
+		 $db->setQuery( $query );
+        $rows = $db->loadObjectList();
+		} 
+        if(count($rows)>0){
+        $rows['pageno'] = $pageno;
+		$rows['pages'] = $pages;
+		$rows['start'] = $start;
+		$rows['length'] = $length;	
+        }
+        return $rows;
+}
+function getrelatedvideosrowcol()
+{
+        $db = $this->getDBO();
+		$relatedvideosquery="SELECT relatedcol,relatedrow,relatedwidth,seo_option,viewedconrtol,ratingscontrol
+							 FROM #__hdflv_site_settings";//Query is to select the popular videos row
+        $db->setQuery($relatedvideosquery);
+        $rows=$db->LoadObjectList();
+        return $rows;
+}
+}
+?>
