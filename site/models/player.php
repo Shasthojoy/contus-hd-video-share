@@ -37,7 +37,7 @@ class Modelcontushdvideoshareplayer extends JModel {
 	}
         /* function to get video id */
 	function getVideoCatId($video,$category) {
-		$db =  JFactory::getDBO();
+		$db = & JFactory::getDBO();
 		$video = $db->getEscaped($video);
                 $query = "SELECT a.id,a.playlistid,a.videourl
         				  FROM #__hdflv_upload a

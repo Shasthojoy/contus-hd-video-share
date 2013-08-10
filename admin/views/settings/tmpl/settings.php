@@ -195,10 +195,6 @@ function Toggle1(theDiv) {
 						<option value="skin_sleekblack.swf" id="skin_sleekblack.swf">Skin Sleek Black</option>
 						<option value="skin_white.swf" id="skin_white.swf">Skin White</option>
 						<option value="skin_youtube.swf" id="skin_youtube.swf">Skin Youtube</option>
-                                                						<option value="skin_fresh_blue.swf" id="skin_fresh_blue.swf">Skin Fresh Blue</option>
-						<option value="skin_fresh_white.swf" id="skin_fresh_white.swf">Skin Fresh White</option>
-						<option value="skin_fresh_yellow.swf" id="skin_fresh_yellow.swf">Skin Fresh Yellow</option>
-						<option value="skin_neat_fresh_yellow.swf" id="skin_neat_fresh_yellow.swf">Skin Neat Fresh Yellow</option>
 				</select> <?php
 				if(isset($rs_editsettings[0]->skin) && $rs_editsettings[0]->skin) {
 					echo '<script>document.getElementById("' . $rs_editsettings[0]->skin . '").selected="selected"</script>';
@@ -453,10 +449,6 @@ function Toggle1(theDiv) {
                                             </tr>
                                         </table>
                                     </div>
-                                    </td>
-			</tr>
-                        <tr>
-                                                        <td class="key" style="" colspan="4">
 <span style="
     float: left;
     font-style: italic;

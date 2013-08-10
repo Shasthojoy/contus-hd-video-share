@@ -59,11 +59,17 @@ function submitform()
                         {
                        ?>
                     <div class="toprightmenu">
+                    <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
                     <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
                     <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                     </div>
             <?php }else { ?>
                 <div class="toprightmenu">
+                <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
                 <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
                 <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                 </div>
@@ -144,9 +150,8 @@ function submitform()
                 {
                     $totalrecords = count($this->deletevideos) - 4;
                 }
-                $addvideo_url=JRoute::_('index.php?option=com_contushdvideoshare&view=videoupload');
                 if ($totalrecords == -4) {
-                	echo '<div class="hd_norecords_found"> ' . JText::_('HDVS_NO_RECORDS_FOUND_MYVIDEOS') . ' </div>';
+                	echo '<div class="hd_norecords_found"> ' . JText::_('HDVS_NO_RECORDS_FOUND') . ' </div>';
            		 } else  {
                          ?>
             <table width="auto" class="myvideos_tab" cellpadding="0" cellspacing="0" border="0">
@@ -266,7 +271,7 @@ function submitform()
                                                     }
                                     ?>
                                                     <?php echo $status;
-$playvideo = JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$myCategoryVal.'&'.$myVideoVal,true);
+$playvideo = JRoute::_('index.php?option=com_contushdvideoshare&view=player&id=' . $this->deletevideos[$i]->vid . '&catid=' . $this->deletevideos[$i]->catid);
 $editvideo = JRoute::_('index.php?option=com_contushdvideoshare&view=videoupload&id=' . $this->deletevideos[$i]->vid . '&type=edit');
 
                                                     ?></p>

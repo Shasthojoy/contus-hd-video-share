@@ -55,11 +55,17 @@ function submitform()
                         {
                        ?>
                     <div class="toprightmenu">
+		               <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+		               <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+		               <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
 		               <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
 		               <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
 		           </div>
             <?php }else { ?>
                 <div class="toprightmenu">
+	                <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+	                <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+	                <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
 	                <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
 	                <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
 	            </div>
@@ -83,19 +89,12 @@ function submitform()
             if (count($this->search) - 4 < $totalRecords) {
                 $totalRecords = count($this->search) - 4;
             }
-            $user = JFactory::getUser();
-            if ($user->get('id') == '')
-            {
-                $addvideo_url = JRoute::_("index.php?option=com_users&view=login&return=".base64_encode('index.php?option=com_contushdvideoshare&view=videoupload'));
-            }else{
-            $addvideo_url=JRoute::_('index.php?option=com_contushdvideoshare&view=videoupload');
-            }
             if ($totalRecords == -4) {
             ?>
                <h1><?php echo JText::_('HDVS_SEARCH_RESULT')." - $serachVal"; ?></h1>
                <?php
-                echo '<div class="hd_norecords_found"> ' . JText::_('HDVS_NO_RECORDS_FOUND_SEARCH') .'"'.$serachVal.'"'. ' </div></div>';
-           } else {
+                echo '<div class="hd_norecords_found"> ' . JText::_('HDVS_NO_RECORDS_FOUND') . ' </div></div>';
+            } else {
             ?>
 
                      <h1 class="home-link hoverable"><?php echo JText::_('HDVS_SEARCH_RESULT')." - $serachVal"; ?></h1>
@@ -122,9 +121,38 @@ function submitform()
                     }elseif ($this->search[$i]->filepath == "Url" || $this->search[$i]->filepath == "Youtube") {
                         $src_path = $this->search[$i]->thumburl;
                     }else {
-                    	$src_path = '';
+                    	$src_path = 'channelpath';
                     }?>
                      <li class="video-item">
+                    <?php 
+                        if($src_path == 'channelpath') {
+                        if(isset($this->search[$i]->rate) && $this->search[$i]->rate) {
+                    		$logo_path = "components/com_contushdvideoshare/videos/" . $this->search[$i]->rate;
+                    	} else {
+                    		$logo_path = "components/com_contushdvideoshare/videos/default_thumb.jpg";
+                    	}
+                        ?>
+                        <div class="home-thumb">
+                             <div class="list_video_thumb">
+                                 <a class="featured_vidimg" rel="htmltooltip" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=mychannel&amp;channelname=".$this->search[$i]->seo_category); ?>" >
+                                   <img class="yt-uix-hovercard-target" src="<?php echo $logo_path; ?>"  border="0"  title="" alt="thumb_image" /></a>                                   
+                             </div>
+                                                            
+                                             <div class="show-title-container">
+                                              <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=mychannel&amp;channelname=".$this->search[$i]->seo_category); ?>" class="show-title-gray info_hover"><?php
+                                            if (strlen($this->search[$i]->seo_category) > 50) {                                                
+                                                echo JHTML::_('string.truncate', ($this->search[$i]->seo_category), 50);
+                                            } else {
+                                                echo $this->search[$i]->seo_category;
+                                            }
+?></a>
+                                                </div>  
+
+                                                            <span class="floatright viewcolor"><?php echo $this->search[$i]->thumburl; ?>  <?PHP echo JText::_('HDVS_VIEWS'); ?></span>
+                                                 </div>
+                        	
+                        <?php } else {
+?>
                                         <?php if ($this->search[$i]->vid != '') {
  ?>                                           <div class="home-thumb">
                                                     <div class="list_video_thumb">
@@ -167,7 +195,7 @@ function submitform()
                                                  <span class="floatright viewcolor"><?php echo $this->search[$i]->times_viewed; ?>  <?PHP echo JText::_('HDVS_VIEWS'); ?></span>
                                              <?php } ?>
                                               </div>
-                                                    <?php } ?>
+                                                    <?php } }?>
                      </li>
                                             <!--First row-->
                                                     <?php

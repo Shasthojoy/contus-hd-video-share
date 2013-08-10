@@ -32,14 +32,6 @@ class modcategorylist {
 		return $rs;
 	}
 
-        public static function getcategorysettings() {
-        $db =  JFactory::getDBO();
-        $featurequery = "select * from #__hdflv_site_settings"; //Query is to select the popular videos row
-        $db->setQuery($featurequery);
-        $rows = $db->LoadObjectList();
-        return $rows;
-    }
-
 }
 
 ?>

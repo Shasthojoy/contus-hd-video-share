@@ -39,6 +39,5 @@ if(version_compare(JVERSION,'1.6.0','ge')) {
         $jlang->load('com_contushdvideoshare', JPATH_SITE, null, true);
 }
 $result = modcategorylist::getcategorylist();
-$result_settings = modcategorylist::getcategorysettings();
 require(JModuleHelper::getLayoutPath('mod_HDVideoShareCategories'));
 ?>

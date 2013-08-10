@@ -18,8 +18,16 @@
  ***********************************************************/
 // No direct access to this file
 defined('_JEXEC') or die;
+if(version_compare(JVERSION,'1.7.0','ge')) {
+	$version='1.7';
+} elseif(version_compare(JVERSION,'1.6.0','ge')) {
+	$version='1.6';
+} else {
+	$version='1.5';
+}
+if($version=='1.5') {
 jimport('joomla.filesystem.file');
-
+}
 /**
  * uploading videos
  * type : FFMPEG

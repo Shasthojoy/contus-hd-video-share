@@ -28,7 +28,7 @@ class Modelcontushdvideosharerelatedvideos extends JModel
 function getrelatedvideos()
 {
         $db = $this->getDBO();
-        $session = JFactory::getSession();       
+        $session =& JFactory::getSession();       
         $categoryid=JRequest::getVar('catid','','get','int');
         $limitrow=$this->getrelatedvideosrowcol();
          $rows='';

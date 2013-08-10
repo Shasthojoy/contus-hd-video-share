@@ -383,10 +383,10 @@ function changepage(pageno)
                             {
                                 var d=document.getElementById('txt').innerHTML;
                                 document.getElementById('initial').innerHTML=d;
-//                             var divs = document.getElementsByClassName('initial');
-//                                for(var i=0; i<divs.length; i++) {
-//                                  divs[i].style.display='none'
-//                                }
+                             var divs = document.getElementsByClassName('initial');
+                                for(var i=0; i<divs.length; i++) {
+                                  divs[i].style.display='none'
+                                }
                             }
 
 
@@ -407,10 +407,10 @@ function changepage(pageno)
 
                                 }
                                 document.getElementById('initial').innerHTML=" ";
-//                                var divs = document.getElementsByClassName('initial');
-//                                for(var i=0; i<divs.length; i++) {
-//                                  divs[i].style.display='block'
-//                                }
+                                var divs = document.getElementsByClassName('initial');
+                                for(var i=0; i<divs.length; i++) {
+                                  divs[i].style.display='block'
+                                }
                                 var r=rid;
                                 var d=document.getElementById('txt').innerHTML;
                                 document.getElementById(r).innerHTML=d;

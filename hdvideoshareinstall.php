@@ -65,6 +65,8 @@ function AddMebercolumn() {
 	$db = & JFactory::getDBO();
 	$query = 'ALTER TABLE `#__hdflv_upload` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL';
 	$db->setQuery($query);
+        $query = 'ALTER TABLE `#__hdflv_channel` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL';
+	$db->setQuery($query);
         $query = "alter TABLE #__hdflv_site_settings add (`featurwidth` int(11) DEFAULT '20',`recentwidth` int(11) DEFAULT '20',`categorywidth` int(11) DEFAULT '20',`popularwidth` int(11) DEFAULT '20',`searchwidth` int(11) DEFAULT '20',`relatedwidth` int(11) DEFAULT '20',`memberpagewidth` int(11) DEFAULT '20',`homepopularvideowidth` int(11) DEFAULT '20',`homefeaturedvideowidth` int(11) DEFAULT '20',`homerecentvideowidth` int(11) DEFAULT '20',`myvideowidth` int(11) DEFAULT '20')";
         $db->setQuery($query);
     if (!$result = $db->query()) {
@@ -157,6 +159,52 @@ $result = '';
 }
 
 if (empty($result)) {
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `channel_name` varchar(255) NOT NULL,
+  `description` text CHARACTER SET utf8 NOT NULL,
+  `about_me` varchar(255) NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `website` varchar(255) NOT NULL,
+  `channel_views` int(11) NOT NULL DEFAULT '0',
+  `total_uploads` int(11) NOT NULL DEFAULT '0',
+  `recent_activity` int(11) NOT NULL DEFAULT '0',
+  `created_date` datetime,
+  `updated_date` timestamp,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channelsettings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(11) NOT NULL,
+  `player_width` int(11) NOT NULL DEFAULT '600',
+  `player_height` int(11) NOT NULL DEFAULT '400',
+  `video_row` int(11) NOT NULL DEFAULT '2',
+  `video_colomn` int(11) NOT NULL DEFAULT '2',
+  `logo` varchar(255) NOT NULL,
+  `recent_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `popular_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `top_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `playlist` tinyint(2) NOT NULL DEFAULT '1',
+  `type` tinyint(2) NOT NULL DEFAULT '1',
+  `start_videotype` tinyint(2) NOT NULL DEFAULT '1',
+  `start_video` int(11) NOT NULL,
+  `start_playlist` int(11) NOT NULL,
+  `fb_comment` tinyint(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channellist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(11) NOT NULL,
+  `other_channel` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
 
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_ads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -464,14 +512,56 @@ if (empty($result)) {
 (6, '11');");
     $db->query();
 } else {
+     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `channel_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `about_me` varchar(255) NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `website` varchar(255) NOT NULL,
+  `channel_views` int(11) NOT NULL DEFAULT '0',
+  `total_uploads` int(11) NOT NULL DEFAULT '0',
+  `recent_activity` int(11) NOT NULL DEFAULT '0',
+  `created_date` datetime,
+  `updated_date` timestamp,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
 
+     $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `IMAAds_path` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+ADD  `IMAAds` TINYINT( 4 ) NOT NULL");
+    $db->query();
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channelsettings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(11) NOT NULL,
+  `player_width` int(11) NOT NULL DEFAULT '600',
+  `player_height` int(11) NOT NULL DEFAULT '400',
+  `video_row` int(11) NOT NULL DEFAULT '2',
+  `video_colomn` int(11) NOT NULL DEFAULT '2',
+  `logo` varchar(255) NOT NULL,
+  `recent_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `popular_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `top_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `playlist` tinyint(2) NOT NULL DEFAULT '1',
+  `type` tinyint(2) NOT NULL DEFAULT '1',
+  `start_videotype` tinyint(2) NOT NULL DEFAULT '1',
+  `start_video` int(11) NOT NULL,
+  `start_playlist` int(11) NOT NULL,
+  `fb_comment` tinyint(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channellist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(11) NOT NULL,
+  `other_channel` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
     $upgra = 'upgrade';
-
-    $db = JFactory::getDBO();
-            $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `IMAAds_path` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-                            ADD  `IMAAds` TINYINT( 4 ) NOT NULL");
-            $db->query();
-            
     $updateDid = '';
     $updateDid = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "useraccess");
     

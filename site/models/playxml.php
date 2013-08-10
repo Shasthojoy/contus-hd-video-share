@@ -274,11 +274,7 @@ class Modelcontushdvideoshareplayxml extends JModel {
                     }
 
                  $baseUrl=JURI::base();
- $baseUrl1=parse_url($baseUrl);
-                 $baseUrl1=$baseUrl1['scheme'].'://'.$baseUrl1['host'];
-
-
-                 $fbPath = $baseUrl1.JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$fbCategoryVal.'&'.$fbVideoVal);
+                 $fbPath = JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$fbCategoryVal.'&'.$fbVideoVal);
                  //$fbPath = JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$fbCategoryVal.'&'.$fbVideoVal , false);
 				
 				($rows->targeturl == "") ? $targeturl = "" : $targeturl = $rows->targeturl;

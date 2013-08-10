@@ -28,10 +28,9 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 	function getsearch()
 	{
 		$db = $this->getDBO();
-                $search='';
 		$session = JFactory::getSession();
-                $btn=JRequest::getVar('search_btn');
-                if(isset($btn)){
+                if(JRequest::getVar('searchtxtbox','','post','string'))
+		{
 			$search=JRequest::getVar('searchtxtbox','','post','string'); // Getting the search  text  box value
 			$session->set('search', $search);
 		}
@@ -78,8 +77,9 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 		$start=0;
 		else
 		$start= ($pageno - 1) * $length;
-		if(isset($btn)){
-			$search=JRequest::getVar('searchtxtbox','','post','string'); // Getting the search  text  box value
+		if(JRequest::getVar('searchtxtbox','','post','string'))
+		{
+			$search=JRequest::getVar('searchtxtbox','','post','string');
 			$session->set('search', $search);
 		}
 		else
@@ -111,6 +111,12 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 							  WHERE c.type=0 and c.published=1 and a.published=1 and d.block=0 
 							  and (c.title like '%$search%' OR c.description like '%$search%' OR 
 							  c.tags like '%$search%')
+							  UNION DISTINCT SELECT f.id,f.user_id,f.channel_name,f.description,f.about_me,f.tags,f.website,
+							  f.channel_views,f.total_uploads,f.recent_activity,f.created_date,f.updated_date,
+							  g.logo,g.type,g.playlist	
+							  FROM #__hdflv_channel f	
+							  LEFT JOIN #__hdflv_channelsettings g on f.id=g.channel_id							  
+							  WHERE f.channel_name like '%$search%' 							  
 							  LIMIT $start,$length";//Query for displaying the search value results
 			}}
 			$db->setQuery($searchquery);

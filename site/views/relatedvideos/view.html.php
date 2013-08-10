@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.view');
 class contushdvideoshareViewrelatedvideos extends JView
 {
-function display($cachable = false, $urlparams = false)
+function display()
 	{
 			$model = $this->getModel();
             $relatedvideos = $model->getrelatedvideos();

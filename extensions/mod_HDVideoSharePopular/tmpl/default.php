@@ -72,7 +72,7 @@ $document->addScript(JURI::base()."components/com_contushdvideoshare/js/htmltool
                            </div>
                          <div class="floatleft video-item-details">
                                 <div class="show-title-container" id="title">
-                                    <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $popularVideoVal . "&amp;" . $popularCategoryVal); ?>" class="show-title-gray info_hover"><?php if (strlen($result[$i]->title) > 30) { echo JHTML::_('string.truncate', ($result[$i]->title), 30); } else { echo $result[$i]->title; } ?></a>
+                                    <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=player&id=" . $result[$i]->id . "&catid=" . $result[$i]->catid); ?>" class="show-title-gray info_hover"><?php if (strlen($result[$i]->title) > 30) { echo JHTML::_('string.truncate', ($result[$i]->title), 30); } else { echo $result[$i]->title; } ?></a>
                                 </div>
              <?php if ($result1[0]->ratingscontrol == 1) { ?>
                                             <?php

@@ -40,18 +40,9 @@ $document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/mo
                 $query1 = "select * from #__hdflv_category where parent_id in ('" . $row->id . "') and published=1";
                 $db->setQuery($query1);
                 $result1 = $db->loadObjectList();
-
-                //For SEO settings
-                $seoOption =$result_settings[0]->seo_option;
-                if ($seoOption == 1) {
-                    $featureCategoryVal = "category=" . $row->seo_category;
-                 } else {
-                    $featureCategoryVal = "catid=" . $row->id;
-                }
-
         ?>
                 <li class="item27">
-                    <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&" . $featureCategoryVal); ?>"> <span><?php echo $row->category; ?></span></a>
+                    <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&catid=" . $row->id); ?>"> <span><?php echo $row->category; ?></span></a>
             <?php
                 if (count($result1) > 0) {
                     echo "<ul> ";
