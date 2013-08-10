@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Controlpanel View Page
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -122,17 +122,13 @@ $popularvideos = $this->controlpaneldetails['popularvideos'];
 $latestvideos = $this->controlpaneldetails['latestvideos'];
 $pane   = JPane::getInstance('sliders');
 echo $pane->startPane( 'pane' );
-echo $pane->startPanel( 'Welcome to hdvideoshare', 'panel1' );?>
+echo $pane->startPanel( 'Welcome to HD Video Share', 'panel1' );?>
 	<div class="main-text">
-		<div class="text">HD Video Share is an extension for Joomla CMS. This
-			video sharing script was developed to enable the Joomla websites to
-			start converting into a joomla video site. Same like joomla video
-			sharing this helps a great deal in creating in youtube clone script
-			also.</div>
+		<div class="text">HD Video Share is an extension for Joomla, you can create your own video sharing site in matter of minutes. It offers a complete video sharing solutions with advanced features such as featured videos, popular videos, recent videos, related videos, video search, video categories,  my playlist, my channel, ratings, comments, social sharing and more. It supports more joomla templates by default and few paid templates specialy made for supporting HD Video Share which are available in apptha.com for purchase.</div>
 		<div class="text">
 			<a href="http://www.apptha.com/forum/viewforum.php?f=45"
 				target="_blank"> Support</a> <a
-				href="http://www.apptha.com/download.php?name=videoshare_document-v2.3.pdf&amp;link=images/Extensions/Joomla/hdvideoshare/videoshare_document-v2.3.pdf">Documentation</a>
+				href="https://www.apptha.com/downloadable/download/sample/sample_id/9/">Documentation</a>
 		</div>
 	</div>
 	<?php

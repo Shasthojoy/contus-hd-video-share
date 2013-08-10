@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component PlayerSettings Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -17,7 +17,7 @@
 /*
  ***********************************************************/
 // No direct access to this file
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 // import joomla model library
 jimport('joomla.application.component.model');
 //Import filesystem libraries.
@@ -43,7 +43,7 @@ class contushdvideoshareModelsettings extends JModel
 		         `uploadmaxsize`, `ffmpegpath`, `ffmpeg`, `related_videos`, `timer`, `logopath`, `logourl`, `nrelated`,
 		         `shareurl`, `playlist_autoplay`, `hddefault`, `ads`, `prerollads`, `postrollads`, `random`, `midrollads`,
 		         `midbegin`, `midinterval`, `midrandom`, `midadrotate`, `playlist_open`, `licensekey`, `vast`, `vast_pid`,
-		         `Youtubeapi`, `scaletologo`, `googleanalyticsID`, `googleana_visible` FROM #__hdflv_player_settings";
+		         `Youtubeapi`, `scaletologo`, `googleanalyticsID`, `googleana_visible`, `IMAAds_path`, `IMAAds` FROM #__hdflv_player_settings";
 		$db->setQuery( $query);
 		$arrPlayerSettings = $db->loadObjectList();
 		return $arrPlayerSettings;

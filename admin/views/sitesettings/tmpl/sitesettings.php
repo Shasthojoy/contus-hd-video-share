@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Sitesettings View Page
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -143,8 +143,11 @@ function enablefbapi(val) {
 				<td width="200px;">Row : <input name="featurrow" id="featurrow"
 					maxlength="100" value="<?php echo $editsitesettings->featurrow; ?>">
 				</td>
-				<td colspan="3">Column : <input name="featurcol" id="featurcol"
+				<td>Column : <input name="featurcol" id="featurcol"
 					maxlength="100" value="<?php echo $editsitesettings->featurcol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="featurwidth" id="featurwidth"
+					maxlength="100" value="<?php echo $editsitesettings->featurwidth; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -153,8 +156,11 @@ function enablefbapi(val) {
 				<td>Row : <input name="recentrow" id="recentrow" maxlength="100"
 					value="<?php echo $editsitesettings->recentrow; ?>">
 				</td>
-				<td colspan="3">Column : <input name="recentcol" id="recentcol"
+				<td>Column : <input name="recentcol" id="recentcol"
 					maxlength="100" value="<?php echo $editsitesettings->recentcol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="recentwidth" id="recentwidth"
+					maxlength="100" value="<?php echo $editsitesettings->recentwidth; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -163,9 +169,13 @@ function enablefbapi(val) {
 				<td>Row : <input name="popularrow" id="popularrow" maxlength="100"
 					value="<?php echo $editsitesettings->popularrow; ?>">
 				</td>
-				<td colspan="3">Column : <input name="popularcol" id="popularycol"
+				<td>Column : <input name="popularcol" id="popularycol"
 					maxlength="100"
 					value="<?php echo $editsitesettings->popularcol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="popularwidth" id="popularwidth"
+					maxlength="100"
+					value="<?php echo $editsitesettings->popularwidth; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -174,9 +184,13 @@ function enablefbapi(val) {
 				<td>Row : <input name="categoryrow" id="categoryrow" maxlength="100"
 					value="<?php echo $editsitesettings->categoryrow; ?>">
 				</td>
-				<td colspan="3">Column : <input name="categorycol" id="categorycol"
+				<td>Column : <input name="categorycol" id="categorycol"
 					maxlength="100"
 					value="<?php echo $editsitesettings->categorycol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="categorywidth" id="categorywidth"
+					maxlength="100"
+					value="<?php echo $editsitesettings->categorywidth; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -185,8 +199,11 @@ function enablefbapi(val) {
 				<td>Row : <input name="searchrow" id="searchrow" maxlength="100"
 					value="<?php echo $editsitesettings->searchrow; ?>">
 				</td>
-				<td colspan="3">Column : <input name="searchcol" id="searchcol"
+				<td>Column : <input name="searchcol" id="searchcol"
 					maxlength="100" value="<?php echo $editsitesettings->searchcol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="searchwidth" id="searchwidth"
+					maxlength="100" value="<?php echo $editsitesettings->searchwidth; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -195,9 +212,13 @@ function enablefbapi(val) {
 				<td>Row : <input name="relatedrow" id="relatedrow" maxlength="100"
 					value="<?php echo $editsitesettings->relatedrow; ?>">
 				</td>
-				<td colspan="3">Column : <input name="relatedcol" id="relatedcol"
+				<td>Column : <input name="relatedcol" id="relatedcol"
 					maxlength="100"
 					value="<?php echo $editsitesettings->relatedcol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="relatedwidth" id="relatedwidth"
+					maxlength="100"
+					value="<?php echo $editsitesettings->relatedwidth; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -206,9 +227,13 @@ function enablefbapi(val) {
 				<td>Row : <input name="myvideorow" id="myvideorow" maxlength="100"
 					value="<?php echo $editsitesettings->myvideorow; ?>">
 				</td>
-				<td colspan="3">Column : <input name="myvideocol" id="myvideocol"
+				<td>Column : <input name="myvideocol" id="myvideocol"
 					maxlength="100"
 					value="<?php echo $editsitesettings->myvideocol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="myvideowidth" id="myvideowidth"
+					maxlength="100"
+					value="<?php echo $editsitesettings->myvideowidth; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -218,9 +243,13 @@ function enablefbapi(val) {
 					maxlength="100"
 					value="<?php echo $editsitesettings->memberpagerow; ?>">
 				</td>
-				<td colspan="3">Column : <input name="memberpagecol"
+				<td>Column : <input name="memberpagecol"
 					id="memberpagecol" maxlength="100"
 					value="<?php echo $editsitesettings->memberpagecol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="memberpagewidth"
+					id="memberpagewidth" maxlength="100"
+					value="<?php echo $editsitesettings->memberpagewidth; ?>">
 				</td>
 			</tr>
 			<tr>
@@ -283,6 +312,10 @@ function enablefbapi(val) {
 					id="homepopularvideocol" maxlength="100"
 					value="<?php echo $editsitesettings->homepopularvideocol; ?>">
 				</td>
+                                <td>Gutter Width : <input name="homepopularvideowidth"
+					id="homepopularvideowidth" maxlength="100"
+					value="<?php echo $editsitesettings->homepopularvideowidth; ?>">
+				</td>
 				<td><input type="radio" name="homepopularvideo"
 				<?php if ($editsitesettings->homepopularvideo == 1) {
 					echo 'checked="checked" ';
@@ -316,6 +349,10 @@ function enablefbapi(val) {
 					id="homefeaturedvideocol" maxlength="100"
 					value="<?php echo $editsitesettings->homefeaturedvideocol; ?>">
 				</td>
+                                <td>Gutter Width : <input name="homefeaturedvideowidth"
+					id="homefeaturedvideowidth" maxlength="100"
+					value="<?php echo $editsitesettings->homefeaturedvideowidth; ?>">
+				</td>
 				<td><input type="radio" name="homefeaturedvideo"
 				<?php if ($editsitesettings->homefeaturedvideo == 1) {
 					echo 'checked="checked" ';
@@ -348,6 +385,10 @@ function enablefbapi(val) {
 				<td>Column : <input name="homerecentvideocol"
 					id="homerecentvideocol" maxlength="100"
 					value="<?php echo $editsitesettings->homerecentvideocol; ?>">
+				</td>
+                                <td>Gutter Width : <input name="homerecentvideowidth"
+					id="homerecentvideowidth" maxlength="100"
+					value="<?php echo $editsitesettings->homerecentvideowidth; ?>">
 				</td>
 				<td><input type="radio" name="homerecentvideo"
 				<?php if ($editsitesettings->homerecentvideo == 1) {

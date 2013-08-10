@@ -1,13 +1,22 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
-defined( '_JEXEC' ) or die( 'Restricted access' );
+ * ********************************************************* */
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.1
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @abstract      : Contushdvideoshare Component Hdvideoshare Videourl View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ * ********************************************************* */
+//No direct acesss
+defined('_JEXEC') or die('Restricted access');
 
 jimport( 'joomla.application.component.view');
 
@@ -43,10 +52,9 @@ function getvideourl()
         $vurl=JRequest::getvar('url','','get','var');
         $imgurl=JRequest::getvar('imageurl','','get','var');
 
- //if(isset($_GET['url']) && isset($_GET['imageurl']))
+
  if(($vurl) && ($imgurl))
         {
-            //$vurl=$_GET['url'];
             $vurl=$vurl;
             $video=$this->getVideoType($vurl);
             if ($this->url AND $this->type != '') {
@@ -86,7 +94,6 @@ function getvideourl()
 
             print("&location1=".$vidurl[0]."&location2=".$vidurl[1]."&location3=".$vidurl[2]);
         }
-        //elseif(isset($_GET['imageurl']))
          elseif($imgurl)
         {
             $vurl=$imgurl;

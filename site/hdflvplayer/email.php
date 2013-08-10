@@ -1,18 +1,23 @@
 <?php
-/*
-* "ContusHDVideoShare Component" - Version 1.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.1
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @abstract      : Contushdvideoshare email.php
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
 
 $to = $_POST['to'];
 $from = $_POST['from'];
 $url = $_POST['url'];
 $subject = $_POST['Note'];
-
+$title = $_POST['title'];
 
 
 
@@ -49,7 +54,7 @@ $message .= "Video URL: " . $url;
 
 // once the variables have been defined, they can be included
 // in the mail function call which will send you an email
-if(mail($to, $subject, $message, $headers))
+if(mail($to, $title, $message, $headers))
 {
 	echo "output=sent";
 } else {

@@ -8,7 +8,7 @@
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Showvideos Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -16,26 +16,26 @@
 /*
  ***********************************************************/
 //No direct acesss
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 // import Joomla model library
 jimport('joomla.application.component.model');
 // import Joomla pagination
 jimport('joomla.html.pagination');
 /**
- * Contushdvideoshare Component Showvideos Model 
+ * Contushdvideoshare Component Showvideos Model
  */
 class contushdvideoshareModelshowvideos extends JModel {
-	
+
 	/**
 	 * Constructor
 	 * global variable initialization
 	 */
-	
+
 	function __construct() {
 		global $option, $mainframe,$db;
 		parent::__construct();
 		// get global configuration
-		$mainframe = JFactory::getApplication(); 
+		$mainframe = JFactory::getApplication();
 		$option = JRequest::getVar('option');
 		$db =  JFactory::getDBO();
 		$config = JFactory::getConfig();
@@ -49,7 +49,7 @@ class contushdvideoshareModelshowvideos extends JModel {
 		$strVideoCount = 0;
 		//  To store and retrieve filter variables that are stored with the session
 		$filter_order = $mainframe->getUserStateFromRequest($option . 'filter_order_adminvideos', 'filter_order', 'ordering', 'cmd');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($option . 'filter_order_Dir_adminvideos', 'filter_order_Dir', 'asc', 'word');		
+		$filter_order_Dir = $mainframe->getUserStateFromRequest($option . 'filter_order_Dir_adminvideos', 'filter_order_Dir', 'asc', 'word');
 		$search = $mainframe->getUserStateFromRequest($option . 'search', 'search', '', 'string');
 		$state_filter = $mainframe->getUserStateFromRequest($option . 'filter_state', 'filter_state', '', 'int');
 		$featured_filter = $mainframe->getUserStateFromRequest($option . 'filter_featured', 'filter_featured', '', 'string');
@@ -126,7 +126,7 @@ class contushdvideoshareModelshowvideos extends JModel {
 			}
 		}
 		$query = "SELECT `id`,`member_id`,`category`,`seo_category`,`parent_id`,`ordering`,`published`
-        		  FROM #__hdflv_category";
+        		  FROM #__hdflv_category where published=1";
 		$db->setQuery($query);
 		$rs_showplaylistname = $db->loadObjectList();
 
@@ -139,14 +139,14 @@ class contushdvideoshareModelshowvideos extends JModel {
 		{
 			// for select videos details
 			$strMainQuery = "SELECT distinct(d.videoid) as cvid,a.`id`, a.`memberid`, a.`published`, a.`title`, a.`seotitle`,
-							  a.`featured`, a.`type`, a.`rate`, a.`ratecount`, a.`times_viewed`, a.`videos`, a.`filepath`, 
-							  a.`videourl`, a.`thumburl`, a.`previewurl`, a.`hdurl`, a.`home`, a.`playlistid`, a.`duration`, 
+							  a.`featured`, a.`type`, a.`rate`, a.`ratecount`, a.`times_viewed`, a.`videos`, a.`filepath`,
+							  a.`videourl`, a.`thumburl`, a.`previewurl`, a.`hdurl`, a.`home`, a.`playlistid`, a.`duration`,
 							  a.`ordering`, a.`streamerpath`, a.`streameroption`, a.`postrollads`, a.`prerollads`, a.`midrollads`,
-							  a.`description`, a.`targeturl`, a.`download`, a.`prerollid`, a.`postrollid`, a.`created_date`, 
+							  a.`description`, a.`targeturl`, a.`download`, a.`prerollid`, a.`postrollid`, a.`created_date`,
 							  a.`addedon`, a.`usergroupid`, a.`tags`, a.`useraccess`,b.category,c.username
 		          			  FROM #__hdflv_upload a
 		            	      INNER JOIN `#__users` c";
-			
+
 			// for select user group id
 			if(version_compare(JVERSION,'1.6.0','ge'))
 			{
@@ -156,13 +156,13 @@ class contushdvideoshareModelshowvideos extends JModel {
 			{
 				$strMainQuery = "$strMainQuery ON c.gid = a.usergroupid";
 			}
-			
+
 			// for select video category and comments
-			$strMainQuery = "$strMainQuery 
+			$strMainQuery = "$strMainQuery
 							 LEFT JOIN #__hdflv_category b ON a.playlistid=b.id
-                      		 LEFT JOIN #__hdflv_comments d ON d.videoid=a.id 
-                      		 $where";                      		 
-			
+                      		 LEFT JOIN #__hdflv_comments d ON d.videoid=a.id
+                      		 $where";
+
 		}
 		// assign filter variables
 		$lists['order_Dir'] = $filter_order_Dir;
@@ -171,11 +171,11 @@ class contushdvideoshareModelshowvideos extends JModel {
 		// filtering based on search keyword
 		if ($search)
 		{
-			$strMainQuery .= " AND a.title LIKE '%$search%'";			
-			$lists['search'] = $search;						
+			$strMainQuery .= " AND a.title LIKE '%$search%'";
+			$lists['search'] = $search;
 		}
 		// filtering based on status
-		if($state_filter) {			
+		if($state_filter) {
 			if($state_filter == 1) {
 				$state_filterval = 1;
 			}elseif ($state_filter == 2) {
@@ -183,36 +183,36 @@ class contushdvideoshareModelshowvideos extends JModel {
 			}else {
 				$state_filterval = -2;
 			}
-			$strMainQuery .= " AND a.published = $state_filterval";							 			
-			$lists['state_filter'] = $state_filter;				
+			$strMainQuery .= " AND a.published = $state_filterval";
+			$lists['state_filter'] = $state_filter;
 		} else {
-			$strMainQuery .= " AND a.published != -2";	
+			$strMainQuery .= " AND a.published != -2";
 		}
 		// filtering based on featured status
 		if($featured_filter) {
 			$featured_filterval = ($featured_filter == '1')?'1':'0';
-			$strMainQuery .= " AND a.featured = $featured_filterval";							 			
-			$lists['featured_filter'] = $featured_filter;	
+			$strMainQuery .= " AND a.featured = $featured_filterval";
+			$lists['featured_filter'] = $featured_filter;
 		}
 		if($category_filter) {
-			$strMainQuery .= " AND a.playlistid = $category_filter";			
-			$lists['category_filter'] = $category_filter;		
+			$strMainQuery .= " AND a.playlistid = $category_filter";
+			$lists['category_filter'] = $category_filter;
 		}
 			$strMainQuery .= " ORDER BY $filter_order $filter_order_Dir";
-			
+
 			$db->setQuery($strMainQuery);
-			$arrVideoList = $db->loadObjectList();			
+			$arrVideoList = $db->loadObjectList();
 			$strTotalVideos = count($arrVideoList);
-			
-			// set pagination 
-			
-			$pageNav = new JPagination($strTotalVideos, $limitstart, $limit);	
-			
+
+			// set pagination
+
+			$pageNav = new JPagination($strTotalVideos, $limitstart, $limit);
+
 			$strMainQuery .= " LIMIT $pageNav->limitstart,$pageNav->limit";
-		
+
 			$db->setQuery($strMainQuery);
-			$arrVideoList = $db->loadObjectList();			
-		
+			$arrVideoList = $db->loadObjectList();
+
 		/**
 		 * get the most recent database error code
 		 * display the last database error message in a standard format
@@ -221,20 +221,20 @@ class contushdvideoshareModelshowvideos extends JModel {
 		if ($db->getErrorNum())
 		{
 			JError::raiseWarning($db->getErrorNum(), $db->stderr());
-		}	
-		
+		}
+
 		return array('pageNav' => $pageNav, 'limitstart' => $limitstart,'lists' => $lists, 'rs_showupload' => $arrVideoList, 'rs_showplaylistname' => $rs_showplaylistname);
 	}
-	
+
 	/**
-	* 
+	*
 	* function to publish and unpublish videos
 	*
 	*/
-		
+
 	function changevideostatus($arrVideoId)
 	{
-		global $mainframe;         		
+		global $mainframe;
 		if ($arrVideoId['task'] == "publish"){
 			$msg = 'Published successfully';
 			$publish = 1;
@@ -244,47 +244,49 @@ class contushdvideoshareModelshowvideos extends JModel {
 		} else{
 			$msg = 'Unpublished successfully';
 			$publish = 0;
-		}            	
-       	$objAdminVideosTable =& $this->getTable('adminvideos');       	
+		}
+       	$objAdminVideosTable =& $this->getTable('adminvideos');
         $objAdminVideosTable->publish($arrVideoId['cid'], $publish);
         $strRedirectPage = 'index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&user=' . JRequest::getVar('user');
         $mainframe->redirect($strRedirectPage, $msg);
-        
+
 	}
-	
+
 	/**
-	* 
+	*
 	* function to save videos
 	* @ Normal video,Youtube,Video Url,Vimeo and ffmpeg
 	*/
-		
+
 	function savevideos($task)
-	{		
+	{
 		global $option,$mainframe;
 		$db = & JFactory::getDBO();
-		$user = & JFactory::getUser();		
+		$user = & JFactory::getUser();
 		$userTypeRedirect = (JRequest::getVar('user', '', 'get') == 'admin') ? "&user=" . JRequest::getVar('user', '', 'get') : "";
-		// To get an instance of the adminvideos table object		
+		// To get an instance of the adminvideos table object
 		$rs_saveupload = & JTable::getInstance('adminvideos', 'Table');
 		$arrCatId = JRequest::getVar('cid', array(0), '', 'array');
 		$strCatId = $arrCatId[0];
-		$rs_saveupload->load($strCatId);			
-        $createddate = date("Y-m-d h:m:s");     
-		
+		$rs_saveupload->load($strCatId);
+                $createddate = date("Y-m-d h:m:s");
+
 		// variable initialization
 		$arrFormData = JRequest::get('post');
-		$fileoption = $arrFormData['fileoption'];		
+		$fileoption = $arrFormData['fileoption'];
 		$seoTitle = $arrFormData['title'];
+                $seoTitle=stripslashes($seoTitle);
+                $seoTitle=strtolower($seoTitle);
 		$seoTitle = preg_replace('/[&:\s]+/i', '-', $seoTitle);
 		$arrFormData['seotitle'] = preg_replace('/[#!@$%^.,:;\/&*(){}\"\'\[\]<>|?]+/i', '', $seoTitle);
 		$arrFormData['seotitle'] = preg_replace('/---|--+/i', '-', $arrFormData['seotitle']);
-		$description=$_REQUEST['description'];
+		$description=JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$arrFormData['description']=$description;
 
 		// object to bind to the instance
 		if (!$rs_saveupload->bind($arrFormData))
 		{
-			JError::raiseWarning( 500, $rs_saveupload->getError() );		
+			JError::raiseWarning( 500, $rs_saveupload->getError() );
 		}
 
 		// get and assign video url
@@ -301,72 +303,72 @@ class contushdvideoshareModelshowvideos extends JModel {
 		{
 			JError::raiseWarning( 500, $rs_saveupload->getError() );
 		}
-		
+
 		// check in the item
 		$rs_saveupload->checkin();
 		$idval = $rs_saveupload->id;
-		
-		/**
-		 * uploading videos 
-		 * type : URL 
-		 */		
-		if ($fileoption == 'Url'){			
-			require_once(FVPATH.DS.'helpers'.DS.'uploadurl.php');
-			uploadUrlHelper::uploadUrl($arrFormData,$idval);	
-		}
-		
-		/**
-		 * uploading videos 
-		 * type : YOUTUBE 
-		 */			
-		if ($fileoption == "Youtube"){			
-			require_once(FVPATH.DS.'helpers'.DS.'uploadyoutube.php');
-			uploadYouTubeHelper::uploadYouTube($arrFormData,$idval);	
-		}
-		
-		/**
-		 * uploading videos 
-		 * type : FILE 
-		 */ 
 
-		if ($arrFormData['fileoption'] == "File"){ 				
-		require_once(FVPATH.DS.'helpers'.DS.'uploadfile.php');
-		uploadFileHelper::uploadFile($arrFormData,$idval);		
-		}
-		
 		/**
-		 * uploading videos 
-		 * type : FFMPEG 
-		 */ 
-		
+		 * uploading videos
+		 * type : URL
+		 */
+		if ($fileoption == 'Url'){
+			require_once(FVPATH.DS.'helpers'.DS.'uploadurl.php');
+			uploadUrlHelper::uploadUrl($arrFormData,$idval);
+		}
+
+		/**
+		 * uploading videos
+		 * type : YOUTUBE
+		 */
+		if ($fileoption == "Youtube"){
+			require_once(FVPATH.DS.'helpers'.DS.'uploadyoutube.php');
+			uploadYouTubeHelper::uploadYouTube($arrFormData,$idval);
+		}
+
+		/**
+		 * uploading videos
+		 * type : FILE
+		 */
+
+		if ($arrFormData['fileoption'] == "File"){
+		require_once(FVPATH.DS.'helpers'.DS.'uploadfile.php');
+		uploadFileHelper::uploadFile($arrFormData,$idval);
+		}
+
+		/**
+		 * uploading videos
+		 * type : FFMPEG
+		 */
+
 		if ($fileoption == "FFmpeg"){
 		require_once(FVPATH.DS.'helpers'.DS.'uploadffmpeg.php');
-		uploadFfmpegHelper::uploadFfmpeg($arrFormData,$idval);		
+		uploadFfmpegHelper::uploadFfmpeg($arrFormData,$idval);
 		}
 		$catid = JRequest::getVar('playlistid');
-        //query to update created date        
+        //query to update created date
             $query = "UPDATE #__hdflv_upload SET created_date='$createddate' where id=$idval";
             $db->setQuery($query);
             $db->query();
-        //query to find the existing of category for video     
-        
+        //query to find the existing of category for video
+
         $query = "SELECT count(vid) FROM #__hdflv_video_category where vid=$idval";
         $db->setQuery($query);
-        $total = $db->loadResult();              
+        $total = $db->loadResult();
         if ($total != 0) {
-            $query = "UPDATE #__hdflv_video_category SET catid= '$catid' WHERE vid=$idval";      
-        } else {        	        	        	
-            $query = "INSERT INTO #__hdflv_video_category values ('$idval','$catid')";            
+            $query = "UPDATE #__hdflv_video_category SET catid= '$catid' WHERE vid=$idval";
+        } else {
+            $query = "INSERT INTO #__hdflv_video_category values ('$idval','$catid')";
         }
-        
+
         $db->setQuery($query);
-        $db->query();        
+        $db->query();
         switch ($task) {
-            case 'applyvideos':               
+            case 'applyvideos':
                 $link = 'index.php?option=' . $option . '&layout=adminvideos&task=editvideos' . $userTypeRedirect . '&cid[]=' . $rs_saveupload->id;
                 break;
             case 'savevideoupload':
-            default:                
+            default:
                 $link = 'index.php?option=' . $option . '&layout=adminvideos' . $userTypeRedirect;
                 break;
         }
@@ -374,20 +376,20 @@ class contushdvideoshareModelshowvideos extends JModel {
         // set to redirect
         $mainframe->redirect($link, $msg);
 	}
-	
+
 
 	// function to make video as featured/unfeatured
 	function featuredvideo($arrVideoId)
 	{
-		global $mainframe;     
-		$db = $this->getDBO();    		
-		if ($arrVideoId['task'] == "featured"){			
+		global $mainframe;
+		$db = $this->getDBO();
+		if ($arrVideoId['task'] == "featured"){
 			$publish = 1;
 		}
-		else{			
+		else{
 			$publish = 0;
-		}   
-		$msg = 'Updated Successfully';         	      
+		}
+		$msg = 'Updated Successfully';
 		$strVideoIds = implode( ',', $arrVideoId['cid'] );
 		$query = "UPDATE `#__hdflv_upload` SET `featured`=" . $publish . " WHERE `id` IN ( $strVideoIds )";
 		$db->setQuery($query);
@@ -404,58 +406,58 @@ class contushdvideoshareModelshowvideos extends JModel {
 	function getcomment()
 	{
 		// variable initialization
-		global $option, $mainframe, $db;	
+		global $option, $mainframe, $db;
 		$commentId = JRequest::getVar('cmtid', '', 'get', 'int');
-		$id = JRequest::getVar('id', '', 'get', 'int');	
-		
+		$id = JRequest::getVar('id', '', 'get', 'int');
+
 		// for pagination
 		$limit = $mainframe->getUserStateFromRequest($option . '.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = $mainframe->getUserStateFromRequest($option . 'limitstart', 'limitstart', 0, 'int');
-		
-		// 	query for delete the comments	
+
+		// 	query for delete the comments
 		if ($commentId)
 		{
 			$query = "DELETE FROM #__hdflv_comments
-            		  WHERE id=" . $commentId . " 
+            		  WHERE id=" . $commentId . "
             		  OR parentid=" . $commentId;
 			$db->setQuery($query);
 			$db->query();
 			// message for deleting comment
 			$mainframe->enqueueMessage( 'Comment Successfully Deleted' );
 		}
-		
+
 		$id = JRequest::getVar('id', '', 'get', 'int');
 		$query = "SELECT COUNT(id) FROM #__hdflv_comments
         		  WHERE videoid = $id";
 		$db->setQuery($query);
 		$db->query();
-		$commentTotal = $db->getNumRows();		
+		$commentTotal = $db->getNumRows();
 		if (!$commentTotal)
 		{
 			$strRedirectPage = 'index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&user=' . JRequest::getVar('user');
-        	$mainframe->redirect($strRedirectPage);	
+        	$mainframe->redirect($strRedirectPage);
 		}
-		
-		$query="SELECT id as number,id,parentid,videoid,subject,name,created,message 
-				FROM #__hdflv_comments where parentid = 0 and published=1 and videoid=$id union 
-				SELECT parentid as number,id,parentid,videoid,subject,name,created,message 
-				FROM #__hdflv_comments where parentid !=0 and published=1 and videoid=$id 
-				ORDER BY number desc,parentid";// Query is to display the comments posted for particular video		
-		
+
+		$query="SELECT id as number,id,parentid,videoid,subject,name,created,message
+				FROM #__hdflv_comments where parentid = 0 and published=1 and videoid=$id union
+				SELECT parentid as number,id,parentid,videoid,subject,name,created,message
+				FROM #__hdflv_comments where parentid !=0 and published=1 and videoid=$id
+				ORDER BY number desc,parentid";// Query is to display the comments posted for particular video
+
 		$db->setQuery($query);
 		$db->query();
 		$commentTotal = $db->getNumRows();
-		
+
 		$pageNav = new JPagination($commentTotal, $limitstart, $limit);
-		
+
         $query = "$query LIMIT $pageNav->limitstart,$pageNav->limit";
 		$db->setQuery($query);
 		$comment = $db->loadObjectList();
-		
+
 		$query = "SELECT `title` FROM #__hdflv_upload WHERE id = $id";
-		$db->setQuery($query);		
+		$db->setQuery($query);
 		$videoTitle = $db->loadResult();
-		
+
 		/**
 		 * get the most recent database error code
 		 * display the last database error message in a standard format
@@ -465,11 +467,11 @@ class contushdvideoshareModelshowvideos extends JModel {
 		{
 			JError::raiseWarning($db->getErrorNum(), $db->stderr());
 		}
-		
+
 		$comment = array('pageNav' => $pageNav, 'limitstart' => $limitstart, 'comment' => $comment ,'videotitle' => $videoTitle);
 		return $comment;
 	}
-	
+
 	/**
 	 * function to get comments count
 	 */

@@ -7,7 +7,7 @@
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Mychannel Script
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -109,6 +109,16 @@ function otherChannel() {
  * function to apply channel
  */
 function applyChannel() {
+
+     var nodes  = document.getElementsByName('fav_channel[]');
+    var values = '';
+    for (var i = 0; n = nodes[i]; i++) {
+        if (n.checked == true) {
+          values  += n.value+",";
+      }
+    }
+    values = values.replace(/,$/,"");
+
 	var xmlhttp;
 	if(!document.getElementById("channel_id")) {
         alert('Please search channel and add as favorite channel');
@@ -132,11 +142,9 @@ function applyChannel() {
 	xmlhttp.setRequestHeader('Content-Type',
 			'application/x-www-form-urlencoded');
 	var apply_channel = 'apply';
-	var channel_id = document.getElementById("channel_id").value;
-	var channel_name = document.getElementById("channel_name").value;
-	xmlhttp.send('apply_channel=' + apply_channel + '&channel_name='
-			+ channel_name + '&channel_id=' + channel_id);
-	if (document.getElementById('output').style.display = "none") {
+	var channel_id = values;
+    xmlhttp.send('apply_channel=' + apply_channel + '&channel_id=' + channel_id);
+    if (document.getElementById('output').style.display == "none") {
 		document.getElementById('output').style.display = "block";
 	} else {
 		document.getElementById('output').style.display = "none";
@@ -278,10 +286,50 @@ function addplaylist() {
 	if (document.getElementById('add_playlist').style.display == "none") {
 		document.getElementById('add_playlist').style.display = "block";
 		document.getElementById('addnewbutton').style.display = "none";
+                document.getElementById('edit_playlist').style.display = "none";
 	} else {
 		document.getElementById('add_playlist').style.display = "none";
 		document.getElementById('addnewbutton').style.display = "block";
 	}
+}
+
+/**
+ * function to edit playlist
+ */
+function editplaylist(edit_playlist_category,parent_id) {
+
+		document.getElementById('edit_playlist').style.display = "block";
+                document.getElementById('add_playlist').style.display = "none";
+                document.getElementById('playlist').style.display = "none";
+            var xmlhttp;
+            var browser = navigator.appName;
+            if(browser == "Microsoft Internet Explorer")
+            {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }else{
+                xmlhttp = new XMLHttpRequest();
+            }
+        var nocache = 0;
+        nocache = Math.random();
+        xmlhttp.onreadystatechange=function insertViews() {
+              if(xmlhttp.readyState == 4){
+                var response = trim(xmlhttp.responseText);
+                
+                var temp = new Array();
+
+temp = response.split(",");
+for(var i=0;i<temp.length;i++) {
+
+    document.getElementById('playlistvideo'+trim(temp[i])).checked=true;
+                }
+              }
+         }
+          document.getElementById('edit_category').value = edit_playlist_category;
+          document.getElementById('edit_category_hide').value = edit_playlist_category;
+                    document.getElementById('parentid').value = parent_id;
+        xmlhttp.open('get','index.php?option=com_contushdvideoshare&view=playlist&edit_playlist_category='+edit_playlist_category+'&amp;nocache= '+nocache,true);
+        xmlhttp.send(null);
+	
 }
 
 /**
@@ -290,6 +338,12 @@ function addplaylist() {
 function cancelplaylist() {
 	document.getElementById('add_playlist').style.display = "none";
 	document.getElementById('addnewbutton').style.display = "block";
+}
+/**
+ * function to cancel playlist
+ */
+function edit_cancelplaylist() {
+	window.location = "index.php?option=com_contushdvideoshare&view=playlist"
 }
 
 /**
@@ -301,4 +355,18 @@ function playlistvalidation() {
 		document.getElementById("category").focus();
 		return false;
 	}
+}
+/**
+ * function to edit playlist validation
+ */
+function editplaylistvalidation() {
+	if (document.getElementById("edit_category").value == "") {
+		alert('Please Enter Playlist Name!');
+		document.getElementById("edit_category").focus();
+		return false;
+	}
+}
+
+function trim(str) {
+	return str.replace(/^\s+|\s+$/g,"");
 }

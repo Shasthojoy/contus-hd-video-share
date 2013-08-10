@@ -8,7 +8,7 @@
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Showvideos Uploadyoutube Helper
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -34,7 +34,6 @@ class uploadYouTubeHelper
 		$timeout = "";
 		$header = "";
 		$hdurl = "";
-
 		// check video url is youtube
 		if(strpos($videourl,'youtube') > 0)
 		{
@@ -43,11 +42,19 @@ class uploadYouTubeHelper
 			$previewurl = "http://img.youtube.com/vi/" . $imgval[0] . "/0.jpg";
 			$img = "http://img.youtube.com/vi/" . $imgval[0] . "/1.jpg";
 		}
-			
+		else if(strpos($videourl,'youtu.be') > 0)
+		{
+			$imgstr = explode("/", $videourl);
+			$previewurl = "http://img.youtube.com/vi/" . $imgstr[3] . "/0.jpg";
+			$img = "http://img.youtube.com/vi/" . $imgstr[3] . "/1.jpg";
+                        $videourl="http://www.youtube.com/watch?v=".$imgstr[3];
+		}
+
 		// check video url is youtube
 		else if(strpos($videourl,'vimeo') > 0)
 		{
-			$split=explode("/",$videourl);
+		 $split=explode("/",$videourl);
+                 if( ini_get('allow_url_fopen') ) {
 			$doc = new DOMDocument();
 			$doc->load('http://vimeo.com/api/v2/video/'.$split[3].'.xml');
 			$videotags = $doc->getElementsByTagName('video');
@@ -56,6 +63,15 @@ class uploadYouTubeHelper
 				$imgnode = $videotag->getElementsByTagName('thumbnail_medium');
 				$img = $imgnode->item(0)->nodeValue;
 			}
+                }else{
+                        $url="http://vimeo.com/api/v2/video/" . $split[3] . ".xml";
+                        $curl = curl_init($url);
+                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                        $result = curl_exec($curl);
+                        curl_close($curl);
+                        $xml = simplexml_load_string($result);
+                        $img = $xml->video->thumbnail_medium;
+                }
 		}
 			
 		// check video url is site url

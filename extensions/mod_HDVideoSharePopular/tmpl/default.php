@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Popular Videos Module
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -21,27 +21,27 @@ defined('_JEXEC') or die('Restricted access');
 $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
 if(JRequest::getVar('option') != 'com_contushdvideoshare') { 
 $document = JFactory::getDocument();
-$document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/tool_tip.css' );
-$document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/stylesheet.css' );
+$document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/mod_stylesheet.css' );
+$document->addScript( JURI::base().'components/com_contushdvideoshare/js/jquery.js' );
+$document->addScript(JURI::base()."components/com_contushdvideoshare/js/htmltooltip.js");
 }
 ?>
-<span class="module_menu <?php echo $class;?> ">
-    <br/>
+
+<div class="module_menu <?php echo $class;?> " id="module_videos">
     <!-- Code begin here for popular videos in home page display  -->
-    <div  align="center" id="module_videos" >
-        <table style="margin-top:-20px;">
+        <div class="video-grid-container" class="clearfix">
             <?php
             $totalrecords = count($result);
             $j = 0;
             for ($i = 0; $i < $totalrecords; $i++) {
                 if ($i == 0) {
              ?>
-            <tr>
+            <ul class="ulvideo_thumb1 clearfix">
             <?php }
             if (($i % $result1[0]->sidepopularvideocol) == 0 && $i != 0) { ?>
-            </tr><tr>
+            </ul>
+            <ul class="ulvideo_thumb1 clearfix">
                 <?php } ?>
-                <td >
                     <?php
                     if ($result[$i]->filepath == "File" || $result[$i]->filepath == "FFmpeg")
                         $src_path = JURI::base() . "components/com_contushdvideoshare/videos/" . $result[$i]->thumburl;
@@ -61,40 +61,20 @@ $document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/st
                         	$popularVideoVal = "id=" . $result[$i]->id;
                         }
                     ?>
-                    <div class=" clearfix">
-                        <div class="">
+                     <li class="video-item">
                     <?php
                         $orititle = $result[$i]->title;
                         $newtitle = explode(' ', $orititle);
                         $displaytitle = implode('-', $newtitle);
                     ?>
-                            <div class="home-thumb">
-                                <div class="home-play-container">
-                                    <span class="play-button-hover">
-                                        <div class="movie-entry yt-uix-hovercard">
-
-                                            <div class="tooltip">
-                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $popularVideoVal . "&amp;" . $popularCategoryVal); ?>" ><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="125" height="69" title="" alt="thumb_image" /></p></a>
-                                            <div class="Tooltipwindow" >
-                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage" alt="tip_img"/>
-                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . JText::_('HDVS_CATEGORY') . ' : ' . '</span>' .'<span class="clstoolright">'. $result[$i]->category.'</span></div>'; ?>
-                                                    <?php echo '<span class="clsdescription">' . JText::_('HDVS_DESCRIPTION') . ' : ' . '</span>' .'<p>'. $result[$i]->description.'</p>'; ?>
-                                                     <?php if ($result1[0]->viewedconrtol == 1) { ?>
-                                                    <div class="clearfix"><span class="clstoolleft"><?php echo JText::_('HDVS_VIEWS'); ?>: </span><span class="clstoolright"><?php echo $result[$i]->times_viewed; ?></span></div>
-                                                           <?php } ?></div></div>
-
-                                        </div>
-                                    </span>
-                                </div>
+                           <div class="mod_video_item">
+                            <a class=" info_hover featured_vidimg" rel="htmltooltip" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $popularVideoVal . "&amp;" . $popularCategoryVal); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0" title="" alt="thumb_image" /></a>
+                           </div>
+                         <div class="floatleft video-item-details">
                                 <div class="show-title-container" id="title">
-                                    <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=player&id=" . $result[$i]->id . "&catid=" . $result[$i]->catid); ?>" class="show-title-gray info_hover"><?php if (strlen($result[$i]->title) > 18) { echo JHTML::_('string.truncate', ($result[$i]->title), 18); } else { echo $result[$i]->title; } ?></a>
+                                    <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $popularVideoVal . "&amp;" . $popularCategoryVal); ?>" class="show-title-gray info_hover"><?php if (strlen($result[$i]->title) > 30) { echo JHTML::_('string.truncate', ($result[$i]->title), 30); } else { echo $result[$i]->title; } ?></a>
                                 </div>
-                                <div class="video-info" id="catagory-view">
-                                    <span><?PHP ECHO JText::_('HDVS_CATEGORY'); ?>: </span><a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&catid=" . $result[$i]->catid); ?>"><?php echo $result[$i]->category; ?></a>
-                                </div>
-                                    <?php if ($result1[0]->ratingscontrol == 1) { ?>
-                                    <span class="video-info">
-                                        <span class="floatleft"> <?PHP echo JText::_('HDVS_RATTING'); ?>:</span>
+             <?php if ($result1[0]->ratingscontrol == 1) { ?>
                                             <?php
                                                 if (isset($result[$i]->ratecount) && $result[$i]->ratecount != 0) {
                                                     $ratestar = round($result[$i]->rate / $result[$i]->ratecount);
@@ -102,29 +82,62 @@ $document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/st
                                                     $ratestar = 0;
                                                 }
                                             ?>
-                                            <span class="floatleft innerrating"><div id="<?php echo $ratearray[$ratestar]; ?>"></div></span>
-                                        </span>
+                                            <div id="<?php echo $ratearray[$ratestar]; ?>" class="floatleft"></div>
+                                        
                                 <?php } ?>
                                     <div class="clear"></div>
                                 <?php if ($result1[0]->viewedconrtol == 1) { ?>
-                                        <span class="video-info">
-                                            <span class="floatleft"> <?PHP echo JText::_('HDVS_VIEWS'); ?>:</span>
-                                            <span class="floatleft"><?php echo $result[$i]->times_viewed; ?></span>
-                                        </span>
-                                <?php } ?>
-                                    <div class="clear"></div>
-                            </div>
-                        </div>
-                     </div>
+                                        <span class="floatleft video-info"><?PHP echo JText::_('HDVS_VIEWS'); ?>: <?php echo $result[$i]->times_viewed; ?> </span>
+                         </div>
+                                       <?php } ?>
+                                    </li>
+                    
                         <?php
                                 $j++;
                                 }
                             ?>
-                    </tr>
-        </table>
-    </div>
-</span>
+                    </ul>
+        </div>
+</div>
+ <!--Tooltip Starts Here-->
+                      <?php
+                      for ($i = 0; $i < $totalrecords; $i++)
+                                      { ?>
+                                          <div class="htmltooltip">
+                                              <?php if($result[$i]->description) {?>
+                                             <p class="tooltip_discrip"><?php echo JHTML::_('string.truncate', (strip_tags($result[$i]->description)), 120); ?></p>
+                                             <?php }?>
+                                             <div class="tooltip_category_left">
+                                                 <span class="title_category"><?php echo  JText::_('HDVS_CATEGORY');?>: </span>
+                                                 <span class="show_category"><?php echo $result[$i]->category; ?></span>
+                                             </div>
+                                             <?php if ($result1[0]->viewedconrtol == 1) { ?>
+                                            <div class="tooltip_views_right">
+                                                 <span class="view_txt"><?php echo JText::_('HDVS_VIEWS'); ?>: </span>
+                                                 <span class="view_count"><?php echo $result[$i]->times_viewed; ?> </span>
+                                             </div>
+                                             <div id="htmltooltipwrapper<?php echo $i; ?>">
+                                                 <div class="chat-bubble-arrow-border"></div>
+                                               <div class="chat-bubble-arrow"></div>
+                                             </div>
+                                              <?php  }?>
+                                           </div>
+                                    <?php } ?>
+             <!--Tooltip end Here-->
 <?php $t = count($result);
-if ($t > 1) { ?><div class="clear"></div>
-<div align="right" class="morevideos"><a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=popularvideos"); ?>"><?php echo JText::_('HDVS_MORE_VIDEOS'); ?></a></div><?php } ?>
+if ($t > 1) { ?>
 <div class="clear"></div>
+<div align="right" class="morevideos">
+    <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=popularvideos"); ?>"><?php echo JText::_('HDVS_MORE_VIDEOS'); ?></a></div><?php } ?>
+<div class="clear"></div>
+<?php
+              $langDirection = (bool) $lang->isRTL();
+                    if ($langDirection == 1) {
+                         $rtlLang = 1;
+                    } else {
+                        $rtlLang = 0;
+                    }
+             ?>
+
+
+

@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Showads View Page
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -96,8 +96,12 @@ float: none;
 				1	=> array('tick.png',		'messages.publish',	'COM_MESSAGES_OPTION_READ','COM_MESSAGES_MARK_AS_UNREAD'),
 				0	=> array('publish_x.png',	'messages.unpublish','COM_MESSAGES_OPTION_UNREAD','COM_MESSAGES_MARK_AS_READ')
 				);
-				$published = JHtml::_('grid.published',  $arrAd, $i, $states[$arrAd->published][0], $states[$arrAd->published][0], '', 'cb');
-				//$published = JHTML::_('grid.published', $arrAd, $i);
+				if(version_compare(JVERSION,'1.6.0','ge'))
+                                {
+                                    $published = JHtml::_('jgrid.published', $arrAd->published, $i);
+                                } else {
+                                    $published = JHtml::_('grid.published',  $arrAd, $i, $states[$arrAd->published][0], $states[$arrAd->published][0], '', 'cb');
+                                }
 				$link = JRoute::_('index.php?option=com_contushdvideoshare&layout=ads&task=editads&cid[]=' . $arrAd->id);
 				?>
 		<tr class="<?php echo 'row' . ($i % 2); ?>">

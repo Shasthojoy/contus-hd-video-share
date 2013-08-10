@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Category Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -48,11 +48,12 @@ class Modelcontushdvideosharecategory extends JModel {
 		$catid = $db->getEscaped($catid);
 		//query to calculate total number of videos in paricular category
 		$totalquery = "SELECT a.*,b.id as cid,b.category,b.seo_category,b.parent_id,c.*
-        			   FROM #__hdflv_upload a 
+        			   FROM #__hdflv_upload a
+                                   LEFT JOIN #__users d on a.memberid=d.id 
         			   LEFT JOIN #__hdflv_video_category c on a.id=c.vid 
         			   LEFT JOIN #__hdflv_category b on c.catid=b.id 
         			   WHERE (c.catid=$catid OR b.parent_id = $catid OR a.playlistid=$catid) 
-        			   AND a.published=1 AND a.type='0' order by b.id asc"; 
+        			   AND a.published=1 AND b.published=1 AND d.block=0 order by b.id asc";
 		$db->setQuery($totalquery);
 		$searchtotal = $db->loadObjectList();
 		$subtotal = count($searchtotal);
@@ -78,7 +79,7 @@ class Modelcontushdvideosharecategory extends JModel {
             				  WHERE (e.catid=$catid OR a.playlistid=$catid OR b.parent_id = $catid ) 
             				  AND a.published=1 AND b.published=1 AND d.block=0
             				  GROUP BY e.vid 
-            				  ORDER BY b.id asc 
+            				  ORDER BY b.ordering asc
             				  LIMIT $start,$length";       
 		$db->setQuery($categoryquery);
 		$rows = $db->LoadObjectList();
@@ -112,7 +113,7 @@ class Modelcontushdvideosharecategory extends JModel {
 	{
 		$db = $this->getDBO();
 		//query to get category view settings
-		$query = "SELECT categorycol,categoryrow,seo_option,viewedconrtol,ratingscontrol
+		$query = "SELECT categorycol,categoryrow,categorywidth,seo_option,viewedconrtol,ratingscontrol
         		  FROM #__hdflv_site_settings"; 
 		$db->setQuery($query);
 		$rows = $db->LoadObjectList();
@@ -142,7 +143,7 @@ class Modelcontushdvideosharecategory extends JModel {
 			$catid = $searchtotal1[0]->id;
 		}
 		$catid = $db->getEscaped($catid);
-		$categoryquery = "select * from #__hdflv_category where id=$catid or parent_id=$catid "; //Query is to select the popular videos row
+		$categoryquery = "select * from #__hdflv_category where id=$catid or parent_id=$catid order by ordering"; //Query is to select the popular videos row
 		$db->setQuery($categoryquery);
 		$rows = $db->LoadObjectList();
 		return $rows;

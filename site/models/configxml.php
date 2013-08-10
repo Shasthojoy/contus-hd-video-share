@@ -3,20 +3,20 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
- * @abstract      : Contushdvideoshare Component Adsxml Model
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @abstract      : Contushdvideoshare Component Configxml Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
  * */
 /*
  ***********************************************************/
 //No direct acesss
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 // import Joomla model library
 jimport('joomla.application.component.model');
 /**
@@ -39,7 +39,7 @@ class Modelcontushdvideoshareconfigxml extends JModel {
         		 `logopath`, `logourl`, `nrelated`, `shareurl`, `playlist_autoplay`, `hddefault`, `ads`, 
         		 `prerollads`, `postrollads`, `random`, `midrollads`, `midbegin`, `midinterval`, `midrandom`,
         		 `midadrotate`, `playlist_open`, `licensekey`, `vast`, `vast_pid`, `Youtubeapi`, `scaletologo`, 
-        		 `googleanalyticsID`, `googleana_visible` 
+        		 `googleanalyticsID`, `googleana_visible`,`IMAAds_path`, `IMAAds`
         		 FROM #__hdflv_player_settings";
         $db->setQuery($query);
         $settingsrows = $db->loadObjectList();        
@@ -49,6 +49,7 @@ class Modelcontushdvideoshareconfigxml extends JModel {
     /* function to generate config xml */
     function configxml($settingsrows, $base) {
         global $mainframe;
+                $googleanalyticsID=$IMAAds_path='';
         $skin = $base . "components/com_contushdvideoshare/hdflvplayer/skin/" . $settingsrows[0]->skin;
         $stagecolor = "0x" . $settingsrows[0]->stagecolor;
         
@@ -61,7 +62,10 @@ class Modelcontushdvideoshareconfigxml extends JModel {
         ($settingsrows[0]->shareurl == 1) ? $share = "true" : $share = "false";
         ($settingsrows[0]->playlist_autoplay == 1) ? $playlist_autoplay = "true" : $playlist_autoplay = "false";
         ($settingsrows[0]->hddefault == 1) ? $hddefault = "true" : $hddefault = "false";
-        ($settingsrows[0]->scaletologo == 1) ? $scaletologo = "true" : $scaletologo = "false";        
+        ($settingsrows[0]->scaletologo == 1) ? $scaletologo = "true" : $scaletologo = "false";
+                ($settingsrows[0]->googleana_visible == 1) ? $googleana_visible = "true" : $googleana_visible = "false";
+        if($googleana_visible=="true")
+            $googleanalyticsID=$settingsrows[0]->googleanalyticsID;
         $playlistxml = "";
         $playlist = "false";
         if ($settingsrows[0]->related_videos == "1" || $settingsrows[0]->related_videos == "3") {
@@ -88,8 +92,12 @@ class Modelcontushdvideoshareconfigxml extends JModel {
         ($settingsrows[0]->midrollads == 0) ? $midrollads = "false" : $midrollads = "true";
         ($settingsrows[0]->ads == 0) ? $ads = "false" : $ads = "true";
         ($settingsrows[0]->vast == 0) ? $vast = "false" : $vast = "true";
+                ($settingsrows[0]->IMAAds == 0) ? $IMAAds = "false" : $IMAAds = "true";
+        if($IMAAds=="true")
+            $IMAAds_path=$settingsrows[0]->IMAAds_path;
         $vast_pid = $settingsrows[0]->vast_pid;
-        $playlistxml = $base . "components/com_contushdvideoshare/models/playxml.php";        
+        $playlistxml = $base . "components/com_contushdvideoshare/models/playxml.php";
+                $downloadUrl = $base . "components/com_contushdvideoshare/hdflvplayer/download.php";
         if (JRequest::getVar('catid', '', 'get', 'int')) {
             $playlistxml = $base . "index.php?option=com_contushdvideoshare&view=playxml&id=" . JRequest::getVar('id', '', 'get', 'int') . "&catid=" . JRequest::getVar('catid', '', 'get', 'int');
             $locaiton = $base . "index.php?option=com_contushdvideoshare&view=player";
@@ -111,9 +119,13 @@ class Modelcontushdvideoshareconfigxml extends JModel {
         echo '<?xml version="1.0" encoding="utf-8"?>';
         echo '<config
         license="' . $license . '"
+        trackCode="' . $googleanalyticsID . '"
+        IMAAds="' . $IMAAds . '"
+        IMAadsXML="' . $IMAAds_path . '"
         autoplay="' . $autoplay . '"
         playlist_open="' . $playlist_open . '"
         buffer="' . $buffer . '"
+        downloadUrl="' . $downloadUrl . '"
         normalscale="' . $normalscale . '"
         fullscreenscale="' . $fullscreenscale . '"
         logopath="' . $logopath . '"
@@ -124,7 +136,7 @@ class Modelcontushdvideoshareconfigxml extends JModel {
         midroll_ads="' . $midrollads . '"
         postroll_ads="' . $postrollads . '"
         HD_default="' . $hddefault . '"
-        Download="false"
+        Download="true"
         logoalpha="' . $settingsrows[0]->logoalpha . '"
         skin_autohide="' . $skin_autohide . '"
         stagecolor="' . $stagecolor . '"

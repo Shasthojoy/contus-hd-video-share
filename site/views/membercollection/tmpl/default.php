@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Membercollection View
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -17,12 +17,17 @@
  ***********************************************************/
 //No direct acesss
 defined('_JEXEC') or die('Restricted access');
+//rating array
 $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
 $user = JFactory::getUser();
 $requestpage = '';
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
 $logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
 ?>
+<style type="text/css">
+ #video-grid-container .ulvideo_thumb .video-item{margin-right:<?php echo $this->memberpagerowcol[0]->memberpagewidth.'px'; ?>}
+</style>
+
 <script type="text/javascript">
 function submitform()
 {
@@ -41,8 +46,6 @@ function submitform()
 	</div>
 </form>
 <?php
-$document = JFactory::getDocument();
-$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
 if (USER_LOGIN == '1')
             {
                 if ($user->get('id') != '')
@@ -50,44 +53,38 @@ if (USER_LOGIN == '1')
                         if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
-                    <span class="toprightmenu"><b>
-                            <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
-                            <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
-                            <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                    <span class="toprightmenu">
                             <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
-                            <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a></b>
+                            <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                     </span>
             <?php }else { ?>
-                <span class="toprightmenu"><b>
-                        <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
-                        <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
-                        <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
-                        <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                <span class="toprightmenu">
+                         <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
                         <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
-                    </b></span>
+                    </span>
            <?php  } }
                 else
                 {
                     if(version_compare(JVERSION,'1.6.0','ge'))
-        { ?><span class="toprightmenu"><b>
+        { ?><span class="toprightmenu">
                 <a href="index.php?option=com_users&view=registration"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
                 <a  href="index.php?option=com_users&view=login"  alt="login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
-            </b></span>
+            </span>
            <?php }  else {      ?>
-                    <span class="toprightmenu"><b>
+                    <span class="toprightmenu">
                             <a href="index.php?option=com_user&view=register"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
-                            <a  href="index.php?option=com_user&view=login" alt="login"> <?php echo JText::_('HDVS_LOGIN'); ?></a></b></span>
+                            <a  href="index.php?option=com_user&view=login" alt="login"> <?php echo JText::_('HDVS_LOGIN'); ?></a></span>
         <?php
                 } }
             }
 
 ?>
-<div class="section videoscenter" >
+<div class="clearfix" >
 <?php
 foreach ($this->membercollection as $rows)
  {
  ?>
-        <h1 class="underline"><?php echo JText::_('HDVS_VIDEO_ADDED_BY'); ?>
+        <h1><?php echo JText::_('HDVS_VIDEO_ADDED_BY'); ?>
         <?php if ($rows->username == '')
           {
               echo "Administrator";
@@ -98,7 +95,6 @@ foreach ($this->membercollection as $rows)
            } ?></h1>
 <?php break;
 } ?>
-    <div class="videoheadline"></div>
     <?php
     $totalrecords = count($this->membercollection);
     $totalrecords = $this->memberpagerowcol[0]->memberpagecol * $this->memberpagerowcol[0]->memberpagerow;
@@ -107,42 +103,37 @@ foreach ($this->membercollection as $rows)
         $totalrecords = count($this->membercollection) - 4;
     }
     ?>
-    <div class="standard tidy">
-        <div class="layout b-c">
-            <div class="gr b" >
-                <div class="layout a-b-c">
-                    <div class="gr a">
-                        <table>
-<?php
-    $no_of_columns = $this->memberpagerowcol[0]->memberpagecol;
-    $current_column = 1;
-    for ($i = 0; $i < $totalrecords; $i++)
-    {
-        $colcount = $current_column % $no_of_columns;
-        if ($colcount == 1)
-        {
-            echo '<tr>';
-        }
-    	$seoOption = $this->memberpagerowcol[0]->seo_option;
-        if ($seoOption == 1) {
-             $memberCategoryVal = "category=" . $this->membercollection[$i]->seo_category;
-             $memberVideoVal = "video=" . $this->membercollection[$i]->seotitle;
-        } else {
-             $memberCategoryVal = "catid=" . $this->membercollection[$i]->catid;
-             $memberVideoVal = "id=" . $this->membercollection[$i]->id;
-        }
-        if ($this->membercollection[$i]->filepath == "File" || $this->membercollection[$i]->filepath == "FFmpeg")
-        {
-            $src_path = "components/com_contushdvideoshare/videos/" . $this->membercollection[$i]->thumburl;
-        }
-        if ($this->membercollection[$i]->filepath == "Url" || $this->membercollection[$i]->filepath == "Youtube")
-        {
-            $src_path = $this->membercollection[$i]->thumburl;
-        }
-?>
-                            <?php if ($this->membercollection[$i]->id != '') {
- ?>
-                                <td class="rightrate">
+                         <div id="video-grid-container" class="clearfix">
+                            <?php
+                                $no_of_columns = $this->memberpagerowcol[0]->memberpagecol;
+                                $current_column = 1;
+                                for ($i = 0; $i < $totalrecords; $i++)
+                                {
+                                    $colcount = $current_column % $no_of_columns;
+                                    if ($colcount == 1 || $no_of_columns==1)
+                                    {
+                                        echo '<ul class="ulvideo_thumb clearfix">';
+                                    }
+                                    $seoOption = $this->memberpagerowcol[0]->seo_option;
+                                    if ($seoOption == 1) {
+                                         $memberCategoryVal = "category=" . $this->membercollection[$i]->seo_category;
+                                         $memberVideoVal = "video=" . $this->membercollection[$i]->seotitle;
+                                    } else {
+                                         $memberCategoryVal = "catid=" . $this->membercollection[$i]->catid;
+                                         $memberVideoVal = "id=" . $this->membercollection[$i]->id;
+                                    }
+                                    if ($this->membercollection[$i]->filepath == "File" || $this->membercollection[$i]->filepath == "FFmpeg")
+                                    {
+                                        $src_path = "components/com_contushdvideoshare/videos/" . $this->membercollection[$i]->thumburl;
+                                    }
+                                    if ($this->membercollection[$i]->filepath == "Url" || $this->membercollection[$i]->filepath == "Youtube")
+                                    {
+                                        $src_path = $this->membercollection[$i]->thumburl;
+                                    }
+                            ?>
+                                                        <?php if ($this->membercollection[$i]->id != '') {
+                             ?>
+                                <li class="video-item">
                             <?php
                                 $orititle = $this->membercollection[$i]->title;       //Title name changed here for seo url purpose
                                 $newtitle = explode(' ', $orititle);
@@ -154,31 +145,17 @@ foreach ($this->membercollection as $rows)
                                 $displaytitle11 = implode('&', $final2);
                             ?>
                                 <div class="home-thumb">
-                                    <div class="home-play-container" >
-                                        <div class="play-button-hover">
-                                            <div class="movie-entry yt-uix-hovercard">
-<div class="tooltip">
-                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $memberCategoryVal . "&amp;" . $memberVideoVal); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></a>
-
-
-                                                <div class="Tooltipwindow clearfix" >
-                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage" alt="tip_image"/>
-                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . JText::_('HDVS_CATEGORY') . ' : ' . '</span>' .'<span class="clstoolright">'. $this->membercollection[$i]->category.'</span></div>'; ?>
-                                                    <?php echo '<span class="clsdescription">' . JText::_('HDVS_DESCRIPTION') . ' : ' . '</span>' .'<p>'. $this->membercollection[$i]->description.'</p>'; ?>
-
-                                                        <?php if ($this->memberpagerowcol[0]->viewedconrtol == 1) { ?>
-                                                    <div class="clearfix"><span class="clstoolleft"><?php echo JText::_('HDVS_VIEWS'); ?>: </span><span class="clstoolright"><?php echo $this->membercollection[$i]->times_viewed; ?> </span></div>
-                                                           <?php } ?></div></div>
-
-
-                                            </div>
-                                        </div></div>
-                                    <div class="show-title-container">
-                                        <a href=" <?php echo 'index.php?option=com_contushdvideoshare&view=player&id='.$this->membercollection[$i]->id.'&catid='.$this->membercollection[$i]->catid; ?>" class="show-title-gray info_hover">
+                                    <div class="list_video_thumb">
+                                          <a class="featured_vidimg" rel="htmltooltip" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $memberCategoryVal . "&amp;" . $memberVideoVal); ?>" >
+                                         <img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  title="" alt="thumb_image" /></a>
+                                                 
+                                    </div>
+                                       <div class="show-title-container">
+                                        <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $memberCategoryVal . "&amp;" . $memberVideoVal); ?>" class="show-title-gray info_hover">
 <?php
-                                if (strlen($this->membercollection[$i]->title) > 18)
+                                if (strlen($this->membercollection[$i]->title) > 50)
                                 {
-                                    echo JHTML::_('string.truncate', ($this->membercollection[$i]->title), 18);
+                                    echo JHTML::_('string.truncate', ($this->membercollection[$i]->title), 50);
                                     //echo (substr($this->membercollection[$i]->title, 0, 18)) . '...';
                                 }
                                 else
@@ -187,14 +164,11 @@ foreach ($this->membercollection as $rows)
                                 }
 ?></a>
                                     </div>
-                                   <span class="video-info">
+<!--                                   <span class="video-info">
                                <a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=category&catid='.$this->membercollection[$i]->catid); ?>"><?php echo $this->membercollection[$i]->category; ?></a>
-                                    </span>
+                                    </span>-->
                                 <?php if ($this->memberpagerowcol[0]->ratingscontrol == 1)
-                                      { ?>
-                                          <div class="floatleft">
-
-<?php
+                                      { ?><?php
                                             if (isset($this->membercollection[$i]->ratecount) && $this->membercollection[$i]->ratecount != 0)
                                             {
                                                 $ratestar = round($this->membercollection[$i]->rate / $this->membercollection[$i]->ratecount);
@@ -204,63 +178,74 @@ foreach ($this->membercollection as $rows)
                                                 $ratestar = 0;
                                             }
 ?>
-                                        <div class="floatleft"><div class="ratethis1 <?php echo $ratingview[$ratestar]; ?> "></div></div>
-                                    </div>
-                                <?php } ?>
+                                        <div class="ratethis1 <?php echo $ratearray[$ratestar]; ?> "></div>
+                                   <?php } ?>
 
                                     <?php if ($this->memberpagerowcol[0]->viewedconrtol == 1)
                                             {
- ?>
-
-                                                            <span class="floatright viewcolor"><?php echo JText::_('HDVS_VIEWS'); ?></span>
-                                                            <span class="floatright viewcolor view"><?php echo $this->membercollection[$i]->times_viewed; ?></span>
-
-                                    <?php } ?>
-                                                    <div class="clear"></div>
-                                                </div>
+ ?>                                           <span class="floatright viewcolor"><?php echo $this->membercollection[$i]->times_viewed; ?> <?php echo JText::_('HDVS_VIEWS'); ?></span>
+ <?php } ?>
+                                </div></li>
 <?php } ?>
                                             <!--First row-->
 <?php
                                                 if ($colcount == 0)
                                                 {
-                                                    echo '</tr><div class="clear"></div>';
+                                                    echo '</ul>';
                                                     $current_column = 0;
                                                 }
                                                 $current_column++;
                                             }
-                                            if ($current_column != 0)
-                                            {
-                                                $rem_columns = $no_of_columns - $current_column + 1;
-                                                echo "<td colspan=$rem_columns></td></tr>";
-                                            } ?>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <table cellpadding="0" cellspacing="0" border="0"   class="page_align"   id="pagination" >
-                    <tr align="right">
-                        <td align="right"  class="page_rightspace">
-                            <table cellpadding="0" cellspacing="0"  border="0" align="right">
-                                <tr>
-<?php
+//                                            if ($current_column != 0)
+//                                            {
+//                                                $rem_columns = $no_of_columns - $current_column + 1;
+//                                                echo "<td colspan=$rem_columns></td></tr>";
+//                                            } ?>
+                                    </div>
+              <!--Tooltip Starts Here-->
+                      <?php
+                      for ($i = 0; $i < $totalrecords; $i++)
+                                      { ?>
+                                          <div class="htmltooltip">
+                                              <?php if($this->membercollection[$i]->description) {?>
+                                             <p class="tooltip_discrip"><?php echo JHTML::_('string.truncate', (strip_tags($this->membercollection[$i]->description)), 120); ?></p>
+                                             <?php }?>
+                                             <div class="tooltip_category_left">
+                                                 <span class="title_category"><?php echo  JText::_('HDVS_CATEGORY');?>: </span>
+                                                 <span class="show_category"><?php echo $this->membercollection[$i]->category; ?></span>
+                                             </div>
+                                             <?php if ($this->memberpagerowcol[0]->viewedconrtol == 1) { ?>
+                                            <div class="tooltip_views_right">
+                                                 <span class="view_txt"><?php echo JText::_('HDVS_VIEWS'); ?>: </span>
+                                                 <span class="view_count"><?php echo $this->membercollection[$i]->times_viewed; ?> </span>
+                                             </div>
+                                             <div id="htmltooltipwrapper<?php echo $i; ?>">
+                                                 <div class="chat-bubble-arrow-border"></div>
+                                               <div class="chat-bubble-arrow"></div>
+                                             </div>
+                                             <?php } ?>
+                                           </div>
+                                    <?php } ?>
+             <!--Tooltip end Here-->
+
+                                       <ul class="hd_pagination">
+                                          <?php
                                             $this->membercollection['pages']=isset($this->membercollection['pages'])?$this->membercollection['pages']:'';
                                             $this->membercollection['pageno']=isset($this->membercollection['pageno'])?$this->membercollection['pageno']:'';
                                             $pages = $this->membercollection['pages'];
                                             $q = $this->membercollection['pageno'];
                                             $q1 = $this->membercollection['pageno'] - 1;
                                             if ($this->membercollection['pageno'] > 1)
-                                                echo("<td align='right'><a onclick='changepage($q1);'>" . JText::_('HDVS_PREVIOUS') . "</a></td>");
+                                                echo("<li><a onclick='changepage($q1);'>" . JText::_('HDVS_PREVIOUS') . "</a></li>");
                                             if ($requestpage)
                                              {
-                                                if ($requestpage > 3)
+                                                if ($requestpage > 4)
                                                  {
                                                     $page = $requestpage - 2;
-                                                    if ($requestpage > 2)
+                                                    if ($requestpage > 3)
                                                     {
-                                                        echo("<td align='right'><a onclick='changepage(1)'>1</a></td>");
-                                                        echo ("<td align='right'>...</td>");
+                                                        echo("<li><a onclick='changepage(1)'>1</a></li>");
+                                                        echo ("<li>...</li>");
                                                     }
                                                 }
                                                 else
@@ -272,27 +257,24 @@ foreach ($this->membercollection as $rows)
                                             for ($i = $page, $j = 1; $i <= $pages; $i++, $j++)
                                              {
                                                 if ($q != $i)
-                                                    echo("<td align='right'><a onclick='changepage(" . $i . ")'>" . $i . "</a></td>");
+                                                    echo("<li><a onclick='changepage(" . $i . ")'>" . $i . "</a></li>");
                                                 else
-                                                    echo("<td align='right'><a onclick='changepage($i);' class='activepage'>$i</a></td>");
+                                                    echo("<li><a onclick='changepage($i);' class='activepage'>$i</a></li>");
                                                 if ($j > 3)
                                                     break;
                                             }
                                             if ($i < $pages)
                                              {
                                                 if ($i + 1 != $pages)
-                                                echo ("<td align='right'>...</td>");
-                                                echo("<td align='right'><a onclick='changepage(" . $pages . ")'>" . $pages . "</a></td>");
+                                                echo ("<li>...</li>");
+                                                echo("<li><a onclick='changepage(" . $pages . ")'>" . $pages . "</a></li>");
                                             }
                                             $p = $q + 1;
                                             if ($q < $pages)
-                                                echo ("<td align='right'><a onclick='changepage($p);'>" . JText::_('HDVS_NEXT') . "</a></td>"); }
+                                                echo ("<li><a onclick='changepage($p);'>" . JText::_('HDVS_NEXT') . "</a></li>"); }
 ?>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
+                                        </ul>
+                                    
                     </div>
                    <?php
                        if (JRequest::getVar('memberidvalue', '', 'post', 'int'))
@@ -330,7 +312,28 @@ foreach ($this->membercollection as $rows)
                                                 <input type="hidden" id="page" name="page" value="<?php echo $hidden_page ?>" />
                                                 <input type="hidden" id="hidsearchtxtbox" name="hidsearchtxtbox" value="<?php echo $hidden_searchbox; ?>" />
                                             </form>
+<?php
+ $lang = JFactory::getLanguage();
+              $langDirection = (bool) $lang->isRTL();
+                    if ($langDirection == 1) {
+                         $rtlLang = 1;
+                    } else {
+                        $rtlLang = 0;
+                    }
+             ?>
                         <script type="text/javascript">
+                            jQuery.noConflict();
+                                jQuery(document).ready(function($){
+                                    jQuery(".ulvideo_thumb").mouseover(function(){
+                                         htmltooltipCallback("htmltooltip","",<?php echo $rtlLang;?>);
+                                    });
+                                });
+                                jQuery(document).ready(function($){
+                                     htmltooltipCallback("htmltooltip","",<?php echo $rtlLang;?>);
+                                })
+                                jQuery(document).click(function(){
+                                    htmltooltipCallback("htmltooltip","",<?php echo $rtlLang;?>);
+                                })
                             function membervalue(memid)
                             {
                                 document.getElementById('memberidvalue').value=memid;

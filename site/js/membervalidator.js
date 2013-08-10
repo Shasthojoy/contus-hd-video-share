@@ -2,12 +2,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Member Validator Javascript File
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -148,7 +148,6 @@ function checklogin(str) {
 }
 
 function videoupload() {
-	
 	if (document.getElementById("filetype2").checked == true) {
 		if (document.getElementById("Youtubeurl").value == ""
 				|| document.getElementById("Youtubeurl").value == " ") {
@@ -157,7 +156,25 @@ function videoupload() {
 			return false;
 		} else {
 			var theurl = document.getElementById("Youtubeurl").value;
-			var tomatch = /http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/
+                         if (theurl.contains("youtube.com") || theurl.contains("vimeo.com") || theurl.contains("youtu.be")){
+//				return true;
+			}else{
+                            alert("URL invalid. Try again.");
+				document.getElementById("Youtubeurl").focus();
+				return false;
+                        }
+
+		}
+	}
+	if (document.getElementById("filetype3").checked == true) {
+		if (document.getElementById("Youtubeurl").value == ""
+				|| document.getElementById("Youtubeurl").value == " ") {
+			alert("Please Enter the Video URL");
+			document.getElementById("Youtubeurl").focus();
+			return false;
+		} else {
+			var theurl = document.getElementById("Youtubeurl").value;
+			var tomatch = /(http:\/\/|https:\/\/)[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/
 			if (!tomatch.test(theurl)) {				
 				alert("URL invalid. Try again.");
 				document.getElementById("Youtubeurl").focus();
@@ -167,10 +184,10 @@ function videoupload() {
 		}		
 	}
 	
-	if (document.getElementById("ffmpeg").value == ""
+	if (document.getElementById("Youtubeurl").value == ""
 			&& document.getElementById("seltype").value == 2) {
-		alert("Please Select Upload Video");
-		document.getElementById("ffmpeg").focus();
+		alert("Please Enter Video Url");
+		document.getElementById("normalvideoformval").focus();
 		return false;
 	}
 

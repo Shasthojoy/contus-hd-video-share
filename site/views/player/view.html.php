@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Hdvideoshare Player View
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -40,10 +40,18 @@ class contushdvideoshareViewplayer extends JView {
 				// joomla router replaced to : from - in query string
 				$videoTitle = JRequest::getString('video');
 				$video = str_replace(':', '-', $videoTitle);
+                                $category_name = JRequest::getString('category');
+                                $category = str_replace(':', '-', $category_name);
+                                if(!empty ($category) && !empty ($video)){
+                                    $videodetails = $model->getVideoCatId($video,$category);
+                                    $videoid = $videodetails->id;
+				    $categoryid = $videodetails->playlistid;
+                                }else{
 				$videodetails = $model->getVideoId($video);
 				$videoid = $videodetails->id;
 				$categoryid = $videodetails->playlistid;
 				$videodetails->videourl = $videodetails->videourl;
+                                }
 			} else {
 				$videoid = JRequest::getInt('video');
 				$videodetails = $model->getVideodetail($videoid);

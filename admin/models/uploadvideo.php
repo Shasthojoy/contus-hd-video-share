@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Uploadvideos Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -17,7 +17,7 @@
 /*
  ***********************************************************/
 // No direct access to this file
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 // import joomla model library
 jimport('joomla.application.component.model');
 //Import filesystem libraries.
@@ -25,8 +25,8 @@ jimport('joomla.filesystem.file');
 /**
  * Contushdvideoshare Component Uploadvideos Model
  */
-session_start();
-session_regenerate_id();
+//session_start();
+//session_regenerate_id();
 class contushdvideoshareModeluploadvideo extends JModel {
 	/**
 	 * Constructor
@@ -213,7 +213,7 @@ class contushdvideoshareModeluploadvideo extends JModel {
 			$destination_path=str_replace('\\', '/', $destination)."/";
 		}
 		$filename = JFile::makeSafe($file['name']);
-		$target_path = $destination_path . session_id() . "." . end(explode(".", $filename));
+		$target_path = $destination_path . rand(0,5) . "." . end(explode(".", $filename));
 		//Clean up filename to get rid of strange characters like spaces etc
 		$sourceImage = $file['tmp_name'];
 			

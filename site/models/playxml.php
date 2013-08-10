@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Playxml Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -17,7 +17,7 @@
 /*
  ***********************************************************/
 // No direct access to this file
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 // import joomla model library
 jimport('joomla.application.component.model');
 /**
@@ -42,11 +42,17 @@ class Modelcontushdvideoshareplayxml extends JModel {
 		if (JRequest::getvar('id', '', 'get', 'int')) {
 			$videoid = JRequest::getvar('id', '', 'get', 'int');
 
+                        if($videoid!=0){
+                            $query = "UPDATE #__hdflv_upload SET times_viewed=1+times_viewed WHERE id=".$videoid;
+					$db->setQuery($query);
+					$db->query();
+                        }
+
 			if ($videoid != "") {
 				$query = "SELECT distinct a.*,b.category
 						  FROM #__hdflv_upload a 
 						  LEFT JOIN #__hdflv_category b on a.playlistid=b.id 
-						  WHERE a.published='1' and a.id=$videoid ";
+						  WHERE a.published='1' and b.published='1' and a.id=$videoid ";
 				$db->setQuery($query);
 				$rows = $db->loadObjectList();
 			}
@@ -61,7 +67,7 @@ class Modelcontushdvideoshareplayxml extends JModel {
 				$query = "SELECT distinct a.*,b.category
 						  FROM #__hdflv_upload a 
 						  LEFT JOIN #__hdflv_category b on a.playlistid=b.id or a.playlistid=b.parent_id 
-						  WHERE a.published='1' and b.id=" . $videocategory . " and a.id != $videoid";
+						  WHERE a.published='1' and b.published='1' and b.id=" . $videocategory . " and a.id != $videoid";
 				$db->setQuery($query);
 				$playlist = $db->loadObjectList();
 			}
@@ -71,18 +77,26 @@ class Modelcontushdvideoshareplayxml extends JModel {
 					  LEFT JOIN #__users d on a.memberid=d.id 
 					  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
 					  LEFT JOIN #__hdflv_category b on e.catid=b.id 
-					  WHERE a.published='1' and a.featured='1' and a.type='0' 
+					  WHERE a.published='1' and b.published='1' and a.featured='1' and a.type='0'
 					  GROUP BY e.vid 
 					  ORDER BY a.ordering asc"; // Query is to display recent videos in home page
 			$db->setQuery($query);
 			$rs_video = $db->loadObjectList();
+                         if (JRequest::getvar('featured', '', 'get', 'string')) {
+			$featured = JRequest::getvar('featured', '', 'get', 'string');
+                        if($featured=="true"){
+                            $query = "UPDATE #__hdflv_upload SET times_viewed=1+times_viewed WHERE id=".$rs_video[0]->id;
+					$db->setQuery($query);
+					$db->query();
+                        }
+                        }
 			if (count($rs_video) == 0) {
 				$query = "SELECT a.*,b.category,d.username,e.* 
 						  FROM  #__hdflv_upload a 
 						  LEFT JOIN #__users d on a.memberid=d.id 
 						  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
 						  LEFT JOIN #__hdflv_category b on e.catid=b.id 
-						  WHERE a.published='1' and a.type='0' 
+						  WHERE a.published='1' and b.published='1' and a.type='0'
 						  GROUP BY e.vid 
 						  ORDER BY a.ordering asc limit 0,1"; // Query is to display recent videos in home page
 				$db->setQuery($query);
@@ -248,7 +262,6 @@ class Modelcontushdvideoshareplayxml extends JModel {
 				$settingQuery="select seo_option from #__hdflv_site_settings";
                 $db->setQuery($settingQuery);
                 $resultSetting = $db->loadObjectList();
-
                 $categoryQuery="select seo_category from #__hdflv_category WHERE id=$rows->playlistid";
                 $db->setQuery($categoryQuery);
                 $categorySeo = $db->loadObjectList();
@@ -259,8 +272,13 @@ class Modelcontushdvideoshareplayxml extends JModel {
                     $fbCategoryVal = "catid=" . $rows->playlistid;
                     $fbVideoVal = "id=" . $rows->id;
                     }
+
                  $baseUrl=JURI::base();
-                 $fbPath = $baseUrl.'index.php?option=com_contushdvideoshare&view=player&'.$fbCategoryVal.'&'.$fbVideoVal;
+ $baseUrl1=parse_url($baseUrl);
+                 $baseUrl1=$baseUrl1['scheme'].'://'.$baseUrl1['host'];
+
+
+                 $fbPath = $baseUrl1.JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$fbCategoryVal.'&'.$fbVideoVal);
                  //$fbPath = JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$fbCategoryVal.'&'.$fbVideoVal , false);
 				
 				($rows->targeturl == "") ? $targeturl = "" : $targeturl = $rows->targeturl;
@@ -275,7 +293,7 @@ class Modelcontushdvideoshareplayxml extends JModel {
 				}
 				$islive = "false";
 				$date = '';
-				$date = date("m-d-Y", strtotime($rows->addedon));
+				$date = date("m-d-Y", strtotime($rows->created_date));
 				if ($streamername != "")
 				($rows->islive==1)?$islive="true":$islive="false";
 				$tags = $rows->tags;
@@ -286,7 +304,7 @@ class Modelcontushdvideoshareplayxml extends JModel {
 					echo '</title>';
 					echo '<tagline targeturl="' . $targeturl . '">';
 					if ($rows->description != "") {
-						echo '<![CDATA[<b>' . $rows->description . '</b>]]>';
+						echo '<![CDATA[' . $rows->description . ']]>';
 					}
 					echo '</tagline>';
 					echo '</mainvideo>';

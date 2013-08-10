@@ -55,6 +55,8 @@ class Tablesettings extends JTable {
     var $googleana_visible=null;
     var $googleanalyticsID = null;
     var $facebookapi = null;
+    var $IMAAds_path = null;
+    var $IMAAds = null;
 
     function __construct(&$db) {
         parent::__construct('#__hdflv_player_settings', 'id', $db);

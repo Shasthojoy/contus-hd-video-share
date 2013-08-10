@@ -8,7 +8,7 @@
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Adminvideos Uploadffmpeg Helper
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -18,6 +18,8 @@
  ***********************************************************/
 // No direct access to this file
 defined('_JEXEC') or die;
+jimport('joomla.filesystem.file');
+
 /**
  * uploading videos
  * type : FFMPEG
@@ -99,14 +101,14 @@ class uploadFfmpegHelper
 			$flvpath = $strTargetPath . $idval . '_hd' . ".flv";
 			exec($strFfmpegPath . ' ' . '-i' . ' ' . $strTmpPath . ' ' . '-sameq' . ' ' . $flvpath . ' ' . '2>&1');
 			// To get Thumb image & Preview image from the original video file
-			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
-			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-r 1 -s" . ' ' . $previewwidth . "x" . $previewheight . ' ' . " -f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
+			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
+			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s" . ' ' . $previewwidth . "x" . $previewheight . ' ' . " -f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
 			$hd_name = $idval . '_video.' . $exts;
 		} else {
 			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-sameq" . ' ' . $strTargetPath . $idval . '_video' . ".flv  2>&1");
 			// To get Thumb image & Preview image from the original video file
-			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
-			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-r 1 -s " . ' ' . $previewwidth . "x" . $previewheight . ' ' . "-f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
+			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
+			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s " . ' ' . $previewwidth . "x" . $previewheight . ' ' . "-f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
 			$video_name = $idval . '_video' . ".flv";
 			$hd_name = "";
 		}

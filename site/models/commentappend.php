@@ -3,19 +3,20 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Commentappend Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
  * */
 /*
  ***********************************************************/
-defined('_JEXEC') or die();
+// No direct access to this file
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.model' );
 
@@ -28,6 +29,15 @@ class Modelcontushdvideosharecommentappend extends JModel
 
         if(JRequest::getVar('id','','get','int'))
         {
+            if(JRequest::getVar('page','','get','int'))
+        {
+                $pageno = JRequest::getVar('page','','get','int');
+
+        }
+        else
+        {
+             $pageno = 1;
+        }
         $commenttitle = array();
         $db = $this->getDBO();
         $id=JRequest::getVar('id','','get','int');
@@ -49,14 +59,8 @@ class Modelcontushdvideosharecommentappend extends JModel
         $commenttotalquery = "select count(*) from #__hdflv_comments where published=1 and videoid=$id"; // Query is to get the pagination value for comments display
         $db->setQuery( $commenttotalquery );
         $total = $db->loadResult();
-        $pageno = 1;
-        if(isset($_SESSION['commentappendpageno']))
-        {
-        if( $_SESSION['commentappendpageno'])
-        {
-            $pageno =  $_SESSION['commentappendpageno'];
-            $_SESSION['commentappendpageno']="";
-        }}
+
+
         $length=10;
         $pages = ceil($total/$length);
         if($pageno==1)

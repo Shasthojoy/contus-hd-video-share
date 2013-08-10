@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Videoupload Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -63,8 +63,9 @@ class Modelcontushdvideosharevideoupload extends JModel {
 			$db->setQuery($editvideo);
 			$editvideo1 = $db->loadObjectList();
 		}
-		$session = JFactory::getSession();
+
 		$url="";
+                $ftype="";
 		$success="";
 		$query = 'SELECT `id`, `member_id`, `category`, `seo_category`, `parent_id`, `ordering`, `lft`, `rgt`,
     			  `published` 
@@ -79,6 +80,7 @@ class Modelcontushdvideosharevideoupload extends JModel {
 		$flv="";
 		$hd="";
 		$img="components/com_contushdvideoshare/images/default_thumb.jpg";
+                $preview="components/com_contushdvideoshare/images/default_preview.jpg";
 		$hq="";
 		if(JRequest::getCmd('uploadbtn'))
 		{
@@ -147,6 +149,7 @@ class Modelcontushdvideosharevideoupload extends JModel {
 				if($uploadFile["name"] != "")
 				{
 					$img = JURI::base()."components/com_contushdvideoshare/videos/".$uploadFile["name"];
+					$previewurl = JURI::base()."components/com_contushdvideoshare/videos/".$uploadFile["name"];
 
 					if ((($uploadFile["type"] == "image/gif") || ($uploadFile["type"] == "image/jpeg") || ($uploadFile["type"] == "image/png")) )
 					{
@@ -155,9 +158,10 @@ class Modelcontushdvideosharevideoupload extends JModel {
 					else
 					{
 						$img = JURI::base()."components/com_contushdvideoshare/images/default_thumb.jpg";
+                                                $previewurl = JURI::base()."components/com_contushdvideoshare/images/default_preview.jpg";
 					}
 				}
-				if($img=="")
+                                 if($img=="")
 				{
 					if(strpos($url,'youtube') > 0)
 					{
@@ -168,10 +172,19 @@ class Modelcontushdvideosharevideoupload extends JModel {
 						$img="http://img.youtube.com/vi/".$imgval[0]."/1.jpg";
 
 					}
+                                         else if(strpos($url,'youtu.be') > 0)
+		{
+			$imgstr = explode("/", $url);
+			$previewurl = "http://img.youtube.com/vi/" . $imgstr[3] . "/0.jpg";
+			$img = "http://img.youtube.com/vi/" . $imgstr[3] . "/1.jpg";
+                        $url="http://www.youtube.com/watch?v=".$imgstr[3];
+                         $ftype="Youtube";
+		}
 					else if(strpos($url,'vimeo') > 0)
 					{
                                                 $ftype="Youtube";
 						$split=explode("/",$url);
+                                                if( ini_get('allow_url_fopen') ) {
 						$doc = new DOMDocument();
 						$doc->load('http://vimeo.com/api/v2/video/'.$split[3].'.xml');
 						$videotags = $doc->getElementsByTagName('video');
@@ -180,6 +193,15 @@ class Modelcontushdvideosharevideoupload extends JModel {
 							$imgnode = $videotag->getElementsByTagName('thumbnail_medium');
 							$img = $imgnode->item(0)->nodeValue;
 						}
+                                                }else{
+                                                        $url="http://vimeo.com/api/v2/video/" . $split[3] . ".xml";
+                                                        $curl = curl_init($url);
+                                                        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                                                        $result = curl_exec($curl);
+                                                        curl_close($curl);
+                                                        $xml = simplexml_load_string($result);
+                                                        $img = $xml->video->thumbnail_medium;
+                                                }
 					}
 
 					else
@@ -190,13 +212,16 @@ class Modelcontushdvideosharevideoupload extends JModel {
 
 					}
 				}
-			}
+                        }
 
 			$title=JRequest::getVar('title','','post','string');
+                         $title = $db->quote($title);
 			$description=JRequest::getVar('description','','post','string');
+                        $description = $db->quote($description);
 			$tagname=JRequest::getVar('tagname','','post','string');
 			$tags = JRequest::getVar('tags1', '', 'post', 'string');
 			$type=JRequest::getVar('type','','post','string');
+                        $download = JRequest::getVar('download','','post');
 			$db = JFactory::getDBO();
 			$tagname1=$tagname;
 			$tagname=explode(',',$tagname1);
@@ -212,11 +237,21 @@ class Modelcontushdvideosharevideoupload extends JModel {
 			$value='';
 			$updateform = "";
 			// Code for seo option
-			$seoTitle = preg_replace('/[&:\s]+/i', '-', $title);
-			$seoTitle = preg_replace('/[\"\']+/i', '', $seoTitle);
+
+                        $seoTitle = $title;
+                $seoTitle=stripslashes($seoTitle);
+                $seoTitle=strtolower($seoTitle);
+		$seoTitle = preg_replace('/[&:\s]+/i', '-', $seoTitle);
+		$seoTitle = preg_replace('/[#!@$%^.,:;\/&*(){}\"\'\[\]<>|?]+/i', '', $seoTitle);
+		$seoTitle = preg_replace('/---|--+/i', '-', $seoTitle);
 			if( JRequest::getVar('videotype','','post','string') == 'edit')
 			{
-				if($previewurl!= '')
+			if($ftype==''){
+                            if(JRequest::getVar('video_filetype','','post','string')){
+                                $ftype=JRequest::getVar('video_filetype','','post','string');
+                            }
+                        }
+                            if($previewurl!= '')
 				$updateform .= ",previewurl='$previewurl'";
 				if($hd!= '')
 				$updateform .= ",hdurl='$hd'";
@@ -227,7 +262,7 @@ class Modelcontushdvideosharevideoupload extends JModel {
 
 				$updateform .= ",thumburl='$img'";
 
-				$query=' update #__hdflv_upload SET filepath="'.$ftype.'",tags= "'.$tags.'",title="'.$title.'",seotitle="'.$seoTitle.'",type="'.$type.'",description="'.$description.'"'. $updateform.' where id='.JRequest::getVar('videoid','','post','int');
+				$query=' update #__hdflv_upload SET filepath="'.$ftype.'",tags= "'.$tags.'",title='.$title.',seotitle="'.$seoTitle.'",type="'.$type.'",download="'.$download.'",description='.$description. $updateform.' where id='.JRequest::getVar('videoid','','post','int');
 				$db->setQuery($query);
 				$db->query();
 
@@ -266,11 +301,11 @@ class Modelcontushdvideosharevideoupload extends JModel {
 				$usergroup = '';
 				$usergroup = $ugp->group_id;
 				$query='INSERT INTO #__hdflv_upload(title,seotitle,filepath,videourl,thumburl,previewurl,published,
-		                type,memberid,description,created_date,addedon,usergroupid,playlistid,hdurl,tags) 
-		                VALUES ("'.$title.'","'.$seoTitle.'","'.$ftype.'","'.$url.'","'.$img.'","'.$previewurl.'",
-		                "1","'.$type.'","'.$memberid.'","'.$description.'","'.$cdate.'","'.$cdate.'","'.$usergroup.'",
-		                "'.$cid.'","'.$hd.'","'.$tags.'")';
-				$db->setQuery($query);
+		                type,memberid,description,created_date,addedon,usergroupid,playlistid,hdurl,tags,download)
+		                VALUES ('.$title.',"'.$seoTitle.'","'.$ftype.'","'.$url.'","'.$img.'","'.$previewurl.'",
+		                "1","'.$type.'","'.$memberid.'",'.$description.',"'.$cdate.'","'.$cdate.'","'.$usergroup.'",
+		                "'.$cid.'","'.$hd.'","'.$tags.'","'.$download.'")';
+                                $db->setQuery($query);
 				$db->query();
 				$db_insert_id=$db->insertid();
 				$value=$db_insert_id;
@@ -303,7 +338,6 @@ class Modelcontushdvideosharevideoupload extends JModel {
 			header("Location: $url");
 
 		}
-		$this->updateRecentactivity();
 		return array($category1,$success,$editvideo1);
 	}
 

@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Uninstallation File 
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -168,7 +168,7 @@ if ($id) {
                 <?php
                 //check installed components
                 $db = &JFactory::getDBO();
-                $db->setQuery("SELECT id FROM #__hdflv_player_settings LIMIT 1");
+                $db->setQuery("SELECT id FROM #__hdflv_player_settings_backup LIMIT 1");
                 $id = $db->loadResult();
                 if (!$id) {
                     echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";

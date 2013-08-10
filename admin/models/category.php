@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Category Model 
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -17,7 +17,7 @@
 /*
  ***********************************************************/
 //No direct acesss
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 // import joomla model library
 jimport('joomla.application.component.model');
 // import joomla pagination library
@@ -192,11 +192,25 @@ class contushdvideoshareModelcategory extends JModel {
 	 * fuction to save category
 	 */
 	function savecategory($arrFormData) { 
-		$objCategoryTable = & $this->getTable('category');
+	global $mainframe;
+            $objCategoryTable = & $this->getTable('category');
 		//code for seo category name
 		$seo_category = $arrFormData['category'];
-		$seo_category = preg_replace('/[&:\s]+/i','-',$seo_category);
-		$arrFormData['seo_category'] = preg_replace('/[\"\']+/i','',$seo_category);
+                $query = 'SELECT `id` FROM `#__hdflv_category` WHERE `category` = "' . $seo_category.'"';
+		$db = $this->getDBO();
+		$db->setQuery($query);
+		$category = $db->loadObject();
+                if(isset($category->id) && $category->id!=0){
+                   $msg='Category already exist';
+                    $link = 'index.php?option=com_contushdvideoshare&layout=category';
+                    $mainframe->redirect($link, $msg);
+                }
+                else{
+$seo_category=stripslashes($seo_category);
+                $seo_category=strtolower($seo_category);
+		$seo_category = preg_replace('/[&:\s]+/i', '-', $seo_category);
+		$arrFormData['seo_category'] = preg_replace('/[#!@$%^.,:;\/&*(){}\"\'\[\]<>|?]+/i', '', $seo_category);
+		$arrFormData['seo_category'] = preg_replace('/---|--+/i', '-', $arrFormData['seo_category']);
 
 		if (!$objCategoryTable->bind($arrFormData)) {
 			JError::raiseWarning(500, $objCategoryTable->getError());
@@ -208,6 +222,8 @@ class contushdvideoshareModelcategory extends JModel {
 			JError::raiseWarning(500, $objCategoryTable->getError());
 		}
 		$this->rebuild(0, 0);
+                }
+		
 	}
 	
 	public function rebuild($parent_id = 0, $left = 0)

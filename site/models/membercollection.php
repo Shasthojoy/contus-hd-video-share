@@ -3,13 +3,13 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
- * @abstract      : Contushdvideoshare Component Myvideos Model
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @abstract      : Contushdvideoshare Component MemberCollection Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
  * */
@@ -28,23 +28,18 @@ class Modelcontushdvideosharemembercollection extends JModel
 /* Following function is to display the videos of a particular registered member */
 function getmembercollection()
 {
-    $session = JFactory::getSession();
+    
     $user = JFactory::getUser();
-        if(JRequest::getVar('memberidvalue','','post','int'))
-        {
-           $memberid = JRequest::getVar('memberidvalue','','post','int'); // Getting the memberid           
-           $session->set('memberid', $memberid);
-        }
-        else
-        {
-            $memberid = $user->get('id');
-        }
+        $session =& JFactory::getSession();
+    if(JRequest::getVar('memberidvalue','','post','int')){
+                 $session->set( 'memberid', JRequest::getVar('memberidvalue','','post','int') );
+                }
         // Query for fetching membercollection total for pagination
         $totalquery	= "SELECT count(a.id)
         			   FROM  #__hdflv_upload a 
         			   LEFT JOIN #__hdflv_category b on a.playlistid=b.id 
         			   LEFT JOIN #__users d on a.memberid=d.id 
-        			   WHERE a.published=1 AND b.published=1 AND a.type=0 AND d.block=0 AND a.memberid=$memberid";
+        			   WHERE a.published=1 AND b.published=1 AND a.type=0 AND d.block=0 AND a.memberid=".$session->get( 'memberid', 'empty' );
         $db = JFactory::getDBO();
         $db->setQuery($totalquery);
         $resulttotal = $db->loadResult();        
@@ -68,7 +63,7 @@ function getmembercollection()
         		  LEFT JOIN #__users d on a.memberid=d.id 
         		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
         		  LEFT JOIN #__hdflv_category b on e.catid=b.id 
-        		  WHERE a.published=1 and b.published=1 and d.block=0 and a.type=0 and a.memberid=$memberid 
+        		  WHERE a.published=1 and b.published=1 and d.block=0 and a.type=0 and a.memberid=".$session->get( 'memberid', 'empty' )."
         		  GROUP BY e.vid 
         		  ORDER BY a.id desc 
         		  LIMIT $start,$length";
@@ -92,7 +87,7 @@ function getmemberpagerowcol()
 
         $db = $this->getDBO();
         //Query is to fetch membercollection settings
-        $memberpagequery="SELECT memberpagecol,memberpagerow,viewedconrtol,ratingscontrol,seo_option 
+        $memberpagequery="SELECT memberpagecol,memberpagerow,memberpagewidth,viewedconrtol,ratingscontrol,seo_option
         				  FROM #__hdflv_site_settings";
         $db->setQuery($memberpagequery);
         $rows=$db->LoadObjectList();

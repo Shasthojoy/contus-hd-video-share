@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Settings View Page
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -33,7 +33,7 @@ table.admintable td.key {
 	font-weight: bold;
 	border-bottom: 1px solid #E9E9E9;
 	border-right: 1px solid #E9E9E9;
-	padding: 0 10px 0 0;
+
 }
 
 fieldset label,fieldset span.faux-label {
@@ -48,7 +48,7 @@ fieldset label,fieldset span.faux-label {
 /**
  * function to hide and show Google Analytics ID
  */
- 
+
 function Toggle(theDiv) {
     if(theDiv=="shows")
     {
@@ -63,37 +63,54 @@ function Toggle(theDiv) {
 }
 
 /**
+ * function to hide and show Intermediate Ad
+ */
+
+function Toggle1(theDiv) {
+    if(theDiv=="showss")
+    {
+        document.getElementById("imashow").style.display = '';
+        document.getElementById("imashow1").style.display = '';
+    }
+    else
+    {
+        document.getElementById("imashow").style.display = "none";
+        document.getElementById("imashow1").style.display = "none";
+    }
+}
+
+/**
  * validation for player width and height
  */
- 
+
 	<?php if(version_compare(JVERSION,'1.6.0','ge')){ ?>
-	
+
 		Joomla.submitbutton = function(pressbutton) {
-	<?php 
-	} else { 
+	<?php
+	} else {
 	?>
 	    function submitbutton(pressbutton){
-	    <?php 
+	    <?php
 	 } ?>
 		if (pressbutton){
 			var playerWidth = document.getElementById('player_width').value;
 				playerWidth = parseInt(playerWidth);
-			var	playerHeight = document.getElementById('player_height').value;   
-				playerHeight = parseInt(playerHeight);           	
+			var	playerHeight = document.getElementById('player_height').value;
+				playerHeight = parseInt(playerHeight);
 			var googleana_visible = document.getElementById('googleana_visible').checked;
-			var googleanalyticsID =  document.getElementById('googleanalyticsID').value;  
+			var googleanalyticsID =  document.getElementById('googleanalyticsID').value;
 					if (!playerWidth || !playerHeight) {
 					alert('Please enter minimum width and height value for player');
 					return false;
-					}			
+					}
 					if(googleana_visible == 1 && googleanalyticsID == '') {
 						alert('Please Enter Google Analytics ID');
 						return false;
-					}			
-		}		
+					}
+		}
 		 submitform( pressbutton );
-	     return;	 
-	    }		
+	     return;
+	    }
 </script>
 <!-- Form For Edit Player Settings Start Here -->
 <form
@@ -105,55 +122,55 @@ function Toggle(theDiv) {
  	<div style="position: relative;">
 	<fieldset class="adminform">
 		<legend>Player Settings</legend>
-		<table class="admintable">
+		<table class="admintable adminlist" width="80%">
 			<tr>
-				<td class="key" width=20%><?php echo JHTML::tooltip('Recommended value is 3', 'Buffer Time', 
+				<td class="key" width=20%><?php echo JHTML::tooltip('Recommended value is 3', 'Buffer Time',
 	            '', 'Buffer Time');?></td>
 				<td><input type="text" name="buffer"
-					value="<?php echo $rs_editsettings[0]->buffer; ?>" /> secs
+					value="<?php if(isset($rs_editsettings[0]->buffer)) echo $rs_editsettings[0]->buffer; ?>" /> secs
 				</td>
-				<td class="key" width=20%><?php echo JHTML::tooltip('Edit the value	to have transparency depth of logo', 'Logo Alpha', 
+				<td class="key" width=20%><?php echo JHTML::tooltip('Edit the value	to have transparency depth of logo', 'Logo Alpha',
 	            '', 'Logo Alpha');?></td>
 				<td><input type="text" name="logoalpha"
-					value="<?php echo $rs_editsettings[0]->logoalpha; ?>" /> %
+					value="<?php if(isset($rs_editsettings[0]->logoalpha)) echo $rs_editsettings[0]->logoalpha; ?>" /> %
 				</td>
 			</tr>
 			<tr>
 				<td class="key" width=20%><?php echo JHTML::tooltip('Width of the
 						video can be 300px with all the controls enabled. If you would
 						like to have smaller than 300px then you have to disable couple of
-						controls like Timer, Zoom.', 'Width', 
+						controls like Timer, Zoom.', 'Width',
 	            '', 'Width');?></td>
 				<td width=400px;><input type="text" id="player_width" name="width"
-					value="<?php echo $rs_editsettings[0]->width; ?>" /> px
+					value="<?php if(isset($rs_editsettings[0]->width)) echo $rs_editsettings[0]->width; ?>" /> px
 				</td>
-				<td class="key"><?php echo JHTML::tooltip('Select Enable to auto hide skin', 'Skin Auto Hide', 
+				<td class="key"><?php echo JHTML::tooltip('Select Enable to auto hide skin', 'Skin Auto Hide',
 	            '', 'Skin Auto Hide');?></td>
 				<td><input type="radio" name="skin_autohide"
-				<?php if ($rs_editsettings[0]->skin_autohide == 1) {
+				<?php if(isset($rs_editsettings[0]->skin_autohide) && $rs_editsettings[0]->skin_autohide == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="skin_autohide"
-					<?php if ($rs_editsettings[0]->skin_autohide == 0) {
+					<?php if(isset($rs_editsettings[0]->skin_autohide) && $rs_editsettings[0]->skin_autohide == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
 
 			</tr>
 			<tr>
-				<td class="key" width=20%><?php echo JHTML::tooltip('Recommended value is 400', 'Height', 
+				<td class="key" width=20%><?php echo JHTML::tooltip('Recommended value is 400', 'Height',
 	            '', 'Height');?></td>
 				<td><input type="text" name="height"
-					value="<?php echo $rs_editsettings[0]->height; ?>"
+					value="<?php if(isset($rs_editsettings[0]->height)) echo $rs_editsettings[0]->height; ?>"
 					id="player_height" /> px</td>
-				<td class="key"><?php echo JHTML::tooltip('Set the background color for the player in the format ffffff', 'Stage Color', 
+				<td class="key"><?php echo JHTML::tooltip('Set the background color for the player in the format ffffff', 'Stage Color',
 	            '', 'Stage Color');?></td>
 				<td>#<input type="text" name="stagecolor"
-					value="<?php echo $rs_editsettings[0]->stagecolor; ?>" />
+					value="<?php if(isset($rs_editsettings[0]->stagecolor)) echo $rs_editsettings[0]->stagecolor; ?>" />
 				</td>
 			</tr>
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Select Normal Screen Scale', 'Normal Screen Scale', 
+				<td class="key"><?php echo JHTML::tooltip('Select Normal Screen Scale', 'Normal Screen Scale',
 	            '', 'Normal Screen Scale');?></td>
 				<td><select name="normalscale">
 						<option value="0" id="20">Aspect Ratio</option>
@@ -162,164 +179,164 @@ function Toggle(theDiv) {
 
 
 				</select> <?php
-				if ($rs_editsettings[0]->normalscale) {
+				if(isset($rs_editsettings[0]->normalscale) && $rs_editsettings[0]->normalscale) {
 
 					echo '<script>document.getElementById("2' . $rs_editsettings[0]->normalscale . '").selected="selected"</script>';
 				}
 				?>
 				</td>
-				<td class="key"><?php echo JHTML::tooltip('Select Skin for the player', 'Skin', 
+				<td class="key"><?php echo JHTML::tooltip('Select Skin for the player', 'Skin',
 	            '', 'Skin');?></td>
 				<td><select name="skin">
 
-						<option value="skin_neat_fresh_yellow.swf"
-							id="skin_neat_fresh_orange.swf">Skin neat fresh yellow</option>
-						<option value="skin_fresh_blue.swf" id="skin_fresh_blue.swf">Skin fresh blue</option>
-						<option value="skin_fresh_white.swf" id="skin_fresh_white.swf">Skin fresh white</option>
-						<option value="skin_fresh_yellow.swf" id="skin_fresh_orange.swf">Skin fresh yellow</option>
+						<option value="skin_black.swf" id="skin_black.swf">Skin Black</option>
+						<option value="skin_fancyblack.swf" id="skin_fancyblack.swf">Skin Fancy Black</option>
+						<option value="skin_Overlay.swf" id="skin_Overlay.swf">Skin Overlay</option>
+						<option value="skin_sleekblack.swf" id="skin_sleekblack.swf">Skin Sleek Black</option>
+						<option value="skin_white.swf" id="skin_white.swf">Skin White</option>
+						<option value="skin_youtube.swf" id="skin_youtube.swf">Skin Youtube</option>
+                                                						<option value="skin_fresh_blue.swf" id="skin_fresh_blue.swf">Skin Fresh Blue</option>
+						<option value="skin_fresh_white.swf" id="skin_fresh_white.swf">Skin Fresh White</option>
+						<option value="skin_fresh_yellow.swf" id="skin_fresh_yellow.swf">Skin Fresh Yellow</option>
+						<option value="skin_neat_fresh_yellow.swf" id="skin_neat_fresh_yellow.swf">Skin Neat Fresh Yellow</option>
 				</select> <?php
-				if ($rs_editsettings[0]->skin) {
+				if(isset($rs_editsettings[0]->skin) && $rs_editsettings[0]->skin) {
 					echo '<script>document.getElementById("' . $rs_editsettings[0]->skin . '").selected="selected"</script>';
 				}
 				?>
 				</td>
 			</tr>
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Select Full Screen Scale', 'Full Screen Scale', 
+				<td class="key"><?php echo JHTML::tooltip('Select Full Screen Scale', 'Full Screen Scale',
 	            '', 'Full Screen Scale');?></td>
 				<td><select name="fullscreenscale">
 						<option value="0" id="10" name=0>Aspect Ratio</option>
 						<option value="1" id="11" name=1>Original Size</option>
 						<option value="2" id="12" name=2>Fit to Screen</option>
 				</select> <?php
-				if ($rs_editsettings[0]->fullscreenscale) {
+				if(isset($rs_editsettings[0]->fullscreenscale) && $rs_editsettings[0]->fullscreenscale) {
 					echo '<script>document.getElementById("1' . $rs_editsettings[0]->fullscreenscale . '").selected="selected"
 
                                                                                                                                                                                                                                                                                         </script>';
 				}
 				?>
 				</td>
-				<td class="key"><?php echo JHTML::tooltip('Fullscreen button can be enable/disabled from here', 'Full Screen', 
+				<td class="key"><?php echo JHTML::tooltip('Fullscreen button can be enable/disabled from here', 'Full Screen',
 	            '', 'Full Screen');?></td>
 				<td><input type="radio" name="fullscreen"
-				<?php if ($rs_editsettings[0]->fullscreen == 1) {
+				<?php if(isset($rs_editsettings[0]->fullscreen) && $rs_editsettings[0]->fullscreen == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="fullscreen"
-					<?php if ($rs_editsettings[0]->fullscreen == 0) {
+					<?php if(isset($rs_editsettings[0]->fullscreen) && $rs_editsettings[0]->fullscreen == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
 
 			</tr>
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Option to play the videos one by one continuously without clicking on next video', 'Autoplay', 
+				<td class="key"><?php echo JHTML::tooltip('Option to play the videos one by one continuously without clicking on next video', 'Autoplay',
 	            '', 'Autoplay');?></td>
 				<td><input type="radio" name="autoplay"
-				<?php if ($rs_editsettings[0]->autoplay == 1) {
+				<?php if(isset($rs_editsettings[0]->autoplay) && $rs_editsettings[0]->autoplay == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="autoplay"
-					<?php if ($rs_editsettings[0]->autoplay == 0) {
+					<?php if(isset($rs_editsettings[0]->autoplay) && $rs_editsettings[0]->autoplay == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
-				<td class="key"><?php echo JHTML::tooltip('Zoom button on the player control can be disable / enable here', 'Zoom', 
+				<td class="key"><?php echo JHTML::tooltip('Zoom button on the player control can be disable / enable here', 'Zoom',
 	            '', 'Zoom');?></td>
 				<td><input type="radio" name="zoom"
-				<?php if ($rs_editsettings[0]->zoom == 1) {
+				<?php if(isset($rs_editsettings[0]->zoom) && $rs_editsettings[0]->zoom == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="zoom"
-					<?php if ($rs_editsettings[0]->zoom == 0) {
+					<?php if(isset($rs_editsettings[0]->zoom) && $rs_editsettings[0]->zoom == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
 
 			</tr>
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Recommended value is 50', 'Volume', 
+				<td class="key"><?php echo JHTML::tooltip('Recommended value is 50', 'Volume',
 	            '', 'Volume');?></td>
 				<td><input type="text" name="volume"
-					value="<?php echo $rs_editsettings[0]->volume; ?>" /> %
+					value="<?php if(isset($rs_editsettings[0]->volume)) echo $rs_editsettings[0]->volume; ?>" /> %
+				</td>
+				<td class="key"><?php echo JHTML::tooltip('Enter FFMpeg Binary Path', 'FFMpeg Binary Path',
+	            '', 'FFMpeg Binary Path');?></td>
+				<td><input style="width: 150px;" type="text" name="ffmpegpath"
+					value="<?php if(isset($rs_editsettings[0]->ffmpegpath)) echo $rs_editsettings[0]->ffmpegpath; ?>" />
 				</td>
 
 			</tr>
 
 
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Enter FFMpeg Binary Path', 'FFMpeg Binary Path', 
-	            '', 'FFMpeg Binary Path');?></td>
-				<td><input style="width: 150px;" type="text" name="ffmpegpath"
-					value="<?php echo $rs_editsettings[0]->ffmpegpath; ?>" />
-				</td>
-				<td class="key"><?php echo JHTML::tooltip('Option to set enable / disable timer control on player', 'Timer', 
+
+				<td class="key"><?php echo JHTML::tooltip('Option to set enable / disable timer control on player', 'Timer',
 	            '', 'Timer');?></td>
 				<td><input type="radio" name="timer"
-				<?php if ($rs_editsettings[0]->timer == 1) {
+				<?php if(isset($rs_editsettings[0]->timer) && $rs_editsettings[0]->timer == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="timer"
-					<?php if ($rs_editsettings[0]->timer == 0) {
+					<?php if(isset($rs_editsettings[0]->timer) && $rs_editsettings[0]->timer == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
-			</tr>
-
-			<tr>
-
-				<td class="key"><?php echo JHTML::tooltip('Share button on the player can be enabled/disabled from here', 'Share URL', 
+				<td class="key"><?php echo JHTML::tooltip('Share button on the player can be enabled/disabled from here', 'Share URL',
 	            '', 'Share URL');?></td>
 				<td><input type="radio" name="shareurl"
-				<?php if ($rs_editsettings[0]->shareurl == 1) {
+				<?php if(isset($rs_editsettings[0]->shareurl) && $rs_editsettings[0]->shareurl == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="shareurl"
-					<?php if ($rs_editsettings[0]->shareurl == 0) {
+					<?php if(isset($rs_editsettings[0]->shareurl) && $rs_editsettings[0]->shareurl == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
-				<td class="key"><?php echo JHTML::tooltip('Option to play all the videos from playlist continuously', 'Playlist Autoplay', 
+                                </tr>
+
+			<tr>
+				<td class="key"><?php echo JHTML::tooltip('Option to play all the videos from playlist continuously', 'Playlist Autoplay',
 	            '', 'Playlist Autoplay');?></td>
 				<td><input type="radio" name="playlist_autoplay"
-				<?php if ($rs_editsettings[0]->playlist_autoplay == 1) {
+				<?php if(isset($rs_editsettings[0]->playlist_autoplay) && $rs_editsettings[0]->playlist_autoplay == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="playlist_autoplay"
-					<?php if ($rs_editsettings[0]->playlist_autoplay == 0) {
+					<?php if(isset($rs_editsettings[0]->playlist_autoplay) && $rs_editsettings[0]->playlist_autoplay == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
-			</tr>
-
-			<tr>
-
-				<td class="key"><?php echo JHTML::tooltip('Option to set the HD videos to play by default', 'HD Default', 
+				<td class="key"><?php echo JHTML::tooltip('Option to set the HD videos to play by default', 'HD Default',
 	            '', 'HD Default');?></td>
 				<td><input type="radio" name="hddefault"
-				<?php if ($rs_editsettings[0]->hddefault == 1) {
+				<?php if(isset($rs_editsettings[0]->hddefault) && $rs_editsettings[0]->hddefault == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="hddefault"
-					<?php if ($rs_editsettings[0]->hddefault == 0) {
+					<?php if(isset($rs_editsettings[0]->hddefault) && $rs_editsettings[0]->hddefault == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
-				<td class="key"><?php echo JHTML::tooltip('Set playlist to open / close always by enable / disable this option', 'Playlist Open', 
+                                </tr>
+			<tr>
+				<td class="key"><?php echo JHTML::tooltip('Set playlist to open / close always by enable / disable this option', 'Playlist Open',
 	            '', 'Playlist Open');?></td>
 				<td><input type="radio" name="playlist_open"
-				<?php if ($rs_editsettings[0]->playlist_open == 1) {
+				<?php if(isset($rs_editsettings[0]->playlist_open) && $rs_editsettings[0]->playlist_open == 1) {
 					echo 'checked="checked" ';
 				} ?>
 					value="1" />Enable <input type="radio" name="playlist_open"
-					<?php if ($rs_editsettings[0]->playlist_open == 0) {
+					<?php if(isset($rs_editsettings[0]->playlist_open) && $rs_editsettings[0]->playlist_open == 0) {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />Disable</td>
-			</tr>
-			<tr>
-
-				<td class="key"><?php echo JHTML::tooltip('Option to set enable/disable related videos display within player', 'Related Videos', 
+				<td class="key"><?php echo JHTML::tooltip('Option to set enable/disable related videos display within player', 'Related Videos',
 	            '', 'Related Videos');?></td>
 				<td><select name="related_videos">
 						<option value="1" id="1">Enable</option>
@@ -327,7 +344,7 @@ function Toggle(theDiv) {
 						<!--                        <option value="3" id="3">Within Player</option>
                         <option value="4" id="4">Outside Player</option>-->
 				</select> <?php
-				if ($rs_editsettings[0]->related_videos) {
+				if(isset($rs_editsettings[0]->related_videos) && $rs_editsettings[0]->related_videos) {
 					echo '<script>document.getElementById("' . $rs_editsettings[0]->related_videos . '").selected="selected"</script>';
 				}
 				?>
@@ -342,66 +359,109 @@ function Toggle(theDiv) {
 	<div style="position: relative;">
 	<fieldset class="adminform">
 		<legend>Pre/Post-Roll Ad Settings</legend>
-		<table class="admintable" width="23%">
+		<table class="admintable adminlist" width="23%">
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Option to enable/disable post-roll ads', 'Post-roll Ad', 
+                            <td class="key"  width="20%"><?php echo JHTML::tooltip('Option to enable/disable post-roll ads', 'Post-roll Ad',
 	            '', 'Post-roll Ad');?></td>
-				<td><input type="radio" name="postrollads"
+				<td  width="30%"><input type="radio" name="postrollads"
 				<?php
-				if ($rs_editsettings[0]->postrollads == 1) {
+				if(isset($rs_editsettings[0]->postrollads) && $rs_editsettings[0]->postrollads == 1) {
 					echo 'checked="checked" ';
 				}
 				?>
 					value="1" />Enable <input type="radio" name="postrollads"
 					<?php
-					if ($rs_editsettings[0]->postrollads == 0) {
+					if(isset($rs_editsettings[0]->postrollads) && $rs_editsettings[0]->postrollads == 0) {
 						echo 'checked="checked" ';
 					}
 					?>
 					value="0" />Disable</td>
-					</tr>
-					<tr>
-				<td class="key"><?php echo JHTML::tooltip('Option to enable/disable pre-roll ads', 'Pre-roll Ad', 
+
+                            <td class="key" width="20%"><?php echo JHTML::tooltip('Option to enable/disable pre-roll ads', 'Pre-roll Ad',
 	            '', 'Pre-roll Ad');?></td>
 				<td><input type="radio" name="prerollads"
 				<?php
-				if ($rs_editsettings[0]->prerollads == 1) {
+				if(isset($rs_editsettings[0]->prerollads) && $rs_editsettings[0]->prerollads == 1) {
 					echo 'checked="checked" ';
 				}
 				?>
 					value="1" />Enable <input type="radio" name="prerollads"
 					<?php
-					if ($rs_editsettings[0]->prerollads == 0) {
+					if(isset($rs_editsettings[0]->prerollads) && $rs_editsettings[0]->prerollads == 0) {
 						echo 'checked="checked" ';
 					}
 					?>
 					value="0" />Disable</td>
 			</tr>
+
+					<tr>
+
+			</tr>
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Option to enable/disable Google Analytics', 'Google Analytics', 
+				<td class="key"><?php echo JHTML::tooltip('Option to enable/disable Google Analytics', 'Google Analytics',
 	            '', 'Google Analytics');?></td>
-				<td><input type="radio" style="float: none;"
+                                <td colspan="3" width="80%">
+                                    <div style="float: left">
+                                    <input type="radio" style="float: none;"
 					onclick="Toggle('shows')" name="googleana_visible"
 					id="googleana_visible"
-					<?php if ($rs_editsettings[0]->googleana_visible == 1) { echo 'checked="checked" '; } ?>
+					<?php if(isset($rs_editsettings[0]->googleana_visible) && $rs_editsettings[0]->googleana_visible == 1) { echo 'checked="checked" '; } ?>
 					value="1" />Enable <input type="radio" style="float: none;"
 					onclick="Toggle('unshow')" name="googleana_visible"
 					id="googleana_visible"
-					<?php if ($rs_editsettings[0]->googleana_visible == 0) { echo 'checked="checked" '; } ?>
-					value="0" />Disable</td>
+					<?php if(isset($rs_editsettings[0]->googleana_visible) && $rs_editsettings[0]->googleana_visible == 0) { echo 'checked="checked" '; } ?>
+					value="0" />Disable
+                                    </div>
+                                <div id="show" style="display: none; float: right;width: 62%;">
+                                    <table style="padding: 0; width: 100%;">
+                                        <tr>
+					<td style="padding: 0; width: 35%;">
+                                            <?php echo JHTML::tooltip('Enter Google Analytics ID', 'Google Analytics ID', '', 'Google Analytics ID');?>
+                                        </td>
+                                        <td style="padding: 0;">
+                                            <input style="margin: 0;" name="googleanalyticsID" id="googleanalyticsID" maxlength="100" value="<?php if(isset($rs_editsettings[0]->googleanalyticsID)) echo $rs_editsettings[0]->googleanalyticsID; ?>">
+                                        </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                </td>
+                        </tr>
+                        <tr>
+				<td class="key"><?php echo JHTML::tooltip('Option to select Ads type', 'Ads Type',
+	            '', 'Ads Type');?></td>
+				<td colspan="3" width="80%">
+                                    <div style="float: left">
+                                    <input type="radio" style="float: none;"
+					onclick="Toggle1('showss')" name="IMAAds"
+					id="IMAAds"
+					<?php if(isset($rs_editsettings[0]->IMAAds) && $rs_editsettings[0]->IMAAds == 1) { echo 'checked="checked" '; } ?>
+					value="1" />Intermediate Ad <input type="radio" style="float: none;"
+					onclick="Toggle1('unshows')" name="IMAAds"
+					id="IMAAds"
+					<?php if(isset($rs_editsettings[0]->IMAAds) && $rs_editsettings[0]->IMAAds == 0) { echo 'checked="checked" '; } ?>
+					value="0" />Pre-roll/Post-roll
+                                    </div>
+                                    <div id="imashow" style="display: none; float: right;width: 62%;">
+                                        <table style="padding: 0; width: 100%;">
+                                            <tr>
+                                            <td style="padding: 0; width: 35%;">
+                                                <?php echo JHTML::tooltip('Enter Intermediate Ads Path', 'Intermediate Ads Path', '', 'Intermediate Ads Path');?>
+                                            </td>
+                                            <td style="padding: 0;">
+                                                <input style="margin: 0;" name="IMAAds_path" id="IMAAds_path" maxlength="100" value="<?php if(isset($rs_editsettings[0]->IMAAds_path)) echo $rs_editsettings[0]->IMAAds_path; ?>">
+                                            </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    </td>
 			</tr>
-			<tr>
-				<td class="key">
-					<div id="show" style="display: none;"><?php echo JHTML::tooltip('Enter Google Analytics ID', 'Google Analytics ID', 
-	            '', 'Google Analytics ID');?></div>
-				</td>
-				<td>
-					<div id="show1" style="display: none;">
-						<input name="googleanalyticsID" id="googleanalyticsID"
-							maxlength="100"
-							value="<?php echo $rs_editsettings[0]->googleanalyticsID; ?>">
-					</div>
-				</td>
+                        <tr>
+                                                        <td class="key" style="" colspan="4">
+<span style="
+    float: left;
+    font-style: italic;
+">(If you enabled Intermediate Ad, then Pre-roll and Post-roll ads will not be played in the player.)</span>
+                                    </td>
 			</tr>
 		</table>
 	</fieldset>
@@ -412,41 +472,41 @@ function Toggle(theDiv) {
 	<div style="position: relative;">
 	<fieldset class="adminform">
 		<legend>Mid Roll Ad Settings</legend>
-		<table class="admintable" width="80%">
+		<table class="admintable adminlist" width="80%">
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Option to enable/disable Mid-roll ads', 'Mid-roll Ad', 
+                            <td class="key" width="15%"><?php echo JHTML::tooltip('Option to enable/disable Mid-roll ads', 'Mid-roll Ad',
 	            '', 'Mid-roll Ad');?></td>
-				<td><input type="radio" name="midrollads"
+				<td width="20%"><input type="radio" name="midrollads"
 				<?php
-				if ($rs_editsettings[0]->midrollads == 1) {
+				if(isset($rs_editsettings[0]->midrollads) && $rs_editsettings[0]->midrollads == 1) {
 					echo 'checked="checked" ';
 				}
 				?>
 					value="1" />Enable <input type="radio" name="midrollads"
 					<?php
-					if ($rs_editsettings[0]->midrollads == 0) {
+					if(isset($rs_editsettings[0]->midrollads) && $rs_editsettings[0]->midrollads == 0) {
 						echo 'checked="checked" ';
 					}
 					?>
 					value="0" />Disable</td>
-				<td class="key"><?php echo JHTML::tooltip('Enter begin time for mid roll ad', 'Begin', 
+				<td class="key" width="20%"><?php echo JHTML::tooltip('Enter begin time for mid roll ad', 'Begin',
 	            '', 'Begin');?></td>
-				<td><input type="text" name="midbegin"
-					value="<?php echo $rs_editsettings[0]->midbegin; ?>" />
+				<td  width="15%"><input type="text" name="midbegin"
+					value="<?php if(isset($rs_editsettings[0]->midbegin)) echo $rs_editsettings[0]->midbegin; ?>" />
 				</td>
 
 
-				<td class="key"><?php echo JHTML::tooltip('Option to enable/disable rotation of ads', 'Ad Rotate', 
+				<td class="key" width="20%"><?php echo JHTML::tooltip('Option to enable/disable rotation of ads', 'Ad Rotate',
 	            '', 'Ad Rotate');?></td>
-				<td><input type="radio" name="midadrotate"
+				<td  width="15%"><input type="radio" name="midadrotate"
 				<?php
-				if ($rs_editsettings[0]->midadrotate == 1) {
+				if(isset($rs_editsettings[0]->midadrotate) && $rs_editsettings[0]->midadrotate == 1) {
 					echo 'checked="checked" ';
 				}
 				?>
 					value="1" />Enable <input type="radio" name="midadrotate"
 					<?php
-					if ($rs_editsettings[0]->midadrotate == 0) {
+					if(isset($rs_editsettings[0]->midadrotate) && $rs_editsettings[0]->midadrotate == 0) {
 						echo 'checked="checked" ';
 					}
 					?>
@@ -454,26 +514,28 @@ function Toggle(theDiv) {
 			</tr>
 			<tr>
 
-				<td class="key"><?php echo JHTML::tooltip('Option to enable/disable random display of ads', 'Mid-roll Ads Random', 
+				<td class="key" width="15%"><?php echo JHTML::tooltip('Option to enable/disable random display of ads', 'Mid-roll Ads Random',
 	            '', 'Mid-roll Ads Random');?></td>
-				<td><input type="radio" name="midrandom"
+				<td  width="20%"><input type="radio" name="midrandom"
 				<?php
-				if ($rs_editsettings[0]->midrandom == 1) {
+				if(isset($rs_editsettings[0]->midrandom) && $rs_editsettings[0]->midrandom == 1) {
 					echo 'checked="checked" ';
 				}
 				?>
 					value="1" />Enable <input type="radio" name="midrandom"
 					<?php
-					if ($rs_editsettings[0]->midrandom == 0) {
+				if(isset($rs_editsettings[0]->midrandom) && $rs_editsettings[0]->midrandom == 0) {
 						echo 'checked="checked" ';
 					}
 					?>
 					value="0" />Disable</td>
-				<td class="key"><?php echo JHTML::tooltip('Enter the time interval between ads', 'Ad Interval', 
+				<td class="key"  width="20%"><?php echo JHTML::tooltip('Enter the time interval between ads', 'Ad Interval',
 	            '', 'Ad Interval');?></td>
-				<td><input type="text" name="midinterval"
-					value="<?php echo $rs_editsettings[0]->midinterval; ?>" />
+				<td width="15%"><input type="text" name="midinterval"
+					value="<?php if(isset($rs_editsettings[0]->midinterval)) echo $rs_editsettings[0]->midinterval; ?>" />
 				</td>
+                                <td class="key" width="20%"></td>
+				<td width="15%"></td>
 			</tr>
 			<tr>
 			</tr>
@@ -486,51 +548,44 @@ function Toggle(theDiv) {
 	<div style="position: relative;">
 	<fieldset class="adminform">
 		<legend>Logo Settings</legend>
-		<table class="admintable">
+		<table class="admintable adminlist">
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Enter Licence Key', 'Licence Key', 
+				<td class="key"><?php echo JHTML::tooltip('Enter Licence Key', 'Licence Key',
 	            '', 'Licence Key');?></td>
-				<td><input type="text" name="licensekey" id="licensekey" size="60"
-					maxlength="200"
-					value="<?php echo $rs_editsettings[0]->licensekey; ?>" /></td>
-				<td><?php
-				if ($rs_editsettings[0]->licensekey == '') {
-					?> <a
+				<td><input type="text" name="licensekey" id="licensekey" style="float: left;" size="60" maxlength="200" value="<?php if(isset($rs_editsettings[0]->licensekey)) echo $rs_editsettings[0]->licensekey; ?>" />
+                                <?php
+				if(isset($rs_editsettings[0]->licensekey) && $rs_editsettings[0]->licensekey == '') {
+					?> <a style="float: left;"
 					href="http://www.apptha.com/category/extension/Joomla/HD-Video-Share"
-					target="_blank"><img
+					target="_blank"><img alt=""
 						src="components/com_contushdvideoshare/images/buynow.gif"
-						width="77" height="23" /> </a> <?php
+						width="77" height="23" style="margin: 3px 0 0 0;" /> </a> <?php
 				}
 				?>
 				</td>
 			</tr>
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Allowed Extensions : jpg/jpeg, gif, png', 'Logo', 
+				<td class="key"><?php echo JHTML::tooltip('Allowed Extensions : jpg/jpeg, gif, png', 'Logo',
 	            '', 'Logo');?></td>
 				<td>
 					<div id="var_logo">
 						<input name="logopath" id="logopath" maxlength="100"
 							readonly="readonly"
-							value="<?php echo $rs_editsettings[0]->logopath; ?>"> <input
+							value="<?php if(isset($rs_editsettings[0]->logopath)) echo $rs_editsettings[0]->logopath; ?>"> <input
 							type="button" name="change1" value="Change" maxlength="100"
-							onclick="getFileUpload()"> 
+							onclick="getFileUpload()">
 					</div>
 				</td>
-
-				<td></td>
-				<td></td>
 			</tr>
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Enter Logo Target URL', 'Logo Target URL', 
+				<td class="key"><?php echo JHTML::tooltip('Enter Logo Target URL', 'Logo Target URL',
 	            '', 'Logo Target URL');?></td>
 				<td><input style="width: 150px;" type="text" name="logourl"
-					value="<?php echo $rs_editsettings[0]->logourl; ?>" />
+					value="<?php if(isset($rs_editsettings[0]->logourl)) echo $rs_editsettings[0]->logourl; ?>" />
 				</td>
 			</tr>
 			<tr>
-			</tr>
-			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Select the Logo Position.Disabled in Demo Version.', 'Logo Position', 
+				<td class="key"><?php echo JHTML::tooltip('Select the Logo Position.Disabled in Demo Version.', 'Logo Position',
 	            '', 'Logo Position');?></td>
 				<td><select name="logoalign">
 						<option value="TR" id="TR">Top Right</option>
@@ -538,23 +593,23 @@ function Toggle(theDiv) {
 						<option value="BL" id="BL">Bottom Left</option>
 						<option value="BR" id="BR">Bottom Right</option>
 				</select> <?php
-				if ($rs_editsettings[0]->logoalign) {
+				if(isset($rs_editsettings[0]->logoalign) && $rs_editsettings[0]->logoalign) {
 					echo '<script>document.getElementById("' . $rs_editsettings[0]->logoalign . '").selected="selected"</script>';
 				}
-				?> 
+				?>
 				</td>
 			</tr>
 			<tr>
-				<td class="key"><?php echo JHTML::tooltip('Option to hide youtube logo', 'Hide Youtube Logo', 
+				<td class="key"><?php echo JHTML::tooltip('Option to hide youtube logo', 'Hide Youtube Logo',
 	            '', 'Hide Youtube Logo');?></td>
 
 				<td><input type="radio" name="scaletologo" id="scaletologo1"
-				<?php if ($rs_editsettings[0]->scaletologo == '1') {
+				<?php if(isset($rs_editsettings[0]->scaletologo) && $rs_editsettings[0]->scaletologo == '1') {
 					echo 'checked="checked" ';
 				} ?>
 					checked="checked" value="1" />True <input type="radio"
 					name="scaletologo" id="scaletologo2"
-					<?php if ($rs_editsettings[0]->scaletologo == '0') {
+					<?php if(isset($rs_editsettings[0]->scaletologo) && $rs_editsettings[0]->scaletologo == '0') {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />False</td>
@@ -565,7 +620,7 @@ function Toggle(theDiv) {
 	<!-- Logo Settings Fields End -->
 
 	<input type="hidden" name="id"
-		value="<?php echo $rs_editsettings[0]->id; ?>" /> <input type="hidden"
+		value="<?php if(isset($rs_editsettings[0]->id)) echo $rs_editsettings[0]->id; ?>" /> <input type="hidden"
 		name="task" value="" /> <input type="hidden" name="submitted"
 		value="true" id="submitted">
 </form>
@@ -578,11 +633,21 @@ document.getElementById('var_logo').innerHTML=var_logo;
 }
 
 var googleAnalyticsId = '';
-googleAnalyticsId = "<?php echo $rs_editsettings[0]->googleanalyticsID; ?>";
+googleAnalyticsId = "<?php if(isset($rs_editsettings[0]->googleanalyticsID)) echo $rs_editsettings[0]->googleanalyticsID; ?>";
 if(googleAnalyticsId){
 document.getElementById("show").style.display = '';
-document.getElementById("show1").style.display = '';
-}                   
+}
+
+var IMAAds_path = '';
+IMAAds_path = "<?php if(isset($rs_editsettings[0]->IMAAds_path)) echo $rs_editsettings[0]->IMAAds_path; ?>";
+var IMAAds = "<?php if(isset($rs_editsettings[0]->IMAAds)) echo $rs_editsettings[0]->IMAAds; ?>";
+if(IMAAds_path && IMAAds==1){
+document.getElementById("imashow").style.display = '';
+}
+if(IMAAds==0){
+    document.getElementById("imashow").style.display = 'none';
+
+}
 </script>
 
 <!-- Form For Edit Player Settings End -->

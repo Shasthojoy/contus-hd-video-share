@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Videoupload View Page
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -74,25 +74,19 @@ function submitform()
 	</div>
 </form>
 <?php
-	$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
+	
 	if ($user->get('id') != '')
 	{
 		     if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
                     <div class="toprightmenu">
-                        <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
-                        <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
-                        <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
                         <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
                         <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                     </div>
             <?php }else { ?>
                 <div class="toprightmenu">
-                    <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
-                    <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
-                    <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
-                    <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                   <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
                     <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                 </div>
            <?php  }?>
@@ -121,10 +115,8 @@ function submitform()
 
 ?>
 
-<div class="player clearfix">
+<div class="player clearfix" id="clsdetail">
     <input type="hidden" name="editmode" id="editmode" value="<?php echo $editing; ?>" />
-    <div id="clsdetail">
-        <div class="lodinpad">
             <h1 class="uploadtitle">
 <?php
             if (JRequest::getVar('type', '', 'get', 'string') != 'edit')
@@ -133,30 +125,23 @@ function submitform()
                 echo JText::_('HDVS_EDIT_VIDEO');
 ?>
             </h1>
-            <span class="floatright" style="padding-top: 10px;">
+    <div class="addvideo_top_select">
+        <div class="floatleft allform_left">
+                <label><?php echo JText::_('HDVS_VIDEO_TYPE'); ?>:</label>
+                <input type="radio" class="butnmargin" name="filetype" id="filetype3" value="2"
+                onclick="filetypeshow(this);" /><span class="select_videotype"> <?php echo JText::_('HDVS_URL'); ?> </span>
+                
+                 <input type="radio" class="butnmargin" name="filetype" id="filetype2" value="0"
+                onclick="filetypeshow(this);" /><span class="select_videotype"> <?php echo JText::_('HDVS_YOUTUBE');?> / <?php echo JText::_('HDVS_VIMEO');?></span>
+
+                    <input type="radio"  class="butnmargin" name="filetype" id="filetype1" value="1" onclick="filetypeshow(this);"/> <span class="select_upload"><?php echo JText::_('HDVS_UPLOAD'); ?></span>
+        </div>
+            <span class="floatright">
                 <input type="button"  value="<?php echo JText::_('HDVS_BACK_TO_MY_VIDEOS'); ?>" class="button cursor_pointer"  onclick="window.open('index.php?option=com_contushdvideoshare&view=myvideos','_self');"  />
-            </span><div class="clear"></div>
-            <div class="underline" style="margin-bottom:10px;"></div>
-            <div class="allform"  >
-                <li class="changeli"><div class="form-label floatleft"><label><?php echo JText::_('HDVS_VIDEO_TYPE'); ?>:</label></div>
-                    <div class="radiobtn" ><input type="radio" class="butnmargin" name="filetype" id="filetype2" value="0"
-                <?php
-                if (isset($videoedit->filepath) && $videoedit->filepath == 'Youtube')
-                {
-                    echo 'checked="checked"';
-                } ?> checked ="checked" onclick="filetypeshow(this);" />&nbsp;&nbsp;<?php echo JText::_('HDVS_URL'); ?> / <?php echo JText::_('HDVS_YOUTUBE');?> / <?php echo JText::_('HDVS_VIMEO');?></div>
-                    <div class="radiobtn" >
-                    <input type="radio"  class="butnmargin" name="filetype" id="filetype1" value="1" <?php
-                      if (isset($videoedit->filepath) && $videoedit->filepath == 'File') {
-                          echo 'checked="checked"';
-                      }
-                ?> onclick="filetypeshow(this);"/>&nbsp;&nbsp;<?php echo JText::_('HDVS_UPLOAD'); ?></div>
-                       </li>
+            </span>
             </div>
-            <br/>
-            <div name="typeff" id="typeff" >
+            <div id="typeff">
                 <div class="allform" >
-                    <br/>
                     <table  class="table_upload">
                         <tr id="ffmpeg_disable_new1" name="ffmpeg_disable_new1"><td class="form-label"><?php echo JText::_('HDVS_UPLOAD_VIDEO'); ?><span class="star">*</span></td>
                             <td>
@@ -307,61 +292,64 @@ function submitform()
                                                       $javascript = 'onsubmit="return videoupload();"';
 ?>
                               <form name="upload1111" action="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=videoupload'); ?>" method="post" enctype="multipart/form-data" <?php echo $javascript ?> >
-                              <div name="typeurl" id="typeurl">
-                                  <br/>
+                              <div id="typeurl" class="allform">
                                   <div  class="uplcolor" align="center"><?php
                                                   if (($this->upload))
                                                   {
                                                       echo $this->upload . '<br/><br/>';
                                                   }
-?></div>
-                    <div class="allform">
-                        <ul>
-                            <li class="changeli">
-                                <div class="form-label floatleft"><label><?php echo JText::_('HDVS_UPLOAD_URL');?><span class="star">*</span></label></div>
-                                <div class="form-input floatleft"><input type="text" name="Youtubeurl" value="<?php
-                                                  if (isset($videoedit->filepath)
+?>                                </div>
+                    
+                                  <ul id="videotype_url">
+                                      <li class="videotype_url_list">
+                                          <label><?php echo JText::_('HDVS_UPLOAD_URL'); ?><span class="star">*</span></label>
+                                          <input type="text" name="Youtubeurl" value="<?php
+                                  if (isset($videoedit->filepath)
+                                  
+                                      )if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')
+                                          echo $videoedit->videourl ?>" class="text" size="20" id="Youtubeurl" onchange="bindvideo();"  />
+                                      </li>
+                                      <li class="videotype_url_list">
+                                          <div id="hd_url">
+                                          <label><?php echo JText::_('HDVS_UPLOAD_HDURL'); ?></label>
+                                          <input type="text" name="hdurl" value="<?php
+                                          if (isset($videoedit->filepath)
 
-                                                      )if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')
-                                                          echo $videoedit->videourl ?>" class="text" size="20" id="Youtubeurl" onchange="bindvideo();"  />&nbsp;&nbsp </div>
-                                                          <div class="clear"></div>
-                                                          <div class="form-label floatleft"><label><?php echo JText::_('HDVS_UPLOAD_HDURL');?></label></div>
-                                                          <div class="form-input floatleft"><input type="text" name="hdurl" value="<?php
-                                                  if (isset($videoedit->filepath)
-
-                                                      )if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')
-                                                          echo $videoedit->hdurl ?>" class="text" size="20" id="hdurl" onchange="bindvideo();"  /> </div>
-                                                  </li>
-                                              </ul>
+                                              )if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')
+                                                  echo $videoedit->hdurl ?>" class="text" size="20" id="hdurl" onchange="bindvideo();"  />
                                           </div>
-                                          <div class="clear"></div>
-                                          <div class="allform">
-                                              <ul>
-                                                  <li class="changeli">
-                                                      <div class="form-label floatleft"><label><?php echo JText::_('HDVS_UPLOAD_IMAGEURL');?></label></div>
+                                       </li>
+                                       <li class="videotype_url_list">
+                                           <div id="image_path">
+                                                     <label><?php echo JText::_('HDVS_UPLOAD_IMAGEURL');?></label>
 <?php
                                                           if (isset($videoedit->thumburl))
                                                           {
                                                               preg_match('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $videoedit->thumburl, $imgresult);
                                                           }
 ?>
-                                                      <div class="form-input floatleft"><?php echo JText::_('HDVS_UPLOAD_IMAGEURL');?><input type="radio" name="imagepath" id="imagepath" value="1" <?php
+                                                     
+                                                     <input class="img_ulrpath" type="radio" name="imagepath" id="imagepath" value="1" <?php
                                                           if (isset($imgresult[0]))
                                                           {
                                                               echo "checked='checked'";
                                                           }
-?>                                                     onclick="changeimageurltype(this);">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo JText::_('HDVS_IMAGE_UPLOAD');?><input type="radio" name="imagepath" id="imagepath" value="0" <?php
+?>                                                     onclick="changeimageurltype(this);">
+                                                     <span class="select_viedoupload_type"> <?php echo JText::_('HDVS_UPLOAD_IMAGEURL');?></span>
+
+                                                     <input type="radio" name="imagepath" id="imagepath" value="0" <?php
                                                           if (!isset($imgresult[0]))
                                                           {
                                                               echo "checked='checked'";
-                                                          } ?>  onclick="changeimageurltype(this);"> <div class="clear"></div>
+                                                          } ?>  onclick="changeimageurltype(this);">
+                                                     <span> <?php echo JText::_('HDVS_IMAGE_UPLOAD');?></span>
                                                           <div id="imageurltype"></div>
 <?php
                                                           if (isset($imgresult[0]))
                                                            {
                                                        ?>
                                                               <script type="text/javascript">
-                                                                  document.getElementById('imageurltype').innerHTML='<input type="text" name="thumburl" value="<?php if (isset($videoedit->thumburl)
+                                                                  document.getElementById('imageurltype').innerHTML='<input type="text" name="thumburl" value="<?php if (isset($videoedit->thumburl) && $videoedit->filepath != 'Youtube'
 
                                                                   )echo $videoedit->thumburl; ?>" class="text" size="20" id="thumburl"/>';
                                                               </script>
@@ -375,77 +363,51 @@ function submitform()
 
                                     </script>
 <?php }
-?>
-                                                             </div>
-                                                         </li>
+?>                                             </div> </li>
                                                      </ul>
-                                                 </div>
-                                                 <div class="clear"></div>
                                              </div>
                                              <div class="allform">
-                                                 <ul>
-                                                     <li class="changeli" >
-                                                         <div class="form-label floatleft"><label><?php echo JText::_('HDVS_TITLE'); ?><span class="star">*</span></label></div>
-                                                             <div class="form-input floatleft"><input type="text" name="title" value="<?php if (isset($videoedit->title)
-
-                                                                     )echo $videoedit->title; ?>" class="text" size="20" id="videotitle"/></div>
-                                                         </li>
-                                                         <li class="changeli">
-                                                             <br />
-                                                             <div class="form-label floatleft"><label><?php echo JText::_('HDVS_DESCRIPTION'); ?></label></div>
-                            <div class="form-input floatleft"><textarea name="description" style="" id="description"><?php
-                                                                 if (isset($videoedit->description)) {
-                                                                     echo $videoedit->description;
-                                                                 } ?></textarea></div>
-                                                         </li>
-                                                            <li class="changeli">
-                            <br>
-                            <div class="form-label floatleft"><label>Tags</label></div>
-                            <div class="form-input floatleft"><textarea name="tags1" style="" id="tags1">
-<?php
-                                                                 if (isset($videoedit->tags)) {
-                                                                     echo $videoedit->tags;
-                                                                 } ?>
-                                </textarea></div>
-                            <label>Separate tags by space</label>
-                        </li>
-                                                         <li class="changeli">
-                                                             <br />
-                                                             <div class="form-label floatleft"><label><?php echo JText::_('HDVS_SELECT_CATEGORY'); ?></label></div>
-                                  <div class="catclass floatleft" align="left" id="selcat">
-                                    <?php $n = count($this->videocategory);
-                                                                 foreach ($this->videocategory as $cat) { ?>
-                                          <a class="cursor_pointer" title="<?php echo $cat->category; ?>" onclick="catselect('<?php echo $cat->category; ?>');"><?php echo $cat->category . ","; ?></a>
-                                     <?php } ?>
-                                                                         </div>
-                                                                     </li>
-                                                                     <li class="changeli clearfix"><br/>
-                                                                         <div class="form-label floatleft"><label><?php echo JText::_('HDVS_CATEGORY'); ?><span class="star">*</span></label></div>
-                                                                         <div class=" floatleft form-inputnew"><input type="text"  readonly name="tagname" value="<?php
-                                                                 if (isset($videoedit->category))
-                                                                 {
-                                                                     echo $videoedit->category;
-                                                                 }
-                                    ?>" class="text" size="20" id="tagname" /><input type="button" value="<?php echo JText::_('HDVS_RESET_CATEGORY'); ?>" class="button" onclick="resetcategory();" ></div>
-                                                                     </li>
-                                                                     <div class="clear"></div>
-                                                                     <li class="changeli">
-                                                                         <div class="form-label floatleft"><label><?php echo JText::_('HDVS_TYPE'); ?></label></div>
-                                                                      <div class="radiobtn floatleft" ><input type="radio" class="butnmargin" name="type" value=0  <?php
-                                                                 if (isset($videoedit->type) && $videoedit->type == '0')
-                                                                 {
-                                                                     echo 'checked="checked"';
-                                                                 }
-                                    ?> checked="checked"  />&nbsp;&nbsp;<?php echo JText::_('HDVS_PUBLIC'); ?></div>
-                                                                      <div class="radiobtn " ><input type="radio" class="butnmargin" name="type" value=1 <?php
-                                                                 if (isset($videoedit->type) && $videoedit->type == '1')
-                                                                 {
-                                                                     echo 'checked="checked"';
-                                                                 } ?>  />&nbsp;&nbsp;<?php echo JText::_('HDVS_PRIVATE'); ?></div>
-
-                                                                  </li>
-                                                              </ul>
-                                                              <br/><br/><?php
+                                                 <ul id="videoupload_pageform">
+                                                     <li class="videoupload_list">
+                                                        <label><?php echo JText::_('HDVS_TITLE'); ?><span class="star">*</span></label>
+                                                         <input type="text" name="title" value="<?php if (isset($videoedit->title) )echo $videoedit->title; ?>" class="text" size="20" id="videotitle"/>
+                                                     </li>
+                                                     <li class="videoupload_list">
+                                                        <label><?php echo JText::_('HDVS_DESCRIPTION'); ?></label>
+                                                         <textarea name="description" id="description" style="height: 80px;"><?php if (isset($videoedit->description)) { echo $videoedit->description;  } ?></textarea>
+                                                     </li>
+                                                     <li class="videoupload_list">
+                                                        <label>Tags</label>
+                                                         <textarea name="tags1" id="tags1"><?php  if (isset($videoedit->tags)) { echo $videoedit->tags; } ?></textarea>
+                                                          <span>Separate tags by space</span>
+                                                    </li>
+                                                    <li class="videoupload_list">
+                                                        <label><?php echo JText::_('HDVS_SELECT_CATEGORY'); ?></label>
+                                                         <div class="catclass floatleft" align="left" id="selcat"> <?php $n = count($this->videocategory); foreach ($this->videocategory as $cat) { ?> <a class="cursor_pointer" title="<?php echo $cat->category; ?>" onclick="catselect('<?php echo $cat->category; ?>');"><?php echo $cat->category . ","; ?></a>  <?php } ?></div>
+                                                    </li>
+                                                    <li class="videoupload_list">
+                                                       <label><?php echo JText::_('HDVS_CATEGORY'); ?><span class="star">*</span></label>
+                                                        <input type="text"  readonly name="tagname" value="<?php if (isset($videoedit->category)) { echo $videoedit->category; } ?>" class="text" size="20" id="tagname" />
+                                                         <input type="button" value="<?php echo JText::_('HDVS_RESET_CATEGORY'); ?>" class="button" onclick="resetcategory();" >
+                                                    </li>
+                                                    <li class="videoupload_list">
+                                                       <label><?php echo JText::_('HDVS_TYPE'); ?></label>
+                                                        <input type="radio" class="butnmargin addvideo_radio_option" name="type" value=0  <?php  if (isset($videoedit->type) && $videoedit->type == '0') {  echo 'checked="checked"';  }  ?> checked="checked"  />
+                                                         <span class="hd_select_public"><?php echo JText::_('HDVS_PUBLIC'); ?></span>
+                                                         <input type="radio" class="butnmargin addvideo_radio_option" name="type" value=1 <?php if (isset($videoedit->type) && $videoedit->type == '1')  {  echo 'checked="checked"'; } ?>  />
+                                                         <span class="hd_select_private"><?php echo JText::_('HDVS_PRIVATE'); ?></span>
+                                                     </li>
+                                                     <li class="videoupload_list">
+                                                          <div id="down_load">
+                                                       <label><?php echo JText::_('HDVS_DOWNLOAD');?></label>
+                                                        <input type="radio" class="butnmargin addvideo_radio_option" name="download" value=1  <?php  if (isset($videoedit->download) && $videoedit->download == '1') {  echo 'checked="checked"';  }  ?>   />
+                                                        <span class="hd_select_enable"><?php echo JText::_('HDVS_ENABLE'); ?></span>
+                                                         <input type="radio" class="butnmargin addvideo_radio_option" name="download" value=0 <?php if (isset($videoedit->download) && ($videoedit->download == '0' || $videoedit->download == ''))  {  echo 'checked="checked"'; } ?>  />
+                                                         <span class="hd_select_disable"><?php echo JText::_('HDVS_DISABLE'); ?></span>
+                                                         </div>
+                                                     </li>
+                                               </ul>
+                                                        <?php
                                                                  if (JRequest::getVar('type', '', 'get', 'string') == 'edit')
                                                                  {
                                                                      $editbutton = JText::_('HDVS_UPDATE');
@@ -470,6 +432,13 @@ function submitform()
                                                                       <input type="hidden" name="hq" value="">
                                                                       <input type="hidden" name="ffmpeg" id="ffmpeg" value="">
                                                                       <input type="hidden" name="normalvideoformval" id="normalvideoformval" value="">
+                                                                      <input type="hidden" name="video_filetype" id="video_filetype" value="<?php
+                                                  if (isset($videoedit->filepath))
+                                                   {
+                                                      if ($videoedit->filepath == 'File')
+                                                          echo $videoedit->filepath;
+                                                  }
+?>">
                                                                       <input type="hidden" name="hdvideoformval"  id="hdvideoformval" value="">
                                                                       <input type="hidden" name="thumbimageformval" id="thumbimageformval" value="">
                                                                       <input type="hidden" name="previewimageformval" id="previewimageformval" value="<?php if (isset($imgurl)
@@ -478,8 +447,7 @@ function submitform()
                                                                       <input type="hidden" name="videotype" id="videotype" value="<?php echo JRequest::getVar('type', '', 'get', 'string'); ?>">
                                                                       <input type="hidden" name="videoid" id="videoid" value="<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>">
                                                                   </form>
-                                                              </div>
-                                                          </div>
+                                                            
                                                       </div>
                                                       <form name="memberidform" id="memberidform" action="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=membercollection'); ?>" method="post">
                                                           <input type="hidden" id="memberidvalue" name="memberidvalue" value="<?php
@@ -510,12 +478,15 @@ function submitform()
 
                                                           //change upload link page when i select option btn
                                                           function filetypeshow(obj)
-                                                          {
+                                                          { 
                                                               if(obj.value==0 || obj==0)
                                                               {
                                                                   document.getElementById("typefile").style.display="none";
                                                                   document.getElementById("typeff").style.display="none";
                                                                   document.getElementById("typeurl").style.display="block";
+                                                                                            document.getElementById("down_load").style.display="none";
+                                                                  document.getElementById("hd_url").style.display="none";
+                                                                  document.getElementById("image_path").style.display="none";
                                                                   document.getElementById('seltype').value=0;
                                                                   document.getElementById("ffmpeg").style.display="none";
                                                                   document.getElementById("normalvideoformval").style.display="none";
@@ -526,6 +497,7 @@ function submitform()
                                                                   document.getElementById("typefile").style.display="block";
                                                                   document.getElementById("typeurl").style.display="none";
                                                                   document.getElementById("typeff").style.display="none";
+document.getElementById("down_load").style.display="block";
 
                                                                   //document.getElementById("imagepath").style.display="none";
 
@@ -537,16 +509,26 @@ function submitform()
                                                               if(obj.value==2 || obj==2)
                                                               {
                                                                   document.getElementById("typefile").style.display="none";
-                                                                  document.getElementById("typeurl").style.display="none";
-                                                                  document.getElementById("typeff").style.display="block";
-                                                                  document.getElementById("ffmpeg").style.display="block";
+                                                                  document.getElementById("typeurl").style.display="block";
+                                                                  document.getElementById("hd_url").style.display="block";
+                                                                  document.getElementById("down_load").style.display="block";
+                                                                  document.getElementById("image_path").style.display="block";
+                                                                  document.getElementById("typeff").style.display="none";
+                                                                  document.getElementById("ffmpeg").style.display="none";
                                                                   document.getElementById('seltype').value=2;
-                                                                  document.getElementById("normalvideoformval").style.display="none";
+                                                                  document.getElementById("normalvideoformval").style.display="block";
 
                                                               }
 
                                                           }
                                                           document.getElementById("ffmpeg").style.display="none";
+                                                          document.getElementById("typefile").style.display="none";
+                                                          document.getElementById("typeurl").style.display="block";
+                                                          document.getElementById("down_load").style.display="none";
+                                                                  document.getElementById("hd_url").style.display="none";
+                                                                  document.getElementById("image_path").style.display="none";
+                                                                  document.getElementById("filetype2").checked = true;
+
 
                                                           document.getElementById("typeff").style.display="none";
 
@@ -604,7 +586,7 @@ function submitform()
 
                                                               if(urltype.value==1)
                                                               {
-                                                                  document.getElementById('imageurltype').innerHTML='<input type="text" name="thumburl" value="<?php if (isset($videoedit->thumburl)
+                                                                  document.getElementById('imageurltype').innerHTML='<input type="text" name="thumburl" value="<?php if (isset($videoedit->thumburl)  && $videoedit->filepath != 'Youtube'
 
                                                                      )echo $videoedit->thumburl; ?>" class="text" size="20" id="thumburl"/>';
                                                               }
@@ -645,6 +627,7 @@ function submitform()
                                                               {
                                                               ?>
                                                               filetypeshow("0");
+                                                              document.getElementById("filetype2").checked = true;
 <?php
                                                               }
                                                               elseif (isset($videoedit->filepath) && $videoedit->filepath == 'File')
@@ -652,6 +635,15 @@ function submitform()
 
                                                            ?>
                                                               filetypeshow("1");
+                                                              document.getElementById("filetype1").checked = true;
+<?php
+                                                                 }
+                                                              elseif (isset($videoedit->filepath) && $videoedit->filepath == 'Url')
+                                                               {
+
+                                                           ?>
+                                                              filetypeshow("2");
+                                                              document.getElementById("filetype3").checked = true;
 <?php
                                                                  }
                                                                  if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')

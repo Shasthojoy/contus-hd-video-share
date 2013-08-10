@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Controller
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -42,7 +42,15 @@ class contushdvideoshareController extends JController {
 		if ($viewName != "languagexml" && $viewName != "configxml" && $viewName != "playxml"  && $viewName != "googlead")
 		{
                     $document = JFactory::getDocument();
-                    $document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/tool_tip.css');
+                    $document->addScript( JURI::base().'components/com_contushdvideoshare/js/jquery.js' );
+                    $document->addScript(JURI::base()."components/com_contushdvideoshare/js/htmltooltip.js");
+                    $lang = JFactory::getLanguage();
+                    $langDirection = (bool) $lang->isRTL();
+                    if ($langDirection == 1) {
+                         $document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet_rtl.css');
+                    } else {
+                       $document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
+                    }
 		}
 		$this->getdisplay($viewName);
 		if ($viewName == "" || $viewName == "index")

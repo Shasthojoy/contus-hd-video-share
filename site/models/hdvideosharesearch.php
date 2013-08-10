@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Hdvideoshare Search Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -28,16 +28,10 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 	function getsearch()
 	{
 		$db = $this->getDBO();
+                $search='';
 		$session = JFactory::getSession();
-		$searchtotal="SELECT a.id as vid,a.category,a.seo_category,b.*,c.*,d.id,d.username
-        			  FROM #__hdflv_category a 
-        			  LEFT JOIN #__hdflv_video_category b on b.catid=a.id 
-        			  LEFT JOIN #__hdflv_upload c on c.id=b.vid 
-        			  LEFT JOIN #__users d on c.memberid=d.id 
-        			  WHERE c.type=0 and c.published=1 and a.published=1 and d.block=0
-        			  GROUP BY c.id";
-		if(JRequest::getVar('searchtxtbox','','post','string'))
-		{
+                $btn=JRequest::getVar('search_btn');
+                if(isset($btn)){
 			$search=JRequest::getVar('searchtxtbox','','post','string'); // Getting the search  text  box value
 			$session->set('search', $search);
 		}
@@ -45,6 +39,14 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 		{
 			$search=$session->get('search');
 		}
+		$searchtotal="SELECT a.id as vid,a.category,a.seo_category,b.*,c.*,d.id,d.username
+        			  FROM #__hdflv_category a 
+        			  LEFT JOIN #__hdflv_video_category b on b.catid=a.id 
+        			  LEFT JOIN #__hdflv_upload c on c.id=b.vid 
+        			  LEFT JOIN #__users d on c.memberid=d.id 
+        			  WHERE c.type=0 and c.published=1 and a.published=1 and d.block=0
+                                  AND (c.title like '%$search%' OR c.description like '%$search%' OR c.tags like '%$search%')
+        			  GROUP BY c.id";		
 		$kt=preg_split("/[\s,]+/", $search);//Breaking the string to array of words
 		// Now let us generate the sql
 		while(list($key,$search)=each($kt)){
@@ -56,7 +58,7 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 							  LEFT JOIN #__hdflv_upload c on c.id=b.vid 
 							  LEFT JOIN #__users d on c.memberid=d.id 
 							  WHERE c.type=0 AND c.published=1 AND a.published=1 and d.block=0
-							  AND (c.title like '%$search%' OR c.description like '%$search%' OR c.tags like '%$search%' OR a.category like '%$search%' OR d.username like '%$search%')  
+							  AND (c.title like '%$search%' OR c.description like '%$search%' OR c.tags like '%$search%')  
 							  GROUP BY c.id"; 
 			}
 		}
@@ -76,9 +78,8 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 		$start=0;
 		else
 		$start= ($pageno - 1) * $length;
-		if(JRequest::getVar('searchtxtbox','','post','string'))
-		{
-			$search=JRequest::getVar('searchtxtbox','','post','string');
+		if(isset($btn)){
+			$search=JRequest::getVar('searchtxtbox','','post','string'); // Getting the search  text  box value
 			$session->set('search', $search);
 		}
 		else
@@ -110,12 +111,6 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 							  WHERE c.type=0 and c.published=1 and a.published=1 and d.block=0 
 							  and (c.title like '%$search%' OR c.description like '%$search%' OR 
 							  c.tags like '%$search%')
-							  UNION DISTINCT SELECT f.id,f.user_id,f.channel_name,f.description,f.about_me,f.tags,f.website,
-							  f.channel_views,f.total_uploads,f.recent_activity,f.created_date,f.updated_date,
-							  g.logo,g.type,g.playlist	
-							  FROM #__hdflv_channel f	
-							  LEFT JOIN #__hdflv_channelsettings g on f.id=g.channel_id							  
-							  WHERE f.channel_name like '%$search%' 							  
 							  LIMIT $start,$length";//Query for displaying the search value results
 			}}
 			$db->setQuery($searchquery);
@@ -126,14 +121,14 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
 				$rows['pages'] = $pages;
 				$rows['start'] = $start;
 				$rows['length'] = $length;					
-			}
+			}                        
 			return $rows;
 	}
 	function getsearchrowcol()
 	{
 		$db = $this->getDBO();
 		//Query is to select the search video page settings
-		$searchquery = "SELECT searchcol,searchrow,seo_option,ratingscontrol,viewedconrtol
+		$searchquery = "SELECT searchcol,searchrow,searchwidth,seo_option,ratingscontrol,viewedconrtol
 						FROM #__hdflv_site_settings";
 		$db->setQuery($searchquery);
 		$rows=$db->LoadObjectList();

@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Sitesettings Model 
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -17,7 +17,7 @@
 /*
  ***********************************************************/
 // No direct access to this file
-defined('_JEXEC') or die();
+defined( '_JEXEC' ) or die( 'Restricted access' );
 // import joomla model library
 jimport('joomla.application.component.model');
 
@@ -35,12 +35,12 @@ class contushdvideoshareModelsitesettings extends JModel
 	{
 		$jcomment = $jomcomment = 0;
 		//query to fetch site settings
-		$query = 'SELECT `id`, `published`, `seo_option`, `facebooklike`, `facebookapi`, `featurrow`, `featurcol`,
-				 `recentrow`, `recentcol`, `categoryrow`, `categorycol`, `popularrow`, `popularcol`, `searchrow`,
-				 `searchcol`, `relatedrow`, `relatedcol`, `memberpagerow`, `memberpagecol`, `homepopularvideo`,
-				 `homepopularvideorow`, `homepopularvideocol`, `homefeaturedvideo`, `homefeaturedvideorow`, 
-				 `homefeaturedvideocol`, `homerecentvideo`, `homerecentvideorow`, `homerecentvideocol`, 
-				 `myvideorow`, `myvideocol`, `sidepopularvideorow`, `sidepopularvideocol`, `sidefeaturedvideorow`,
+		$query = 'SELECT `id`, `published`, `seo_option`, `facebooklike`, `facebookapi`, `featurrow`, `featurcol`,`featurwidth`,
+				 `recentrow`, `recentcol`,`recentwidth`, `categoryrow`, `categorycol`,`categorywidth`, `popularrow`, `popularcol`,`popularwidth`, `searchrow`,
+				 `searchcol`,`searchwidth`, `relatedrow`, `relatedcol`,`relatedwidth`, `memberpagerow`, `memberpagecol`,`memberpagewidth`, `homepopularvideo`,
+				 `homepopularvideorow`, `homepopularvideocol`,`homepopularvideowidth`, `homefeaturedvideo`, `homefeaturedvideorow`,
+				 `homefeaturedvideocol`,`homefeaturedvideowidth`, `homerecentvideo`, `homerecentvideorow`, `homerecentvideocol`, `homerecentvideowidth`,
+				 `myvideorow`, `myvideocol`,`myvideowidth`, `sidepopularvideorow`, `sidepopularvideocol`, `sidefeaturedvideorow`,
 				 `sidefeaturedvideocol`, `siderelatedvideorow`, `siderelatedvideocol`, `siderecentvideorow`, 
 				 `siderecentvideocol`, `allowupload`, `comment`, `language_settings`, `homepopularvideoorder`,
 				 `homefeaturedvideoorder`, `homerecentvideoorder`, `user_login`, `ratingscontrol`, `viewedconrtol` 

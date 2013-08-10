@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component MyVideos View
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -22,6 +22,7 @@ $user = JFactory::getUser();
 $logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
 $baseurl = JURI::base();
+$src_path="";
 if ($user->get('id') == '')
 {
     if(version_compare(JVERSION,'1.6.0','ge'))
@@ -34,7 +35,6 @@ if ($user->get('id') == '')
       }
 }
 ?>
-<script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/popup.js" type="text/javascript"></script>
 <script type="text/javascript">
 function submitform()
 {
@@ -53,25 +53,17 @@ function submitform()
 	</div>
 </form>
 <?php
-	$document = JFactory::getDocument();
-	$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
 	if ($user->get('id') != '')
 	{
 		     if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
                     <div class="toprightmenu">
-                    <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
-                    <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
-                    <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
                     <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
                     <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                     </div>
             <?php }else { ?>
                 <div class="toprightmenu">
-                <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
-                <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
-                <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
                 <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
                 <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                 </div>
@@ -100,29 +92,29 @@ function submitform()
 
 
 ?>
-<div class="player clearfix">
-    <div id="clsdetail">
-        <div class="lodinpad">
+<div class="player clearfix" id="clsdetail">
+
             <h1> <?php echo JText::_('HDVS_MY_VIDEOS'); ?></h1>
-            <div class="myvid_top_menu">
-                <ul id="myclstopul"  >
+            <div class="myvideospage_topitem">
+<!--                <ul id="myclstopul"  >
                     <li ><?php echo JText::_('HDVS_SORT_BY'); ?> :</li>
                     <li><a  title="Sort by title"  class="namelink cursor_pointer" onclick="sortvalue('1');"><?php echo JText::_('HDVS_TITLE'); ?></a></li>
                     <li >|</li>
                     <li ><a  title="Sort by Date"  class="namelink cursor_pointer" onclick="sortvalue('2');"><?php echo JText::_('HDVS_DATE_ADDED'); ?></a></li>
                     <li >|</li>
                     <li ><a  title="Sort by Views"  class="namelink cursor_pointer" onclick="sortvalue('3');"><?php echo JText::_('HDVS_VIEWS'); ?></a></li>
-                </ul>
-                <div style="padding: 5px 0 10px;float:right;">
+                </ul>-->
+                <div id="myvideos_topsearch">
                 <?php
                 $searchTxtbox = '';
-                if (isset($_POST['searchtxtboxmember']))
+                $searchtxtboxmember = JRequest::getVar('searchtxtboxmember','','post');
+                if (isset($searchtxtboxmember))
                 {
-                 $searchTxtbox = $_POST['searchtxtboxmember'];
+                 $searchTxtbox = $searchtxtboxmember;
                 }
 ?>
-                <form name="hsearch" id="hsearch" method="post" action='index.php?option=com_contushdvideoshare&view=myvideos' onsubmit="return searchValidation();">
-                    <input type="text"  name="searchtxtboxmember" value="<?php echo $searchTxtbox; ?>" id="searchtxtboxmember" class="clstextfield clscolor"  onkeypress="validateenterkey(event,'hsearch');" style="color:#000000; "/>
+                <form name="hsearch" id="hsearch" method="post" action='<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=myvideos',true); ?>' onsubmit="return searchValidation();">
+                    <input type="text"  name="searchtxtboxmember" value="<?php echo $searchTxtbox; ?>" id="searchtxtboxmember" class="clstextfield clscolor"  onkeypress="validateenterkey(event,'hsearch');"/>
                     <input type="submit" name="search_btn" id="search_btn" class="button myvideos_search" value="<?php echo JText::_('HDVS_SEARCH'); ?>"/>
                     <input type="hidden" name="searchval" id="searchval" value="<?php echo $searchTxtbox; ?>" />
                     <?php
@@ -143,6 +135,7 @@ function submitform()
                 </script>
             </div>
             </div>
+
             <div class="clear"></div>
 
                 <?php
@@ -151,24 +144,22 @@ function submitform()
                 {
                     $totalrecords = count($this->deletevideos) - 4;
                 }
+                $addvideo_url=JRoute::_('index.php?option=com_contushdvideoshare&view=videoupload');
                 if ($totalrecords == -4) {
-                	echo '<div align="center" style="padding-top:10px;color:#274576;font-weight:bold;"> ' . JText::_('HDVS_NO_RECORDS_FOUND') . ' </div>';
+                	echo '<div class="hd_norecords_found"> ' . JText::_('HDVS_NO_RECORDS_FOUND_MYVIDEOS') . ' </div>';
            		 } else  {
                          ?>
-            <table width="auto" class="myvideos_tab">
+            <table width="auto" class="myvideos_tab" cellpadding="0" cellspacing="0" border="0">
                 <?php
                 for ($i = 0; $i < $totalrecords; $i++)
                 {
-                    if (isset($this->deletevideos[$i]->filepath))
-                     {
-                        if ($i == 0)
-                         {
-                           ?><tr><?php
-                         }
+//                    if (isset($this->deletevideos[$i]->filepath))
+//                     {
+
                         if (($i % $this->myvideorowcol[0]->myvideocol) == 0)
                          {
                 ?>
-                        </tr><tr>
+                        <tr>
                    <?php } ?>
                             <td class="rightrate">
                         <?php
@@ -178,21 +169,16 @@ function submitform()
                             {
                                 $src_path = "components/com_contushdvideoshare/videos/" . $this->deletevideos[$i]->thumburl;
                             }
-                            else
-                            {
-                                $src_path="";
                             }
-                        }
                         if ($this->deletevideos[$i]->filepath == "Url" || $this->deletevideos[$i]->filepath == "Youtube")
                         {
                             $src_path = $this->deletevideos[$i]->thumburl;
                         }
                         ?>
                         <?php if ($this->deletevideos[$i]->vid != '') { ?>
-                            <div id="imiddlecontent1" >
-                                <div class="featurecontent clearfix">
+                            <div id="imiddlecontent1" class="clearfix" >
                                     <div class="middleleftcontent clearfix">
-                                        <div class="videopic" >
+
                                         <?php
                                         $orititle = $this->deletevideos[$i]->title;       //Title name changed here for seo url purpose
                                         $newtitle = explode(' ', $orititle);
@@ -209,7 +195,7 @@ function submitform()
                                          if ($seoOption == 1)
                                         {
 
-                                         $myCategoryVal = "category=" . $this->deletevideos[$i]->category;
+                                         $myCategoryVal = "category=" . $this->deletevideos[$i]->seo_category;
                                             $myVideoVal = "video=" . $this->deletevideos[$i]->seotitle;
                                         }
                                         else
@@ -219,41 +205,35 @@ function submitform()
                                          }
 
                                         ?>
-                                        <div class="bottomalign"  >
-                                            <div class="movie-entry yt-uix-hovercard">
+                                        <a class="featured_vidimg" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$myCategoryVal.'&'.$myVideoVal,true); ?>" >
+                                           <img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></a>
 
-                                                 <div class="tooltip">
-                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$myCategoryVal.'&'.$myVideoVal,true); ?>" ><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></p></a>
-
-
-                                                <div class="Tooltipwindow" >
-                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage" alt="tip_image"/>
-                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . JText::_('HDVS_CATEGORY') . ' : ' . '</span>' .'<span class="clstoolright">'. $this->deletevideos[$i]->category.'</span></div>'; ?>
-                                                    <?php echo '<span class="clsdescription">' . JText::_('HDVS_DESCRIPTION') . ' : ' . '</span>' .'<p>'. $this->deletevideos[$i]->description.'</p>'; ?>
-
-                                                        <?php if ($this->myvideorowcol[0]->viewedconrtol == 1) { ?>
-                                                    <div class="clearfix"><span class="clstoolleft"><?php echo JText::_('HDVS_VIEWS'); ?>: </span><span class="clstoolright"><?php echo $this->deletevideos[$i]->times_viewed; ?> </span></div>
-                                                           <?php } ?></div></div>
-
-
-
-
-                                            </div>
-                                        </div> <div class="clear"></div>
-
-
-                                                        <span class="floatleft viewcolor view">  <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=player&id=" . $this->deletevideos[$i]->vid . "&catid=" . $this->deletevideos[$i]->catid); ?>"><?php if (isset($this->deletevideos[$i]->total)) { echo $this->deletevideos[$i]->total; } ?></a>
-                                                    <?php echo JText::_('HDVS_COMMENTS'); ?>
-                                                    </span>
+                                        <div class="clear"></div>
+<span class="floatleft viewcolor view">  <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=player&" . $myCategoryVal . "&" . $myVideoVal); ?>">
+                                                 <?php
+                                                 if ($this->myvideorowcol[0]->comment == 2) {
+                                                 $db = JFactory::getDBO();
+                                                 $comment_count="SELECT count(message)
+        					 FROM #__hdflv_comments
+        					 WHERE videoid=".$this->deletevideos[$i]->vid;
+                                                $db->setQuery($comment_count);
+                                                $comment_count_row=$db->loadResult();
+                                                 
+                                                 if (isset($comment_count_row)) { echo $comment_count_row; } ?></a>
+                                                    <?php if($comment_count_row>1) echo JText::_('HDVS_COMMENTS');
+                                                    else if($comment_count_row<=1) echo "Comment";
+                                                 }
+                                                    ?>
+</span>
                                                         <?php if ($this->myvideorowcol[0]->viewedconrtol == 1) { ?>
 
                                                         <span class="floatright viewcolor"> <?php echo $this->deletevideos[$i]->times_viewed. ' '. JText::_('HDVS_VIEWS') ; ?></span>
                                                          <?php } ?>
-                                            </div></div>
+                                            </div>
                                         <div class="featureright">
-                                            <p class="myview"><a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&id='.$this->deletevideos[$i]->vid .'&catid='.$this->deletevideos[$i]->catid); ?>" title="<?php echo $this->deletevideos[$i]->title; ?>">
-                                            <?php if (strlen($this->deletevideos[$i]->title) > 15) {
-                                                echo JHTML::_('string.truncate', ($this->deletevideos[$i]->title), 15);
+                                            <p class="myview myvideopage_title"><a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$myCategoryVal .'&'.$myVideoVal); ?>" title="<?php echo $this->deletevideos[$i]->title; ?>">
+                                            <?php if (strlen($this->deletevideos[$i]->title) > 50) {
+                                                echo JHTML::_('string.truncate', ($this->deletevideos[$i]->title), 50);
                                                 //echo (substr($this->deletevideos[$i]->title, 0, 15)) . '...';
                                             } else
                                               {
@@ -285,45 +265,47 @@ function submitform()
                                                         $status = JText::_('HDVS_BLOCKED');
                                                     }
                                     ?>
-                                                    <?php echo $status; ?></p>
+                                                    <?php echo $status;
+$playvideo = JRoute::_('index.php?option=com_contushdvideoshare&view=player&'.$myCategoryVal.'&'.$myVideoVal,true);
+$editvideo = JRoute::_('index.php?option=com_contushdvideoshare&view=videoupload&id=' . $this->deletevideos[$i]->vid . '&type=edit');
+
+                                                    ?></p>
                                                     <div class="myvideosbtns">
-                                                        <input type="button" name="playvideo" id="playvideo" onclick="window.open('<?php echo 'index.php?option=com_contushdvideoshare&view=player&id=' . $this->deletevideos[$i]->vid . '&catid=' . $this->deletevideos[$i]->catid; ?>','_self')" value="<?php echo JText::_('HDVS_PLAY'); ?>" class="button"  />
-                                                        <input type="button" name="videoedit" id="videoedit" onclick="window.open('<?php echo 'index.php?option=com_contushdvideoshare&view=videoupload&id=' . $this->deletevideos[$i]->vid . '&type=edit'; ?>','_self')" value="<?php echo JText::_('HDVS_EDIT'); ?>" class="button" />
+                                                        <input type="button" name="playvideo" id="playvideo" onclick="window.open('<?php echo $playvideo; ?>','_self')" value="<?php echo JText::_('HDVS_PLAY'); ?>" class="button"  />
+                                                        <input type="button" name="videoedit" id="videoedit" onclick="window.open('<?php echo $editvideo; ?>','_self')" value="<?php echo JText::_('HDVS_EDIT'); ?>" class="button" />
                                                         <input type="button" name="videodelete" id="videodelete" value="<?php echo JText::_('HDVS_DELETE'); ?>" class="button" onclick="var flg=my_message(<?php echo $this->deletevideos[$i]->vid; ?>); return flg;" />
                                                                     </div>
                                       </div>
-                                                            </div>
+                                <div class="clear"></div>
                                                         </div>
-                                                    </td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                    </td>
 <?php } ?>
                                                 <!----------First row---------->
 <?php
-                                            }
+                                           // }
                                         }
 
 ?>
                                 </table>
+
                                 <!--  PAGINATION STARTS HERE-->
-                                <table cellpadding="0" cellspacing="0" border="0" id="pagination" align="right">
-                                    <tr align="right">
-                                        <td align="right"  class="page_rightspace">
-                                            <table cellpadding="0" cellspacing="0"  border="0" align="right">
-                                                <tr>
+
+                               <ul class="hd_pagination">
                                 <?php
                                         $pages = $this->deletevideos['pages'];
                                         $q = $this->deletevideos['pageno'];
                                         $q1 = $this->deletevideos['pageno'] - 1;
                                         if ($this->deletevideos['pageno'] > 1)
-                                            echo("<td align='right'><a onclick='changepage($q1);'>" . JText::_('HDVS_PREVIOUS') . "</a></td>");
+                                            echo("<li align='right'><a onclick='changepage($q1);'>" . JText::_('HDVS_PREVIOUS') . "</a></li>");
                                         if ($requestpage)
                                         {
-                                            if ($requestpage > 3)
+                                            if ($requestpage > 4)
                                             {
                                                 $page = $requestpage - 2;
-                                                if ($requestpage > 2)
+                                                if ($requestpage > 3)
                                                 {
-                                                    echo("<td align='right'><a onclick='changepage(1)'>1</a></td>");
-                                                    echo ("<td align='right'>...</td>");
+                                                    echo("<li><a onclick='changepage(1)'>1</a></li>");
+                                                    echo ("<li>...</li>");
                                                 }
                                             }
                                             else
@@ -335,32 +317,27 @@ function submitform()
                                         for ($i = $page, $j = 1; $i <= $pages; $i++, $j++)
                                         {
                                             if ($q != $i)
-                                                echo("<td align='right'><a onclick='changepage(" . $i . ")'>" . $i . "</a></td>");
+                                                echo("<li><a onclick='changepage(" . $i . ")'>" . $i . "</a></li>");
                                             else
-                                                echo("<td align='right'><a onclick='changepage($i);' class='activepage'>$i</a></td>");
+                                                echo("<li><a onclick='changepage($i);' class='activepage'>$i</a></li>");
                                             if ($j > 3)
                                                 break;
                                         }
                                         if ($i < $pages)
                                         {
                                             if ($i + 1 != $pages)
-                                                echo ("<td align='right'>...</td>");
-                                            echo("<td align='right'><a onclick='changepage(" . $pages . ")'>" . $pages . "</a></td>");
+                                                echo ("<li>...</li>");
+                                            echo("<li><a onclick='changepage(" . $pages . ")'>" . $pages . "</a></li>");
                                         }
                                         $p = $q + 1;
                                         if ($q < $pages)
-                                            echo ("<td align='right'><a onclick='changepage($p);'>" . JText::_('HDVS_NEXT') . "</a></td>");}
+                                            echo ("<li><a onclick='changepage($p);'>" . JText::_('HDVS_NEXT') . "</a></li>");}
                                 ?>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                                    </ul>
                     <?php  }?>
-                    <br/>
+
                 </div>
-            </div>
-        </div>
+
                              <?php $page = $_SERVER['REQUEST_URI'];
                                    $deleteVideo = '';
                                    $memberIdValue = '';

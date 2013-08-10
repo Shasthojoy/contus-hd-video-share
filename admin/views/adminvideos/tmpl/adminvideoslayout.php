@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Adminvideos View Page
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -107,7 +107,7 @@ form {float:left;}
                      {
                         var theurl=document.getElementById("videourl").value;
 
-                         var tomatch= /http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}|http:\/\//
+                         var tomatch= /(http:\/\/|https:\/\/)[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}|(http:\/\/|https:\/\/)/
                          if (!tomatch.test(theurl))
                          {
                              for(i=0;i<length_stream;i++)
@@ -201,7 +201,7 @@ form {float:left;}
                     else
                      {
                         var theurl=document.getElementById("videourl").value;                         
-                         if (theurl.contains("youtube.com") || theurl.contains("vimeo.com"))
+                         if (theurl.contains("youtube.com") || theurl.contains("vimeo.com") || theurl.contains("youtu.be"))
                          {
                                    document.getElementById('fileoption').value='Youtube';
                                    if(document.getElementById('videourl').value!="")
@@ -556,7 +556,7 @@ form {float:left;}
         <table  class="admintable" width="100%">
 
             <tr><td width="17%"><?php echo JHTML::tooltip('Enter title for the video', 'Title',
-	            '', 'Title');?></td><td width="83%"><input type="text" name="title"  id="title" style="width:300px" maxlength="250" value="<?php echo $editVideo['rs_editupload']->title; ?>" /></td></tr>
+	            '', 'Title');?></td><td width="83%"><input type="text" name="title"  id="title" style="width:300px" maxlength="250" value="<?php echo htmlentities($editVideo['rs_editupload']->title); ?>" /></td></tr>
             <tr><td><?php echo JHTML::tooltip('Enter description for the video', 'Description',
 	            '', 'Description');?></td><td>
             <?php

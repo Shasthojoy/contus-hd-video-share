@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Popular Videos Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -75,7 +75,7 @@ class Modelcontushdvideosharepopularvideos extends JModel
 	{
 		$db = $this->getDBO();
 		//Query is to select the popular videos row
-		$popularquery="SELECT popularrow,popularcol,seo_option,viewedconrtol,ratingscontrol 
+		$popularquery="SELECT popularrow,popularcol,popularwidth,seo_option,viewedconrtol,ratingscontrol
 					   FROM #__hdflv_site_settings";
 		$db->setQuery($popularquery);
 		$rows=$db->LoadObjectList();

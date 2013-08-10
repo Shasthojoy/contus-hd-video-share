@@ -3,23 +3,24 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Commentappend View
  * @Creation Date : March 2010
  * @Modified Date : June 2012
  * */
 /*
  ***********************************************************/
+defined( '_JEXEC' ) or die( 'Restricted access' );
 ?>
 <?php
 /* comment page coding */
 ?>
-<link rel="stylesheet" href="<?php echo JURI::base(); ?>components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />
+
 
     <input type="hidden" name="id" id="id" value="<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>">
 <?php
@@ -37,10 +38,6 @@ if ($cmdid == 4) {
 <script type="text/javascript" src="<?php echo JURI::base(); ?>includes/js/joomla.javascript.js"></script>
 <script type="text/javascript" src="<?php echo JURI::base(); ?>components/com_jcomments/js/jcomments-v2.1.js"></script>
 <script type="text/javascript" src="<?php echo JURI::base(); ?>components/com_jcomments/libraries/joomlatune/ajax.js"></script>
-<style type="text/css">
-
-    #comments .comments-list {margin-left: 20px;height:auto}
-</style>
 <?php
     $comments = JPATH_ROOT . '/components/com_jcomments/jcomments.php';
     if (file_exists($comments)) {
@@ -60,25 +57,23 @@ if ($cmdid == 2) {
         $tot = count($this->commenttitle);
 ?>
 <?php ?>
-        <br/><br/><br/>
-        <div class="comment_textcolumn" style="">
+        
+        <div class="comment_textcolumn">
             <script type="text/javascript" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/membervalidator.js"></script>
             <!-- FORM STARTS HERE -->
-            <div style="width:<?php echo '500'; ?>px;" class="commentstop" >
-                <div class="floatleft"><div class="leave"><?php echo JText::_('HDVS_COMMENTS'); ?> (<span id="commentcount"><?php echo $this->commenttitle['totalcomment']; ?></span>)</div></div>
+            <div class="commentstop clearfix" >
+                <div class="leave floatleft"><span class="comment_txt"><?php echo JText::_('HDVS_COMMENTS'); ?></span> (<span id="commentcount"><?php echo $this->commenttitle['totalcomment']; ?></span>)</div>
 <?php if ($user->get('id') != '') { ?>
-                    <div class="commentpost"  style="float:right"><a  onclick="comments();" class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
+                    <div class="commentpost floatright"><a  onclick="comments();" class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
 
         <?php } else {
 
          if(version_compare(JVERSION,'1.6.0','ge')) { ?>
-                    <div class="commentpost"  style="float:right"><a  href="index.php?option=com_users&view=login"  class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
+                    <div class="commentpost floatright"><a  href="index.php?option=com_users&view=login"  class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
           <?php } else {?>       <!--<div class="commentpost"  style="float:right"><a  onclick="comments_login();" class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div> -->
-            <div class="commentpost"  style="float:right"><a  href="index.php?option=com_user&view=login" class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
+            <div class="commentpost floatright"><a  href="index.php?option=com_user&view=login" class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
 <?php } } ?>
     </div>
-    <div class="clear"></div>
-
 <?php
         if ($id && $catid) {
             $id = $id;
@@ -103,7 +98,13 @@ if ($cmdid == 2) {
     <?php if ($row->parentid == 0) {
     ?>
                 <div class="clearfix" >
-                    <div class="subhead changecomment" ><?php echo $row->name; ?> : <span></span></div>
+<div class="subhead changecomment" >
+                        <span class="video_user_info">
+                        <strong><?php echo $row->name; ?></strong>
+                        <span class="user_says"> says </span>
+                    </span>
+                        <span class="video_user_comment"><?php echo $string = nl2br($row->message); ?></span>
+                    </div>
     <?php if ($user->get('id') != '') {
  ?>
 
@@ -116,14 +117,14 @@ if ($cmdid == 2) {
 
             <?php } ?>
         </div>
-        <div  class="word_wrap"><?php echo $string = nl2br($row->message); ?></div>
-
 <?php } else {
 ?>
-            <div class="clsreply" ><div>
+           <div class="clsreply clearfix" >
+                <span  class="video_user_info">
                     <strong>Re : <span><?php echo $row->name; ?></span></strong>
-                    <div class="word_wrapnew"><?php echo $string = nl2br($row->message); ?></div>
-                </div>
+                    <span class="user_says"> says </span>
+                </span>
+                <span class="video_user_comment"><?php echo $string = nl2br($row->message); ?></span>
             </div>
 <?php } ?>
             <div id="<?php
@@ -132,7 +133,7 @@ if ($cmdid == 2) {
             } else {
                 echo $row->id;
             }
-?>"></div>
+?>" class="initial"></div>
 
     <?php
             if ($j < $sum - 1) {
@@ -154,6 +155,7 @@ if ($cmdid == 2) {
                 }
             }
         </script>
+        <br/>
         <!--  PAGINATION STARTS HERE-->
         <table cellpadding="0" cellspacing="0" border="0"   id="pagination" class="floatright">
             <tr align="right">
@@ -161,39 +163,49 @@ if ($cmdid == 2) {
                     <table cellpadding="0" cellspacing="0"  border="0" align="right">
                         <tr>
 <?php
-        $q = $this->commenttitle['pageno'] - 1;
-        if ($this->commenttitle['pageno'] > 1)
-            echo("<td align='right' class='changecolor'><a class='cursor_pointer' onclick='changepage($q);'>" . JText::_('HDVS_PREVIOUS') . "</a></td>");
-        if ($requestpage) {
-            if ($requestpage > 3) {
-                $page = $requestpage - 2;
-                if ($requestpage > 2) {
-                    echo("<td align='right' class='changecolor'><a onclick='changepage(1)' class='cursor_pointer'>1</a></td>");
-                    echo ("<td align='right' class='changecolor'>...</td>");
-                }
-            }
-            else
-                $page=1;
-        }
-        else
-            $page=1;
-        for ($i = $page, $j = 1; $i <= $this->commenttitle['pages']; $i++, $j++) {
-            if ($this->commenttitle['pageno'] != $i)
-                echo("<td align='right' class='changecolor'><a onclick='changepage(" . $i . ")' class='cursor_pointer'>" . $i . "</a></td>");
-            else
-                echo("<td align='right' class='changecolor'><a onclick='changepage($i);' class='activepage cursor_pointer' >$i</a></td>");
-            if ($j > 2)
-                break;
-        }
-        if ($i < $this->commenttitle['pages']) {
-            if ($i + 1 != $this->commenttitle['pages'])
-                echo ("<td align='right' class='changecolor'>...</td>");
-            echo("<td align='right' class='changecolor'><a onclick='changepage(" . $this->commenttitle['pages'] . ")'>" . $this->commenttitle['pages'] . "</a></td>");
-        }
-        $p = $this->commenttitle['pageno'] + 1;
-        if ($this->commenttitle['pageno'] < $this->commenttitle['pages'])
-            echo ("<td align='right' class='changecolornew' ><a onclick='changepage($p);' class='cursor_pointer'>" . JText::_('HDVS_NEXT') . "</a></td>");
-?>
+                                                $pages = $this->commenttitle['pages'];
+                                                $q = $this->commenttitle['pageno'];
+                                                $q1 = $this->commenttitle['pageno'] - 1;
+                                                if ($this->commenttitle['pageno'] > 1)
+                                                    echo("<td><a onclick='changepage($q1);'>" . JText::_('HDVS_PREVIOUS') . "</a></td>");
+                                                if ($requestpage)
+                                                 {
+                                                    if ($requestpage > 4)
+                                                      {
+                                                        $page = $requestpage - 2;
+                                                        if ($requestpage > 3)
+                                                        {
+                                                            echo("<td><a onclick='changepage(1)'>1</a></td>");
+                                                            echo ("<td>...</td>");
+                                                        }
+                                                    }
+                                                    else
+                                                        $page=1;
+                                                }
+                                                else
+                                                    $page=1;
+                                                if($pages>1){
+                                                for ($i = $page, $j = 1; $i <= $pages; $i++, $j++)
+                                                {
+                                                    if ($q != $i)
+                                                        echo("<td><a onclick='changepage(" . $i . ")'>" . $i . "</a></td>");
+                                                    else
+                                                        echo("<td><a onclick='changepage($i);' class='activepage'>$i</a></td>");
+                                                    if ($j > 3)
+                                                        break;
+                                                }
+                                                if ($i < $pages)
+                                                {
+                                                    if ($i + 1 != $pages)
+                                                        echo ("<td>....</td>");
+                                                    echo("<td><a onclick='changepage(" . $pages . ")'>" . $pages . "</a></td>");
+                                                }
+                                                $p = $q + 1;
+                                                if ($q < $pages)
+                                                    echo ("<td><a onclick='changepage($p);'>" . JText::_('HDVS_NEXT') . "</a></td>");}
+                        ?>
+
+
                     </tr>
                 </table>
             </td>
@@ -212,7 +224,7 @@ if ($cmdid == 2) {
         <input type="hidden" id="memberidvalue" name="memberidvalue" value="<?php echo $memberidvalue; ?>" />
     </form>
 <?php
-                        $page = 'index.php?option=com_contushdvideoshare&view=player&id=' . JRequest::getVar('id', '', 'get', 'int');
+                        $page = 'index.php?option=com_contushdvideoshare&view=commentappend&id=' . JRequest::getVar('id', '', 'get', 'int');
                         $hiddensearchbox = $searchtextbox = $hidden_page = '';
                         $searchtextbox = JRequest::getVar('searchtxtbox', '', 'post', 'string');
                         $hiddensearchbox = JRequest::getVar('hidsearchtxtbox', '', 'post', 'string');
@@ -227,43 +239,39 @@ if ($cmdid == 2) {
                             $hidden_searchbox = $hiddensearchbox;
                         }
 ?>
-                        <form name="pagination" id="pagination" action="<?php echo $page; ?>" method="post">
+<form name="pagination_page" id="pagination_page" action="<?php echo $page; ?>" method="post">
                             <input type="hidden" id="page" name="page" value="<?php echo $hidden_page ?>" />
                             <input type="hidden" id="hidsearchtxtbox" name="hidsearchtxtbox" value="<?php echo $hidden_searchbox; ?>" />
-                        </form>
-                        <div id="txt" >
-                            <form  id="form" name="commentsform" action="javascript:insert(<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>)" method="post" onsubmit="return validation(this);hidebox();" >
-                                <span class="label"> <?php echo JText::_('HDVS_NAME'); ?>  : </span>
-                                <div class="bgbox">
-                                    <div class="searchpos">
-                                        <input type="text" name="username" id="username" class="newinputbox commenttxtbox"  />
-                                    </div>
-                                </div>
+                             </form>
+    <div id="txt" >
+                                    <form  id="form" name="commentsform" action="javascript:insert(<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>)" method="post" onsubmit="return validation(this);hidebox();" >
+                                   <div class="comment_input">
+                                        <span class="label"> <?php echo JText::_('HDVS_NAME'); ?>  : </span>
+                                         <input type="text" name="username" id="username" class="newinputbox commenttxtbox"  />
+                                   </div>
+                               
                                 <div class="clear"></div>
-                                <span class="label"><?php echo JText::_('HDVS_COMMENT'); ?>   : </span>
-                                <div class="messageboxbg">
-                                    <div class="searchpos">
-                                        <font>
-                                            <textarea class="messagebox commenttxtarea" name="message" id="message"
+                                <div class="comment_txtarea">
+                                    <span class="label"><?php echo JText::_('HDVS_COMMENT'); ?>   : </span>
+<textarea class="messagebox commenttxtarea" name="message" id="message"
                                                       onKeyDown="CountLeft(this.form.message,this.form.left,500);"
                                                       onKeyUp="CountLeft(this.form.message,this.form.left,500);" ></textarea>
-                                            <div   class="remaining_character"><div class="floatleft" >Remaining Characters:</div>
+                                <div   class="remaining_character"><div class="floatleft" >Remaining Characters:</div>
                                                 <div class="commenttxt"><input readonly type="text" name="left" size=1 maxlength=8 value="500" style="border:none;background:none;width:70px;" /></div></div>
-                                        </font>
-                                    </div>
+
                                 </div>
-                                <div class="clear"></div>
-                                <input type="hidden" name="videoid" value="<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>" id="videoid"/>
+                                <div class="comment_bottom">
+                                 <input type="hidden" name="videoid" value="<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>" id="videoid"/>
                                 <input type="hidden" name="category" value="<?php echo $cat_id; ?>" id="category"/>
                                 <input type="hidden" name="parentid" value="0" id="parent"/>
                                 <input type="submit" value="Post comment" class="button clsinputnew"  />
                                 <input type="hidden" name="postcomment" id="postcomment" value="true">
                                 <input type="hidden"  value="" id="parentvalue" name="parentvalue" />
-                                <div align="center" id="prcimg"  style="display:none;"><img src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/images/commentloading.gif" width="100px"></div>
-                            </form><br/>
-                            <div id="insert_response" class="msgsuccess"></div><br/>
+                                </div><div align="center" id="prcimg"  style="display:none;"><img src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/images/commentloading.gif" width="100px"></div>
+                                </form><br/>
+                            <div id="insert_response" class="msgsuccess"></div>
                             <script> document.getElementById('prcimg').style.display="none"; </script>
-                        </div>
+                            </div>
                         <script type="text/javascript">
 
                             function membervalue(memid)
@@ -272,17 +280,16 @@ if ($cmdid == 2) {
                                 document.memberidform.submit();
                             }
 
-                            function changepage(pageno)
+function changepage(pageno)
                             {
-                                document.getElementById("page").value=pageno;
-                                document.pagination.submit();
+                                window.location='<?php echo JURI::base();?>index.php?option=com_contushdvideoshare&view=commentappend&tmpl=component&cmdid=2&id='+<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>+'&page='+pageno;
                             }
                             function validation(form)
                             {                                
-                                if(document.getElementById('name').value=='')
+                                if(document.getElementById('username').value=='')
                                 {
                                     alert("Enter Your Name");
-                                    document.getElementById('name').focus();
+                                    document.getElementById('username').focus();
                                     return false;
                                 }
                                 var comments=form.message.value;
@@ -316,7 +323,7 @@ if ($cmdid == 2) {
                             var nocache = 0;
                             function insert()
                             {                                
-                                var name= encodeURI(document.getElementById('name').value);
+                                var name= encodeURI(document.getElementById('username').value);
                                 var message = encodeURI(document.getElementById('message').value);
                                 var id= encodeURI(document.getElementById('id').value);
 
@@ -343,30 +350,30 @@ if ($cmdid == 2) {
                                 if (xmlhttp.readyState==4)
                                 {
                                     document.getElementById('prcimg').style.display="none";
-                                    var name= document.getElementById('name').value;
+                                    var name= document.getElementById('username').value;
                                     var message =document.getElementById('message').value;
                                     var id= encodeURI(document.getElementById('videoid').value);
                                     var boxid= encodeURI(document.getElementById('id').value);
                                     var category= encodeURI(document.getElementById('category').value);
                                     var parentid= encodeURI(document.getElementById('parentvalue').value);
-                                    document.getElementById('name').disabled=true;
+                                    var commentcountval=document.getElementById('commentcount').innerHTML;
+                                    document.getElementById('username').disabled=true;
                                     document.getElementById('message').disabled=true;
                                     if(parentid==0)
                                     {
-                                        document.getElementById("al").innerHTML="<div class='underline'></div><div class='clearfix'><div class='subhead changecomment'>"+name+" : <span></span></div></div><div>"+message+"</div>"+document.getElementById("al").innerHTML;
-                                        commentcountval=document.getElementById('commentcount').innerHTML;
+ document.getElementById("al").innerHTML="<div class='underline'></div><div class='clearfix'><div class='subhead changecomment'><span class='video_user_info'><strong>"+name+"</strong><span class='user_says'> says </span></span><span class='video_user_comment'>"+message+"</span></div></div>"+document.getElementById("al").innerHTML;
                                         document.getElementById('commentcount').innerHTML=parseInt(commentcountval)+1;
                                     }
                                     else
                                     {
-                                        document.getElementById(parentid).innerHTML="<div class='clsreply'><div><strong>Re : <span>"+name+"</span></strong><div>"+message+"</div></blockquote>";
-                                        commentcountval=document.getElementById('commentcount').innerHTML;
+                                       document.getElementById(parentid).innerHTML="<div class='clsreply'><span  class='video_user_info'><strong>Re : <span>"+name+"</span></strong><span class='user_says'> says </span></span><span class='video_user_comment'>"+message+"</span></div></blockquote>";
                                         document.getElementById('commentcount').innerHTML=parseInt(commentcountval)+1;
                                     }
                                     document.getElementById('txt').style.display="none";
                                     document.getElementById('initial').innerHTML=" ";
                                 }
                             }
+
                             window.onload=function()
                             {
                                 document.getElementById('txt').style.display="none";
@@ -376,6 +383,10 @@ if ($cmdid == 2) {
                             {
                                 var d=document.getElementById('txt').innerHTML;
                                 document.getElementById('initial').innerHTML=d;
+//                             var divs = document.getElementsByClassName('initial');
+//                                for(var i=0; i<divs.length; i++) {
+//                                  divs[i].style.display='none'
+//                                }
                             }
 
 
@@ -396,6 +407,10 @@ if ($cmdid == 2) {
 
                                 }
                                 document.getElementById('initial').innerHTML=" ";
+//                                var divs = document.getElementsByClassName('initial');
+//                                for(var i=0; i<divs.length; i++) {
+//                                  divs[i].style.display='block'
+//                                }
                                 var r=rid;
                                 var d=document.getElementById('txt').innerHTML;
                                 document.getElementById(r).innerHTML=d;

@@ -1,22 +1,23 @@
 <?php
 
+/*
+ ***********************************************************/
 /**
- * @version     2.3, Creation Date : March-24-2011
- * @name        view.html.php
- * @location    /components/com_contushdvideosahre/views/impressionclicks/view.html.php
- * @package	Joomla 1.6
- * @subpackage	contushdvideoshare
- * @author      Contus Support - http://www.contussupport.com
- * @copyright   Copyright (C) 2011 Contus Support
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @link        http://www.hdvideoshare.net
- */
-/**
- * Description :   GetModel & Get impression clicks
- */
-//No direct Access
-
-defined('_JEXEC') or die('Restricted access');
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.1
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @abstract      : Contushdvideoshare Component Impression clicks View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.view');
 

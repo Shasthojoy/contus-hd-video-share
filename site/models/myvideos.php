@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Myvideos Model
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -88,19 +88,23 @@ class Modelcontushdvideosharemyvideos extends JModel
 		$start=0;
 		else
 		$start= ($pageno - 1) * $length;
-		
+
+                if(JRequest::getVar('sorting','','post','int')){
+                $session =& JFactory::getSession();
+                $session->set( 'sorting', JRequest::getVar('sorting','','post','int') );
+                }
 		/* quries to display myvideos based on sorting */
-		if(JRequest::getVar('sorting','','post','int')=="1")
+		if($session->get( 'sorting', 'empty' )=="1")
 		{
 			// Query is to display the myvideos results order by title
 			$order = "ORDER BY a.title asc";
 		}
-		else if(JRequest::getVar('sorting','','post','int')=="2")
+		else if($session->get( 'sorting', 'empty' )=="2")
 		{
 			// Query is to display the myvideos results order by added date
 			$order = "ORDER BY a.addedon desc";
 		}
-		else if(JRequest::getVar('sorting','','post','int')=="3")
+		else if($session->get( 'sorting', 'empty' )=="3")
 		{
 			// Query is to display the myvideos results order by time of views
 			$order = "ORDER BY a.times_viewed desc";
@@ -116,7 +120,7 @@ class Modelcontushdvideosharemyvideos extends JModel
 			$order = "ORDER BY a.id desc";
 		}
 		// Query is to display the myvideos results
-			$query = "SELECT a.*,b.category,d.username,e.*,count(f.videoid) as total
+			$query = "SELECT a.*,b.category,b.seo_category,d.username,e.*,count(f.videoid) as total
 	        		  FROM  #__hdflv_upload a 
 	        		  LEFT JOIN #__users d on a.memberid=d.id 
 	        		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
@@ -150,7 +154,7 @@ class Modelcontushdvideosharemyvideos extends JModel
 		}
 		$db = $this->getDBO();
 		//Query is to select the myvideos settings
-		$myvideorowcolquery="SELECT myvideorow,myvideocol,seo_option,viewedconrtol,allowupload 
+		$myvideorowcolquery="SELECT comment,myvideorow,myvideocol,myvideowidth,seo_option,viewedconrtol,allowupload
 							 FROM #__hdflv_site_settings";
 		$db->setQuery($myvideorowcolquery);
 		$rows=$db->LoadObjectList();	 

@@ -3,12 +3,12 @@
  ***********************************************************/
 /**
  * @name          : Joomla Hdvideoshare
- * @version	      : 3.0
+ * @version	      : 3.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contushdvideoshare Component Showvideos View Page
  * @Creation Date : March 2010
  * @Modified Date : June 2012
@@ -286,9 +286,14 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
 				1	=> array('tick.png',		'messages.publish',	'COM_MESSAGES_OPTION_READ','COM_MESSAGES_MARK_AS_UNREAD'),
 				0	=> array('publish_x.png',	'messages.unpublish','COM_MESSAGES_OPTION_UNREAD','COM_MESSAGES_MARK_AS_READ')
 				);
-				$published = JHtml::_('grid.published',  $row_showupload, $i, $states[$row_showupload->published][0], $states[$row_showupload->published][0], '', 'cb');
+				//$published = JHtml::_('grid.published',  $row_showupload, $i, $states[$row_showupload->published][0], $states[$row_showupload->published][0], '', 'cb');
 				//$published = JHTML::_('grid.published', $row_showupload, $i);
-
+                                if(version_compare(JVERSION,'1.6.0','ge'))
+                                {
+                                    $published = JHtml::_('jgrid.published', $row_showupload->published, $i);
+                                } else {
+                                    $published = JHtml::_('grid.published',  $row_showupload, $i, $states[$row_showupload->published][0], $states[$row_showupload->published][0], '', 'cb');
+                                }
 				$userId = (JRequest::getVar('user', '', 'get') == 'admin') ? "&user=" . JRequest::getVar('user', '', 'get') : "";
 
 				$link = JRoute::_('index.php?option=com_contushdvideoshare&layout=adminvideos&task=editvideos' . $userId . '&cid[]=' . $row_showupload->id);
