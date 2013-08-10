@@ -7,7 +7,7 @@ defined('_JEXEC') or die('Restricted access');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 
-$function	= JRequest::getCmd('function', 'jSelectArticle');
+$function = JRequest::getCmd('function', 'jSelectArticle');
 if(version_compare(JVERSION,'1.7.0','ge')) {
 	$version='1.7';
 } elseif(version_compare(JVERSION,'1.6.0','ge')) {
@@ -67,7 +67,6 @@ if (JRequest::getVar('task') == 'edit' || JRequest::getVar('task') == 'add') {
                     else
                      {
                             $category = $this->category;
-                            $lists = $this->category['lists'];
 ?>
 <?php if($version !='1.5'){ 
 	$linkPath =JRoute::_('index.php?option=com_contushdvideoshare&view=category&layout=categorylist&tmpl=component&function='.$function);
@@ -76,81 +75,58 @@ if (JRequest::getVar('task') == 'edit' || JRequest::getVar('task') == 'add') {
 }
  ?>
                             <form action=<?php echo $linkPath;?> method="POST" name="adminForm">
-                                <table class="adminlist">
-									<thead>
-                                        <tr>
-
-                                            <th>Category</th>
-                                            <th>
-<?php echo JHTML::_('grid.sort', 'Ordering Position', 'ordering', @$lists['order_Dir'], @$lists['order']); ?> </th>
-                                            <th>Published</th>
-                                            <th width="10">ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-<?php
-                            $k = 0;
-                            $i = 0;
-                            foreach ($category['category'] as $row)
-                             {
-                                $published = JHTML::_('grid.published', $row, $i);
-                                $link = JRoute::_('index.php?option=com_contushdvideoshare&layout=categorylist');
-                                $checked = JHTML::_('grid.id', $i, $row->id);
-?>
-                                <tr class="<?php echo "row$k"; ?>">
+          <table class="adminlist">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th width="10"><input type="checkbox" name="toggle" value=""
+					onclick="checkAll(<?php echo count($category['categorylist']); ?>)" />
+				</th>
+				<th>Category</th>
+				<th>Ordering Position</th>
+				<th>Published</th>
+				<th width="10">ID</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php //echo '<pre>';print_r($category['categorylist']);exit;
+			foreach ($category['categorylist'] as $i => $item) :
+			$states	= array(
+				-2	=> array('trash.png',		'messages.unpublish','JTRASHED','COM_MESSAGES_MARK_AS_UNREAD'),
+				1	=> array('tick.png',		'messages.publish',	'COM_MESSAGES_OPTION_READ','COM_MESSAGES_MARK_AS_UNREAD'),
+				0	=> array('publish_x.png',	'messages.unpublish','COM_MESSAGES_OPTION_UNREAD','COM_MESSAGES_MARK_AS_READ')
+			);
+			$published = JHtml::_('grid.published',  $item, $i, $states[$item->published][0], $states[$item->published][0], '', 'cb');
+			//$published = JHTML::_('grid.published', $item, $i);
+			$link = JRoute::_('index.php?option=com_contushdvideoshare&layout=categorylist');
+                        $checked = JHTML::_('grid.id', $i, $item->value);
+		?>
+			<tr class="row<?php echo $i % 2; ?>">
+			<td align="center" style="width:50px;"><?php echo $i + 1; ?></td>
+				 <td><?php echo $checked; ?></td>
                                 <td>
                                 <?php if($version !='1.5'){?>
-                                    
-												<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $row->id; ?>', '<?php echo $this->escape(addslashes($row->category)); ?>', '<?php echo $this->escape($row->id); ?>');">
-													<?php echo $this->escape($row->category); ?></a>
-									
-									<?php }else{?>
-										<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?php echo $row->id; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$row->category); ?>', '<?php echo JRequest::getVar('object'); ?>');">
-										<?php echo $row->category; ?></a>
-									<?php }?>
-									</td>
-                                    <td align="center" style="width:20px;"><?php echo $row->ordering; ?></td>
-                                    <td align="center" style="width:70px;"><?php echo $published; ?></td>
-                                    <td align="center" style="width:90px;"><?php echo $row->id; ?></td>
-                                </tr>
-<?php
-                                $k = 1 - $k;
-                                $i++;
-                                foreach ($category['categorylist'] as $categoryDetail)
-                                    {
+                                    <?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level) ?>
+                                    <a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->value; ?>', '<?php echo $this->escape(addslashes($item->text)); ?>', '<?php echo $this->escape($item->value); ?>');">
+					<?php echo $this->escape($item->text); ?></a>
 
-                                    if ($row->id == $categoryDetail->parent_id)
-                                       {
+					<?php }else{?>
+					<a style="cursor: pointer;" onclick="window.parent.jSelectArticle('<?php echo $item->value; ?>', '<?php echo str_replace(array("'", "\""), array("\\'", ""),$item->text); ?>', '<?php echo JRequest::getVar('object'); ?>');">
+					<?php echo $this->escape($item->text); ?></a>
+					<?php }?>
+				</td>
+				<td align="center" style="width:20px;"><?php echo $item->ordering; ?></td>
+                <td align="center" style="width:70px;"><?php echo $published; ?></td>
+                <td align="center" style="width:90px;"><?php echo $item->value; ?></td>
+			</tr>
+			<?php endforeach; ?>
 
-                                           $published = JHTML::_('grid.published', $categoryDetail, $i);
-                                           $link = JRoute::_('index.php?option=com_contushdvideoshare&layout=categorylist');
-                                           $checked = JHTML::_('grid.id', $i, $categoryDetail->id);
-?>
-                                            <tr class="<?php echo "row$k"; ?>">
-                                            <td>
-												<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $categoryDetail->id; ?>', '<?php echo $this->escape(addslashes($categoryDetail->category)); ?>', '<?php echo $this->escape($categoryDetail->id); ?>');">
-													<?php echo '&nbsp;&nbsp;&nbsp;&nbsp;|__' . $categoryDetail->category; ?></a>
-											</td>
-                                            <td align="center" style="width:20px;"><?php echo $categoryDetail->ordering; ?></td>
-                                            <td align="center" style="width:70px;"><?php echo $published; ?></td>
-                                            <td align="center" style="width:90px;"><?php echo $categoryDetail->id; ?></td>
-                                        </tr>
-<?php
-                                        $k = 1 - $k;
-                                        $i++;
-                                    }
-                                }
-                            }
-?>
-                            <tr>
-                                <td colspan="6">
-<?php echo $this->category['pageNav']->getListFooter(); ?>
-                                </td></tr>
-                        </tbody>
-                    </table>
-<!--                    <input type="hidden" name="option" value="<?php echo $option; ?>" />-->
-            <input type="hidden" name="filter_order" value="<?php echo @$lists['order']; ?>" />
-            <input type="hidden" name="filter_order_Dir" value="<?php echo @$lists['order_Dir']; ?>" />
+		</tbody>
+		<tfoot>
+			<td colspan="15"><?php echo $this->category['pageNav']->getListFooter(); ?></td>
+		</tfoot>
+	</table>
+<!--                    <input type="hidden" name="option" value="<?php echo $option; ?>" />-->            
             <input type="hidden" name="task" value=""/>
             <input type="hidden" name="boxchecked" value="0"/>
             <input type="hidden" name="hidemainmenu" value="0"/>

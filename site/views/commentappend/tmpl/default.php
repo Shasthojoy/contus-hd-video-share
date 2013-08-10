@@ -1,20 +1,29 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Commentappend View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
 ?>
 <?php
 /* comment page coding */
 ?>
+<link rel="stylesheet" href="<?php echo JURI::base(); ?>components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />
 
     <input type="hidden" name="id" id="id" value="<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>">
 <?php
-$user = & JFactory::getUser();
+$user = JFactory::getUser();
 $cmdid = '';
 $catid = '';
 $cat_id = '';
@@ -56,16 +65,16 @@ if ($cmdid == 2) {
             <script type="text/javascript" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/membervalidator.js"></script>
             <!-- FORM STARTS HERE -->
             <div style="width:<?php echo '500'; ?>px;" class="commentstop" >
-                <div class="floatleft"><div class="leave"><?php echo _HDVS_COMMENTS; ?> (<span id="commentcount"><?php echo $this->commenttitle['totalcomment']; ?></span>)</div></div>
+                <div class="floatleft"><div class="leave"><?php echo JText::_('HDVS_COMMENTS'); ?> (<span id="commentcount"><?php echo $this->commenttitle['totalcomment']; ?></span>)</div></div>
 <?php if ($user->get('id') != '') { ?>
-                    <div class="commentpost"  style="float:right"><a  onclick="comments();" class="utility-link"><?php echo _HDVS_POST_COMMENT; ?></a></div>
+                    <div class="commentpost"  style="float:right"><a  onclick="comments();" class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
 
         <?php } else {
 
          if(version_compare(JVERSION,'1.6.0','ge')) { ?>
-                    <div class="commentpost"  style="float:right"><a  href="index.php?option=com_users&view=registration"  class="utility-link"><?php echo _HDVS_POST_COMMENT; ?></a></div>
-          <?php } else {?>       <!--<div class="commentpost"  style="float:right"><a  onclick="comments_login();" class="utility-link"><?php echo _HDVS_POST_COMMENT; ?></a></div> -->
-            <div class="commentpost"  style="float:right"><a  href="index.php?option=com_user&view=register" class="utility-link"><?php echo _HDVS_POST_COMMENT; ?></a></div>
+                    <div class="commentpost"  style="float:right"><a  href="index.php?option=com_users&view=login"  class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
+          <?php } else {?>       <!--<div class="commentpost"  style="float:right"><a  onclick="comments_login();" class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div> -->
+            <div class="commentpost"  style="float:right"><a  href="index.php?option=com_user&view=login" class="utility-link"><?php echo JText::_('HDVS_POST_COMMENT'); ?></a></div>
 <?php } } ?>
     </div>
     <div class="clear"></div>
@@ -154,7 +163,7 @@ if ($cmdid == 2) {
 <?php
         $q = $this->commenttitle['pageno'] - 1;
         if ($this->commenttitle['pageno'] > 1)
-            echo("<td align='right' class='changecolor'><a class='cursor_pointer' onclick='changepage($q);'>" . _HDVS_PREVIOUS . "</a></td>");
+            echo("<td align='right' class='changecolor'><a class='cursor_pointer' onclick='changepage($q);'>" . JText::_('HDVS_PREVIOUS') . "</a></td>");
         if ($requestpage) {
             if ($requestpage > 3) {
                 $page = $requestpage - 2;
@@ -172,7 +181,7 @@ if ($cmdid == 2) {
             if ($this->commenttitle['pageno'] != $i)
                 echo("<td align='right' class='changecolor'><a onclick='changepage(" . $i . ")' class='cursor_pointer'>" . $i . "</a></td>");
             else
-                echo("<td align='right' class='changecolor'><a onclick='changepage($i);' class='active cursor_pointer' >$i</a></td>");
+                echo("<td align='right' class='changecolor'><a onclick='changepage($i);' class='activepage cursor_pointer' >$i</a></td>");
             if ($j > 2)
                 break;
         }
@@ -183,7 +192,7 @@ if ($cmdid == 2) {
         }
         $p = $this->commenttitle['pageno'] + 1;
         if ($this->commenttitle['pageno'] < $this->commenttitle['pages'])
-            echo ("<td align='right' class='changecolornew' ><a onclick='changepage($p);' class='cursor_pointer'>" . _HDVS_NEXT . "</a></td>");
+            echo ("<td align='right' class='changecolornew' ><a onclick='changepage($p);' class='cursor_pointer'>" . JText::_('HDVS_NEXT') . "</a></td>");
 ?>
                     </tr>
                 </table>
@@ -224,14 +233,14 @@ if ($cmdid == 2) {
                         </form>
                         <div id="txt" >
                             <form  id="form" name="commentsform" action="javascript:insert(<?php echo JRequest::getVar('id', '', 'get', 'int'); ?>)" method="post" onsubmit="return validation(this);hidebox();" >
-                                <span class="label"> <?php echo _HDVS_NAME; ?>  : </span>
+                                <span class="label"> <?php echo JText::_('HDVS_NAME'); ?>  : </span>
                                 <div class="bgbox">
                                     <div class="searchpos">
                                         <input type="text" name="username" id="username" class="newinputbox commenttxtbox"  />
                                     </div>
                                 </div>
                                 <div class="clear"></div>
-                                <span class="label"><?php echo _HDVS_COMMENT; ?>   : </span>
+                                <span class="label"><?php echo JText::_('HDVS_COMMENT'); ?>   : </span>
                                 <div class="messageboxbg">
                                     <div class="searchpos">
                                         <font>
@@ -269,8 +278,7 @@ if ($cmdid == 2) {
                                 document.pagination.submit();
                             }
                             function validation(form)
-                            {
-                                alert("hai");
+                            {                                
                                 if(document.getElementById('name').value=='')
                                 {
                                     alert("Enter Your Name");
@@ -307,8 +315,7 @@ if ($cmdid == 2) {
                             var xmlhttp;
                             var nocache = 0;
                             function insert()
-                            {
-                                alert("cmd");
+                            {                                
                                 var name= encodeURI(document.getElementById('name').value);
                                 var message = encodeURI(document.getElementById('message').value);
                                 var id= encodeURI(document.getElementById('id').value);
@@ -323,8 +330,7 @@ if ($cmdid == 2) {
                                     alert ("Browser does not support HTTP Request");
                                     return;
                                 }
-                                document.getElementById('prcimg').style.display="block";
-                                alert("adsad");
+                                document.getElementById('prcimg').style.display="block";                                
                                 var url="index.php?option=com_contushdvideoshare&view=player&id="+id+"&category="+category+"&name="+name+"&message=" +message+"&pid="+parentid+"&nocache = "+nocache;
                                 url=url+"&sid="+Math.random();
                                 xmlhttp.onreadystatechange=stateChanged;

@@ -1,26 +1,27 @@
 <?php
-
-/**
- * @version     2.3, Creation Date : March-24-2011
- * @name        helper.php
- * @location    /components/modules/mod_HDVideoShareSearch/helper.php
- * @package	Joomla 1.6
- * @subpackage	contushdvideoshare
- * @author      Contus Support - http://www.contussupport.com
- * @copyright   Copyright (C) 2011 Contus Support
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @link        http://www.hdvideoshare.net
- */
 /*
- * Description : Modules HDVideoShare search helper
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Search Videos Module
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
-// No direct Access
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
 class modsearchvideo {
 
-    function getsearchvideo() {
+    public static function getsearchvideo() {
         
     }
 

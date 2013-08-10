@@ -1,175 +1,67 @@
 <?php
-
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
-
-//define( '_JEXEC', 1 );
-//
-//
-//
-//$str= dirname(__FILE__);
-//
-//define( 'DS', DIRECTORY_SEPARATOR );
-//
-//
-//$str = str_replace(DS.'components'.DS.'com_contushdvideoshare'.DS.'models','',$str);
-//
-//
-//
-//
-//define('JPATH_BASE',$str);
-//
-//
-//
-//
-//
-//require_once ( JPATH_BASE .DS.'includes'.DS.'defines.php' );
-//
-//require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
-//
-//
-//$mainframe =& JFactory::getApplication('site');
-
-
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Adsxml Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined('_JEXEC') or die();
-
-
-
+// import Joomla model library
 jimport('joomla.application.component.model');
-
+/**
+ * Contushdvideoshare Component Configxml Model
+ */
 class Modelcontushdvideoshareconfigxml extends JModel {
 
     var $current_path = "/";
     var $base;
 
+    /* function to get player settings */
     function configgetrecords() {
-
         $base = JURI::base();
         $this->$base = str_replace('components/com_contushdvideoshare/models/', '', $base);
-        global $mainframe;
-        $playid = 0;
-        $playid_playlistname = 0;
-        $mid = 0;
-        $moduleid = 0;
-        $db = & JFactory::getDBO();
-        $query = "select * from #__hdflv_player_settings";
+        global $mainframe;        
+        $db = JFactory::getDBO();
+        $query = "SELECT `id`, `published`, `buffer`, `normalscale`, `fullscreenscale`, `autoplay`, `volume`, 
+        		 `logoalign`, `logoalpha`, `skin_autohide`, `stagecolor`, `skin`, `embedpath`, `fullscreen`, 
+        		 `zoom`, `width`, `height`, `uploadmaxsize`, `ffmpegpath`, `ffmpeg`, `related_videos`, `timer`, 
+        		 `logopath`, `logourl`, `nrelated`, `shareurl`, `playlist_autoplay`, `hddefault`, `ads`, 
+        		 `prerollads`, `postrollads`, `random`, `midrollads`, `midbegin`, `midinterval`, `midrandom`,
+        		 `midadrotate`, `playlist_open`, `licensekey`, `vast`, `vast_pid`, `Youtubeapi`, `scaletologo`, 
+        		 `googleanalyticsID`, `googleana_visible` 
+        		 FROM #__hdflv_player_settings";
         $db->setQuery($query);
-        $settingsrows = $db->loadObjectList();
-        if (JRequest::getVar('id', '', 'get', 'int')) {
-            $playid = JRequest::getVar('id', '', 'get', 'int');
-        }
-        $itemid = 0;
-        $rs_modulesettings = "";
-        $query1 = "select * from #__hdflv_videos where published='1'";
-        $db->setQuery($query1);
-        $rs_home = $db->loadObjectList();
-        $home_bol = "false";
-        if (count($rs_home > 0)) {
-            for ($k = 0; $k < count($rs_home); $k++) {
-                if ($rs_home[$k]->home == 1) {
-                    $home_bol = "true";
-                }
-            }
-        }
-        $current_path = "components/com_contushdvideoshare/videos/";
-        if ($playid) {
-            $playid = trim($playid);
-            $query = "select * from #__hdflv_videos where published='1' and id=$playid";
-        } else {
-            if ($home_bol == "true")
-                $query = "select * from #__hdflv_videos where published='1' limit 1";
-            else
-                $query = "select * from #__hdflv_videos where published='1' limit 1";
-        }
-        $db->setQuery($query);
-        $rows = $db->loadObjectList();
-        $hdvideo = "";
-        $video = "";
-        $previewimage = "";
-        $hd_bol = "false";
-        if (count($rows) > 0) {
-            if ($rows[0]->filepath == "File" || $rows[0]->filepath == "FFmpeg") {
-
-                $video = $this->$base . $current_path . $rows[0]->videourl;
-                ($rows[0]->hdpath != "") ? $hdvideo = $this->$base . $current_path . $rows[0]->hdpath : $hdvideo = "";
-                $previewimage = $this->$base . $current_path . $rows[0]->previewurl;
-                if ($rows[0]->hdpath)
-                    $hd_bol = "true";
-                else
-                    $hd_bol="false";
-            }
-            elseif ($rows[0]->filepath == "Url") {
-                $video = $rows[0]->videourl;
-                $previewimage = $rows[0]->previewurl;
-                if ($rows[0]->hdpath)
-                    $hd_bol = "true";
-                else
-                    $hd_bol="false";
-                $hdvideo = $rows[0]->hdpath;
-            }
-            elseif ($rows[0]->filepath == "Youtube") {
-                $video = $rows[0]->videourl;
-                $previewimage = $rows[0]->previewurl;
-                if ($rows[0]->hdpath)
-                    $hd_bol = "true";
-                else
-                    $hd_bol="false";
-                $hdvideo = $rows[0]->hdpath;
-            }
-        }
-        $this->configxml($rs_modulesettings, $settingsrows, $video, $previewimage, $hdvideo, $hd_bol, $playid, $itemid, $playid_playlistname, $moduleid, $this->$base);
+        $settingsrows = $db->loadObjectList();        
+        $this->configxml($settingsrows, $this->$base);
     }
 
-    function configxml($rs_modulesettings, $settingsrows, $video, $previewimage, $hdvideo, $hd_bol, $playid, $itemid, $playid_playlistname, $moduleid, $base) {
+    /* function to generate config xml */
+    function configxml($settingsrows, $base) {
         global $mainframe;
         $skin = $base . "components/com_contushdvideoshare/hdflvplayer/skin/" . $settingsrows[0]->skin;
         $stagecolor = "0x" . $settingsrows[0]->stagecolor;
-        if ($settingsrows[0]->autoplay == 1)
-            $autoplay = "true";
-        else
-            $autoplay="false";
-        if ($settingsrows[0]->Youtubeapi == 1)
-            $Youtubeapi = "flash";
-        else
-            $Youtubeapi="php";
-        if ($settingsrows[0]->zoom == 1)
-            $zoom = "true";
-        else
-            $zoom="false";
-        if ($settingsrows[0]->fullscreen == 1)
-            $fullscreen = "true";
-        else
-            $fullscreen="false";
-        if ($settingsrows[0]->skin_autohide == 1)
-            $skin_autohide = "true";
-        else
-            $skin_autohide="false";
-        if ($settingsrows[0]->timer == 1)
-            $timer = "true";
-        else
-            $timer="false";
-        if ($settingsrows[0]->shareurl == 1)
-            $share = "true";
-        else
-            $share="false";
-        if ($settingsrows[0]->playlist_autoplay == 1)
-            $playlist_autoplay = "true";
-        else
-            $playlist_autoplay="false";
-        if ($settingsrows[0]->hddefault == 1)
-            $hddefault = "true";
-        else
-            $hddefault="false";
-        if ($settingsrows[0]->scaletologo == 1)
-            $scaletologo = "true";
-        else
-            $scaletologo="false";
+        
+        ($settingsrows[0]->autoplay == 1) ? $autoplay = "true" : $autoplay = "false";
+        ($settingsrows[0]->Youtubeapi == 1) ? $Youtubeapi = "flash" : $Youtubeapi = "php";
+        ($settingsrows[0]->zoom == 1) ? $zoom = "true" : $zoom = "false";
+        ($settingsrows[0]->fullscreen == 1) ? $fullscreen = "true" : $fullscreen = "false";
+        ($settingsrows[0]->skin_autohide == 1) ? $skin_autohide = "true" : $skin_autohide = "false";
+        ($settingsrows[0]->timer == 1) ? $timer = "true" : $timer = "false";
+        ($settingsrows[0]->shareurl == 1) ? $share = "true" : $share = "false";
+        ($settingsrows[0]->playlist_autoplay == 1) ? $playlist_autoplay = "true" : $playlist_autoplay = "false";
+        ($settingsrows[0]->hddefault == 1) ? $hddefault = "true" : $hddefault = "false";
+        ($settingsrows[0]->scaletologo == 1) ? $scaletologo = "true" : $scaletologo = "false";        
         $playlistxml = "";
         $playlist = "false";
         if ($settingsrows[0]->related_videos == "1" || $settingsrows[0]->related_videos == "3") {
@@ -183,8 +75,7 @@ class Modelcontushdvideoshareconfigxml extends JModel {
         $buffer = $settingsrows[0]->buffer;
         $normalscale = $settingsrows[0]->normalscale;
         $fullscreenscale = $settingsrows[0]->fullscreenscale;
-        $volume = $settingsrows[0]->volume;
-        $video1 = "";
+        $volume = $settingsrows[0]->volume;        
         $playlist_open = "false";
         $postrollads = "false";
         $prerollads = "false";
@@ -198,31 +89,17 @@ class Modelcontushdvideoshareconfigxml extends JModel {
         ($settingsrows[0]->ads == 0) ? $ads = "false" : $ads = "true";
         ($settingsrows[0]->vast == 0) ? $vast = "false" : $vast = "true";
         $vast_pid = $settingsrows[0]->vast_pid;
-        $playlistxml = $base . "components/com_contushdvideoshare/models/playxml.php";
-        if ($playid) {
-            if ($playid == -1) {
-                $video = $video1;
-            } else {
-                $video = $video;
-                $hdvideo = $hdvideo;
-                $previewimage = $previewimage;
-            }
-        } else {
-            $video = "";
-            $hdvideo = "";
-            $previewimage = "";
-        }
+        $playlistxml = $base . "components/com_contushdvideoshare/models/playxml.php";        
         if (JRequest::getVar('catid', '', 'get', 'int')) {
             $playlistxml = $base . "index.php?option=com_contushdvideoshare&view=playxml&id=" . JRequest::getVar('id', '', 'get', 'int') . "&catid=" . JRequest::getVar('catid', '', 'get', 'int');
-            $locaiton = $base . "index.php?option=com_contushdvideoshare&view=player&id=" . JRequest::getVar('id', '', 'get', 'int') . "&catid=" . JRequest::getVar('catid', '', 'get', 'int');
+            $locaiton = $base . "index.php?option=com_contushdvideoshare&view=player";
         } elseif (JRequest::getVar('id', '', 'get', 'int')) {
             $playlistxml = $base . "index.php?option=com_contushdvideoshare&view=playxml&id=" . JRequest::getVar('id', '', 'get', 'int');
-            $locaiton = $base . "index.php?option=com_contushdvideoshare&view=player&id=" . JRequest::getVar('id', '', 'get', 'int');
+            $locaiton = $base . "index.php?option=com_contushdvideoshare&view=player";
         } else {
             $playlistxml = $base . "index.php?option=com_contushdvideoshare&view=playxml&featured=true";
-            $locaiton = $base . "index.php?option=com_contushdvideoshare&view=player&featured=true";
+            $locaiton = $base . "index.php?option=com_contushdvideoshare&view=player";
         }
-//$emailpath=JURI::base()."/index.php?option=com_contushdvideoshare&view=email";
         $adsxml = JURI::base() . "index.php?option=com_contushdvideoshare&view=adsxml";
         $emailpath = $base . "components/com_contushdvideoshare/hdflvplayer/email.php";
         $logopath = $base . "components/com_contushdvideoshare/videos/" . $settingsrows[0]->logopath;

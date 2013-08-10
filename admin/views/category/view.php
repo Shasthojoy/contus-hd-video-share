@@ -1,58 +1,72 @@
 <?php
-
+/*
+ ***********************************************************/
 /**
- * @Copyright Copyright (C) 2010-2011 Contus Support Interactive Private Limited
- * @license GNU/GPL http://www.gnu.org/copyleft/gpl.html,
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Category View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
  * */
+
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
+// import Joomla view library
 jimport('joomla.application.component.view');
-
+/**
+ * hdvideoshare component category administrator view
+ */
 class contushdvideoshareViewcategory extends JView {
 
-    function display() {
-        if (JRequest::getVar('task') == 'edit') {
-
-            JToolBarHelper::title('Category' . ': [<small>Edit</small>]');
-            JToolBarHelper::save();
-            JToolBarHelper::apply();
-            JToolBarHelper::cancel();
-            $model = $this->getModel();
-            $id = JRequest::getVar('cid');
-            $categary = $model->getcategary($id[0]);
-            $this->assignRef('categary', $categary[0]);
-            $this->assignRef('categorylist', $categary[1]);
-
-
-            parent::display();
-        }
-        if (JRequest::getVar('task') == 'add') { {
-                JToolBarHelper::title('Category' . ': [<small>Add</small>]');
-                JToolBarHelper::save();
-                JToolBarHelper::cancel();
-                $model = $this->getModel();
-                $categary = $model->getNewcategary();
-                $this->assignRef('categary', $categary[0]);
-                $this->assignRef('categorylist', $categary[1]);
-                parent::display();
-            }
-        }
-        if (JRequest::getVar('task') == '') {
-            JToolBarHelper::title('Category', 'generic.png');
-            JToolBarHelper::publish();
-            JToolBarHelper::unpublish();
-            JToolBarHelper::deleteList();
-            JToolBarHelper::editListX();
-            JToolBarHelper::addNewX();
-            $model = $this->getModel('category');
-            $category = $model->getcategory();
-            $this->assignRef('category', $category);
-
-
-            parent::display();
-        }
-    }
-
+	// view for manage categories
+	function display($cachable = false, $urlparams = false) {
+		JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );
+		if (JRequest::getVar('task') == 'edit') {
+			JToolBarHelper::title('Category' . ': [<small>Edit</small>]','category');
+			JToolBarHelper::save();
+			JToolBarHelper::apply();
+			JToolBarHelper::cancel();
+			$model = $this->getModel();
+			$id = JRequest::getVar('cid');
+			$category = $model->getcategorydetails($id[0]);
+			$this->assignRef('category', $category[0]);
+			$this->assignRef('categorylist', $category[1]);
+			parent::display();
+		}
+		if (JRequest::getVar('task') == 'add') { {
+			JToolBarHelper::title('Category' . ': [<small>Add</small>]','category');
+			JToolBarHelper::save();
+			JToolBarHelper::cancel();
+			$model = $this->getModel();
+			$category = $model->getNewcategory();
+			$this->assignRef('category', $category[0]);
+			$this->assignRef('categorylist', $category[1]);
+			parent::display();
+		}
+		}
+		if (JRequest::getVar('task') == '') {
+			JToolBarHelper::title('Category', 'category');
+			JToolBarHelper::addNewX();
+			JToolBarHelper::editListX();
+			JToolBarHelper::publishList();
+			JToolBarHelper::unpublishList();
+			if(JRequest::getVar('category_status') == 3) {        	
+        	JToolBarHelper::deleteList('', 'remove', 'JTOOLBAR_EMPTY_TRASH');
+        	}else {			
+			JToolBarHelper::trash('trash');	
+        	}		
+			$model = $this->getModel('category');
+			$category = $model->getcategory();
+			$this->assignRef('category', $category);
+			parent::display();
+		}
+	}
 }
-
 ?>

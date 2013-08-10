@@ -1,44 +1,48 @@
 <?php
-
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Settings View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
+// import Joomla view library
 jimport('joomla.application.component.view');
+
+/**
+ *  view class for the hdvideoshare component (Playersettings tab)
+ */
 
 class contushdvideoshareViewsettings extends JView {
 
-    function display() {
+	/**
+	 *  function to display settings
+	 */
 
-//    echo JRequest::getVar('task');
-        if (JRequest::getVar('task') == 'edit') {
+	function display($cachable = false, $urlparams = false) {
+			JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );
+			JToolBarHelper::title(JText::_('Player Settings'), 'settings');			
+			JToolBarHelper::apply();
+			$model = $this->getModel();
 
-            JToolBarHelper::title('Player Settings' . ': [<small>Edit</small>]');
-            JToolBarHelper::save();
-            JToolBarHelper::apply();
-            JToolBarHelper::cancel();
-            $model = $this->getModel();
-            $playersettings = $model->playersettingsmodel();
-            $this->assignRef('playersettings', $playersettings);
-            parent::display();
-        }
+			/**
+			 *  Function to get player settings
+			 */
 
-        if (JRequest::getVar('task') == '') {
-            JToolBarHelper::title('Player Settings', 'generic.png');
-            JToolBarHelper::editListX();
-            $model = $this->getModel();
-            $playersettings = $model->getsetting();
-            $this->assignRef('playersettings', $playersettings);
-            parent::display();
-        }
-    }
-
+			$playersettings = $model->showplayersettings();
+			$this->assignRef('playersettings', $playersettings);
+			parent::display();
+	}
 }
-
 ?>

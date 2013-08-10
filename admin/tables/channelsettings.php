@@ -1,18 +1,24 @@
 <?php
-
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: December 16 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Channelsettings Table
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
+// table for channelsettings
 class Tablechannelsettings extends JTable {
-
     var $id = null;
     var $channel_id = null;
     var $player_width = null;
@@ -34,7 +40,5 @@ class Tablechannelsettings extends JTable {
     function __construct(&$db) {
         parent::__construct('#__hdflv_channelsettings', 'id', $db);
     }
-
 }
-
 ?>

@@ -1,40 +1,54 @@
 <?php
-
-/**
- * @version     2.3, Creation Date : March-24-2011
- * @name        helper.php
- * @location    /components/modules/mod_HDVideoShareFeatured/helper.php
- * @package	Joomla 1.6
- * @subpackage	contushdvideoshare
- * @author      Contus Support - http://www.contussupport.com
- * @copyright   Copyright (C) 2011 Contus Support
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @link        http://www.hdvideoshare.net
- */
 /*
- * Description : Modules HDVideoShare Featured helper 
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Featured Videos Module Helper
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
-// No direct Access
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
+/**
+ * Contushdvideoshare Featured Videos Module Helper
+ */
 class modfeaturedVideos {
 
-    function getfeaturedVideos() {
-        
-        $db = &JFactory::getDBO();
+	/* function to get featured videos */
+    public static function getfeaturedVideos() {
+        $db = JFactory::getDBO();
         $limitrow = modfeaturedVideos::getfeaturedVideossettings();
         $length = $limitrow[0]->sidefeaturedvideorow * $limitrow[0]->sidefeaturedvideocol;
-        $featuredquery = "select a.*,b.category,d.username,e.* from #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where a.published='1' and b.published=1 and a.featured='1' and a.type='0'  group by e.vid order by rand() limit 0,$length "; // Query is to display featured videos in home page randomly
+        // Query is to display featured videos randomly
+        $featuredquery = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+						  a.times_viewed,a.seotitle,b.category,b.seo_category,d.username,e.catid,e.vid
+        				  FROM #__hdflv_upload a left join #__users d on a.memberid=d.id 
+        				  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+        				  LEFT JOIN #__hdflv_category b on e.catid=b.id 
+        				  WHERE a.published='1' and b.published=1 and a.featured='1' and a.type='0'  
+        				  GROUP BY e.vid order by rand() 
+        				  LIMIT 0,$length ";
         $db->setQuery($featuredquery);
         $featuredvideos = $db->loadobjectList();
         return $featuredvideos;
     }
 
-    function getfeaturedVideossettings() {
+    /* function to get featured videos module settings */
+    public static function getfeaturedVideossettings() {
 
-        $db = &JFactory::getDBO();
-        $featurequery = "select * from #__hdflv_site_settings"; //Query is to select the popular videos row
+        $db = JFactory::getDBO();
+        //Query is to select the featured videos module settings
+        $featurequery = "SELECT sidefeaturedvideorow,sidefeaturedvideocol,seo_option,viewedconrtol,ratingscontrol
+        				 FROM #__hdflv_site_settings"; 
         $db->setQuery($featurequery);
         $rows = $db->LoadObjectList();
         return $rows;

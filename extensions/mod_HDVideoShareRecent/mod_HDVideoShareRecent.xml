@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5" method="upgrade">
     <name>Recent Videos</name>
-    <version>2.1</version>
-    <license>GNU/GPL http://www.gnu.org/copyleft/gpl.html</license>
-    <copyright>Apptha 2011</copyright>
+    <version>3.0</version>
+    <license>GNU http://www.gnu.org/licenses/gpl-3.0.html</license>
+    <copyright>Copyright (C) 2011 Powered by Apptha</copyright>
     <description>Recent Videos Module for ContusHDVideoShare</description>
-    <creationDate>Nov 26 2011</creationDate>
+    <creationDate>June 2012</creationDate>
     <author>Apptha</author>
     <authorEmail>support@apptha.com</authorEmail>
     <authorUrl>http://www.apptha.com</authorUrl>
@@ -13,7 +13,11 @@
         <filename module='mod_HDVideoShareRecent'>mod_HDVideoShareRecent.php</filename>
         <filename>helper.php</filename>
         <filename>tmpl/default.php</filename>
+        <folder>language</folder>
     </files>
+    <languages>
+            <language tag="en-GB">language/en-GB.mod_HDVideoShareRecent.ini</language>            
+    </languages>
     <config>
         <fields name="params">
             <fieldset name="basic" addfieldpath="/modules/mod_HDVideoShareRecent/fields">

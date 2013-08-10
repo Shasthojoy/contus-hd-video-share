@@ -1,3 +1,22 @@
+/*
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Upload Script for Videos
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
+
+
 var uploadqueue = [];
 var uploadmessage = '';
 
@@ -7,7 +26,7 @@ function addQueue(whichForm,myfile)
     var  extn = extension(myfile);
     if( whichForm == 'normalvideoform' || whichForm == 'hdvideoform' || whichForm == 'ffmpeg' )
     {
-        if(extn != 'flv' && extn != 'FLV' && extn != 'mp4' && extn != 'MP4' && extn != 'm4v' && extn != 'M4V' && extn != 'mp4v' && extn != 'Mp4v' && extn != 'm4a' && extn != 'M4A' && extn != 'mov' && extn != 'MOV' && extn != 'f4v' && extn != 'F4V')
+        if(extn != 'flv' && extn != 'FLV' && extn != 'mp4' && extn != 'MP4' && extn != 'm4v' && extn != 'M4V' && extn != 'mp4v' && extn != 'Mp4v' && extn != 'm4a' && extn != 'M4A' && extn != 'mov' && extn != 'MOV' && extn != 'f4v' && extn != 'F4V' && extn != 'mp3'  && extn != 'MP3')
         {
             alert(extn+" is not a valid Video Extension");
             return false;
@@ -75,7 +94,7 @@ function updateQueue(statuscode,statusmessage,outfile)
 function submitUploadForm(form_handle)
 {
     document.forms[form_handle].target = "uploadvideo_target";
-    document.forms[form_handle].action = document.getElementById("videouploadformurl").value+"administrator/components/com_contushdvideoshare/upload.php?processing=1&clientupload=true";
+    document.forms[form_handle].action = document.getElementById("videouploadformurl").value+"/index.php?option=com_contushdvideoshare&tmpl=component&task=uploadfile&processing=1&clientupload=true";
 document.forms[form_handle].submit();
 }
 function setStatus(form_handle,status)

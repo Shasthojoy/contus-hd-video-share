@@ -1,15 +1,22 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Channel videos View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined('_JEXEC') or die('Restricted access');
-//check login or not
-//include($baseurl."components/com_contushdvideoshare/language/danish.php");
 $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
 $user = & JFactory::getUser();
 $session = & JFactory::getSession();
@@ -19,7 +26,6 @@ if ($user->get('id') == '')
     $url = $baseurl . "index.php?option=com_user&view=register";
     header("Location: $url");
 }
-//echo '<pre>';print_r($this->channelvideos);exit;
 ob_clean();
 ?>
 
@@ -41,11 +47,9 @@ if(isset($channelVideo) && $channelVideo == "playlist") {?>
                                                         <div class="floatleft">
                                         <?php
                                                         if ($this->channelvideos[$i][0]->filepath == "File" || $this->channelvideos[$i][0]->filepath == "FFmpeg")
-                                                            $src_path = "components/com_contushdvideoshare/videos/" . $this->channelvideos[$i][0]->thumburl;
+                                                            $src_path = JURI::base()."components/com_contushdvideoshare/videos/" . $this->channelvideos[$i][0]->thumburl;
                                                         if ($this->channelvideos[$i][0]->filepath == "Url" || $this->channelvideos[$i][0]->filepath == "Youtube")
-                                                            $src_path = $this->channelvideos[$i][0]->thumburl;
-                                                        else
-                                                        $src_path = "components/com_contushdvideoshare/videos/" . $this->channelvideos[$i][0]->thumburl;
+                                                            $src_path = $this->channelvideos[$i][0]->thumburl;                                                        
                                         ?>
 <?php
                                                         $oriname = $this->channelvideos[$i][0]->category;     //category name changed here for seo url purpose
@@ -70,9 +74,9 @@ if(isset($channelVideo) && $channelVideo == "playlist") {?>
                                                                               <div class="tooltip">
                                                                               <?php if(JRequest::getVar('channelid')) {
                                                                               $channelId = JRequest::getVar('channelid')?>
-                                           <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=playlist&channelid='.$channelId.'&id='.$this->channelvideos[$i][0]->playlistid,true); ?>"><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title=""  /></p></a>
+                                                                                  <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=playlist&category='.$this->channelvideos[$i][0]->category,true); ?>"><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></p></a>
                                                                               <?php }else {?>
-                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=playlist&id='.$this->channelvideos[$i][0]->playlistid,true); ?>"><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title=""  /></p></a>
+                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=playlist&category='.$this->channelvideos[$i][0]->category,true); ?>"><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></p></a>
                                           <?php }?>
                                               </div>
 
@@ -114,7 +118,7 @@ if(isset($channelVideo) && $channelVideo == "playlist") {?>
                                                     </span>
                                                     <?php //} ?>
                                              </div>
-                                             <span class="floatright viewcolor"> <?php echo _HDVS_VIEWS; ?></span>
+                                             <span class="floatright viewcolor"> <?php echo JText::_('HDVS_VIEWS'); ?></span>
                                              <span class="floatright viewcolor view"><?php echo $this->channelvideos[$i][0]->times_viewed; ?></span>
 
                                                         <div class="clear"></div>
@@ -129,7 +133,7 @@ if(isset($channelVideo) && $channelVideo == "playlist") {?>
 $channel_id = $this->channelId;
  $page_rows = $this->channelvideorowcol[0]->video_row * $this->channelvideorowcol[0]->video_colomn;
  //$page_rows = 2;
- $rows = count($this->myplaylist);
+ $rows = $this->myplaylist;
  $last = ceil($rows/$page_rows);
  if(JRequest::getVar('page')) {
  $curr_page = JRequest::getVar('page');
@@ -140,9 +144,12 @@ $channel_id = $this->channelId;
  $next = $curr_page + 1;?>
     <?php if($prev > 0) {?>
  <a onclick="ajaxpagination('<?php echo $prev;?>','<?php echo JRequest::getVar('channel_videos');?>','<?php echo $channel_id?>');"><?php echo 'prev';?></a>
- <?php } for($i=1;$i<=$last;$i++) { ?>
+ <?php } 
+ if($last > 1) {
+ for($i=1;$i<=$last;$i++) { ?>
  	<a onclick="ajaxpagination('<?php echo $i;?>','<?php echo JRequest::getVar('channel_videos');?>','<?php echo $channel_id?>');"><?php echo $i;?></a>
 <?php  }
+ }
 if($curr_page < $last) {
  ?>
  <a onclick="ajaxpagination('<?php echo $next;?>','<?php echo JRequest::getVar('channel_videos');?>','<?php echo $channel_id?>');"><?php echo 'next';?></a>
@@ -172,9 +179,7 @@ if($curr_page < $last) {
                                                         if ($this->channelvideos[$i]->filepath == "File" || $this->channelvideos[$i]->filepath == "FFmpeg")
                                                             $src_path = JURI::base()."components/com_contushdvideoshare/videos/" . $this->channelvideos[$i]->thumburl;
                                                         if ($this->channelvideos[$i]->filepath == "Url" || $this->channelvideos[$i]->filepath == "Youtube")
-                                                            $src_path = $this->channelvideos[$i]->thumburl;
-                                                        else
-                                                        $src_path = JURI::base()."components/com_contushdvideoshare/videos/" . $this->channelvideos[$i]->thumburl;
+                                                            $src_path = $this->channelvideos[$i]->thumburl;                                                        
                                         ?>
 <?php
                                                         $oriname = $this->channelvideos[$i]->category;     //category name changed here for seo url purpose
@@ -215,6 +220,8 @@ if($curr_page < $last) {
                 {
                    $urlArray = explode("=", $vresult[0]);
                    $videoid = trim($urlArray[1]);
+                } else {
+                	$videoid = 0;
                 }
         $htmlCode = $videoid;
         $type = "youtube";
@@ -261,7 +268,7 @@ if($curr_page < $last) {
                                                     </span>
                                                     <?php //} ?>
                                              </div>
-                                             <span class="floatright viewcolor"> <?php echo _HDVS_VIEWS; ?></span>
+                                             <span class="floatright viewcolor"> <?php echo JText::_('HDVS_VIEWS'); ?></span>
                                              <span class="floatright viewcolor view"><?php echo $this->channelvideos[$i]->times_viewed; ?></span>
 
                                                         <div class="clear"></div>
@@ -274,9 +281,8 @@ if($curr_page < $last) {
 <div id="pagination" style="float: right;">
 <?php
 $channel_id = $this->channelId;
- $page_rows = $this->channelvideorowcol[0]->video_row * $this->channelvideorowcol[0]->video_colomn;
- //$page_rows = 2;
- $rows = count($this->myvideos);
+ $page_rows = $this->channelvideorowcol[0]->video_row * $this->channelvideorowcol[0]->video_colomn; 
+ $rows = $this->myvideos;
  $last = ceil($rows/$page_rows);
  if(JRequest::getVar('page')) {
  $curr_page = JRequest::getVar('page');
@@ -287,9 +293,12 @@ $channel_id = $this->channelId;
  $next = $curr_page + 1;?>
     <?php if($prev > 0) {?>
  <a onclick="ajaxpagination('<?php echo $prev;?>','<?php echo JRequest::getVar('channel_videos');?>','<?php echo $channel_id;?>');"><?php echo 'prev';?></a>
- <?php } for($i=1;$i<=$last;$i++) { ?>
- 	<a onclick="ajaxpagination('<?php echo $i;?>','<?php echo JRequest::getVar('channel_videos');?>','<?php echo $channel_id;?>');"><?php echo $i;?></a>
+ <?php }
+ if($last > 1) {
+  for($i=1;$i<=$last;$i++) { ?>
+ 	<a class="<?php if($i == $curr_page) {echo 'activepage';}?>" onclick="ajaxpagination('<?php echo $i;?>','<?php echo JRequest::getVar('channel_videos');?>','<?php echo $channel_id;?>');"><?php echo $i;?></a>
 <?php  }
+ }
 if($curr_page < $last) {
  ?>
  <a onclick="ajaxpagination('<?php echo $next;?>','<?php echo JRequest::getVar('channel_videos');?>','<?php echo $channel_id;?>');"><?php echo 'next';?></a>

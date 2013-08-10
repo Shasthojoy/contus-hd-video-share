@@ -22,7 +22,7 @@ jimport('joomla.application.component.view');
 
 class contushdvideoshareViewimpressionclicks extends JView {
 
-    function display() {
+    function display($cachable = false, $urlparams = false) {
         $model = $this->getModel();
         $impressionclicks = $model->impressionclicks();
     }

@@ -1,108 +1,118 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Languagexml View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined('_JEXEC') or die('Restricted access');
 ob_clean();
 header ("content-type: text/xml");
     echo '<?xml version="1.0" encoding="utf-8"?>';
     echo '<language>';
     echo'<play>';
-    echo '<![CDATA['._HDVS_PLAY.']]>';
+    echo '<![CDATA['.JText::_('HDVS_PLAY').']]>';
     echo  '</play>';
     echo '<pause>';
-    echo '<![CDATA['._HDVS_PAUSE.']]>';
+    echo '<![CDATA['.JText::_('HDVS_PAUSE').']]>';
     echo '</pause>';
     echo '<hdison>';
-    echo '<![CDATA['._HDVS_HD_IS_ON.']]>';
+    echo '<![CDATA['.JText::_('HDVS_HD_IS_ON').']]>';
     echo '</hdison>';
     echo '<hdisoff>';
-    echo '<![CDATA['._HDVS_HD_IS_OFF.']]>';
+    echo '<![CDATA['.JText::_('HDVS_HD_IS_OFF').']]>';
     echo '</hdisoff>';
     echo '<zoom>';
-    echo '<![CDATA['._HDVS_ZOOM.']]>';
+    echo '<![CDATA['.JText::_('HDVS_ZOOM').']]>';
     echo '</zoom>';
     echo'<share>';
-    echo '<![CDATA['._HDVS_SHARE.']]>';
+    echo '<![CDATA['.JText::_('HDVS_SHARE').']]>';
     echo '</share>';
     echo'<fullscreen>';
-    echo '<![CDATA['._HDVS_FULL_SCREEN.']]>';
+    echo '<![CDATA['.JText::_('HDVS_FULL_SCREEN').']]>';
     echo '</fullscreen>';
     echo'<relatedvideos>';
-    echo '<![CDATA['._HDVS_RELATED_VIDEOS.']]>';
+    echo '<![CDATA['.JText::_('HDVS_RELATED_VIDEOS').']]>';
     echo '</relatedvideos>';
     echo'<sharetheword>';
-    echo '<![CDATA['._HDVS_SHARE_THE_WORD.']]>';
+    echo '<![CDATA['.JText::_('HDVS_SHARE_THE_WORD').']]>';
     echo '</sharetheword>';
     echo'<sendanemail>';
-    echo '<![CDATA['._HDVS_SEND_AN_EMAIL.']]>';
+    echo '<![CDATA['.JText::_('HDVS_SEND_AN_EMAIL').']]>';
     echo '</sendanemail>';
     echo'<to>';
-    echo '<![CDATA['._HDVS_TO.']]>';
+    echo '<![CDATA['.JText::_('HDVS_TO').']]>';
     echo '</to>';
     echo'<from>';
-    echo '<![CDATA['._HDVS_FROM.']]>';
+    echo '<![CDATA['.JText::_('HDVS_FROM').']]>';
     echo '</from>';
     echo'<note>';
-    echo '<![CDATA['._HDVS_NOTE.']]>';
+    echo '<![CDATA['.JText::_('HDVS_NOTE').']]>';
     echo '</note>';
     echo'<send>';
-    echo '<![CDATA['._HDVS_SEND.']]>';
+    echo '<![CDATA['.JText::_('HDVS_SEND').']]>';
     echo '</send>';
     echo'<copylink>';
-    echo '<![CDATA['._HDVS_COPY_LINK.']]>';
+    echo '<![CDATA['.JText::_('HDVS_COPY_LINK').']]>';
     echo '</copylink>';
     echo'<copyembed>';
-    echo '<![CDATA['._HDVS_COPY_EMBED.']]>';
+    echo '<![CDATA['.JText::_('HDVS_COPY_EMBED').']]>';
     echo '</copyembed>';
     echo'<facebook>';
-    echo '<![CDATA['._HDVS_FACEBOOK.']]>';
+    echo '<![CDATA['.JText::_('HDVS_FACEBOOK').']]>';
     echo '</facebook>';
     echo'<reddit>';
-    echo '<![CDATA['._HDVS_RED_IT.']]>';
+    echo '<![CDATA['.JText::_('HDVS_RED_IT').']]>';
     echo '</reddit>';
     echo'<friendfeed>';
-    echo '<![CDATA['._HDVS_FRIEND_FEED.']]>';
+    echo '<![CDATA['.JText::_('HDVS_FRIEND_FEED').']]>';
     echo '</friendfeed>';
     echo'<slashdot>';
-    echo '<![CDATA['._HDVS_SLASH_DOT.']]>';
+    echo '<![CDATA['.JText::_('HDVS_SLASH_DOT').']]>';
     echo '</slashdot>';
     echo'<delicious>';
-    echo '<![CDATA['._HDVS_DELICIOUS.']]>';
+    echo '<![CDATA['.JText::_('HDVS_DELICIOUS').']]>';
     echo '</delicious>';
     echo'<myspace>';
-    echo '<![CDATA['._HDVS_MY_SPACE.']]>';
+    echo '<![CDATA['.JText::_('HDVS_MY_SPACE').']]>';
     echo '</myspace>';
     echo'<wong>';
-    echo '<![CDATA['._HDVS_WONG.']]>';
+    echo '<![CDATA['.JText::_('HDVS_WONG').']]>';
     echo '</wong>';
     echo'<digg>';
-    echo '<![CDATA['._HDVS_DIGG.']]>';
+    echo '<![CDATA['.JText::_('HDVS_DIGG').']]>';
     echo '</digg>';
     echo'<blinklist>';
-    echo '<![CDATA['._HDVS_BLINK_LINT.']]>';
+    echo '<![CDATA['.JText::_('HDVS_BLINK_LINT').']]>';
     echo '</blinklist>';
     echo'<bebo>';
-    echo '<![CDATA['._HDVS_BEBO.']]>';
+    echo '<![CDATA['.JText::_('HDVS_BEBO').']]>';
     echo '</bebo>';
     echo'<fark>';
-    echo '<![CDATA['._HDVS_FARK.']]>';
+    echo '<![CDATA['.JText::_('HDVS_FARK').']]>';
     echo '</fark>';
     echo'<tweet>';
-    echo '<![CDATA['._HDVS_TWEET.']]>';
+    echo '<![CDATA['.JText::_('HDVS_TWEET').']]>';
     echo '</tweet>';
     echo'<furl>';
-    echo '<![CDATA['._HDVS_FURL.']]>';
+    echo '<![CDATA['.JText::_('HDVS_FURL').']]>';
     echo '</furl>';
-    echo '<adindicator><![CDATA[Your selection will follow this sponsors message in - seconds]]>';
+    echo '<adindicator><![CDATA['.JText::_('HDVS_ADINDICATOR').']]>';
     echo '</adindicator>';
-    echo '<Skip><![CDATA[Skip this Video]]></Skip>';
-    echo '<Skip><![CDATA[You are not Authorized Member to view this Video]]></Skip>';
+    echo '<skip><![CDATA['.JText::_('HDVS_SKIP').']]></skip>';
+    echo '<volume><![CDATA['.JText::_('HDVS_VOLUME').']]></volume>';
+    echo '<download><![CDATA['.JText::_('HDVS_DOWNLOAD').']]></download>';
     echo '</language>';
 exit();
 ?>

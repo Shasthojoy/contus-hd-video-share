@@ -1,35 +1,33 @@
 <?php
+/*
+ ***********************************************************/
 /**
- * @version     2.3, Creation Date : March-24-2011
- * @name        view.php
- * @location    /components/com_contushdvideosahre/views/settings/view.php
- * @package	Joomla 1.6
- * @subpackage	contushdvideoshare
- * @author      Contus Support - http://www.contussupport.com
- * @copyright   Copyright (C) 2011 Contus Support
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @link        http://www.hdvideoshare.net
- */
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Controlpanel View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
-/**
- * Description :    Player settings view page
- */
-
+/*
+ ***********************************************************/
 // no direct access
 defined('_JEXEC') or die('Restricted access');
+// import Joomla view library
 jimport('joomla.application.component.view');
 
 class contushdvideoshareViewcontrolpanel extends JView {
-
-    function display() {
-       
+	// function to prepare controlpanel view
+    function display($cachable = false, $urlparams = false) {
         if (JRequest::getVar('task') == 'edit' || JRequest::getVar('task') == '') {
-            
-           // JToolBarHelper::title('Player Settings' . ': [<small>Edit</small>]');
-           // JToolBarHelper::save('save', 'save');
             $model = $this->getModel();
             $controlpaneldetails = $model->controlpaneldetails();
-           $this->assignRef('controlpaneldetails', $controlpaneldetails);
+            $this->assignRef('controlpaneldetails', $controlpaneldetails);
             parent::display();
         }
     }

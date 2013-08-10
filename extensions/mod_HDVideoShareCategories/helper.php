@@ -1,32 +1,36 @@
 <?php
-
-/**
- * @version     2.3, Creation Date : March-24-2011
- * @name        helper.php
- * @location    /components/modules/mod_HDVideoShareCategories/helper.php
- * @package	Joomla 1.6
- * @subpackage	contushdvideoshare
- * @author      Contus Support - http://www.contussupport.com
- * @copyright   Copyright (C) 2011 Contus Support
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @link        http://www.hdvideoshare.net
- */
 /*
- * Description : Modules HDVideoShare categories helper
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Category Module Helper
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
-// No direct Access
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
+/* Contushdvideoshare Category Module Helper */
 class modcategorylist {
-
-    function getcategorylist() {
-        $db = & JFactory::getDBO();
-        $query = "select * from #__hdflv_category where parent_id=-1 and published=1 order by ordering asc";
-        $db->setQuery($query);
-        $rs = $db->loadObjectList();
-        return $rs;
-    }
+	/* function to get category list */
+	public static function getcategorylist() {
+		$db =  JFactory::getDBO();
+		$query = "SELECT id,category,seo_category
+        		  FROM #__hdflv_category 
+        		  WHERE parent_id=0 AND published=1 
+        		  ORDER BY ordering asc";
+		$db->setQuery($query);
+		$rs = $db->loadObjectList();
+		return $rs;
+	}
 
 }
 

@@ -22,9 +22,6 @@ class Tableplaylist extends JTable {
 
     function __construct(&$db) {
         parent::__construct('#__hdflv_category', 'id', $db);
-    }
-	
-
+    }	
 }
-
 ?>

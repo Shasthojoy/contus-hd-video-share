@@ -1,71 +1,85 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Popular Videos Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined( '_JEXEC' ) or die( 'Restricted access' );
+// import Joomla model library
 jimport( 'joomla.application.component.model' );
+/**
+ * Contushdvideoshare Component Popular Vidos Model
+ */
 class Modelcontushdvideosharepopularvideos extends JModel
 {
-/* Following function is to display the popular videos */
-function getpopularvideos()
-{
-
-        $user =& JFactory::getUser();
-        $accessid = $user->get('aid');
-        $featuredtotal = "select count(*) from #__hdflv_upload where published=1 and type='0' ";  //Query is to get the pagination for related values
-        $db = $this->getDBO();
-		$db->setQuery($featuredtotal);
+	/* function is to display the popular videos */
+	function getpopularvideos()
+	{
+		$user = JFactory::getUser();
+		$accessid = $user->get('aid');
+		//Query is to get the pagination for related values
+		$populartotal = "SELECT count(a.id)
+        			 FROM  #__hdflv_upload a 
+        			 LEFT JOIN #__users d on a.memberid=d.id 
+        			 LEFT JOIN #__hdflv_category b on a.playlistid=b.id  
+                                 WHERE a.published=1 AND b.published=1 AND a.type='0' AND d.block=0";
+		$db = $this->getDBO();
+		$db->setQuery($populartotal);
 		$total = $db->loadResult();
-        $pageno = 1;
-        if(JRequest::getVar('page','','post','int'))
-        {
-            $pageno = JRequest::getVar('page','','post','int');
-        }
-        $limitrow=$this->getpopularvideorowcol();
-        $length=$limitrow[0]->popularrow * $limitrow[0]->popularcol;
-         $pages = ceil($total/$length);
-        if($pageno==1)
-        $start=0;
-        else
-        $start= ($pageno - 1) * $length;
-		$popularquery="select a.*,b.category,b.seo_category,d.username,e.* from #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where a.published=1 and a.type='0'  group by e.vid ORDER BY a.times_viewed desc LIMIT $start,$length";//Query is to display the popular videos
-     
-                $db->setQuery($popularquery);
-        $rows=$db->LoadObjectList();
-        if(count($rows)>0){
-        $insert_data_array = array('pageno' => $pageno);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('pages' => $pages);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('start' => $start);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('length' => $length);
-        $rows = array_merge($rows, $insert_data_array);
-        }
-       else{
-        $insert_data_array = array('pageno' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('pages' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('start' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('length' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        }
-        return $rows;
-}
-function getpopularvideorowcol()
-{
-        $db = $this->getDBO();
-        $popularquery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
-        $db->setQuery($popularquery);
-        $rows=$db->LoadObjectList();
-        return $rows;
-}
+		$pageno = 1;
+		if(JRequest::getVar('page','','post','int'))
+		{
+			$pageno = JRequest::getVar('page','','post','int');
+		}
+		$limitrow=$this->getpopularvideorowcol();
+		$length=$limitrow[0]->popularrow * $limitrow[0]->popularcol;
+		$pages = ceil($total/$length);
+		if($pageno==1)
+		$start=0;
+		else
+		$start= ($pageno - 1) * $length;
+		//Query is to display the popular videos
+		$popularquery="SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+					   a.times_viewed,a.seotitle,b.category,b.seo_category,d.username,e.catid,e.vid 
+		  			   FROM #__hdflv_upload a 
+		  			   LEFT JOIN #__users d on a.memberid=d.id 
+		  			   LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+		  			   LEFT JOIN #__hdflv_category b on e.catid=b.id 
+		  			   WHERE a.published=1 and a.type='0' and b.published=1 and d.block=0 
+		  			   GROUP BY e.vid 
+		  			   ORDER BY a.times_viewed desc 
+		  			   LIMIT $start,$length";     
+		$db->setQuery($popularquery);
+		$rows=$db->LoadObjectList();
+		if(count($rows)>0){
+			$rows['pageno'] = $pageno;
+			$rows['pages'] = $pages;
+			$rows['start'] = $start;
+			$rows['length'] = $length;	
+		}		
+		return $rows;
+	}
+	function getpopularvideorowcol()
+	{
+		$db = $this->getDBO();
+		//Query is to select the popular videos row
+		$popularquery="SELECT popularrow,popularcol,seo_option,viewedconrtol,ratingscontrol 
+					   FROM #__hdflv_site_settings";
+		$db->setQuery($popularquery);
+		$rows=$db->LoadObjectList();
+		return $rows;
+	}
 }
 ?>

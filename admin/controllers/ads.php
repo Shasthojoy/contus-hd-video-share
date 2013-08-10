@@ -1,109 +1,168 @@
 <?php
+/*
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Ads Controller
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
+// import joomla controller library
 jimport('joomla.application.component.controller');
 
 /**
- * category Component Administrator Controller
+ * Contushdvideoshare Component Administrator Ads Controller
  */
 class contushdvideoshareControllerads extends JController {
 
-    function display()
-    {
-        $view = & $this->getView('showads');
-        if ($model = & $this->getModel('showads'))
-        {
-            $view->setModel($model, true);
-        }
-        $view->setLayout('showadslayout');
-        $view->showads();
-    }
+	/**
+	 * Function to display ads
+	 */
+	
+	function display($cachable = false, $urlparams = false)
+	{
+		$view = $this->getView('showads');
+		if ($model = $this->getModel('showads'))
+		{
+			$view->setModel($model, true);
+		}
+		$view->setLayout('showadslayout');
+		$view->showads();
+	}
 
-    function addads()
-    {
-        $view = & $this->getView('ads');
-        // Get/Create the model
-        if ($model = & $this->getModel('addads'))
-        {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
-            $view->setModel($model, true);
-        }
-        $view->setLayout('adslayout');
-        $view->ads();
-    }
-    function editads()
-    {
-        $view = & $this->getView('ads');
-        // Get/Create the model
-        if ($model = & $this->getModel('editads'))
-        {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
-            $view->setModel($model, true);
-        }
-        $view->setLayout('adslayout');
-        $view->editads();
-    }
-    function saveads()
-    {
-        // Get/Create the model
-        if ($model = & $this->getModel('showads')) {
-        //Push the model into the view (as default)
-        //Second parameter indicates that it is the default model for the view
-        $model->saveads(JRequest::getVar('task'));
-        }
-    }
-    function applyads()
-    {
-        // Get/Create the model
-        if ($model = & $this->getModel('showads'))
-         {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
-            $model->saveads(JRequest::getVar('task'));
-        }
-    }
-
-    function removeads()
-    {
-        if ($model = & $this->getModel('editads'))
-        {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
-            $model->removeads();
-        }
-    }
-
-    function CANCEL6()
-    {
-        $view = & $this->getView('showads');
-        // Get/Create the model
-        if ($model = & $this->getModel('showads'))
-        {
-            $view->setModel($model, true);
-        }
-        $view->setLayout('showadslayout');
-        $view->showads();
-    }
-     function publish() {
-        $adshow = JRequest::get('POST');
-        $model = & $this->getModel('showads');
-        $model->pubads($adshow);
-    }
-
-    function unpublish() {
-        $adshow = JRequest::get('POST');
-        $model = & $this->getModel('showads');
-        $model->pubads($adshow);
-    }
+	/**
+	 * Function to add new ad
+	 */
+	
+	function addads() 
+	{
+		$view = $this->getView('ads');
+		// Get/Create the model
+		if ($model = $this->getModel('addads'))
+		{
+			//Push the model into the view (as default)
+			//Second parameter indicates that it is the default model for the view
+			$view->setModel($model, true);
+		}
+		$view->setLayout('adslayout');
+		$view->ads();
+	}
+	
+	/**
+	 * Function to edit the ad
+	 */
+	
+	function editads() 
+	{
+		$view = $this->getView('ads');
+		// Get/Create the model
+		if ($model = $this->getModel('editads'))
+		{
+			//Push the model into the view (as default)
+			//Second parameter indicates that it is the default model for the view
+			$view->setModel($model, true);
+		}
+		$view->setLayout('adslayout');
+		$view->editads();
+	}
+	
+	/**
+	 * Function to save ad
+	 */
+	
+	function saveads() 
+	{
+		// Get/Create the model
+		if ($model = $this->getModel('showads')) {
+			//Push the model into the view (as default)
+			//Second parameter indicates that it is the default model for the view
+			$model->saveads(JRequest::getVar('task'));
+		}
+	}
+	
+	/**
+	 * Function to save ad and redirect to same page
+	 */
+	
+	function applyads() 
+	{
+		// Get/Create the model
+		if ($model = $this->getModel('showads'))
+		{
+			//Push the model into the view (as default)
+			//Second parameter indicates that it is the default model for the view
+			$model->saveads(JRequest::getVar('task'));
+		}
+	}
+	
+	/**
+	 * Function to remove ad
+	 */
+	
+	function removeads() //
+	{
+		if ($model = $this->getModel('editads'))
+		{
+			//Push the model into the view (as default)
+			//Second parameter indicates that it is the default model for the view
+			$model->removeads();
+		}
+	}
+	
+	/**
+	 * Function to cancel action
+	 */
+	
+	function CANCEL6() 
+	{
+		$view = $this->getView('showads');
+		// Get/Create the model
+		if ($model = $this->getModel('showads'))
+		{
+			$view->setModel($model, true);
+		}
+		$view->setLayout('showadslayout');
+		$view->showads();
+	}
+	
+	/**
+	 * Function to publish ad
+	 */
+	
+	function publish() { 
+		$adsdetail = JRequest::get('POST');
+		$model = $this->getModel('showads');
+		$model->statusChange($adsdetail);
+	}
+	
+	/**
+	 * Function to unpublish ad
+	 */
+	
+	function unpublish() { 
+		$adsdetail = JRequest::get('POST');
+		$model = $this->getModel('showads');
+		$model->statusChange($adsdetail);
+	}
+	
+	/**
+	 * Function to trash ad
+	 */
+	
+	function trash() { 
+		$adsdetail = JRequest::get('POST');
+		$model = $this->getModel('showads');
+		$model->statusChange($adsdetail);
+	}
 }

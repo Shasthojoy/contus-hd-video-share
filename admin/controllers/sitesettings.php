@@ -1,27 +1,39 @@
 <?php
+/*
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Sitesettings Controller 
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
+// import Joomla controller library
 jimport('joomla.application.component.controller');
-
+/**
+ * hdvideoshare component sitesettings administrator controller
+ */
 class contushdvideoshareControllersitesettings extends JController
 {
-
-    function display()
+	/**
+	 * function to display sitesettings
+	 */ 
+    function display($cachable = false, $urlparams = false)
     {
-
         $viewName = JRequest::getVar('view', 'sitesettings');
         $viewLayout = JRequest::getVar('layout', 'sitesettings');
-        $view = & $this->getView($viewName);
-        if ($model = & $this->getModel('sitesettings'))
+        $view = $this->getView($viewName);
+        if ($model = $this->getModel('sitesettings'))
         {
             $view->setModel($model, true);
         }
@@ -29,20 +41,22 @@ class contushdvideoshareControllersitesettings extends JController
         $view->display();
     }
 
+    /**
+     * function to edit sitesettings     
+     */ 
     function edit()
     {
         $this->display();
     }
 
-    function save()
-    {
-        
-        $detail = JRequest::get('POST');
-        $model = & $this->getModel('sitesettings');
-        $model->savesitesettings($detail);
-        $this->setRedirect('index.php?layout=sitesettings&option=' . JRequest::getVar('option'), 'Site Settings Saved!');
+    /**
+     * function to save sitesettings     
+     */ 
+    function apply()
+    {      
+        $arrFormData = JRequest::get('POST');
+        $model = $this->getModel('sitesettings');
+        $model->savesitesettings($arrFormData);        
     }
-
 }
-
 ?>

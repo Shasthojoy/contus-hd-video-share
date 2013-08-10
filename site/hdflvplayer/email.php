@@ -10,8 +10,8 @@
 
 $to = $_POST['to'];
 $from = $_POST['from'];
-//$url = $_POST['url'];
 $url = $_POST['url'];
+$subject = $_POST['Note'];
 
 
 
@@ -19,7 +19,6 @@ $url = $_POST['url'];
 
 
 
-$subject = "You have received a video!";
 
 // variables are sent to this PHP page through
 // the POST method.  POST is a global associative array
@@ -43,7 +42,7 @@ $headers .= "Return-path: " . $_POST['from'];
 
 // now we can add the content of the message to a body variable
 
-$message = $_POST['note'] . "\n\n";
+$message = $_POST['Note'] . "\n\n";
 $message .= "Video URL: " . $url;
 
 

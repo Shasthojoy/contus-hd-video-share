@@ -1,24 +1,32 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Email Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined('_JEXEC') or die();
-
+// import Joomla model library
 jimport( 'joomla.application.component.model' );
-
-
+/**
+ * Contushdvideoshare Component Email Model
+ */
 class Modelcontushdvideoshareemail extends JModel
 {
 	
         function getemail()
         {
-        
-
             $to = JRequest::getVar('to','','post','string');
             $from = JRequest::getVar('from','','post','string');
             //$url = JRequest::getVar('url','','post','string');
@@ -26,32 +34,16 @@ class Modelcontushdvideoshareemail extends JModel
 
             $subject = "You have received a video!";
 
-            // variables are sent to this PHP page through
-            // the POST method.  POST is a global associative array
-            // of variables passed through this method.  From that, we
-            // can get the values sent to this page from Flash and
-            // assign them to appropriate variables which can be used
-            // in the PHP mail() function.
-
-
             // header information not including sendTo and Subject
             // these all go in one variable.  First, include From:
             $headers = "From: "."<" . JRequest::getVar('from','','post','string') .">\r\n";
             // next include a replyto
-            $headers1 .= "Reply-To: " . JRequest::getVar('from','','post','string') . "\r\n";
-            // often email servers won't allow emails to be sent to
-            // domains other than their own.  The return path here will
-            // often lift that restriction so, for instance, you could send
-            // email to a hotmail account. (hosting provider settings may vary)
-            // technically bounced email is supposed to go to the return-path email
+            $headers1 .= "Reply-To: " . JRequest::getVar('from','','post','string') . "\r\n";            
             $headers .= "Return-path: " . JRequest::getVar('from','','post','string');
 
             // now we can add the content of the message to a body variable
-
             $message = JRequest::getVar('note','','post','string') . "\n\n";
             $message .= "Video URL: " . $url;
-
-
 
             // once the variables have been defined, they can be included
             // in the mail function call which will send you an email

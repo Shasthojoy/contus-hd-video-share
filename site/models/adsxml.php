@@ -1,37 +1,46 @@
 <?php
-
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Adsxml Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined('_JEXEC') or die();
-
+// import Joomla model library
 jimport('joomla.application.component.model');
-
+/**
+ * Contushdvideoshare Component Adsxml Model
+ */
 class Modelcontushdvideoshareadsxml extends JModel {
 
-    /**
-     * Gets the greeting
-     *
-     * @return string The greeting to be displayed to the user
-     */
+    /* function to get ads */
     function getads() {
         $db = & JFactory::getDBO();
-        $query_ads = "select * from #__hdflv_ads where published=1 and typeofadd='prepost' "; //and home=1";//and id=11;";
+        $query_ads = "SELECT id,published,adsname,filepath,postvideopath,targeturl,clickurl,impressionurl,
+        			  adsdesc,typeofadd 
+        			  FROM #__hdflv_ads 
+        			  WHERE published=1 AND typeofadd='prepost'";
         $db->setQuery($query_ads);
         $rs_ads = $db->loadObjectList();
-        $qry_settings = "select * from #__hdflv_player_settings LIMIT 1 "; //and home=1";//and id=11;";
+        $qry_settings = "SELECT random FROM #__hdflv_player_settings LIMIT 1";
         $db->setQuery($qry_settings);
-        $rs_random = $db->loadObjectList();
-        $random = $rs_random[0]->random;
+        $random = $db->loadResult();        
         ($random == 1) ? $random = "true" : $random = "false";
         $this->showadsxml($rs_ads, $random);
     }
 
+    /* function to show ads */
     function showadsxml($rs_ads, $random) {
         ob_clean();
         header("content-type: text/xml");

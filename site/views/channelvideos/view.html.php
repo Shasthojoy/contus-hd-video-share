@@ -1,61 +1,73 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Channel videos View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined( '_JEXEC' ) or die( 'Restricted access' );
+// import joomla view library
 jimport('joomla.application.component.view');
+/**
+ * Contushdvideoshare Component Channel videos Model
+ */
 class contushdvideoshareViewchannelvideos extends JView
 {
-function display()
-{
-//echo 'hi'.JRequest::getVar('channelid');exit;
-$channelVideo = JRequest::getVar('channel_videos');
-$model = $this->getModel();
-//get channel videos based on request
-if($channelVideo == 'popular') {
-//get popular videos
-$popularVideos = $model->getPopularvideos();//echo '<pre>';print_r($popularVideos);
-$this->assignRef('channelvideos', $popularVideos);
-} elseif ($channelVideo == 'recent') {
-//get recent videos
-$recentVideos = $model->getRecentvideos();//echo '<pre>';print_r($recentVideos);exit;
-$this->assignRef('channelvideos', $recentVideos);
-}elseif ($channelVideo == 'toprated') {
-//get top rated videos
-$topratedVideos = $model->getTopratedvideos();//echo '<pre>';print_r($topratedVideos);exit;
-$this->assignRef('channelvideos', $topratedVideos);
-}
-elseif ($channelVideo == 'playlist') {
-//get playlist videos
-$playlistVideos = $model->getPlaylistvideos();//echo '<pre>';print_r($playlistVideos);exit;
-$this->assignRef('channelvideos', $playlistVideos);	
-}
-JRequest::setVar( 'channelVideo', $channelVideo, 'post' );   
+	function display($cachable = false, $urlparams = false)
+	{
+		$channelVideo = JRequest::getVar('channel_videos');
+		$model = $this->getModel();
+		//get channel videos based on request
+		if($channelVideo == 'popular') {
+			//get popular videos
+			$popularVideos = $model->getPopularvideos();
+			$this->assignRef('channelvideos', $popularVideos);
+		} elseif ($channelVideo == 'recent') {
+			//get recent videos
+			$recentVideos = $model->getRecentvideos();
+			$this->assignRef('channelvideos', $recentVideos);
+		}elseif ($channelVideo == 'toprated') {
+			//get top rated videos
+			$topratedVideos = $model->getTopratedvideos();
+			$this->assignRef('channelvideos', $topratedVideos);
+		}
+		elseif ($channelVideo == 'playlist') {
+			//get playlist videos
+			$playlistVideos = $model->getPlaylistvideos();
+			$this->assignRef('channelvideos', $playlistVideos);
+		}
+		JRequest::setVar( 'channelVideo', $channelVideo, 'post' );
 
-//get channel settings
-$channelSettings = $model->channelSettings();//echo '<pre>';print_r($channelSettings);
-$this->assignRef('channelvideorowcol', $channelSettings);
+		//get channel settings
+		$channelSettings = $model->channelSettings();
+		$this->assignRef('channelvideorowcol', $channelSettings);
 
-//get myvideos
-$myVideos = $model->getMyvideos();
-$this->assignRef('myvideos', $myVideos);
+		//get myvideos
+		$myVideos = $model->getMyvideos();
+		$this->assignRef('myvideos', $myVideos);
 
-//get playlist
-$myPlaylist = $model->getMyplaylist();
-$this->assignRef('myplaylist', $myPlaylist);
+		//get playlist
+		$myPlaylist = $model->getMyplaylist();
+		$this->assignRef('myplaylist', $myPlaylist);
 
-//get channel id
-$channelId = $model->getChannel();
-$this->assignRef('channelId', $channelId);
+		//get channel id
+		$channelId = $model->getChannel();
+		$this->assignRef('channelId', $channelId);
 
 
-parent::display();
-}
+		parent::display();
+	}
 
 }
 ?>

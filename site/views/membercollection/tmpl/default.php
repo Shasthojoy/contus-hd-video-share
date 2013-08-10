@@ -1,20 +1,28 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Membercollection View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined('_JEXEC') or die('Restricted access');
 $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
-$user = & JFactory::getUser();
+$user = JFactory::getUser();
 $requestpage = '';
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
 $logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
 ?>
-<script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/popup.js"></script>
 <script type="text/javascript">
 function submitform()
 {
@@ -33,38 +41,53 @@ function submitform()
 	</div>
 </form>
 <?php
-$app = & JFactory::getApplication();
-if ($app->getTemplate() != 'hulutheme')
-{
-    echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
-    if (USER_LOGIN == '1')
+$document = JFactory::getDocument();
+$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
+if (USER_LOGIN == '1')
             {
                 if ($user->get('id') != '')
                   {
                         if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
-                    <span class="toprightmenu"><b><a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></b></span>
+                    <span class="toprightmenu"><b>
+                            <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                            <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                            <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                            <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                            <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a></b>
+                    </span>
             <?php }else { ?>
-                <span class="toprightmenu"><b><a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></b></span>
+                <span class="toprightmenu"><b>
+                        <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                        <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                    </b></span>
            <?php  } }
                 else
                 {
                     if(version_compare(JVERSION,'1.6.0','ge'))
-        { ?><span class="toprightmenu"><b><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+        { ?><span class="toprightmenu"><b>
+                <a href="index.php?option=com_users&view=registration"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
+                <a  href="index.php?option=com_users&view=login"  alt="login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+            </b></span>
            <?php }  else {      ?>
-                    <span class="toprightmenu"><b><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+                    <span class="toprightmenu"><b>
+                            <a href="index.php?option=com_user&view=register"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
+                            <a  href="index.php?option=com_user&view=login" alt="login"> <?php echo JText::_('HDVS_LOGIN'); ?></a></b></span>
         <?php
                 } }
             }
-}
+
 ?>
 <div class="section videoscenter" >
 <?php
 foreach ($this->membercollection as $rows)
  {
  ?>
-        <h1 class="underline"><?php echo _HDVS_VIDEO_ADDED_BY; ?>
+        <h1 class="underline"><?php echo JText::_('HDVS_VIDEO_ADDED_BY'); ?>
         <?php if ($rows->username == '')
           {
               echo "Administrator";
@@ -100,6 +123,14 @@ foreach ($this->membercollection as $rows)
         {
             echo '<tr>';
         }
+    	$seoOption = $this->memberpagerowcol[0]->seo_option;
+        if ($seoOption == 1) {
+             $memberCategoryVal = "category=" . $this->membercollection[$i]->seo_category;
+             $memberVideoVal = "video=" . $this->membercollection[$i]->seotitle;
+        } else {
+             $memberCategoryVal = "catid=" . $this->membercollection[$i]->catid;
+             $memberVideoVal = "id=" . $this->membercollection[$i]->id;
+        }
         if ($this->membercollection[$i]->filepath == "File" || $this->membercollection[$i]->filepath == "FFmpeg")
         {
             $src_path = "components/com_contushdvideoshare/videos/" . $this->membercollection[$i]->thumburl;
@@ -124,24 +155,24 @@ foreach ($this->membercollection as $rows)
                             ?>
                                 <div class="home-thumb">
                                     <div class="home-play-container" >
-                                        <span class="play-button-hover">
+                                        <div class="play-button-hover">
                                             <div class="movie-entry yt-uix-hovercard">
 <div class="tooltip">
-                                          <a class=" info_hover featured_vidimg" href="<?php echo 'index.php?option=com_contushdvideoshare&view=player&id='.$this->membercollection[$i]->id.'&catid='.$this->membercollection[$i]->catid; ?>" ><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title=""  /></p></a>
+                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $memberCategoryVal . "&amp;" . $memberVideoVal); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></a>
 
 
                                                 <div class="Tooltipwindow clearfix" >
-                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage"/>
-                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . _HDVS_CATEGORY . ' : ' . '</span>' .'<span class="clstoolright">'. $this->membercollection[$i]->category.'</span></div>'; ?>
-                                                    <?php echo '<span class="clsdescription">' . _HDVS_DESCRIPTION . ' : ' . '</span>' .'<p>'. $this->membercollection[$i]->description.'</p>'; ?>
+                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage" alt="tip_image"/>
+                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . JText::_('HDVS_CATEGORY') . ' : ' . '</span>' .'<span class="clstoolright">'. $this->membercollection[$i]->category.'</span></div>'; ?>
+                                                    <?php echo '<span class="clsdescription">' . JText::_('HDVS_DESCRIPTION') . ' : ' . '</span>' .'<p>'. $this->membercollection[$i]->description.'</p>'; ?>
 
                                                         <?php if ($this->memberpagerowcol[0]->viewedconrtol == 1) { ?>
-                                                    <div class="clearfix"><span class="clstoolleft"><?php echo _HDVS_VIEWS; ?>: </span><span class="clstoolright"><?php echo $this->membercollection[$i]->times_viewed; ?> </span></div>
+                                                    <div class="clearfix"><span class="clstoolleft"><?php echo JText::_('HDVS_VIEWS'); ?>: </span><span class="clstoolright"><?php echo $this->membercollection[$i]->times_viewed; ?> </span></div>
                                                            <?php } ?></div></div>
 
 
                                             </div>
-                                        </span></div>
+                                        </div></div>
                                     <div class="show-title-container">
                                         <a href=" <?php echo 'index.php?option=com_contushdvideoshare&view=player&id='.$this->membercollection[$i]->id.'&catid='.$this->membercollection[$i]->catid; ?>" class="show-title-gray info_hover">
 <?php
@@ -161,7 +192,7 @@ foreach ($this->membercollection as $rows)
                                     </span>
                                 <?php if ($this->memberpagerowcol[0]->ratingscontrol == 1)
                                       { ?>
-                                          <span class="floatleft">
+                                          <div class="floatleft">
 
 <?php
                                             if (isset($this->membercollection[$i]->ratecount) && $this->membercollection[$i]->ratecount != 0)
@@ -173,22 +204,22 @@ foreach ($this->membercollection as $rows)
                                                 $ratestar = 0;
                                             }
 ?>
-                                        <span class="floatleft"><div class="ratethis1 <?php echo $ratingview[$ratestar]; ?> "></div></span>
-                                    </span>
+                                        <div class="floatleft"><div class="ratethis1 <?php echo $ratingview[$ratestar]; ?> "></div></div>
+                                    </div>
                                 <?php } ?>
 
                                     <?php if ($this->memberpagerowcol[0]->viewedconrtol == 1)
                                             {
  ?>
 
-                                                            <span class="floatright viewcolor"><?php echo _HDVS_VIEWS; ?></span>
+                                                            <span class="floatright viewcolor"><?php echo JText::_('HDVS_VIEWS'); ?></span>
                                                             <span class="floatright viewcolor view"><?php echo $this->membercollection[$i]->times_viewed; ?></span>
 
                                     <?php } ?>
                                                     <div class="clear"></div>
                                                 </div>
 <?php } ?>
-                                            <!----------First row---------->
+                                            <!--First row-->
 <?php
                                                 if ($colcount == 0)
                                                 {
@@ -220,7 +251,7 @@ foreach ($this->membercollection as $rows)
                                             $q = $this->membercollection['pageno'];
                                             $q1 = $this->membercollection['pageno'] - 1;
                                             if ($this->membercollection['pageno'] > 1)
-                                                echo("<td align='right'><a onclick='changepage($q1);'>" . _HDVS_PREVIOUS . "</a></td>");
+                                                echo("<td align='right'><a onclick='changepage($q1);'>" . JText::_('HDVS_PREVIOUS') . "</a></td>");
                                             if ($requestpage)
                                              {
                                                 if ($requestpage > 3)
@@ -237,12 +268,13 @@ foreach ($this->membercollection as $rows)
                                             }
                                             else
                                                 $page=1;
+                                            if($pages > 1){    
                                             for ($i = $page, $j = 1; $i <= $pages; $i++, $j++)
                                              {
                                                 if ($q != $i)
                                                     echo("<td align='right'><a onclick='changepage(" . $i . ")'>" . $i . "</a></td>");
                                                 else
-                                                    echo("<td align='right'><a onclick='changepage($i);' class='active'>$i</a></td>");
+                                                    echo("<td align='right'><a onclick='changepage($i);' class='activepage'>$i</a></td>");
                                                 if ($j > 3)
                                                     break;
                                             }
@@ -254,7 +286,7 @@ foreach ($this->membercollection as $rows)
                                             }
                                             $p = $q + 1;
                                             if ($q < $pages)
-                                                echo ("<td align='right'><a onclick='changepage($p);'>" . _HDVS_NEXT . "</a></td>");
+                                                echo ("<td align='right'><a onclick='changepage($p);'>" . JText::_('HDVS_NEXT') . "</a></td>"); }
 ?>
                                         </tr>
                                     </table>

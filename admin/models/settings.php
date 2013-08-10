@@ -1,160 +1,146 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
-defined('_JEXEC') or die();
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component PlayerSettings Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
+/*
+ ***********************************************************/
+// No direct access to this file
+defined('_JEXEC') or die();
+// import joomla model library
 jimport('joomla.application.component.model');
+//Import filesystem libraries.
+jimport('joomla.filesystem.file');
+
+
+/**
+ * Contushdvideoshare Component Administrator Player Settings Model
+ */
 
 class contushdvideoshareModelsettings extends JModel
 {
+	/**
+	 * function to get player settings
+	 */
 
-
-	function getsetting()
-    {
-		$db =& JFactory::getDBO();
-        $query = "SELECT * FROM #__hdflv_player_settings";
-        $db->setQuery( $query);
-        $rs_editsettings = $db->loadObjectList();
-        if (count($rs_editsettings))
-        {
-             $id=$rs_editsettings[0]->id;
-        }
-		return $rs_editsettings;
+	function showplayersettings()
+	{
+		$db = JFactory::getDBO();
+		//query to fetch player settings
+		$query = "SELECT `id`, `published`, `buffer`, `normalscale`, `fullscreenscale`, `autoplay`, `volume`, `logoalign`,
+		         `logoalpha`, `skin_autohide`, `stagecolor`, `skin`, `embedpath`, `fullscreen`, `zoom`, `width`, `height`,
+		         `uploadmaxsize`, `ffmpegpath`, `ffmpeg`, `related_videos`, `timer`, `logopath`, `logourl`, `nrelated`,
+		         `shareurl`, `playlist_autoplay`, `hddefault`, `ads`, `prerollads`, `postrollads`, `random`, `midrollads`,
+		         `midbegin`, `midinterval`, `midrandom`, `midadrotate`, `playlist_open`, `licensekey`, `vast`, `vast_pid`,
+		         `Youtubeapi`, `scaletologo`, `googleanalyticsID`, `googleana_visible` FROM #__hdflv_player_settings";
+		$db->setQuery( $query);
+		$arrPlayerSettings = $db->loadObjectList();
+		return $arrPlayerSettings;
 	}
 
+	/**
+	 * function to save player settings
+	 */
 
-    function playersettingsmodel()
-    {
-         $db =& JFactory::getDBO();
-         $query = "SELECT * FROM #__hdflv_player_settings";
-         $db->setQuery( $query );
-         $total = $db->loadResult();
-         // Get total count
-         if (count($total))
-         {
-             return($this->showplayersettings());
-         }
+	function saveplayersettings()
+	{
+		$option = JRequest::getCmd('option');
+		$arrFormData = JRequest::get('post');
+		$mainframe = JFactory::getApplication();
+		//Get the object for settings
+		$objPlayerSettingsTable =& JTable::getInstance('settings', 'Table');		
+		$id = 1;
 
+		/**
+		 * load a row from the database
+		 */
 
+		$objPlayerSettingsTable->load($id);
+
+		// for logo image
+		$logo = JRequest::getVar('logopath', null, 'files', 'array');
+		$strRes = $this->logoImageValidation($logo['name']);
+		if($logo['name'] && $strRes)
+		{
+			$strTargetPath = VPATH.DS;
+			//Clean up filename to get rid of strange characters like spaces etc
+			$strLogoName = JFile::makeSafe($logo['name']);
+			$strTargetLogoPath = $strTargetPath.$logo['name'];
+			// To store images to a directory called components/com_contushdvideoshare/videos
+			JFile::upload($logo['tmp_name'],$strTargetLogoPath);
+			$arrFormData['logopath'] = $strLogoName;
+		}
+
+		/**
+		 * bind data to the databse table object.
+		 */
+		
+		if($arrFormData['googleana_visible'] == '0'){
+			$arrFormData['googleanalyticsID'] = '';
+		}
+		if(JRequest::getVar('midrollads') == '0') {
+			$arrFormData['midbegin'] = '';
+		}		
+		
+		if (!$objPlayerSettingsTable->bind($arrFormData))
+		{
+			JError::raiseWarning(500, JText::_($objPlayerSettingsTable->getError()));			
+		}
+
+		/**
+		 * store the data into the settings table.
+		 */
+			
+		if (!$objPlayerSettingsTable->store()) {
+			JError::raiseWarning(500, JText::_($objPlayerSettingsTable->getError()));
+		}
+
+		// set to page redirect
+		$link = 'index.php?option=' . $option.'&layout=settings';
+		$mainframe->redirect($link, 'Saved Successfully');
 	}
 
+	/**
+	 * function to check image type
+	 */
 
-     function showplayersettings()
-    {
-        $db =& JFactory::getDBO();
-        $query = "SELECT * FROM #__hdflv_player_settings order by id asc limit 1";
-        $db->setQuery( $query);
-        $rs_showsettings = $db->loadObjectList();
-        if(count($rs_showsettings)>=1)
-        {
-            return $rs_showsettings;
-        }
+	function logoImageValidation($logoname)
+	{
+		// Get file extension
+		$ext = $this->getFileExt($logoname);
+		if($ext)
+		{
+			// To check file type
+			if(($ext!="png") && ($ext!="gif") && ($ext!="jpeg") && ($ext!="jpg"))
+			{
+				JError::raiseWarning(500, JText::_('File Extensions : Allowed Extensions for image file [ jpg , jpeg , png ] only'));
+				return false;
+			}else{
+				return true;
+			}
+				
+		}
+	}
 
-    }
+	/**
+	 * function to get file extension
+	 */
 
-	function saveplayersettings($task)
-    {
-        $option= 'com_contushdvideoshare';
-		global $mainframe;
-                $mainframe = & JFactory::getApplication();
-            $db =& JFactory::getDBO();
-            $rs_savesettings =& JTable::getInstance('settings', 'Table');
-            $cid = JRequest::getVar( 'cid', array(0), '', 'array' );
-            $id = $cid[0];
-            $rs_savesettings->load($id);
-
-
-            if (!$rs_savesettings->bind(JRequest::get('post')))
-            {
-                echo "<script> alert('".$rs_savesettings->getError()."');window.history.go(-1); </script>\n";
-                exit();
-            }
-
-
-            if (!$rs_savesettings->store()) {
-                echo "<script> alert('".$rs_savesettings->getError()."'); window.history.go(-1); </script>\n";
-                exit();
-            }
-
-            // Validation for logopath
-            $this->fn_imagevalidation_settings($_FILES['logopath']['name'],$task,$option,$id);
-            if($_FILES['logopath']['name']!="")
-            {
-                $vpath= JPATH_SITE.DS.'components'.DS.'com_contushdvideoshare'.DS.'videos'.DS;
-                $vpath=str_replace('"','',$vpath);
-                $logo_name=$_FILES['logopath']['name'];
-                $target_path_logo=$vpath.$_FILES['logopath']['name'];
-                // To store images to a directory called localhost/components/com_contushdvideoshare/videos
-                move_uploaded_file($_FILES['logopath']['tmp_name'],$target_path_logo);
-                $query = "update #__hdflv_player_settings set logopath='$logo_name'";
-                $db->setQuery( $query );
-                $db->query();
-             
-            }
-            switch ($task)
-            {
-                case 'apply':
-                    $msg = 'Changes Saved';
-                    $link = 'index.php?option=' . $option .'&task=edit&layout=settings&cid[]='. $rs_savesettings->id;
-                    break;
-                case 'save':
-                    default:
-                        $msg = 'Saved';
-                        $link = 'index.php?option=' . $option.'&layout=settings';
-                        break;
-            }
-            // page redirect
-            $mainframe->redirect($link, 'Saved');
-        }
-
-
-        function fn_imagevalidation_settings(&$logoname,&$task,&$option,&$id)
-        {
-            $option= 'com_contushdvideoshare';
-            global $mainframe;
-             $mainframe = & JFactory::getApplication();
-            // Get file extension
-            $exts=$this->findexts($logoname);
-            // To make sure exts is exists
-            if($exts)
-            {
-                if(($exts!="png") && ($exts!="gif") && ($exts!="jpeg") && ($exts!="jpg")) // To check file type
-                {
-                    JError::raiseWarning('SOME_ERROR_CODE', JText::_('File Extensions:Allowed Extensions for image file is .jpg,.jpeg,.png'));
-                    switch ($task)
-                    {
-                        case 'apply':
-                            $msg = 'Changes Saved';
-                            $link = 'index.php?option=' . $option .'&task=edit&layout=playersettings&cid[]='. $rs_savesettings->id;
-                            break;
-                        case 'save':
-                            default:
-                                $msg = 'Saved';
-                                $link = 'index.php?option=' . $option.'&layout=playersettings';
-                                break;
-                    }
-                    $mainframe->redirect($link, 'Saved');
-                    exit();
-                }
-            }
-        }
-
-//
-
-    function findexts ($filename)
-        {
-            $filename = strtolower($filename) ;
-            $exts = split("[/\\.]", $filename) ;
-            $n = count($exts)-1;
-            $exts = $exts[$n];
-            return $exts;
-        }
-
+	function getFileExt($filename)
+	{
+		$filename = strtolower($filename) ;
+		return JFile::getExt($filename);
+	}
 }
 ?>

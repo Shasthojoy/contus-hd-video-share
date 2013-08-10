@@ -1,33 +1,42 @@
 <?php
-
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
-// no direct access
-
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.view');
-
+ ***********************************************************/
 /**
- * HTML View class for the backend of the details Component edit task
- *
- * @package    HelloWorld
- */
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Showads View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+
+// no direct access
+defined('_JEXEC') or die('Restricted access');
+// import joomla view library
+jimport('joomla.application.component.view');
+jimport('joomla.html.pagination');
+
 class contushdvideoshareViewshowads extends JView {
 
+	//Function to manage ads
     function showads() {
-        JToolBarHelper::title(JText::_('Ads'), 'generic.png');
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
+    	JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );
+        JToolBarHelper::title(JText::_('Video Ads'), 'ads');
         JToolBarHelper::addNew('addads', 'New Ad');
         JToolBarHelper::editList('editads', 'Edit');
-        JToolBarHelper::deleteList('', 'removeads');
+        JToolBarHelper::publishList();
+        JToolBarHelper::unpublishList();
+        if(JRequest::getVar('ads_status') == 3) {        	
+        	JToolBarHelper::deleteList('', 'removeads', 'JTOOLBAR_EMPTY_TRASH');
+        }else {
+        JToolBarHelper::trash('trash');
+        }
         $model = $this->getModel();
         $showads = $model->showadsmodel();
         $this->assignRef('showads', $showads);

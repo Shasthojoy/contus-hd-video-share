@@ -1,12 +1,20 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Commentappend Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.model' );
@@ -28,7 +36,7 @@ class Modelcontushdvideosharecommentappend extends JModel
         $parentid=JRequest::getVar('pid','','get','int'); //Getting the parent id value
         $name=JRequest::getVar('name','','get','string'); // Getting the name who is posting the comments
         $message=JRequest::getVar('message','','get','string'); // Getting the message
-        $db =& JFactory::getDBO();
+        $db = JFactory::getDBO();
         $commentquery="insert into #__hdflv_comments(parentid,videoid,name,message,published) values ('$parentid','$id','$name','$message','1')"; // This insert query is to post a new comment for a particular video
         $db->setQuery($commentquery);
         $db->query();

@@ -1,17 +1,20 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ * "ContusHDVideoShare Component" - Version 3.0
+ * Author: Contus Support - http://www.contussupport.com
+ * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
+ * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ * Project page and Demo at http://www.hdvideoshare.net
+ * Creation Date: June 2012
+ */
+// No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
-
+// table for sitesettings
 class Tablesitesettings extends JTable {
   var $id = null;
   var $published = null;
+  var $facebookapi = null;
+  var $comment = null;
   var $featurrow = null;
   var $featurcol = null;
   var $recentrow = null;
@@ -55,12 +58,8 @@ class Tablesitesettings extends JTable {
   var $facebooklike =null;
   var $seo_option =null;
 
-
 	function Tablesitesettings(&$db){
-
 		parent::__construct('#__hdflv_site_settings', 'id', $db);
-
 	}
 }
-
 ?>

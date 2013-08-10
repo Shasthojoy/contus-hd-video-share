@@ -1,43 +1,46 @@
 <?php
-
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Showvideos View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
 // no direct access
-
 defined('_JEXEC') or die('Restricted access');
 jimport('joomla.access.access');
 jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
 /**
- * HTML View class for the backend of the details Component edit task
- *
- * @package    HelloWorld
- */
+ * view class for the hdvideoshare showvideos 
+ */ 
 class contushdvideoshareViewshowvideos extends JView {
-
-    function showvideos() {
-
-        $user = & JFactory::getUser();
-        if(JRequest::getVar('userid', '', 'get'))
+	/**
+	 * function to prepare view for showvideos 
+	 */ 
+    function showvideos($cachable = false, $urlparams = false) {
+    	JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );	
+    	if (JRequest::getVar('page') != 'comment') {	
+        $user = JFactory::getUser();
+        if(JRequest::getVar('user', '', 'get'))
         {
-        JToolBarHelper::title(JText::_('Admin Videos'), 'generic.png');
+        JToolBarHelper::title(JText::_('Admin Videos'), 'adminvideos');
         }
         else
         {
-            JToolBarHelper::title(JText::_('Member Videos'), 'generic.png');
+            JToolBarHelper::title(JText::_('Member Videos'), 'membervideos');
         }
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
-        JToolBarHelper::custom($task = 'featured', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable Featured', $listSelect = true);
-        JToolBarHelper::custom($task = 'unfeatured', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable Featured', $listSelect = true);
-        $userId = (JRequest::getVar('userid', '', 'get', 'int')) ? JRequest::getVar('userid', '', 'get', 'int') : 0;
+        $strAdmin = (JRequest::getVar('user', '', 'get')) ? JRequest::getVar('user', '', 'get') : '';
         
         // Joomla! 1.6 code here
         if(version_compare(JVERSION,'1.6.0','ge'))
@@ -52,38 +55,52 @@ class contushdvideoshareViewshowvideos extends JView {
         $db->setQuery($query);
         $ugp = $db->loadObject();
         $ugp->group_id;
-        $uid = JRequest::getVar('userid', '', 'get', 'int');
+        $uid = JRequest::getVar('user', '', 'get', 'STRING');
         $usertype = (JRequest::getVar('actype', '', 'get', 'string') == 'adminvideos') ? JRequest::getVar('actype', '', 'get', 'string') : 0;
-
-
-        if ($ugp->group_id == "8") {
-            JToolBarHelper::deleteList('', 'Removevideos');
-                        JToolBarHelper::editList('editvideos', 'Edit');
-            //JToolBarHelper::deleteList('', 'Removevideos');
-        }
-        if ((($ugp->group_id == "7") || ($ugp->group_id == "8") || ($ugp->group_id == "6")) && ($userId == 62)) {
+        
+        if ((($ugp->group_id == "7") || ($ugp->group_id == "8") || ($ugp->group_id == "6")) && ($strAdmin == 'admin')) {
             JToolBarHelper::addNew('addvideos', 'New Video');
+        }
+        if ($ugp->group_id == "8") {            
+            JToolBarHelper::editList('editvideos', 'Edit');
+            JToolBarHelper::publishList();
+	        JToolBarHelper::unpublishList();
+	        JToolBarHelper::custom($task = 'featured', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable Featured', $listSelect = true);
+	        JToolBarHelper::custom($task = 'unfeatured', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable Featured', $listSelect = true);
+	        if(JRequest::getVar('filter_state') == 3) {        	
+        	JToolBarHelper::deleteList('', 'Removevideos', 'JTOOLBAR_EMPTY_TRASH');
+        	}else {           
+            JToolBarHelper::trash('trash');
+        	}
         }
         }
         // Joomla! 1.5 code here
         else
         {
-        if (($user->gid == "25") && ($userId == 62) || ($userId == 0)) {
-            JToolBarHelper::deleteList('', 'Removevideos');
-            JToolBarHelper::editList('editvideos', 'Edit');
-            if ((($user->gid == "25") || ($user->gid == "23")) && ($userId == 62)) {
+        if (($user->gid == "25") && ($strAdmin == 'admin') || ($strAdmin == 0)) {           
+            if ((($user->gid == "25") || ($user->gid == "23")) && ($strAdmin == 'admin')) {
                 JToolBarHelper::addNew('addvideos', 'New Video');
-            }
+            }            
+            JToolBarHelper::editList('editvideos', 'Edit');
+            JToolBarHelper::publishList();
+	        JToolBarHelper::unpublishList();
+	        JToolBarHelper::custom($task = 'featured', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable Featured', $listSelect = true);
+	        JToolBarHelper::custom($task = 'unfeatured', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable Featured', $listSelect = true);
+         	if(JRequest::getVar('filter_state') == 3) {        	
+        	JToolBarHelper::deleteList('', 'Removevideos', 'JTOOLBAR_EMPTY_TRASH');
+        	}else {  
+         	JToolBarHelper::trash('trash');
+        	}
         }
-        }
-        
+        }  
+             
         $model = $this->getModel();
         $showvideos = $model->showvideosmodel();
-
         $this->assignRef('videolist', $showvideos);
+    	}
         if (JRequest::getVar('page') == 'comment') {
-            JToolBarHelper::title('Commetn' . ': [<small>Edit</small>]');
-            JToolBarHelper::cancel();
+            JToolBarHelper::title('Comments');
+            JToolBarHelper::cancel('Commentcancel','Cancel');
             $model = $this->getModel('showvideos');
             $comment = $model->getcomment();
             $this->assignRef('comment', $comment);
@@ -92,6 +109,5 @@ class contushdvideoshareViewshowvideos extends JView {
             parent::display();
         }
     }
-
 }
 ?>   

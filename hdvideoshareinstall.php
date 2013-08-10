@@ -1,15 +1,21 @@
 <?php
+/*
+ ***********************************************************/
 /**
- * @version     2.3, Creation Date : March-24-2011
- * @name        hdvideoshareinstall.php
- * @location    /components/com_contushdvideosahre/hdvideoshareinstall.php
- * @package	Joomla 1.6
- * @subpackage	contushdvideoshare
- * @author      Contus Support - http://www.contussupport.com
- * @copyright   Copyright (C) 2011 Contus Support
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @link        http://www.hdvideoshare.net
- */
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Installation File
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
 /**
  * Description :    Installation file
  */
@@ -55,52 +61,25 @@ function AddColumnIfNotExists(&$errorMsg, $table, $column, $attributes = "INT( 1
     return true;
 }
 
-function check_column($table, $newcolumn, $newcolumnafter, $newcolumntype = "int(11) NOT NULL default '0'") {
-    $upgra = 'upgrade';
-    $db = & JFactory::getDBO();
-    $msg = '';
-    $foundcolumn = false;
-
-    $query = " SHOW COLUMNS FROM `#__" . $table . "`; "
-    ;
-
-    $db->setQuery($query);
-
-    if (!$db->query()) {
-        return false;
+function AddMebercolumn() {
+	$db = & JFactory::getDBO();
+	$query = 'ALTER TABLE `#__hdflv_upload` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL';
+	$db->setQuery($query);
+    if (!$result = $db->query()) {
+       return false;
     }
-
-    $columns = $db->loadObjectList();
-
-    foreach ($columns as $column) {
-        if ($column->Field == $newcolumn) {
-            $foundcolumn = true;
-            break;
-        }
+	$query = 'ALTER TABLE `#__hdflv_user` DROP `id`';
+	$db->setQuery($query);
+    if (!$result = $db->query()) {
+       return false;
     }
-
-    if (!$foundcolumn) {
-        $query = " ALTER TABLE `#__" . $table . "`
-                                ADD `" . $newcolumn . "` " . $newcolumntype
-        ;
-
-        if (strlen(trim($newcolumnafter)) > 0) {
-            $query .= " AFTER `" . $newcolumnafter . "`";
-        }
-
-        $query .= ";";
-
-
-
-        $db->setQuery($query);
-
-        if (!$db->query()) {
-            return false;
-        }
+    $query = 'ALTER TABLE `#__hdflv_user` ADD PRIMARY KEY ( `member_id` )'; 
+	$db->setQuery($query);
+    if (!$result = $db->query()) {
+       return false;
     }
-
-    return true;
 }
+
 
 // Install success. Joomla's module installer
 // creates an additional module instance during
@@ -117,6 +96,61 @@ $result = '';
      $db->setQuery($query);
     //$db->setQuery("SELECT * FROM #__components where parent=0 and admin_menu_link ='option=com_contushdvideoshare' LIMIT 1;");
     $result = $db->loadResult();
+    
+    $query = 'UPDATE  #__components '.
+                 'SET name = "Contus Hdvideoshare" '.
+                 'WHERE name = "COM_HDVIDEOSHARE"';
+	$db->setQuery($query);
+	$db->query();
+
+	$query = 'UPDATE  #__components '.
+                 'SET name = "Member Videos" '.
+                 'WHERE name = "COM_HDVIDEOSHARE_MEMBER_VIDEOS"';
+	$db->setQuery($query);
+	$db->query();
+
+	$query = 'UPDATE  #__components '.
+                 'SET name = "Member Details" '.
+                 'WHERE name = "COM_HDVIDEOSHARE_MEMBER_DETAILS"';
+	$db->setQuery($query);
+	$db->query();
+
+	$query = 'UPDATE  #__components '.
+                 'SET name = "Admin Videos" '.
+                 'WHERE name = "COM_HDVIDEOSHARE_ADMIN_VIDEOS"';
+	$db->setQuery($query);
+	$db->query();
+
+	$query = 'UPDATE  #__components '.
+                 'SET name = "Category" '.
+                 'WHERE name = "COM_HDVIDEOSHARE_CATEGORY"';
+	$db->setQuery($query);
+	$db->query();
+
+	$query = 'UPDATE  #__components '.
+                 'SET name = "Player Settings" '.
+                 'WHERE name = "COM_HDVIDEOSHARE_PLAYER_SETTINGS"';
+	$db->setQuery($query);
+	$db->query();
+
+	$query = 'UPDATE  #__components '.
+                 'SET name = "Site Settings" '.
+                 'WHERE name = "COM_HDVIDEOSHARE_SITE_SETTINGS"';
+	$db->setQuery($query);
+	$db->query();
+
+	$query = 'UPDATE  #__components '.
+                 'SET name = "Google Adsense" '.
+                 'WHERE name = "COM_HDVIDEOSHARE_GOOGLE_ADSENSE"';
+	$db->setQuery($query);
+	$db->query();
+
+	$query = 'UPDATE  #__components '.
+                 'SET name = "Video Ads" '.
+                 'WHERE name = "COM_HDVIDEOSHARE_ADS"';
+	$db->setQuery($query);
+	$db->query();
+    
 
 }
 
@@ -189,31 +223,32 @@ if (empty($result)) {
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) NOT NULL,
-  `category` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `seo_category` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `seo_category` varchar(255) NOT NULL,
   `parent_id` int(11) NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
+  `lft` int(11) NOT NULL,
+  `rgt` int(11) NOT NULL,
   `published` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;");
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;");
     $db->query();
 
-    $db->setQuery("
-INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `ordering`, `published`) VALUES
-(1, 'Speeches','Speeches', -1, 1, 1),
-(2, 'Interviews','Interviews', -1, 2, 1),
-(3, 'Talk Shows ','Talk-Shows', -1, 3, 1),
-(4, 'News & Info','News-and-Info', -1, 4, 1),
-(5, 'Documentary','Documentary', -1, 5, 1),
-(6, 'Travel','Travel', -1, 6, 1),
-(7, 'Cooking','Cooking', -1, 7, 1),
-(8, 'Music','Music', -1, 8, 1),
-(9, 'Trailers','Trailers', -1, 9, 1),
-(10, 'Religious','Religious', -1, 10, 1),
-(11, 'TV Serials & Shows','TV-Serials-and-Shows', -1, 11, 1),
-(12, 'Greetings','Greetings', -1, 12, 1),
-(13, 'Comedy','Comedy', -1, 13, 1),
-(14, 'Actors','Actors', -1, 14, 1);");
+    $db->setQuery("INSERT INTO `#__hdflv_category` (`id`, `member_id`, `category`, `seo_category`, `parent_id`, `ordering`, `lft`, `rgt`, `published`) VALUES
+(1, 0, 'Speeches', 'Speeches', 0, 1, 19, 20, 1),
+(2, 0, 'Interviews', 'Interviews', 0, 2, 11, 12, 1),
+(3, 0, 'Talk Shows', 'Talk-Shows-', 0, 3, 21, 22, 1),
+(4, 0, 'News & Info', 'News-Info', 0, 4, 15, 16, 1),
+(5, 0, 'Documentary', 'Documentary', 0, 5, 7, 8, 1),
+(6, 0, 'Travel', 'Travel', 0, 6, 25, 26, 1),
+(7, 0, 'Cooking', 'Cooking', 0, 7, 5, 6, 1),
+(8, 0, 'Music', 'Music', 0, 8, 13, 14, 1),
+(9, 0, 'Trailers', 'Trailers', 0, 9, 23, 24, 1),
+(10, 0, 'Religious', 'Religious', 0, 10, 17, 18, 1),
+(11, 0, 'TV Serials & Shows', 'TV-Serials-Shows', 0, 11, 27, 28, 1),
+(12, 0, 'Greetings', 'Greetings', 0, 12, 9, 10, 1),
+(13, 0, 'Comedy', 'Comedy', 0, 13, 3, 4, 1),
+(14, 0, 'Actors', 'Actors', 0, 14, 1, 2, 1);");
     $db->query();
 
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_comments` (
@@ -238,9 +273,9 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
   `reopenadd` tinytext NOT NULL,
   `publish` int(1) NOT NULL,
   `ropen` int(6) NOT NULL,
-  `showaddc` tinyint(1) NOT NULL,
-  `showaddm` tinytext NOT NULL,
-  `showaddp` tinytext NOT NULL
+  `showaddc` tinyint(1) NOT NULL DEFAULT '0',
+  `showaddm` tinyint(4) NOT NULL DEFAULT '0',
+  `showaddp` tinyint(4) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     $db->query();
 
@@ -265,7 +300,7 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
   `fullscreen` tinyint(1) NOT NULL,
   `zoom` tinyint(1) NOT NULL,
   `width` int(20) NOT NULL,
-  `height` int(20) NOT NULL,
+  `height` int(20) NOT NULL DEFAULT '400',
   `uploadmaxsize` int(10) NOT NULL,
   `ffmpegpath` varchar(255) NOT NULL,
   `ffmpeg` varchar(20) NOT NULL,
@@ -295,11 +330,11 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
   `googleanalyticsID` text NOT NULL,
   `googleana_visible` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;");
     $db->query();
 
     $db->setQuery("INSERT INTO `#__hdflv_player_settings` (`id`, `published`, `buffer`, `normalscale`, `fullscreenscale`, `autoplay`, `volume`, `logoalign`, `logoalpha`, `skin_autohide`, `stagecolor`, `skin`, `embedpath`, `fullscreen`, `zoom`, `width`, `height`, `uploadmaxsize`, `ffmpegpath`, `ffmpeg`, `related_videos`, `timer`, `logopath`, `logourl`, `nrelated`, `shareurl`, `playlist_autoplay`, `hddefault`, `ads`, `prerollads`, `postrollads`, `random`, `midrollads`, `midbegin`, `midinterval`, `midrandom`, `midadrotate`, `playlist_open`, `licensekey`, `vast`, `vast_pid`, `Youtubeapi`, `scaletologo`, `googleanalyticsID`, `googleana_visible`) VALUES
-(1, 1, 15, '0', '0', 1, 34, 'TL', 35, 1, '000000', 'skin_black.swf', 'http://localhost/joomlatry/', 1, 1, 700, 475, 100, 'usr/bin/ffmpeg/', '0', 1, 1, '', 'http://www.hdvideoshare.net', 8, 1, 1, 1, 0, 1, 1, 0, 0, 1, 5, 0, 0, 1, '', 0, 0, 1, 1, '00000000', 0);");
+(1, 1, 15, '0', '0', 1, 34, 'TL', 35, 1, '000000', 'skin_fresh_blue.swf', 'http://localhost/joomlatry/', 1, 1, 700, 475, 100, 'usr/bin/ffmpeg/', '0', 1, 1, '', 'http://www.hdvideoshare.net', 8, 1, 1, 1, 0, 1, 1, 0, 0, 1, 5, 0, 0, 1, '', 0, 0, 1, 1, '', 0);");
     $db->query();
 
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_site_settings` (
@@ -385,7 +420,7 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
   `postrollads` tinyint(4) NOT NULL,
   `prerollads` tinyint(4) NOT NULL,
   `midrollads` tinyint(4) NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `description` text CHARACTER SET utf8 NOT NULL,
   `targeturl` varchar(255) CHARACTER SET utf8 NOT NULL,
   `download` tinyint(4) NOT NULL,
   `prerollid` int(11) NOT NULL,
@@ -395,6 +430,7 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
   `usergroupid` varchar(250)CHARACTER SET utf8 NOT NULL,
   `tags` text CHARACTER SET utf8 NOT NULL,
   `useraccess` int(11) NOT NULL DEFAULT '0',
+  `islive` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
     $db->query();
@@ -412,13 +448,13 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
         $groupname = $ugp->group_id;
         $user = & JFactory::getUser();
         $userid = $user->get('id');
-        $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`) VALUES
-(1, 42, 1, 'Avatar Movie Trailer [HD]','Avatar-Movie-Trailer-[HD]', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=d1_JBMrrYw8', 'http://img.youtube.com/vi/d1_JBMrrYw8/1.jpg', 'http://img.youtube.com/vi/d1_JBMrrYw8/0.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0),
-(2, 42, 1, 'HD: Super Slo-mo Surfer! - South Pacific - BBC Two', 'HD-Super-Slo-mo-Surfer!-South-Pacific-BBC-Two',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=7BOhDaJH0m4', 'http://img.youtube.com/vi/7BOhDaJH0m4/1.jpg', 'http://img.youtube.com/vi/7BOhDaJH0m4/0.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0),
-(3, 42, 1, 'Fatehpur Sikri, Taj Mahal - India (in HD)','Fatehpur-Sikri,-Taj-Mahal-India-(in HD)', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=UNWROFjIwvQ', 'http://img.youtube.com/vi/UNWROFjIwvQ/1.jpg', 'http://img.youtube.com/vi/UNWROFjIwvQ/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0),
-(4, 42, 1, 'East India Company (HD) PC Gameplay','East-India-Company-HD)-PC-Gameplay', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=ASJjhChzkJM', 'http://img.youtube.com/vi/ASJjhChzkJM/1.jpg', 'http://img.youtube.com/vi/ASJjhChzkJM/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0),
-(5, 42, 1, 'The Best of Mr Beans Holiday The Movie HD', 'The-Best-of-Mr-Beans-Holiday-The-Movie-HD',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=vCqCIAnyyXU', 'http://img.youtube.com/vi/vCqCIAnyyXU/1.jpg', 'http://img.youtube.com/vi/vCqCIAnyyXU/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0),
-(6, 42, 1, 'Harry Potter and the Deathly Hallows Trailer Official HD','Harry-Potter-and-the-Deathly-Hallows-Trailer-Official-HD', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=_EC2tmFVNNE', 'http://img.youtube.com/vi/_EC2tmFVNNE/1.jpg', 'http://img.youtube.com/vi/_EC2tmFVNNE/0.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0);
+        $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`,`islive`) VALUES
+(1, $userid, 1, 'Avatar Movie Trailer [HD]','Avatar-Movie-Trailer-[HD]', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=d1_JBMrrYw8', 'http://img.youtube.com/vi/d1_JBMrrYw8/1.jpg', 'http://img.youtube.com/vi/d1_JBMrrYw8/0.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0),
+(2, $userid, 1, 'HD: Super Slo-mo Surfer! - South Pacific - BBC Two', 'HD-Super-Slo-mo-Surfer!-South-Pacific-BBC-Two',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=7BOhDaJH0m4', 'http://img.youtube.com/vi/7BOhDaJH0m4/1.jpg', 'http://img.youtube.com/vi/7BOhDaJH0m4/0.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0),
+(3, $userid, 1, 'Fatehpur Sikri, Taj Mahal - India (in HD)','Fatehpur-Sikri,-Taj-Mahal-India-(in HD)', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=UNWROFjIwvQ', 'http://img.youtube.com/vi/UNWROFjIwvQ/1.jpg', 'http://img.youtube.com/vi/UNWROFjIwvQ/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0,0),
+(4, $userid, 1, 'East India Company (HD) PC Gameplay','East-India-Company-HD)-PC-Gameplay', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=ASJjhChzkJM', 'http://img.youtube.com/vi/ASJjhChzkJM/1.jpg', 'http://img.youtube.com/vi/ASJjhChzkJM/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0,0),
+(5, $userid, 1, 'The Terminator Movie Trailer', 'The-Terminator-Movie-Trailer',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=622AmVpUAsA', 'http://i3.ytimg.com/vi/622AmVpUAsA/default.jpg', 'http://img.youtube.com/vi/622AmVpUAsA/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0,0),
+(6, $userid, 1, 'Harry Potter and the Deathly Hallows Trailer Official HD','Harry-Potter-and-the-Deathly-Hallows-Trailer-Official-HD', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=_EC2tmFVNNE', 'http://img.youtube.com/vi/_EC2tmFVNNE/1.jpg', 'http://img.youtube.com/vi/_EC2tmFVNNE/0.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0,0);
 ");
         $db->query();
 
@@ -427,22 +463,21 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
     } else {
         $groupname = '25';
 
-        $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`) VALUES
-(1, 62, 1, 'Avatar Movie Trailer [HD]','Avatar-Movie-Trailer-[HD]', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=d1_JBMrrYw8', 'http://img.youtube.com/vi/d1_JBMrrYw8/1.jpg', 'http://img.youtube.com/vi/d1_JBMrrYw8/0.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,1),
-(2, 62, 1, 'HD: Super Slo-mo Surfer! - South Pacific - BBC Two', 'HD-Super-Slo-mo-Surfer!-South-Pacific-BBC-Two',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=7BOhDaJH0m4', 'http://img.youtube.com/vi/7BOhDaJH0m4/1.jpg', 'http://img.youtube.com/vi/7BOhDaJH0m4/0.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,1),
-(3, 62, 1, 'Fatehpur Sikri, Taj Mahal - India (in HD)','Fatehpur-Sikri,-Taj-Mahal-India-(in HD)', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=UNWROFjIwvQ', 'http://img.youtube.com/vi/UNWROFjIwvQ/1.jpg', 'http://img.youtube.com/vi/UNWROFjIwvQ/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,1),
-(4, 62, 1, 'East India Company (HD) PC Gameplay','East-India-Company-HD)-PC-Gameplay', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=ASJjhChzkJM', 'http://img.youtube.com/vi/ASJjhChzkJM/1.jpg', 'http://img.youtube.com/vi/ASJjhChzkJM/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,1),
-(5, 62, 1, 'The Best of Mr Beans Holiday The Movie HD', 'The-Best-of-Mr-Beans-Holiday-The-Movie-HD',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=vCqCIAnyyXU', 'http://img.youtube.com/vi/vCqCIAnyyXU/1.jpg', 'http://img.youtube.com/vi/vCqCIAnyyXU/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,1),
-(6, 62, 1, 'Harry Potter and the Deathly Hallows Trailer Official HD','Harry-Potter-and-the-Deathly-Hallows-Trailer-Official-HD', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=_EC2tmFVNNE', 'http://img.youtube.com/vi/_EC2tmFVNNE/1.jpg', 'http://img.youtube.com/vi/_EC2tmFVNNE/0.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,1);
+        $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`,`islive`) VALUES
+(1, 62, 1, 'Avatar Movie Trailer [HD]','Avatar-Movie-Trailer-[HD]', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=d1_JBMrrYw8', 'http://img.youtube.com/vi/d1_JBMrrYw8/1.jpg', 'http://img.youtube.com/vi/d1_JBMrrYw8/0.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0),
+(2, 62, 1, 'HD: Super Slo-mo Surfer! - South Pacific - BBC Two', 'HD-Super-Slo-mo-Surfer!-South-Pacific-BBC-Two',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=7BOhDaJH0m4', 'http://img.youtube.com/vi/7BOhDaJH0m4/1.jpg', 'http://img.youtube.com/vi/7BOhDaJH0m4/0.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0),
+(3, 62, 1, 'Fatehpur Sikri, Taj Mahal - India (in HD)','Fatehpur-Sikri,-Taj-Mahal-India-(in HD)', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=UNWROFjIwvQ', 'http://img.youtube.com/vi/UNWROFjIwvQ/1.jpg', 'http://img.youtube.com/vi/UNWROFjIwvQ/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0,0),
+(4, 62, 1, 'East India Company (HD) PC Gameplay','East-India-Company-HD)-PC-Gameplay', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=ASJjhChzkJM', 'http://img.youtube.com/vi/ASJjhChzkJM/1.jpg', 'http://img.youtube.com/vi/ASJjhChzkJM/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0,0),
+(5, 62, 1, 'The Terminator Movie Trailer', 'The-Terminator-Movie-Trailer',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=622AmVpUAsA', 'http://i3.ytimg.com/vi/622AmVpUAsA/default.jpg', 'http://img.youtube.com/vi/622AmVpUAsA/0.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0,0),
+(6, 62, 1, 'Harry Potter and the Deathly Hallows Trailer Official HD','Harry-Potter-and-the-Deathly-Hallows-Trailer-Official-HD', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=_EC2tmFVNNE', 'http://img.youtube.com/vi/_EC2tmFVNNE/1.jpg', 'http://img.youtube.com/vi/_EC2tmFVNNE/0.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0,0);
 ");
         $db->query();
     }
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) NOT NULL,
   `allowupload` tinyint(4) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ; ;");
+  PRIMARY KEY (`member_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     $db->query();
 
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_video_category` (
@@ -508,12 +543,28 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
     $upgra = 'upgrade';
     $updateDid = '';
     $updateDid = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "useraccess");
-
+    
+    $updateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "islive","TINYINT( 1 ) NOT NULL DEFAULT '0'");
+    
     $updateDidface = AddColumnIfNotExists($errorMsg, "#__hdflv_site_settings", "facebookapi");
 
     $updateMid = AddColumnIfNotExists($errorMsg, "#__hdflv_category", "member_id");
+    
+    $updateGoogleAd = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddc","TINYINT( 1 ) NOT NULL DEFAULT '0'");
+    $updateGoogleAd1 = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddm","TINYINT NOT NULL DEFAULT '0'");
+    $updateGoogleAd2 = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddp","TINYINT NOT NULL DEFAULT '0'");
+    
+    $updateCategory = AddColumnIfNotExists($errorMsg, "#__hdflv_category", "lft","INT( 11 ) NOT NULL","ordering");
+    $updateCategory1 = AddColumnIfNotExists($errorMsg, "#__hdflv_category", "rgt","INT( 11 ) NOT NULL","lft");
+    
+    $hdflvUsertable = AddMebercolumn();
+    
     if (!$updateDid) {
         $msgSQL .= "error adding 'playlist_autoplay' column to 'hdflvplayersettings' table <br />";
+    }
+    
+    if(!$updateLive) {
+    	$msgSQL .= "error adding 'islive' column to 'hdflvupload' table <br />";
     }
 
     if (!$updateDidface) {
@@ -524,6 +575,13 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
     	$msgSQL .= "error adding 'member_id' column to 'category' table <br />";
     }
 
+    if (!$updateGoogleAd || !$updateGoogleAd1 || !$updateGoogleAd2) {
+        $msgSQL .= "error updating columns in 'googlead' table <br />";
+    }
+    
+    if (!$updateCategory || !$updateCategory1) {
+        $msgSQL .= "error adding columns in 'hdflv_category' table <br />";
+    }
 }
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareCategories');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareFeatured');
@@ -604,7 +662,7 @@ if ($id) {
             </td>
         </tr>
 
-        <tr class="row2">
+        <tr class="row0">
             <td class="key" colspan="2"><?php echo 'HDVideoShare Featured - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
                 <?php
@@ -630,7 +688,7 @@ if ($id) {
             </td>
         </tr>
 
-        <tr class="row5">
+        <tr class="row1">
             <td class="key" colspan="2"><?php echo 'HDVideoShare Related - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
                 <?php
@@ -656,7 +714,7 @@ if ($id) {
             </td>
         </tr>
 
-        <tr class="row3">
+        <tr class="row0">
             <td class="key" colspan="2"><?php echo 'HDVideoShare Popular - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
                 <?php
@@ -682,7 +740,7 @@ if ($id) {
             </td>
         </tr>
 
-        <tr class="row4">
+        <tr class="row1">
             <td class="key" colspan="2"><?php echo 'HDVideoShare Recent - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
                 <?php
@@ -710,7 +768,7 @@ if ($id) {
 
 
 
-        <tr class="row6">
+        <tr class="row0">
             <td class="key" colspan="2"><?php echo 'HDVideoShare Search - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
                 <?php

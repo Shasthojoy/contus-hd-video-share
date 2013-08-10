@@ -1,20 +1,30 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Popular Videos View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined('_JEXEC') or die('Restricted access');
+//rating array
 $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
-$user = & JFactory::getUser();
+$user = JFactory::getUser();
 $requestpage = '';
+//get current page number
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
 $logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
 ?>
-<script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/popup.js"></script>
 <script type="text/javascript">
 function submitform()
 {
@@ -22,7 +32,7 @@ function submitform()
 }
 </script>
 
-<form name="myform" action="" method="post" id="login-form">
+<form name="myform" action="" method="post" id="login_form">
 
 	<div class="logout-button">
 
@@ -33,31 +43,42 @@ function submitform()
 	</div>
 </form>
 <?php
-$app = & JFactory::getApplication();
-if ($app->getTemplate() != 'hulutheme')
-  {
-    echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
-    if (USER_LOGIN == '1')
-            {
-                if ($user->get('id') != '')
-                  {
-                        if(version_compare(JVERSION,'1.6.0','ge'))
-                        {
-                       ?>
-                    <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></div>
+$document = JFactory::getDocument();
+$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
+    if (USER_LOGIN == '1') {
+       if ($user->get('id') != '') {
+           if(version_compare(JVERSION,'1.6.0','ge')) { ?>
+             <div class="toprightmenu">
+                <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_( 'HDVS_MY_CHANNEL' ); ?></a> | 
+                <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_( 'HDVS_MY_PLAYLIST' ); ?></a> | 
+                <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_( 'HDVS_CHANNEL_SETTINGS' ); ?></a> | 
+                <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_( 'HDVS_MY_VIDEOS' ); ?></a> | 
+                <a href="javascript: submitform();"><?php echo JText::_( 'HDVS_LOGOUT' ); ?></a>
+             </div>
             <?php }else { ?>
-                <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></div>
+             <div class="toprightmenu">
+                <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> | 
+                <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> | 
+                <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> | 
+                <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> | 
+                <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+             </div>
            <?php  } }
                 else
                 {
                     if(version_compare(JVERSION,'1.6.0','ge'))
-        { ?><span class="toprightmenu"><b><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+        { ?><span class="toprightmenu"><b>
+		        <a href="index.php?option=com_users&view=registration"><?php echo JText::_('HDVS_REGISTER'); ?></a> | 
+		        <a  href="index.php?option=com_users&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a></b>
+        	</span>
            <?php }  else {      ?>
-                    <span class="toprightmenu"><b><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+                    <span class="toprightmenu"><b>
+	                    <a href="index.php?option=com_user&view=register"><?php echo JText::_('HDVS_REGISTER'); ?></a> | 
+	                    <a  href="index.php?option=com_user&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a></b>
+                    </span>
         <?php
                 } }
             }
-}
 ?>
 <div class="section videoscenter" >
     <div class="standard tidy">
@@ -66,7 +87,7 @@ if ($app->getTemplate() != 'hulutheme')
                 <div class="layout a-b-c">
                     <div class="gr a">
                         <div class="callout-header-home titlespace">
-                            <h2 class="home-link hoverable"><?php echo _HDVS_POPULAR_VIDEOS; ?></h2>
+                            <h2 class="home-link hoverable"><?php echo JText::_('HDVS_POPULAR_VIDEOS'); ?></h2>
                         </div>
                         <table>
                             <?php
@@ -84,7 +105,7 @@ if ($app->getTemplate() != 'hulutheme')
                                 {
                                     echo '<tr>';
                                 }
-//For SEO settings
+						//For SEO settings
                                 $seoOption = $this->popularvideosrowcol[0]->seo_option;
                                 if ($seoOption == 1)
                                 {
@@ -114,25 +135,25 @@ if ($app->getTemplate() != 'hulutheme')
                                 ?>
                                 <div class="home-thumb">
                                     <div class="home-play-container" >
-                                        <span class="play-button-hover">
+                                        <div class="play-button-hover">
                                             <div class="movie-entry yt-uix-hovercard">
 
                                                 <div class="tooltip">
-                                                 <a class=" info_hover featured_vidimg" href="<?php echo 'index.php?option=com_contushdvideoshare&view=player&'.$popularCategoryVal.'&'.$popularVideoVal; ?>" class="info_hover" >
-                                                    <img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title=""  /></a>
+                                                 <a class=" info_hover featured_vidimg" href="<?php echo 'index.php?option=com_contushdvideoshare&view=player&'.$popularCategoryVal.'&'.$popularVideoVal; ?>" >
+                                                    <img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></a>
                                                    
                                                     <div class="Tooltipwindow">
-                                                         <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage"/>
-                                                         <?php echo '<div class="clearfix"><span class="clstoolleft">' . _HDVS_CATEGORY . ' : ' . '</span>' .'<span class="clstoolright">'. $this->popularvideos[$i]->category.'</span></div>'; ?>
-                                                         <?php echo '<span class="clsdescription">' . _HDVS_DESCRIPTION . ' : ' . '</span>' .'<p>'. $this->popularvideos[$i]->description.'</p>'; ?>
+                                                         <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage" alt="tip_image"/>
+                                                         <?php echo '<div class="clearfix"><span class="clstoolleft">' . JText::_('HDVS_CATEGORY') . ' : ' . '</span>' .'<span class="clstoolright">'. $this->popularvideos[$i]->category.'</span></div>'; ?>
+                                                         <?php echo '<span class="clsdescription">' . JText::_('HDVS_DESCRIPTION') . ' : ' . '</span>' .'<p>'. $this->popularvideos[$i]->description.'</p>'; ?>
                                                          <?php if ($this->popularvideosrowcol[0]->viewedconrtol == 1) { ?>
-                                                         <div class="clearfix"><span class="clstoolleft"><?php echo _HDVS_VIEWS; ?>: </span><span class="clstoolright"><?php echo $this->popularvideos[$i]->times_viewed; ?> </span></div>
+                                                         <div class="clearfix"><span class="clstoolleft"><?php echo JText::_('HDVS_VIEWS'); ?>: </span><span class="clstoolright"><?php echo $this->popularvideos[$i]->times_viewed; ?> </span></div>
                                                                                                                  <?php } ?>
                                                     </div>
                                                
                                                 </div>
                                             </div>
-                                        </span>
+                                        </div>
                                     </div>
                                     <div class="show-title-container">
                                         <a href="<?php echo 'index.php?option=com_contushdvideoshare&view=player&'.$popularCategoryVal.'&'.$popularVideoVal; ?>" class="show-title-gray info_hover">
@@ -154,7 +175,7 @@ if ($app->getTemplate() != 'hulutheme')
                                         <?php if ($this->popularvideosrowcol[0]->ratingscontrol == 1) 
                                                 {
                                          ?>
-                                                    <span class="floatleft">
+                                                    <div class="floatleft">
                                                        
                                         <?php
                                                         if (isset($this->popularvideos[$i]->ratecount) && $this->popularvideos[$i]->ratecount != 0)
@@ -166,15 +187,15 @@ if ($app->getTemplate() != 'hulutheme')
                                                             $ratestar = 0;
                                                         }
                                         ?>
-                                                            <span class="floatleft innerrating"><div class="ratethis1 <?php echo $ratearray[$ratestar]; ?> "></div></span>
-                                                        </span>
+                                                            <div class="floatleft innerrating"><div class="ratethis1 <?php echo $ratearray[$ratestar]; ?> "></div></div>
+                                                        </div>
 <?php } ?>
                                                    
                                     <?php if ($this->popularvideosrowcol[0]->viewedconrtol == 1) 
                                             {
                                     ?>
                                                        
-                                                            <span class="floatright viewcolor"> <?php echo _HDVS_VIEWS; ?></span>
+                                                            <span class="floatright viewcolor"> <?php echo JText::_('HDVS_VIEWS'); ?></span>
                                                             <span class="floatright viewcolor view"><?php echo $this->popularvideos[$i]->times_viewed; ?></span>
                                                                
                                        <?php } ?>
@@ -184,7 +205,7 @@ if ($app->getTemplate() != 'hulutheme')
                             <?php
                                                     if ($colcount == 0)
                                                     {
-                                                        echo '</tr><div class="clear"></div>';
+                                                        echo '</tr>';
                                                         $current_column = 0;
                                                     }
                                                     $current_column++;
@@ -201,17 +222,15 @@ if ($app->getTemplate() != 'hulutheme')
                                 </div>
                             </div>
                         </div>
-                        <table cellpadding="0" cellspacing="0" border="0"   class="page_align"   id="pagination" >
+                        <table cellpadding="0" cellspacing="0" border="0"   class="page_align" id="pagination" align="right">
                             <tr align="right">
-                                <td align="right"  class="page_rightspace">
-                                    <table cellpadding="0" cellspacing="0"  border="0" align="right">
-                                        <tr>
+                                
                         <?php
                                                 $pages = $this->popularvideos['pages'];
                                                 $q = $this->popularvideos['pageno'];
                                                 $q1 = $this->popularvideos['pageno'] - 1;
                                                 if ($this->popularvideos['pageno'] > 1)
-                                                    echo("<td align='right'><a onclick='changepage($q1);'>" . _HDVS_PREVIOUS . "</a></td>");
+                                                    echo("<td align='right'><a onclick='changepage($q1);'>" . JText::_('HDVS_PREVIOUS') . "</a></td>");
                                                 if ($requestpage)
                                                  {
                                                     if ($requestpage > 3)
@@ -234,7 +253,7 @@ if ($app->getTemplate() != 'hulutheme')
                                                     if ($q != $i)
                                                         echo("<td align='right'><a onclick='changepage(" . $i . ")'>" . $i . "</a></td>");
                                                     else
-                                                        echo("<td align='right'><a onclick='changepage($i);' class='active'>$i</a></td>");
+                                                        echo("<td align='right'><a onclick='changepage($i);' class='activepage'>$i</a></td>");
                                                     if ($j > 3)
                                                         break;
                                                 }
@@ -246,13 +265,11 @@ if ($app->getTemplate() != 'hulutheme')
                                                 }
                                                 $p = $q + 1;
                                                 if ($q < $pages)
-                                                    echo ("<td align='right'><a onclick='changepage($p);'>" . _HDVS_NEXT . "</a></td>");}
+                                                    echo ("<td align='right'><a onclick='changepage($p);'>" . JText::_('HDVS_NEXT') . "</a></td>");}
                         ?>
                                             </tr>
                                         </table>
-                                    </td>
-                                </tr>
-                            </table>
+                                    
                         </div>
                         <form name="memberidform" id="memberidform" action="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=membercollection'); ?>" method="post">
                                                     <input type="hidden" id="memberidvalue" name="memberidvalue" value="<?php

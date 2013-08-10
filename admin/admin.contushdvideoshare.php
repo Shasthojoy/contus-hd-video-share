@@ -1,159 +1,96 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Administrator Controller
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+// No direct access to this file
 defined( '_JEXEC' ) or die( 'Restricted access' );
-define('VPATH1', realpath(dirname(__FILE__).'../../../../components/com_contushdvideoshare/videos') );
-define('VPATH2', realpath(dirname(__FILE__).'/../../../components/com_contushdvideoshare/videos') );
-define('FVPATH', realpath(dirname(__FILE__)));
 date_default_timezone_set('UTC');
-$controllerName = JRequest::getCmd( 'layout','videos');
+// Initialize path for video upload
+$componentPath  =  JPATH_COMPONENT;
+$sitePath 		= str_replace(DS.'administrator','',$componentPath);
+$videoPath 		= $sitePath.DS.'videos';
+//get the video path
+define('VPATH', $videoPath );
+//get current directory
+define('FVPATH', $componentPath);
 
-
- $folder = JPATH_ROOT . DS . 'components' . DS . 'com_contushdvideoshare' . DS . 'videos';
-        if(!is_dir($folder)){
-    mkdir($folder);
+$controllerName = JRequest::getCmd( 'layout','controlpanel');
+if($controllerName == 'categorylist'){
+	$controllerName = 'category';
 }
+// setting variables to make menu active/deactive. 
+//Initialize to false and change to true according to current menu.
 
-
-if($controllerName == 'category') {
-     JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos');
-     	  JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails');
-		  JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&userid=62');
-		 JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category', true );
-	JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings');
-   JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings');
-    JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead');
-           JSubMenuHelper::addEntry(JText::_('Ads '), 'index.php?option=com_contushdvideoshare&layout=ads');
-
-
-}
-elseif($controllerName == 'memberdetails') {
-	 JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos');
-     
-         JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails', true );
-		 JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&userid=62');
-		 	JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category');
-	JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings');
-   JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings');
-     JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead');   
-      JSubMenuHelper::addEntry(JText::_('Ads '), 'index.php?option=com_contushdvideoshare&layout=ads');
-
-}
-elseif($controllerName == 'adminvideos' && JRequest::getCmd('userid','','get','int') != 62) {
-	    JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos', true );
-     	 JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails');
-		 JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&userid=62');
-		 JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category');
-	JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings');
-   JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings');
-  JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead');  
-JSubMenuHelper::addEntry(JText::_('Ads '), 'index.php?option=com_contushdvideoshare&layout=ads');
-
-}
-elseif($controllerName == 'adminvideos' && JRequest::getCmd('userid','','get','int') == 62) {
-	    JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos');
-     	 JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails');
-		 JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&userid=62',true);
-		 JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category');
-	JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings');
-   JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings');
-   JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead'); 
-JSubMenuHelper::addEntry(JText::_('Ads '), 'index.php?option=com_contushdvideoshare&layout=ads');
-
-}
-elseif($controllerName == 'sitesettings') {
-	JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos');
-     	
-         JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails');
-		 JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&userid=62');
-		 JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category');
-	JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings');
-   JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings', true );
-   JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead');  
-JSubMenuHelper::addEntry(JText::_('Ads '), 'index.php?option=com_contushdvideoshare&layout=ads');
-
-}
-elseif($controllerName == 'settings') {
-	JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos');
-     	
-         JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails');
-		 JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&userid=62');
-		 JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category');
-	JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings', true );
-   JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings');
-   JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead');   
-JSubMenuHelper::addEntry(JText::_('Ads '), 'index.php?option=com_contushdvideoshare&layout=ads');
-
-}
-
-elseif($controllerName == 'googlead') {
-   JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos');
-   
-   JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails');
-   JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&userid=62');
-   JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category');
-   JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings');
-   JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings');
-   JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead', true );   
-JSubMenuHelper::addEntry(JText::_('Ads '), 'index.php?option=com_contushdvideoshare&layout=ads');
-
-}
-
-elseif($controllerName == 'ads') {
-   JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos');
-   JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails');
-   JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&userid=62');
-    JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category');
-   JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings');
-   JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings');
-   JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead' ); 
-    JSubMenuHelper::addEntry(JText::_('Ads '), 'index.php?option=com_contushdvideoshare&layout=ads',true);
-
-}
-
-
+$category_active = $memberdetails_active = $adminvideos_active = $membervideos_active = false;
+$sitesettings_active = $settings_active = $googlead_active = $ads_active = false;
 
 switch ($controllerName)
 {
-	default:
-		$controllerName = 'controlpanel';
-		// allow fall through
-
-	case 'category':
-		case 'categorylist':
-        case 'settings':
-  
-            case 'memberdetails':
-                case 'adminvideos':
-				case 'adminvideos&userid=62':
-                     case 'ads':
-                    case 'sortorder':
-                    case 'sitesettings':                       
-                            case 'googlead':
-		// Temporary interceptor
-		$task = JRequest::getCmd('task');
-        
-	if($controllerName == 'categorylist'){
-		$controllerName = 'category';
-	}
-  		require_once( JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php' );
-		$controllerName = 'contushdvideoshareController'.$controllerName;
-
-		// Create the controller
-		$controller = new $controllerName();
-
-		// Perform the Request task
-		$controller->execute( JRequest::getCmd('task') );
-
-		// Redirect if set by the controller
-		$controller->redirect();
+	case "category":
+		$category_active = true;
 		break;
-
-
+	case "memberdetails":
+		$memberdetails_active = true;
+		break;
+	case "adminvideos":
+		if (JRequest::getCmd('user','','get') == 'admin')
+		$adminvideos_active = true;
+		else
+		$membervideos_active = true;
+		break;
+	case "sitesettings":
+		$sitesettings_active = true;
+		break;
+	case "settings":
+		$settings_active = true;
+		break;
+	case "googlead":
+		$googlead_active = true;
+		break;
+	case "ads":
+		$ads_active = true;
+		break;
 }
+
+//adding menus
+
+JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos', $membervideos_active);
+JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails', $memberdetails_active);
+JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&user=admin', $adminvideos_active);
+JSubMenuHelper::addEntry(JText::_('Category'), 'index.php?option=com_contushdvideoshare&layout=category', $category_active);
+JSubMenuHelper::addEntry(JText::_('Player Settings'), 'index.php?option=com_contushdvideoshare&layout=settings', $settings_active);
+JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contushdvideoshare&layout=sitesettings', $sitesettings_active);
+JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead', $googlead_active);
+JSubMenuHelper::addEntry(JText::_('Video Ads '), 'index.php?option=com_contushdvideoshare&layout=ads', $ads_active);
+
+// managing controllers
+
+// Temporary interceptor
+$task = JRequest::getCmd('task');
+
+require_once( JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php' );
+$controllerName = 'contushdvideoshareController'.$controllerName;
+
+// Create the controller
+$controller = new $controllerName();
+
+// Perform the Request task
+$controller->execute( JRequest::getCmd('task') );
+
+// Redirect if set by the controller
+$controller->redirect();
+
+

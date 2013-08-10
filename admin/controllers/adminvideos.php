@@ -1,128 +1,182 @@
 <?php
-
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	  	  : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Adminvideos Controller
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
+// import Joomla controller library
 jimport('joomla.application.component.controller');
 
 /**
- * category Component Administrator Controller
- */
+ * hdvideoshare component administrator adminvideos controller
+ */  
 class contushdvideoshareControlleradminvideos extends JController {
 
-    function display() {
-        $view = & $this->getView('showvideos');
-// Get/Create the model
-        if ($model = & $this->getModel('showvideos')) {
+	/**
+	 * Function to set layout and model for view page
+	 */ 
+    function display($cachable = false, $urlparams = false) {
+        $view = $this->getView('showvideos');
+        if ($model = $this->getModel('showvideos')) {
             $view->setModel($model, true);
         }
         $view->setLayout('showvideoslayout');
         $view->showvideos();
     }
 
+    /**
+	 * Function to set layout and model for add action
+	 */ 
     function addvideos() {
-        $view = & $this->getView('adminvideos');
-        if ($model = & $this->getModel('addvideos'))
+        $view = $this->getView('adminvideos');
+        if ($model = $this->getModel('addvideos'))
         {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
             $view->setModel($model, true);
         }
         $view->setLayout('adminvideoslayout');
         $view->adminvideos();
     }
 
+   	/**
+	 * Function to set layout and model for edit action
+	 */ 
     function editvideos()
     {
-        $view = & $this->getView('adminvideos');
-        // Get/Create the model
-        if ($model = & $this->getModel('editvideos'))
+        $view = $this->getView('adminvideos');
+        if ($model = $this->getModel('editvideos'))
          {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
             $view->setModel($model, true);
          }
         $view->setLayout('adminvideoslayout');
         $view->editvideos();
     }
 
+    /**
+	 * Function to set model for save action
+	 */ 
     function savevideos()
     {
-        // Get/Create the model
-        if ($model = & $this->getModel('showvideos'))
+        if ($model = $this->getModel('showvideos'))
          {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
             $model->savevideos(JRequest::getVar('task'));
          }
     }
 
+    /**
+	 * Function to set model for apply action
+	 */ 
     function applyvideos()
     {
-        // Get/Create the model
-        if ($model = & $this->getModel('showvideos'))
+        if ($model = $this->getModel('showvideos'))
          {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
             $model->savevideos(JRequest::getVar('task'));
          }
     }
 
+    /**
+	 * Function to set model for remove action
+	 */ 
     function removevideos()
     {
-        if ($model = & $this->getModel('editvideos'))
+        if ($model = $this->getModel('editvideos'))
          {
-            //Push the model into the view (as default)
-            //Second parameter indicates that it is the default model for the view
             $model->removevideos();
         }
     }
 
+     /**
+	 * Function to set layout for cancel action
+	 */ 
     function CANCEL7()
     {
-        $view = & $this->getView('showvideos');
-        // Get/Create the model
-        if ($model = & $this->getModel('showvideos'))
+        $view =  $this->getView('showvideos');
+        if ($model =  $this->getModel('showvideos'))
         {
             $view->setModel($model, true);
         }
         $view->setLayout('showvideoslayout');
         $view->showvideos();
     }
+    
+     /**
+	 * Function to set redirect for comment page cancel action
+	 */ 
+    function Commentcancel()
+    {
+    	$option = JRequest::getCmd('option');
+    	$user = JRequest::getCmd('user');
+    	$userUrl = ($user == 'admin')?"&user=$user":"";
+    	$redirectUrl =  'index.php?option='.$option.'&layout=adminvideos'.$userUrl;    	
+    	$this->setRedirect($redirectUrl);
+    }
 
+    /**
+     * Function to make videos as featured 
+     */ 
     function featured()
     {
         $detail = JRequest::get('POST');
-        $model = & $this->getModel('showvideos');
-        $model->featuredvideo($detail);
-        $this->setRedirect('index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&userid=' . JRequest::getVar('userid'));
+        $model = $this->getModel('showvideos');
+        $model->featuredvideo($detail);        
     }
 
+     /**
+     * Function to make videos as unfeatured 
+     */
     function unfeatured()
     {
         $this->featured();
     }
 
+    /**
+     * Function to publish videos
+     */ 
     function publish()
     {
         $detail = JRequest::get('POST');
-        $model = & $this->getModel('showvideos');
-        $model->pubvideo($detail);
-        $this->setRedirect('index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&userid=' . JRequest::getVar('userid'));
+        $model = $this->getModel('showvideos');
+        $model->changevideostatus($detail);        
     }
 
+    /**
+     * Function to unpublish videos
+     */ 
     function unpublish()
     {
         $detail = JRequest::get('POST');
-        $model = & $this->getModel('showvideos');
-        $model->pubvideo($detail);
-        $this->setRedirect('index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&userid=' . JRequest::getVar('userid'));
+        $model = $this->getModel('showvideos');
+        $model->changevideostatus($detail);        
     }
-
+    
+    /**
+     * function to upload file processing
+     */
+    function uploadfile(){    	
+        $model = $this->getModel('uploadvideo');
+        $model->fileupload();
+    }
+    
+	/**
+     * Function to trash videos
+     */ 
+    function trash()
+    {
+        $detail = JRequest::get('POST');
+        $model = $this->getModel('showvideos');
+        $model->changevideostatus($detail);        
+    }
 }

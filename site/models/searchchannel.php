@@ -1,87 +1,122 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Edit Channel View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
+// No direct access to this file
 defined( '_JEXEC' ) or die( 'Restricted access' );
+// import joomla model library
 jimport( 'joomla.application.component.model' );
-//define ('DIRECTORY_SEPARATOR', "/");
-//define( 'DS', DIRECTORY_SEPARATOR );
+/**
+ * Contushdvideoshare Component Searchchannel Model
+ */
 class Modelcontushdvideosharesearchchannel extends JModel {
+	/**
+	 * initializing constructor
+	 */
+	function __construct()
+	{
+		parent::__construct();
+		global $usergroup;
+	}
 
-    //var $usergroup = null;
-   function __construct()
-    {
-       parent::__construct();
-       global $usergroup;
+	/**
+	 * function to search channel
+	 */
+	function searchChannel($searchValue) {
+		$db = $this->getDBO();
+		$channelId = $this->getChannel();
+		$query = "SELECT a.channel_name,a.id,b.type,b.logo
+    			  FROM #__hdflv_channel a 
+    			  LEFT JOIN #__hdflv_channelsettings b ON a.id=b.channel_id 
+    			  WHERE b.type=1 and a.channel_name='$searchValue' and a.id!=$channelId";
+		$db->setQuery($query);
+		return $db->loadObjectList();
+	}
 
+	/**
+	 * function to check channel availability
+	 */
+	function checkAvailability($searchChannelId) {
+		$db = $this->getDBO();
+		$channelId = $this->getChannel();
+		$query = "SELECT id
+        		  FROM #__hdflv_channellist 
+        		  WHERE channel_id = $channelId AND other_channel = $searchChannelId";
+		$db->setQuery($query);
+		return $db->loadResult();
+	}
 
-    }
+	/**
+	 * function to save other channels
+	 */
+	function insertOtherchannel() {
+		$channelId = $this->getChannel();
+		$otherChannel = JRequest::getVar('channel_id');
+		$db = $this->getDBO();
+		
+		$query='SELECT id
+    			FROM #__hdflv_channellist 
+    			WHERE channel_id ='.$channelId.' AND other_channel ='.$otherChannel;
+		$db->setQuery($query);
+		$id = $db->loadResult();
+		
+		if(!$id){
+		$query='INSERT INTO #__hdflv_channellist(channel_id,other_channel)
+    			VALUES ("'.$channelId.'","'.$otherChannel.'")';
+		$db->setQuery($query);
+		$db->query();
+		}		
+	}
 
-    /*function to check channel availability*/
-    function searchChannel($searchValue) {
-    	$db = $this->getDBO();
-    	$query = "select a.channel_name,a.id,b.type,b.logo from #__hdflv_channel a left join #__hdflv_channelsettings b on a.id=b.channel_id where b.type=1 and a.channel_name='$searchValue'";
-    	$db->setQuery($query);//echo $query;exit;
-        $channelDetails = $db->loadObjectList();
-        return $channelDetails;
-    }
-
-    function checkAvailability($searchChannelId) {
-        $db = $this->getDBO();
-        $channelId = $this->getChannel();
-        $query = "select id from #__hdflv_channellist where channel_id = $channelId and other_channel = $searchChannelId";
-    	$db->setQuery($query);
-        $channelResult = $db->loadResult();
-        return $channelResult;
-    }
-
-    /*function to save other channels*/
-    function insertOtherchannel() {
-    	//echo '<pre>';print_r($_POST);exit;
-    	$channelId = $this->getChannel();
-    	$otherChannel = JRequest::getVar('channel_id');
-    	$db = $this->getDBO();
-    	$query='insert into #__hdflv_channellist(channel_id,other_channel) values ("'.$channelId.'","'.$otherChannel.'")';
-        $db->setQuery($query);
-        $db->query();
-        $db_insert_id=$db->insertid();
-    }
-
-    /*function to get channel id*/
+	/**
+	 * function to get channel id
+	 */
 	function getChannel() {
-    	$db = $this->getDBO();
+		$db = $this->getDBO();
 		if(JRequest::getVar('channelid')) {
-    		$channelId = JRequest::getVar('channelid');
-    		$query = "select user_id from #__hdflv_channel where id = $channelId";
-	    	$db->setQuery($query);
-	        $memberId = $db->loadResult();
-    	}else {
-    	$user =& JFactory::getUser();
-    	$memberId = $user->get('id');
-    	}
-    	$query = "select id from #__hdflv_channel where user_id = $memberId";
-    	$db->setQuery($query);
-        $channelId = $db->loadResult();
-        return $channelId;
-    }
+			$channelId = JRequest::getVar('channelid');
+			$query = "SELECT user_id
+    				  FROM #__hdflv_channel 
+    				  WHERE id = $channelId";
+			$db->setQuery($query);
+			$memberId = $db->loadResult();
+		}else {
+			$user = JFactory::getUser();
+			$memberId = $user->get('id');
+		}
+		$query = "SELECT id
+    			  FROM #__hdflv_channel 
+    			  WHERE user_id = $memberId";
+		$db->setQuery($query);
+		return $db->loadResult();		
+	}
 
-/*function to delete other channels*/
-    function deleteChannel() {
-    	//echo '<pre>';print_r($_POST);exit;
-    	$channelId = $this->getChannel();
-    	$otherChannel = JRequest::getVar('channel_id');
-    	$db = $this->getDBO();
-    	$query="delete from #__hdflv_channellist where other_channel = $otherChannel and channel_id = $channelId";
-        $db->setQuery($query);
-        $db->query();
-    }
-
-
-
-    }
+	/**
+	 * function to delete other channels
+	 */
+	function deleteChannel() {
+		$channelId = $this->getChannel();
+		$otherChannel = JRequest::getVar('channel_id');
+		$db = $this->getDBO();
+		$query="DELETE
+    			FROM #__hdflv_channellist 
+    			WHERE other_channel = $otherChannel AND channel_id = $channelId";
+		$db->setQuery($query);
+		$db->query();
+	}
+}
 ?>

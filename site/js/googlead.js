@@ -31,7 +31,7 @@ function googleclose()
     document.getElementById('lightm').style.display="none";
     clearTimeout();
 
-    setTimeout('bindpage(0)', ropen);
+    //setTimeout('bindpage(0)', ropen);
 }
 
 function onplayerloaded()
@@ -94,7 +94,7 @@ function bindpage(pageno)
     }
     else
     {
-        frames['IFrameName'].location.href=pagearray[pageno];
+        parent.frames['IFrameName'].location.href=pagearray[pageno];
     }
 
     document.getElementById('closeimgm').style.display="block";

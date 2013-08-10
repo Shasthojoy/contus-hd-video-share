@@ -1,16 +1,15 @@
 <?php
-
 /*
- * "ContusHDVideoShare Component" - Version 2.3
+ * "ContusHDVideoShare Component" - Version 3.0
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
  * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
+ * Creation Date: June 2012
  */
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-
+// table for settings
 class Tablesettings extends JTable {
     var $id = null;
     var $published = null;
@@ -60,7 +59,5 @@ class Tablesettings extends JTable {
     function __construct(&$db) {
         parent::__construct('#__hdflv_player_settings', 'id', $db);
     }
-
 }
-
 ?>

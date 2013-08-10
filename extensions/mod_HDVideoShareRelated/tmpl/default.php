@@ -1,24 +1,29 @@
 <?php
-/**
- * @version     2.3, Creation Date : March-24-2011
- * @name        default.php
- * @location    /components/modules/mod_HDVideoShareRelated/tmpl/default.php
- * @package	Joomla 1.6
- * @subpackage	contushdvideoshare
- * @author      Contus Support - http://www.contussupport.com
- * @copyright   Copyright (C) 2011 Contus Support
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @link        http://www.hdvideoshare.net
- */
 /*
- * Description : Modules HDVideoShare Related
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Related Videos Module
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
-// No direct Access
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
- //JHTML::_('stylesheet', JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css', array(), true);
-// JHTML::_('stylesheet', JURI::base() . 'components/com_contushdvideoshare/css/tool_tip.css', array(), true);
+if(JRequest::getVar('option') != 'com_contushdvideoshare') { 
+$document = JFactory::getDocument();
+$document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/tool_tip.css' );
+$document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/stylesheet.css' );
+}
 ?>
 <span class="module_menu <?php echo $class;?> ">
     
@@ -70,16 +75,16 @@ $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fiv
                                         <div class="movie-entry yt-uix-hovercard">
 
                                              <div class="tooltip">
-                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" .$relatedCategoryVal."&amp;".$relatedVideoVal); ?>" ><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="125" height="69" title=""  /></p></a>
+                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" .$relatedCategoryVal."&amp;".$relatedVideoVal); ?>" ><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="125" height="69" title="" alt="thumb_image" /></p></a>
                                                 
 
                                                 <div class="Tooltipwindow" >
-                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage"/>
-                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . _HDVS_CATEGORY . ' : ' . '</span>' .'<span class="clstoolright">'. $result[$i]->category.'</span></div>'; ?>
-                                                    <?php echo '<span class="clsdescription">' . _HDVS_DESCRIPTION . ' : ' . '</span>' .'<p>'. $result[$i]->description.'</p>'; ?>
+                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage" alt="tip_img"/>
+                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . JText::_('HDVS_CATEGORY') . ' : ' . '</span>' .'<span class="clstoolright">'. $result[$i]->category.'</span></div>'; ?>
+                                                    <?php echo '<span class="clsdescription">' . JText::_('HDVS_DESCRIPTION') . ' : ' . '</span>' .'<p>'. $result[$i]->description.'</p>'; ?>
                                              
                                                         <?php if ($result1[0]->viewedconrtol == 1) { ?>
-                                                    <div class="clearfix"><span class="clstoolleft"><?php echo _HDVS_VIEWS; ?>: </span><span class="clstoolright"><?php echo $result[$i]->times_viewed; ?> </span></div>
+                                                    <div class="clearfix"><span class="clstoolleft"><?php echo JText::_('HDVS_VIEWS'); ?>: </span><span class="clstoolright"><?php echo $result[$i]->times_viewed; ?> </span></div>
                                                            <?php } ?></div></div>
 
                                         </div>
@@ -89,11 +94,11 @@ $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fiv
                                     <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=player&amp;" . $relatedVideoVal . "&amp" . $relatedCategoryVal); ?>" class="show-title-gray info_hover"><?php if (strlen($result[$i]->title) > 18) { echo JHTML::_('string.truncate', ($result[$i]->title), 18); } else { echo $result[$i]->title; } ?></a>
                                 </div>
                                 <div class="video-info" id="catagory-view">
-                                    <span><?PHP ECHO _HDVS_CATEGORY; ?>: </span><a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&catid=" . $result[$i]->catid); ?>"><?php echo $result[$i]->category; ?></a>
+                                    <span><?PHP echo JText::_('HDVS_CATEGORY'); ?>: </span><a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&catid=" . $result[$i]->catid); ?>"><?php echo $result[$i]->category; ?></a>
                                 </div>
                                     <?php if ($result1[0]->ratingscontrol == 1) { ?>
                                     <span class="video-info">
-                                        <span class="floatleft"> <?PHP ECHO _HDVS_RATTING; ?>:</span>
+                                        <span class="floatleft"> <?PHP echo JText::_('HDVS_RATTING'); ?>:</span>
                                             <?php
                                             if (isset($result[$i]->ratecount) && $result[$i]->ratecount != 0) {
                                                     $ratestar = round($result[$i]->rate / $result[$i]->ratecount);
@@ -107,7 +112,7 @@ $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fiv
                                     <div class="clear"></div>
                                     <?php if ($result1[0]->viewedconrtol == 1) { ?>
                                         <span class="video-info">
-                                            <span class="floatleft"> <?PHP ECHO _HDVS_VIEWS; ?>:</span>
+                                            <span class="floatleft"> <?PHP echo JText::_('HDVS_VIEWS'); ?>:</span>
                                             <span class="floatleft"><?php echo $result[$i]->times_viewed; ?></span>
                                         </span>
                                         <?php } ?>
@@ -125,7 +130,12 @@ $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fiv
 </span>
 <?php
 $t = count($result);
+if(JRequest::getVar('id', '', 'get', 'int')) {
+    $video = 'id='.JRequest::getVar('id', '', 'get', 'int');
+} else {
+    $video = 'video='.JRequest::getVar('video', '', 'get', 'string');
+}
 if ($t > 1) { ?>
 <div class="clear"></div>
-<div align="right" class="morevideos"><a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=relatedvideos"); ?>"> <?php echo _HDVS_MORE_VIDEOS; ?></a></div><?php } ?>
+<div align="right" class="morevideos"><a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=relatedvideos&$video"); ?>"> <?php echo JText::_('HDVS_MORE_VIDEOS'); ?></a></div><?php } ?>
 <div class="clear"></div>

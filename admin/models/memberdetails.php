@@ -1,131 +1,191 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Memberdetails Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die();
-
+// import joomla model library
 jimport('joomla.application.component.model');
-
+// import Joomla pagination library
+jimport('joomla.html.pagination');
+/**
+ * Contushdvideoshare Component Memberdetails Model
+ */
 class contushdvideoshareModelmemberdetails extends JModel {
-
-	function getmemberdetails()
-    {
-        global $option, $mainframe;
-         $mainframe = JFactory::getApplication();
-		$db = $this->getDBO();
-		$db->setQuery('SELECT a.*,b.allowupload from #__users a left join #__hdflv_user b on a.id = b.member_id where a.usertype <> "Super Administrator"');
 	
-      $option = 'com_contushdvideoshare';
-		$memberdetails = $db->loadObjectList();
+	
+	/**
+	 * Constructor
+	 * global variable initialization
+	 */
+
+	function __construct() {
+		global $mainframe;
+		parent::__construct();
+		$mainframe = JFactory::getApplication();		
+	}
+
+	/**
+	 * function to get member details
+	 */
+	function getmemberdetails()
+	{
+		global $mainframe;
+		$option = JRequest::getCmd('option');
+		$mainframe = JFactory::getApplication();
+		$db = $this->getDBO();
+		$mainQuery = "SELECT a.`id`,a.`name`,a.`username`,a.`email`,a.`registerDate`,a.`block`,b.`allowupload`
+					   FROM #__users a 
+					   LEFT JOIN #__hdflv_user b 
+					   ON a.`id` = b.`member_id`
+					   WHERE a.`usertype` <> 'Super Administrator'";		
+		// filter variable for member order
+		$strMemberOrder = $mainframe->getUserStateFromRequest($option . 'filter_order_member', 'filter_order', 'name', 'cmd');
+		// filter variable for member order direction
+		$strMemberDir = $mainframe->getUserStateFromRequest($option . 'filter_order_Dir_member', 'filter_order_Dir', 'asc', 'word');
+		// filter variable for member name search
+		$strMemberSearch = $mainframe->getUserStateFromRequest($option . 'member_search', 'member_search', '', 'string');
+		// filter variable for member status
+		$strMemberStatus = $mainframe->getUserStateFromRequest($option . 'member_status', 'member_status', '', 'int');
+		// filter variable for member upload
+		$strMemberUpload = $mainframe->getUserStateFromRequest($option . 'member_upload', 'member_upload', '', 'int');
+		/**
+		 * for page navigation
+		 * get default list limit from global settings
+		 * and limit start @ initial value is 0
+		 * */
+
+		$limit = $mainframe->getUserStateFromRequest($option.'limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart = $mainframe->getUserStateFromRequest($option.'limitstart', 'limitstart', 0, 'int');
+
+		$arrMemberFilter['filter_order_Dir']= $strMemberDir;
+		$arrMemberFilter['filter_order']= $strMemberOrder;
 		
-		if ($memberdetails === null)
-		JError::raiseError(500, 'Error reading db');
+		// filtering based on search keyword
+		if ($strMemberSearch)
+		{
+			$mainQuery .= " AND a.name LIKE '%$strMemberSearch%'";
+			$arrMemberFilter['member_search'] = $strMemberSearch;
+		}
+		
+		// filtering based on status
+		if($strMemberUpload) {
+			$strMemberUploadVal = ($strMemberUpload == '1')?'1':'0';
+			$mainQuery .= " AND b.allowupload = $strMemberUploadVal";
+			$arrMemberFilter['member_upload'] = $strMemberUpload;
+		}
+		
+		// filtering based on status
+		if($strMemberStatus) {
+			$strMemberStatusVal = ($strMemberStatus == '1')?'0':'1';
+			$mainQuery .= " AND a.block = $strMemberStatusVal";
+			$arrMemberFilter['member_status'] = $strMemberStatus;
+		}
+		$mainQuery .= " ORDER BY $strMemberOrder $strMemberDir";
+			
+		$db->setQuery($mainQuery);
+		$settingupload = $db->loadObjectList();
+		$strMemberCount = count($settingupload);
+			
+		// set pagination
+		$pageNav = new JPagination($strMemberCount, $limitstart, $limit);
+			
+		$mainQuery .= " LIMIT $pageNav->limitstart,$pageNav->limit";
+		$db->setQuery( $mainQuery );
+		$memberdetails = $db->loadObjectList();
 
-        $filter_order = $mainframe->getUserStateFromRequest( $option.'filter_order', 'filter_order', 'Id', 'cmd' );
-        $filter_order_Dir = $mainframe->getUserStateFromRequest( $option.'filter_order_Dir', 'filter_order_Dir', 'desc', 'word' );
-        $search=$mainframe->getUserStateFromRequest( $option.'search','search','','string' );
-        $limit = $mainframe->getUserStateFromRequest($option.'.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-        $limitstart = $mainframe->getUserStateFromRequest($option.'.limitstart', 'limitstart', 0, 'int');
-        $query = "SELECT count(*) FROM #__users where usertype <> 'Super Administrator'";
-            $db->setQuery( $query );
-            $total = $db->loadResult();
+		$query = "SELECT `allowupload` FROM #__hdflv_site_settings";
+		$db->setQuery( $query );
+		$settingupload = $db->loadObjectList();
+		
+		/**
+		 * get the most recent database error code
+		 * display the last database error message in a standard format
+		 *
+		 */
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning($db->getErrorNum(), $db->stderr());
+		}	
+		
+		return array('pageNav' => $pageNav,'limitstart'=>$limitstart,'memberFilter'=>$arrMemberFilter,'memberdetails'=>$memberdetails,'settingupload'=>$settingupload);
 
-            jimport('joomla.html.pagination');
-            $pageNav = new JPagination($total, $limitstart, $limit);
-       
-          if($filter_order!='ordering')
-            {
-              $query = "SELECT a.*,b.allowupload from #__users a left join #__hdflv_user b on a.id = b.member_id where usertype <> 'Super Administrator' order by $filter_order LIMIT $limitstart,$limit";
-			 
-              $db->setQuery( $query );
-              $memberdetails = $db->loadObjectList();
-            }
-
-                $lists['order_Dir']= $filter_order_Dir;
-                $lists['order']= $filter_order;
-
-            
-               $query = "SELECT allowupload from #__hdflv_site_settings";
-              $db->setQuery( $query );
-              $settingupload = $db->loadObjectList();
-
-             $memberdetails = array('pageNav' => $pageNav,'limitstart'=>$limitstart,'lists'=>$lists,'memberdetails'=>$memberdetails,'settingupload'=>$settingupload);
-
-        return $memberdetails;
 	}
 
 
-
-    function pubcategary($arrayIDs)
+	/**
+	 * function to activate or deactivate users
+	 */
+	function memberActivation($arrayIDs)
 	{
-        
-        //echo $arrayIDs['task'];
+		global $mainframe;
+		$db = $this->getDBO();
 		if($arrayIDs['task']=="publish")
-        {
-            $publish=0;
-        }
-        else
-        {
-            $publish=1;
-        }
-        $n= count($arrayIDs['cid']);
-        for($i=0;$i<$n;$i++)
-        {
-        $query = "UPDATE #__users set block=".$publish." WHERE usertype <> 'Super Administrator' and id=".$arrayIDs['cid'][$i];
-		$db = $this->getDBO();
+		{
+			$publish=0;
+			$msg = 'Published Successfully';
+		}
+		else
+		{
+			$publish=1;
+			$msg = 'Unpublished Successfully';
+		}
+		$cids = implode( ',', $arrayIDs['cid'] );
+		$query = "UPDATE #__users set block=".$publish."
+				  WHERE usertype <> 'Super Administrator' 
+				  AND `id` IN ( $cids )";
 		$db->setQuery($query);
-        $db->query();
-        }
-
+		$db->query();
+		$link = 'index.php?option=com_contushdvideoshare&layout=memberdetails';
+		$mainframe->redirect($link, $msg);
 	}
-    function pubupload($arrayIDs)
+
+	/**
+	 * function to activate or deactivate user upload
+	 */
+	function allowUpload($arrayIDs)
 	{
-
-        //echo $arrayIDs['task'];
-		if($arrayIDs['task']=="allowupload")
-        {
-            $publish=1;
-        }
-        else
-        {
-            $publish=0;
-        }
-        $n= count($arrayIDs['cid']);
-        for($i=0;$i<$n;$i++)
-        {
-        $query = "SELECT count(*) FROM #__hdflv_user where member_id=".$arrayIDs['cid'][$i];
-       
-       $db = $this->getDBO();
-        $db->setQuery( $query );
-        $total = $db->loadResult();
-
-        if($total!=0)
-        {
-        $query = "UPDATE #__hdflv_user set allowupload=".$publish." WHERE member_id=".$arrayIDs['cid'][$i];
+		global $mainframe;
 		$db = $this->getDBO();
-		$db->setQuery($query);
-        $db->query();
-        }
-        else
-        {
-            $idval=$arrayIDs['cid'][$i];
+		if($arrayIDs['task']=="allowupload")
+		{
+			$publish=1;
+			$msg = 'Updated Successfully';
+		}
+		else
+		{
+			$publish=0;
+			$msg = 'Updated Successfully';
+		}
+		$strMemberCount = count($arrayIDs['cid']);
+		/**
+		 * execute a query
+		 */		
+		for($i=0;$i<$strMemberCount;$i++)
+		{
+			$idval = $arrayIDs['cid'][$i];
 
-		$query = " insert into #__hdflv_user (member_id,allowupload) values ('$idval','$publish')";
-        $db = $this->getDBO();
-            $db->setQuery( $query );
-            $db->query();
-        }
-
-
-        }
-
+			$query = "INSERT INTO #__hdflv_user (member_id,allowupload) VALUES ($idval,$publish)
+  					  ON DUPLICATE KEY UPDATE member_id=".$idval.", allowupload=".$publish;	
+			$db->setQuery($query);
+			$db->query();
+		}
+		$link = 'index.php?option=com_contushdvideoshare&layout=memberdetails';
+		$mainframe->redirect($link, $msg);	
 	}
-
-   
 }
 ?>

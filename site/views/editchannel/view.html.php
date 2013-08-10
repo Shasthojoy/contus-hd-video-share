@@ -1,40 +1,64 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Edit Channel View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
+// No direct access to this file
 defined( '_JEXEC' ) or die( 'Restricted access' );
+// import Joomla view library
 jimport('joomla.application.component.view');
+/**
+ * hdvideoshare component edit channel view page
+ *
+ */
 class contushdvideoshareVieweditchannel extends JView
 {
-function display()
-{
-$data = JRequest::get( 'post' );//echo '<pre>';print_r($data);exit;
-$model = $this->getModel();
-if(JRequest::get( 'post' )) {
-//save my channel
-$saveChannel = $model->saveChannel();
-//update recent activity
-$updateRecentactivity = $model->updateRecentactivity();
-}
+	/**
+	 * function to prepare view for channel settings view
+	 */
+	function display($cachable = false, $urlparams = false)
+	{
+		$data = JRequest::get( 'post' );
+		$model = $this->getModel();
+		if($data['function'] && $data['function'] == 'save') {
+                        //function to check channel existance
+                        $channelCheck = $model->checkChannelexistance();
+                        if(!$channelCheck) {
+			//save my channel
+			$saveChannel = $model->saveChannel();
+                        echo "<p style=\"color:green;\">Updated Successfully</p>";
+                        } else {
+                            echo "<p style=\"color:red;\">Channel name already exists</p>";
+                        }
+			//update recent activity
+			$updateRecentactivity = $model->updateRecentActivity();
+		}
 
-//get channel details
-$channelDetails = $model->getChanneldetails();//echo '<pre>';print_r($channelDetails);exit;
-$this->assignRef('channeldetails', $channelDetails);
+		//get channel details
+		$channelDetails = $model->getChanneldetails();
+		$this->assignRef('channeldetails', $channelDetails);
 
-//get total uploads
-$totalUploads = $model->getTotaluploads();
-$this->assignRef('totaluploads', $totalUploads);
+		//get total uploads
+		$totalUploads = $model->getTotaluploads();
+		$this->assignRef('totaluploads', $totalUploads);
 
-//get myvideos
-$myVideos = $model->getMyvideos();
-$this->assignRef('myvideos', $myVideos);
-parent::display();
-}
-
+		//get myvideos
+		$myVideos = $model->getMyvideos();
+		$this->assignRef('myvideos', $myVideos);
+		parent::display();
+	}
 }
 ?>

@@ -1,52 +1,51 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
-//No direct acesss
-defined('_JEXEC') or die();
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Sortorder Model 
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
+/*
+ ***********************************************************/
+// No direct access to this file
+defined('_JEXEC') or die();
+// import joomla model library
 jimport('joomla.application.component.model');
 
 class contushdvideoshareModelsortorder extends JModel {
 
 
-    function categorysortordermodel()
-    {
-        
-        global $mainframe;
-        $db =& JFactory::getDBO();
-        $listitem=JRequest::getvar('listItem','','get','var');
-       foreach ($listitem as $position => $item) :
-	    $query = "UPDATE #__hdflv_category SET `sorder` = $position WHERE `id` = $item";
-	    $db->setQuery($query );
-            $db->query();
-        endforeach;
-        exit();
+	//Function to change sort order when drags the row
+	function videosortordermodel()
+	{
+		global $mainframe;
+		$db = JFactory::getDBO();
+		$listitem=JRequest::getvar('listItem');
+		$ids = implode(',', $listitem);
+		$sql = 'UPDATE `#__hdflv_upload` SET `ordering` = CASE id ';
+		foreach ($listitem as $position => $item) {
+			$sql .= sprintf("WHEN %d THEN %d ", $item, $position);
+		}
+		$sql .= ' END WHERE id IN ('.$ids.')';
+		$db->setQuery($sql);
+		$db->query();	
+		exit();
+
+	}
+	
+	
+	
 
 
-    }
- function videosortordermodel()
-    {
-        
-        global $mainframe;
-        $db =& JFactory::getDBO();
-        $listitem=JRequest::getvar('listItem','','get','var');
 
-        foreach ($listitem as $position => $item) :
-	    $query = "UPDATE #__hdflv_upload SET `ordering` = $position WHERE `id` = $item";
-	    $db->setQuery($query );
-        $db->query();
-	    endforeach;
-        exit();
-
-    }
-
-
-    
 }
 ?>

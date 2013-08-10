@@ -1,17 +1,26 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Videoupload View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-//check login or not
-//include($baseurl."components/com_contushdvideoshare/language/danish.php");
-$user = & JFactory::getUser();
-$session = & JFactory::getSession();
+$user =  JFactory::getUser();
+$session =  JFactory::getSession();
+$logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
 $editing = '';
 $baseurl = JURI::base();
 if ($user->get('id') == '')
@@ -32,8 +41,12 @@ if (JRequest::getVar('type', '', 'get', 'string') == 'edit') {
     if (isset($videoedit->filepath))
         $editing = $videoedit->filepath;
 }
+
+// add js file
+$document = JFactory::getDocument();
+$document->addScript( JURI::base().'components/com_contushdvideoshare/js/upload_script.js' );
+$document->addScript( JURI::base().'components/com_contushdvideoshare/js/membervalidator.js' );
 ?>
-<script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/popup.js"></script>
 <?php
 if (JRequest::getVar('url', '', 'post', 'string'))
  {
@@ -44,42 +57,70 @@ if (JRequest::getVar('url', '', 'post', 'string'))
     $imgurl = $video->imgURL($vurl);
 }
 ?>
-<?php
-
-$app = & JFactory::getApplication();
-if ($app->getTemplate() != 'hulutheme')
+<script type="text/javascript">
+function submitform()
 {
-	echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
+  document.myform.submit();
+}
+</script>
+<form name="myform" action="" method="post" id="login-form">
 
+	<div class="logout-button">
+
+		<input type="hidden" name="option" value="com_users" />
+		<input type="hidden" name="task" value="user.logout" />
+		<input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
+</form>
+<?php
+	$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
 	if ($user->get('id') != '')
 	{
 		     if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
-                    <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></div>
+                    <div class="toprightmenu">
+                        <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                        <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                    </div>
             <?php }else { ?>
-                <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></div>
+                <div class="toprightmenu">
+                    <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                    <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                </div>
            <?php  }?>
 
 
 
 		<?php } else
 		{if(version_compare(JVERSION,'1.6.0','ge'))
-        { ?><div class="toprightmenu"><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
+        { ?><div class="toprightmenu">
+            <a href="index.php?option=com_users&view=registration"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
+            <a  href="index.php?option=com_users&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+        </div>
            <?php }  else {      ?>
-                    <div class="toprightmenu"><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
+                    <div class="toprightmenu">
+                        <a href="index.php?option=com_user&view=register"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
+                        <a  href="index.php?option=com_user&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+                    </div>
         <?php
                 }
 			?>
 
 			<?php
 		}
-}
+
 
 
 ?>
-<script type="text/javascript" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/upload_script.js"></script>
-<script type="text/javascript" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/membervalidator.js"></script>
+
 <div class="player clearfix">
     <input type="hidden" name="editmode" id="editmode" value="<?php echo $editing; ?>" />
     <div id="clsdetail">
@@ -87,29 +128,29 @@ if ($app->getTemplate() != 'hulutheme')
             <h1 class="uploadtitle">
 <?php
             if (JRequest::getVar('type', '', 'get', 'string') != 'edit')
-                echo _HDVS_VIDEO_UPLOAD;
+                echo JText::_('HDVS_VIDEO_UPLOAD');
             else
-                echo _HDVS_EDIT_VIDEO;
+                echo JText::_('HDVS_EDIT_VIDEO');
 ?>
             </h1>
             <span class="floatright" style="padding-top: 10px;">
-                <input type="button"  value="<?php echo _HDVS_BACK_TO_MY_VIDEOS; ?>" class="button cursor_pointer"  onclick="window.open('index.php?option=com_contushdvideoshare&view=myvideos','_self');"  />
+                <input type="button"  value="<?php echo JText::_('HDVS_BACK_TO_MY_VIDEOS'); ?>" class="button cursor_pointer"  onclick="window.open('index.php?option=com_contushdvideoshare&view=myvideos','_self');"  />
             </span><div class="clear"></div>
             <div class="underline" style="margin-bottom:10px;"></div>
             <div class="allform"  >
-                <li class="changeli"><div class="form-label floatleft"><label><?php echo _HDVS_VIDEO_TYPE; ?>:</label></div>
+                <li class="changeli"><div class="form-label floatleft"><label><?php echo JText::_('HDVS_VIDEO_TYPE'); ?>:</label></div>
                     <div class="radiobtn" ><input type="radio" class="butnmargin" name="filetype" id="filetype2" value="0"
                 <?php
                 if (isset($videoedit->filepath) && $videoedit->filepath == 'Youtube')
                 {
                     echo 'checked="checked"';
-                } ?> checked ="checked" onclick="filetypeshow(this);" />&nbsp;&nbsp;<?php echo _HDVS_URL; ?> / <?php echo _HDVS_YOUTUBE;?> / <?php echo _HDVS_VIMEO;?></div>
+                } ?> checked ="checked" onclick="filetypeshow(this);" />&nbsp;&nbsp;<?php echo JText::_('HDVS_URL'); ?> / <?php echo JText::_('HDVS_YOUTUBE');?> / <?php echo JText::_('HDVS_VIMEO');?></div>
                     <div class="radiobtn" >
                     <input type="radio"  class="butnmargin" name="filetype" id="filetype1" value="1" <?php
                       if (isset($videoedit->filepath) && $videoedit->filepath == 'File') {
                           echo 'checked="checked"';
                       }
-                ?> onclick="filetypeshow(this);"/>&nbsp;&nbsp;<?php echo _HDVS_UPLOAD; ?></div>
+                ?> onclick="filetypeshow(this);"/>&nbsp;&nbsp;<?php echo JText::_('HDVS_UPLOAD'); ?></div>
                        </li>
             </div>
             <br/>
@@ -117,12 +158,12 @@ if ($app->getTemplate() != 'hulutheme')
                 <div class="allform" >
                     <br/>
                     <table  class="table_upload">
-                        <tr id="ffmpeg_disable_new1" name="ffmpeg_disable_new1"><td class="form-label"><?php echo _HDVS_UPLOAD_VIDEO; ?></td>
+                        <tr id="ffmpeg_disable_new1" name="ffmpeg_disable_new1"><td class="form-label"><?php echo JText::_('HDVS_UPLOAD_VIDEO'); ?><span class="star">*</span></td>
                             <td>
                                 <div id="f11-upload-form" >
                                     <form name="ffmpeg" method="post" enctype="multipart/form-data" >
                                         <input type="file" name="myfile" id="myfile" onchange="enableUpload(this.form.name);" />
-                                        <input  type="button cursor_pointer" name="uploadBtn" value="<?php echo _HDVS_UPLOAD_VIDEO; ?>" disabled="disabled" class="button" onclick="return addQueue(this.form.name,this.form.myfile.value);" /><span class="star">*</span>
+                                        <input  type="button cursor_pointer" name="uploadBtn" value="<?php echo JText::_('HDVS_UPLOAD_VIDEO'); ?>" disabled="disabled" class="button" onclick="return addQueue(this.form.name,this.form.myfile.value);" />
                                         <input type="hidden" name="mode" value="video" />
                                     </form>
                                 </div>
@@ -130,11 +171,11 @@ if ($app->getTemplate() != 'hulutheme')
                                     <div class="floatleft"><img id="f11-upload-image" src="components/com_contushdvideoshare/images/empty.gif'" alt="Uploading"   class="clsempty"/>
                                         <label  class="postroll"  id="f11-upload-filename">PostRoll.flv</label></div>
                                     <div class="floatright"> <span id="f11-upload-cancel">
-                                            <a  class="clscnl" href="javascript:cancelUpload('normalvideoform');" name="submitcancel"><?php echo _HDVS_CANCEL; ?></a>
+                                            <a  class="clscnl" href="javascript:cancelUpload('normalvideoform');" name="submitcancel"><?php echo JText::_('HDVS_CANCEL'); ?></a>
                                         </span>
-                                        <label id="f11-upload-status"  class="clsupl"><?php echo _HDVS_UPLOADING; ?></label>
+                                        <label id="f11-upload-status"  class="clsupl"><?php echo JText::_('HDVS_UPLOADING'); ?></label>
                                         <span id="f11-upload-message" class="clsupl_fail" >
-                                            <b><?php echo _HDVS_UPLOAD_FAILED; ?>:</b> <?php echo _HDVS_USER_CANCELLED_THE_UPLOAD; ?>
+                                            <b><?php echo JText::_('HDVS_UPLOAD_FAILED'); ?>:</b> <?php echo JText::_('HDVS_USER_CANCELLED_THE_UPLOAD'); ?>
                                         </span></div>
                                 </div>
                             </td></tr>
@@ -144,12 +185,12 @@ if ($app->getTemplate() != 'hulutheme')
             <div name="typefile" id="typefile" >
                 <div class="allform">
                     <table cellpadding="0" cellspacing="0" width="100%">
-                        <tr id="ffmpeg_disable_new1" name="ffmpeg_disable_new1"><td class="form-label"><?php echo _HDVS_UPLOAD_VIDEO; ?></td>
+                        <tr id="ffmpeg_disable_new1" name="ffmpeg_disable_new1"><td class="form-label"><?php echo JText::_('HDVS_UPLOAD_VIDEO'); ?><span class="star">*</span></td>
                             <td>
                                 <div id="f1-upload-form" >
                                     <form name="normalvideoform" method="post" enctype="multipart/form-data" >
                                         <input type="file" name="myfile" id="myfile" onchange="enableUpload(this.form.name);" />
-                                        <input  class="button cursor_pointer" type="button" name="uploadBtn" value="<?php echo _HDVS_UPLOAD; ?>" disabled="disabled" onclick="return addQueue(this.form.name,this.form.myfile.value);" /><span class="star">*</span>
+                                        <input class="button cursor_pointer upload_video" type="button" name="uploadBtn" value="<?php echo JText::_('HDVS_UPLOAD'); ?>" disabled="disabled" onclick="return addQueue(this.form.name,this.form.myfile.value);" />
                                               <label id="lbl_normal"><?php
                                                   if (isset($videoedit->filepath))
                                                   {
@@ -164,20 +205,20 @@ if ($app->getTemplate() != 'hulutheme')
                                           <div class="floatleft"><img id="f1-upload-image" src="components/com_contushdvideoshare/images/empty.gif'" alt="Uploading"  class="clsempty" />
                                               <label class="postroll"  id="f1-upload-filename">PostRoll.flv</label></div>
                                           <div class="floatright"> <span id="f1-upload-cancel">
-                                                  <a class="clscnl" href="javascript:cancelUpload('normalvideoform');" name="submitcancel"><?php echo _HDVS_CANCEL; ?></a>
+                                                  <a class="clscnl" href="javascript:cancelUpload('normalvideoform');" name="submitcancel"><?php echo JText::_('HDVS_CANCEL'); ?></a>
                                               </span>
-                                              <label id="f1-upload-status" class="clsupl"><?php echo _HDVS_UPLOADING; ?></label>
+                                              <label id="f1-upload-status" class="clsupl"><?php echo JText::_('HDVS_UPLOADING'); ?></label>
                                               <span id="f1-upload-message" class="clsupl_fail">
-                                                  <b><?php echo _HDVS_UPLOAD_FAILED; ?>:</b> <?php echo _HDVS_USER_CANCELLED_THE_UPLOAD; ?>
+                                                  <b><?php echo JText::_('HDVS_UPLOAD_FAILED'); ?>:</b> <?php echo JText::_('HDVS_USER_CANCELLED_THE_UPLOAD'); ?>
                                               </span></div>
                                       </div>
                                   </td></tr>
-                              <tr id="ffmpeg_disable_new2" name="ffmpeg_disable_new1"> <td class="form-label"><?php echo _HDVS_UPLOAD_HD_VIDEO; ?></td>
+                              <tr id="ffmpeg_disable_new2" name="ffmpeg_disable_new1"> <td class="form-label"><?php echo JText::_('HDVS_UPLOAD_HD_VIDEO'); ?></td>
                                   <td>
                                       <div id="f2-upload-form" >
                                           <form name="hdvideoform" method="post" enctype="multipart/form-data" >
                                               <input type="file" name="myfile" onchange="enableUpload(this.form.name);" />
-                                              <input  class="button cursor_pointer" type="button" name="uploadBtn" value="<?php echo _HDVS_UPLOAD; ?>" disabled="disabled" onclick="return addQueue(this.form.name,this.form.myfile.value);" />
+                                              <input  class="button upload_video cursor_pointer" type="button" name="uploadBtn" value="<?php echo JText::_('HDVS_UPLOAD'); ?>" disabled="disabled" onclick="return addQueue(this.form.name,this.form.myfile.value);" />
                                               <label id="lbl_normal"><?php
                                                   if (isset($videoedit->filepath))
                                                   {
@@ -192,20 +233,20 @@ if ($app->getTemplate() != 'hulutheme')
                                           <div class="floatleft"><img id="f2-upload-image" src="images/empty.gif'" alt="Uploading"  class="clsempty" />
                                               <label class="postroll"  id="f2-upload-filename">PostRoll.flv</label></div>
                                           <div class="floatright"><span id="f2-upload-cancel">
-                                                  <a class="clscnl" href="javascript:cancelUpload('hdvideoform');" name="submitcancel"><?php echo _HDVS_CANCEL; ?></a>
+                                                  <a class="clscnl" href="javascript:cancelUpload('hdvideoform');" name="submitcancel"><?php echo JText::_('HDVS_CANCEL'); ?></a>
 
                                               </span>
-                                              <label id="f2-upload-status" class="clsupl"><?php echo _HDVS_UPLOADING; ?></label>
+                                              <label id="f2-upload-status" class="clsupl"><?php echo JText::_('HDVS_UPLOADING'); ?></label>
                                               <span id="f2-upload-message" class="clsupl_fail">
-                                                  <b><?php echo _HDVS_UPLOAD_FAILED; ?>:</b> <?php echo _HDVS_USER_CANCELLED_THE_UPLOAD; ?>
+                                                  <b><?php echo JText::_('HDVS_UPLOAD_FAILED'); ?>:</b> <?php echo JText::_('HDVS_USER_CANCELLED_THE_UPLOAD'); ?>
                                               </span></div>
                                       </div>
                                   </td></tr>
-                              <tr id="ffmpeg_disable_new3" name="ffmpeg_disable_new1"><td class="form-label"><?php echo _HDVS_UPLOAD_THUMB_IMAGE; ?></td><td>
+                              <tr id="ffmpeg_disable_new3" name="ffmpeg_disable_new1"><td class="form-label"><?php echo JText::_('HDVS_UPLOAD_THUMB_IMAGE'); ?><span class="star">*</span></td><td>
                                       <div id="f3-upload-form" >
                                           <form name="thumbimageform" method="post" enctype="multipart/form-data" >
                                               <input type="file" name="myfile"  onchange="enableUpload(this.form.name);" />
-                                              <input class="button cursor_pointer" type="button" name="uploadBtn" value="<?php echo _HDVS_UPLOAD; ?>" disabled="disabled" onclick="return addQueue(this.form.name,this.form.myfile.value);" /><span class="star">*</span>
+                                              <input class="button upload_video cursor_pointer" type="button" name="uploadBtn" value="<?php echo JText::_('HDVS_UPLOAD'); ?>" disabled="disabled" onclick="return addQueue(this.form.name,this.form.myfile.value);" />
                                               <label id="lbl_normal"><?php
                                                   if (isset($videoedit->filepath))
                                                    {
@@ -220,20 +261,20 @@ if ($app->getTemplate() != 'hulutheme')
                                           <div class="floatleft"><img id="f3-upload-image" src="images/empty.gif' " alt="Uploading" class="clsempty" />
                                               <label class="postroll"  id="f3-upload-filename">PostRoll.flv</label></div>
                                           <div class="floatright"> <span id="f3-upload-cancel">
-                                                  <a class="clscnl" href="javascript:cancelUpload('thumbimageform');" name="submitcancel"><?php echo _HDVS_CANCEL; ?></a>
+                                                  <a class="clscnl" href="javascript:cancelUpload('thumbimageform');" name="submitcancel"><?php echo JText::_('HDVS_CANCEL'); ?></a>
                                               </span>
-                                              <label id="f3-upload-status" class="clsupl"><?php echo _HDVS_UPLOADING; ?></label>
+                                              <label id="f3-upload-status" class="clsupl"><?php echo JText::_('HDVS_UPLOADING'); ?></label>
                                               <span id="f3-upload-message" class="clsupl_fail">
-                                                  <b><?php echo _HDVS_UPLOAD_FAILED; ?>:</b> <?php echo _HDVS_USER_CANCELLED_THE_UPLOAD; ?>
+                                                  <b><?php echo JText::_('HDVS_UPLOAD_FAILED'); ?>:</b> <?php echo JText::_('HDVS_USER_CANCELLED_THE_UPLOAD'); ?>
                                               </span></div>
                                       </div>
                                   </td></tr>
                               <tr id="ffmpeg_disable_new4" name="ffmpeg_disable_new1">
-                                  <td class="form-label"><?php echo _HDVS_UPLOAD_PREVIEW_IMAGE; ?></td><td>
+                                  <td class="form-label"><?php echo JText::_('HDVS_UPLOAD_PREVIEW_IMAGE'); ?></td><td>
                                       <div id="f4-upload-form" >
                                           <form name="previewimageform" method="post" enctype="multipart/form-data" >
                                               <input type="file" name="myfile" onchange="enableUpload(this.form.name);" />
-                                              <input  class="button cursor_pointer" type="button" name="uploadBtn" value="<?php echo _HDVS_UPLOAD; ?>" disabled="disabled" onclick="return addQueue(this.form.name,this.form.myfile.value);" />
+                                              <input  class="button upload_video cursor_pointer" type="button" name="uploadBtn" value="<?php echo JText::_('HDVS_UPLOAD'); ?>" disabled="disabled" onclick="return addQueue(this.form.name,this.form.myfile.value);" />
                                               <label id="lbl_normal"><?php
                                                   if (isset($videoedit->filepath))
                                                   {
@@ -248,11 +289,11 @@ if ($app->getTemplate() != 'hulutheme')
                                           <div class="floatleft"><img id="f4-upload-image" src="/images/empty.gif'" alt="Uploading" class="clsempty" />
                                               <label class="postroll"  id="f4-upload-filename">PostRoll.flv</label></div>
                                           <div class="floatright"><span id="f4-upload-cancel">
-                                                  <a class="clscnl" href="javascript:cancelUpload('previewimageform');" name="submitcancel"><?php echo _HDVS_CANCEL; ?></a>
+                                                  <a class="clscnl" href="javascript:cancelUpload('previewimageform');" name="submitcancel"><?php echo JText::_('HDVS_CANCEL'); ?></a>
                                               </span>
-                                              <label id="f4-upload-status" class="clsupl"><?php echo _HDVS_UPLOADING; ?></label>
+                                              <label id="f4-upload-status" class="clsupl"><?php echo JText::_('HDVS_UPLOADING'); ?></label>
                                                                               <span id="f4-upload-message" class="clsupl_fail">
-                                                                                  <b><?php echo _HDVS_UPLOAD_FAILED; ?>:</b> <?php echo _HDVS_USER_CANCELLED_THE_UPLOAD; ?>
+                                                                                  <b><?php echo JText::_('HDVS_UPLOAD_FAILED'); ?>:</b> <?php echo JText::_('HDVS_USER_CANCELLED_THE_UPLOAD'); ?>
                                                                               </span></div>
                                         </div>
                                                                       <div id="nor"><iframe id="uploadvideo_target" name="uploadvideo_target" src="#"  ></iframe></div>
@@ -277,18 +318,18 @@ if ($app->getTemplate() != 'hulutheme')
                     <div class="allform">
                         <ul>
                             <li class="changeli">
-                                <div class="form-label floatleft"><label><?php echo _HDVS_UPLOAD_URL;?>:</label></div>
+                                <div class="form-label floatleft"><label><?php echo JText::_('HDVS_UPLOAD_URL');?><span class="star">*</span></label></div>
                                 <div class="form-input floatleft"><input type="text" name="Youtubeurl" value="<?php
                                                   if (isset($videoedit->filepath)
 
-                                                      )if ($videoedit->filepath == 'Youtube')
-                                                          echo $videoedit->videourl ?>" class="text" size="20" id="Youtubeurl" onchange="bindvideo();"  /><span class="star">*</span>&nbsp;&nbsp </div>
+                                                      )if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')
+                                                          echo $videoedit->videourl ?>" class="text" size="20" id="Youtubeurl" onchange="bindvideo();"  />&nbsp;&nbsp </div>
                                                           <div class="clear"></div>
-                                                          <div class="form-label floatleft"><label><?php echo _HDVS_UPLOAD_HDURL;?>:</label></div>
+                                                          <div class="form-label floatleft"><label><?php echo JText::_('HDVS_UPLOAD_HDURL');?></label></div>
                                                           <div class="form-input floatleft"><input type="text" name="hdurl" value="<?php
                                                   if (isset($videoedit->filepath)
 
-                                                      )if ($videoedit->filepath == 'Youtube')
+                                                      )if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')
                                                           echo $videoedit->hdurl ?>" class="text" size="20" id="hdurl" onchange="bindvideo();"  /> </div>
                                                   </li>
                                               </ul>
@@ -297,19 +338,19 @@ if ($app->getTemplate() != 'hulutheme')
                                           <div class="allform">
                                               <ul>
                                                   <li class="changeli">
-                                                      <div class="form-label floatleft"><label><?php echo _HDVS_UPLOAD_IMAGEURL;?>:</label></div>
+                                                      <div class="form-label floatleft"><label><?php echo JText::_('HDVS_UPLOAD_IMAGEURL');?></label></div>
 <?php
                                                           if (isset($videoedit->thumburl))
                                                           {
                                                               preg_match('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $videoedit->thumburl, $imgresult);
                                                           }
 ?>
-                                                      <div class="form-input floatleft"><?php echo _HDVS_UPLOAD_IMAGEURL;?><input type="radio" name="imagepath" id="imagepath" value="1" <?php
+                                                      <div class="form-input floatleft"><?php echo JText::_('HDVS_UPLOAD_IMAGEURL');?><input type="radio" name="imagepath" id="imagepath" value="1" <?php
                                                           if (isset($imgresult[0]))
                                                           {
                                                               echo "checked='checked'";
                                                           }
-?>                                                     onclick="changeimageurltype(this);">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo _HDVS_IMAGE_UPLOAD;?><input type="radio" name="imagepath" id="imagepath" value="0" <?php
+?>                                                     onclick="changeimageurltype(this);">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo JText::_('HDVS_IMAGE_UPLOAD');?><input type="radio" name="imagepath" id="imagepath" value="0" <?php
                                                           if (!isset($imgresult[0]))
                                                           {
                                                               echo "checked='checked'";
@@ -344,33 +385,33 @@ if ($app->getTemplate() != 'hulutheme')
                                              <div class="allform">
                                                  <ul>
                                                      <li class="changeli" >
-                                                         <div class="form-label floatleft"><label><?php echo _HDVS_TITLE; ?> :</label></div>
+                                                         <div class="form-label floatleft"><label><?php echo JText::_('HDVS_TITLE'); ?><span class="star">*</span></label></div>
                                                              <div class="form-input floatleft"><input type="text" name="title" value="<?php if (isset($videoedit->title)
 
-                                                                     )echo $videoedit->title; ?>" class="text" size="20" id="title"/><span class="star">*</span></div>
+                                                                     )echo $videoedit->title; ?>" class="text" size="20" id="videotitle"/></div>
                                                          </li>
                                                          <li class="changeli">
                                                              <br />
-                                                             <div class="form-label floatleft"><label><?php echo _HDVS_DESCRIPTION; ?> :</label></div>
-                            <div class="form-input floatleft"><textarea name="description" style="width:288px;" id="description"><?php
+                                                             <div class="form-label floatleft"><label><?php echo JText::_('HDVS_DESCRIPTION'); ?></label></div>
+                            <div class="form-input floatleft"><textarea name="description" style="" id="description"><?php
                                                                  if (isset($videoedit->description)) {
                                                                      echo $videoedit->description;
                                                                  } ?></textarea></div>
                                                          </li>
                                                             <li class="changeli">
                             <br>
-                            <div class="form-label floatleft"><label>Tags :</label></div>
-                            <div class="form-input floatleft"><textarea name="tags1" style="width:288px;" id="tags1">
+                            <div class="form-label floatleft"><label>Tags</label></div>
+                            <div class="form-input floatleft"><textarea name="tags1" style="" id="tags1">
 <?php
                                                                  if (isset($videoedit->tags)) {
                                                                      echo $videoedit->tags;
                                                                  } ?>
                                 </textarea></div>
-                            <label>Seperate tags by space</label>
+                            <label>Separate tags by space</label>
                         </li>
                                                          <li class="changeli">
                                                              <br />
-                                                             <div class="form-label floatleft"><label><?php echo _HDVS_SELECT_CATEGORY; ?> :</label></div>
+                                                             <div class="form-label floatleft"><label><?php echo JText::_('HDVS_SELECT_CATEGORY'); ?></label></div>
                                   <div class="catclass floatleft" align="left" id="selcat">
                                     <?php $n = count($this->videocategory);
                                                                  foreach ($this->videocategory as $cat) { ?>
@@ -379,42 +420,43 @@ if ($app->getTemplate() != 'hulutheme')
                                                                          </div>
                                                                      </li>
                                                                      <li class="changeli clearfix"><br/>
-                                                                         <div class="form-label floatleft"><label><?php echo _HDVS_CATEGORY; ?> :</label></div>
+                                                                         <div class="form-label floatleft"><label><?php echo JText::_('HDVS_CATEGORY'); ?><span class="star">*</span></label></div>
                                                                          <div class=" floatleft form-inputnew"><input type="text"  readonly name="tagname" value="<?php
                                                                  if (isset($videoedit->category))
                                                                  {
                                                                      echo $videoedit->category;
                                                                  }
-                                    ?>" class="text" size="20" id="tagname" /><span class="star">*</span><input type="button" value="<?php echo _HDVS_RESET_CATEGORY; ?>" class="button" onclick="resetcategory();" ></div>
+                                    ?>" class="text" size="20" id="tagname" /><input type="button" value="<?php echo JText::_('HDVS_RESET_CATEGORY'); ?>" class="button" onclick="resetcategory();" ></div>
                                                                      </li>
+                                                                     <div class="clear"></div>
                                                                      <li class="changeli">
-                                                                         <div class="form-label floatleft"><label><?php echo _HDVS_TYPE; ?> :</label></div>
+                                                                         <div class="form-label floatleft"><label><?php echo JText::_('HDVS_TYPE'); ?></label></div>
                                                                       <div class="radiobtn floatleft" ><input type="radio" class="butnmargin" name="type" value=0  <?php
                                                                  if (isset($videoedit->type) && $videoedit->type == '0')
                                                                  {
                                                                      echo 'checked="checked"';
                                                                  }
-                                    ?> checked="checked"  />&nbsp;&nbsp;<?php echo _HDVS_PUBLIC; ?></div>
+                                    ?> checked="checked"  />&nbsp;&nbsp;<?php echo JText::_('HDVS_PUBLIC'); ?></div>
                                                                       <div class="radiobtn " ><input type="radio" class="butnmargin" name="type" value=1 <?php
                                                                  if (isset($videoedit->type) && $videoedit->type == '1')
                                                                  {
                                                                      echo 'checked="checked"';
-                                                                 } ?>  />&nbsp;&nbsp;<?php echo _HDVS_PRIVATE; ?></div>
+                                                                 } ?>  />&nbsp;&nbsp;<?php echo JText::_('HDVS_PRIVATE'); ?></div>
 
                                                                   </li>
                                                               </ul>
                                                               <br/><br/><?php
                                                                  if (JRequest::getVar('type', '', 'get', 'string') == 'edit')
                                                                  {
-                                                                     $editbutton = _HDVS_UPDATE;
+                                                                     $editbutton = JText::_('HDVS_UPDATE');
                                                                  }
                                                                  else
                                                                  {
-                                                                     $editbutton = _HDVS_UPLOAD;
+                                                                     $editbutton = JText::_('HDVS_UPLOAD');
                                                                  }
                     ?>
                                                                           <div ><input  type="submit" name="uploadbtn" value="<?php echo $editbutton; ?>" class="button cursor_pointer" />
-                                                                              <input type="button" onclick="window.open('<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=myvideos'); ?>','_self');"  value="<?php echo _HDVS_CANCEL; ?>" class="button cursor_pointer" />
+                                                                              <input type="button" onclick="window.open('<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=myvideos'); ?>','_self');"  value="<?php echo JText::_('HDVS_CANCEL'); ?>" class="button cursor_pointer" />
                                                                           </div>
                                                                       </div>
                                                                       <br/><br/>
@@ -507,7 +549,6 @@ if ($app->getTemplate() != 'hulutheme')
                                                           document.getElementById("ffmpeg").style.display="none";
 
                                                           document.getElementById("typeff").style.display="none";
-
 
                                                           function bindvideo()
                                                           {
@@ -611,6 +652,12 @@ if ($app->getTemplate() != 'hulutheme')
 
                                                            ?>
                                                               filetypeshow("1");
+<?php
+                                                                 }
+                                                                 if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')
+                                                                 {
+?>
+                                                              bindvideo();
 <?php
                                                                  }
 ?>

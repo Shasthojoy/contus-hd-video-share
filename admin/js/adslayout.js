@@ -1,86 +1,97 @@
+/*
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	  	  : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Ads Validation
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
-    if((document.getElementById('fileoption').value == 'File') || (document.getElementById('fileoption').value == ''))
+/*
+ ***********************************************************/
+
+/**
+ * function to hide Preroll/Post Roll onload page
+ */
+
+if (document.getElementById('selectadd01').checked == true) {
+
+	document.getElementById('typeofadd').value = 'prepost';
+
+	if (document.getElementById('filepath01').checked == true) {
+		adsflashdisable();
+
+	} else if (document.getElementById('filepath02').checked == true) {
+		urlenable();
+	}
+
+} else if (document.getElementById('selectadd02').checked == true) {
+	document.getElementById('typeofadd').value = 'mid';
+	adsflashdisable();
+}
+
+/**
+ * function to hide Preroll/Post Roll
+ */
+function urlenable() {
+	document.getElementById('postrollnf').style.display = 'none';
+	document.getElementById('postrollurl').style.display = '';
+}
+
+/**
+ * function to hide Upload Preroll/Post Roll
+ */
+
+function adsflashdisable() {
+	document.getElementById('postrollnf').style.display = '';
+	document.getElementById('postrollurl').style.display = 'none';
+}
+
+/**
+ * function to hide Preroll/Post Roll and Upload Preroll/Post Roll on Onclick
+ */
+
+function fileads(filepath) {
+	if (filepath == "File") {
+		adsflashdisable();
+		document.getElementById('fileoption').value = 'File';
+	}
+	if (filepath == "Url") {
+		urlenable();
+		document.getElementById('fileoption').value = 'Url';
+	}
+}
+
+/**
+ * function to select ad type on Onclick
+ */
+
+function checkadd(recadd)
+{
+    if(recadd=="prepost")
     {
-        adsflashdisable();
-
+        addsetenable();
+        document.getElementById('typeofadd').value='prepost';
     }
-    if(document.getElementById('fileoption').value == 'Url')
+    if(recadd=="mid")
     {
-        urlenable();
-
+        addsetdisable();
+        document.getElementById('typeofadd').value='mid';
+        document.getElementById('fileoption').value='';
     }
- 
-    function urlenable()
-    {
-        document.getElementById('postrollnf').style.display='none';
-        document.getElementById('postrollurl').style.display='';
-    }
-    function adsflashdisable()
-    {
-        document.getElementById('postrollnf').style.display='';
-        document.getElementById('postrollurl').style.display='none';
-    }
-    function fileads(filepath)
-    {
-        if(filepath=="File")
-        {
-            adsflashdisable();
-            document.getElementById('fileoption').value='File';
-        }
-        if(filepath=="Url")
-        {
-            urlenable();
-            document.getElementById('fileoption').value='Url';
-        }
+}
+ function addsetenable()
+{
+    document.getElementById('videodet').style.display='';
+}
+function addsetdisable()
+{
 
-    }
-    function submitbutton(pressbutton)
-    {
-        if (pressbutton == "saveads" || pressbutton=="applyads")
-        {
-            var bol_file1=(document.getElementById('filepath01').checked);
-            if (document.getElementById('adsname').value == "")
-            {
-                alert( "You must provide a Title" )
-                return;
-            }
-
-            if(bol_file1==true)
-            {
-                document.getElementById('fileoption').value="File"
-                if(uploadqueue.length!="")
-                {
-                    alert("Upload in Progress");
-                    return;
-                }
-                if(document.getElementById('id').value=="")
-                {
-                    if(document.getElementById('normalvideoform-value').value=="")
-                    {
-                        alert("You must Upload a file");
-                        return;
-                    }
-                }
-            }
-            if(bol_file1==false)
-            {
-
-                document.getElementById('fileoption').value="Url"
-                if(document.getElementById('posturl').value=="")
-                {
-                    alert( "You must provide a Video Url" )
-                    return;
-                }
-                if(document.getElementById('posturl').value!="")
-                {
-                    document.getElementById('posturl-value').value=document.getElementById('posturl').value;
-                }
-            }
-            submitform( pressbutton );
-            return;
-        }
-        submitform( pressbutton );
-        return;
-
-    }
-    
+    document.getElementById('videodet').style.display='none';
+}

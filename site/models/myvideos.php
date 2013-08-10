@@ -1,140 +1,161 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Myvideos Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined( '_JEXEC' ) or die( 'Restricted access' );
+// import Joomla model library
 jimport( 'joomla.application.component.model' );
+/**
+ * Contushdvideoshare Component Myvidos Model
+ */
 class Modelcontushdvideosharemyvideos extends JModel
 {
-/* Following function is to delete a particular video */
-function getdeletevideo()
-{
-  $user =& JFactory::getUser();
-      $session =& JFactory::getSession();
-     if(JRequest::getVar('deletevideo','','post','int'))
-        {
-            $id=JRequest::getVar('deletevideo','','post','int'); //Getting the video id which is going to be deleted
-        
-        $db = $this->getDBO();
-        $deletequery="delete from #__hdflv_upload where id=$id"; // Query for deleting a selected video
-        $db->setQuery($deletequery);
-        $db->query();
-        }
-        /* Video Delete function Ends here */
+	/* function is to delete a particular video and display videos of user who logged in*/
+	function getmembervideo()
+	{
+		$user = JFactory::getUser();
+		$session = JFactory::getSession();
+		$where = $order = '';
+		if(JRequest::getVar('deletevideo','','post','int'))
+		{
+			$id=JRequest::getVar('deletevideo','','post','int'); //Getting the video id which is going to be deleted
 
-        // Following code for displaying videos of the particular member when he logged in
+			$db = $this->getDBO();			
+			// Query for deleting a selected video
+			$query = "UPDATE #__hdflv_upload SET published = -2 WHERE id=$id"; 
+			$db->setQuery($query);
+			$db->query();
+		}
+		/* Video Delete function Ends here */
 
-        if($user->get('id'))
-        {
-            $memberid=$user->get('id'); //Setting the loginid into session
-        }
-        $db = $this->getDBO();
-        $myvideostotal = "select count(*) from #__hdflv_upload where published=1 and memberid=$memberid"; // Query to get the pagination values
-        $db->setQuery( $myvideostotal );
-        $total = $db->loadResult();
-        $pageno = 1;
-        if(JRequest::getVar('page','','post','int'))
-        {
-            $pageno = JRequest::getVar('page','','post','int');
-        }
-        $limitrow=$this->getmyvideorowcol();
-        $length=$limitrow[0]->myvideorow * $limitrow[0]->myvideocol;
-        $myvideorowcolquery="select allowupload  from #__hdflv_user where member_id=".$memberid;//Query is to select the popular videos row
-        $db = $this->getDBO();
-       $db->setQuery($myvideorowcolquery);
-        $row=$db->LoadObjectList();
-       
-        if(count($row)!=0)
-        {
-        $allowupload = $row[0]->allowupload;
-     
-        }
-        else
-        {
-        $allowupload = $limitrow[0]->allowupload;
-        }
-        $pages = ceil($total/$length);
-        if($pageno==1)
-        $start=0;
-        else
-        $start= ($pageno - 1) * $length;
+		// Following code for displaying videos of the particular member when he logged in
 
-        if(JRequest::getVar('sorting','','post','int')=="1")
-        {
-        $query="select a.*,b.category,d.username,e.*,count(f.videoid) as total from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id left join #__hdflv_comments f on f.videoid=a.id where a.published=1 and a.memberid=$memberid group by a.id order by a.title asc LIMIT $start,$length";// Query is to display the myvideos results order by title
-        }
-        else if(JRequest::getVar('sorting','','post','int')=="2")
-        {
-        $query="select a.*,b.category,d.username,e.*,count(f.videoid) as total from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id left join #__hdflv_comments f on f.videoid=a.id where a.published=1 and a.memberid=$memberid group by a.id order by a.addedon desc LIMIT $start,$length";// Query is to display the myvideos results order by added date
-        }
-        else if(JRequest::getVar('sorting','','post','int')=="3")
-        {
-        $query="select a.*,b.category,d.username,e.*,count(f.videoid) as total from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id left join #__hdflv_comments f on f.videoid=a.id where a.published=1 and a.memberid=$memberid group by a.id order by a.times_viewed desc LIMIT $start,$length";// Query is to display the myvideos results order by time sof views
-        }
-        else if(strlen(JRequest::getVar('searchtxtboxmember','','post','string'))>0)
-        {
-        $search=JRequest::getVar('searchtxtboxmember','','post','string');
-        //$query="select a.*,b.category,d.username,e.*,count(f.videoid) as total from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id left join #__hdflv_comments f on f.videoid=a.id where a.published=1 and a.memberid=$memberid group by a.id order by a.id desc LIMIT $start,$length";// Query is to display the myvideos results
-        $query="select a.id,a.category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and c.memberid=$memberid and (c.title like '%$search%'  OR a.category like '%$search%' OR d.username like '%$search%')  group by c.id"; // Query for displayin the pagination results
-        }
-        else
-        {
-        $query="select a.*,b.category,d.username,e.*,count(f.videoid) as total from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id left join #__hdflv_comments f on f.videoid=a.id where a.published=1 and a.memberid=$memberid group by a.id order by a.id desc LIMIT $start,$length";// Query is to display the myvideos results
-        }
-         $db->setQuery($query);
-        $rows=$db->LoadObjectList();
-        // Below code is to merge the pagination values like pageno,pages,start value,length value
-        if(count($rows)>0){
-        $insert_data_array = array('pageno' => $pageno);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('allowupload' => $allowupload);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('pages' => $pages);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('start' => $start);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('length' => $length);
-        $rows = array_merge($rows, $insert_data_array);
-        }
-        else{
-        $insert_data_array = array('allowupload' => $allowupload);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('pageno' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('pages' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('start' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('length' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        }
-        // merge code ends here
-        return $rows;
-}
+		if($user->get('id'))
+		{
+			$memberid=$user->get('id'); //Setting the loginid into session
+		}
+		$db = $this->getDBO();
+		$search = JRequest::getVar('searchtxtboxmember','','post','string');
+		if($search) {
+			$where = " AND (a.title like '%$search%' OR a.description like '%$search%' OR a.tags like '%$search%' OR b.category like '%$search%' OR d.username like '%$search%')";
+		}
+		// Query to get the total videos for user
+		$myvideostotal = "SELECT count(a.id)
+        			   	  FROM  #__hdflv_upload a 
+        			      LEFT JOIN #__hdflv_category b on a.playlistid=b.id          				  
+        				  WHERE a.published=1 AND b.published=1 AND a.memberid=$memberid $where"; 
+		$db->setQuery( $myvideostotal );
+		$total = $db->loadResult();
+		$pageno = 1;
+		if(JRequest::getVar('page','','post','int'))
+		{
+			$pageno = JRequest::getVar('page','','post','int');
+		}
+		$limitrow=$this->getmyvideorowcol();
+		$length=$limitrow[0]->myvideorow * $limitrow[0]->myvideocol;
+		//Query is to select the videos of the logged in users
+		$myvideorowcolquery="SELECT allowupload
+        					 FROM #__hdflv_user 
+        					 WHERE member_id=".$memberid;
+		$db = $this->getDBO();
+		$db->setQuery($myvideorowcolquery);
+		$row=$db->LoadObjectList();
+		if(count($row)!=0)
+		{
+			$allowupload = $row[0]->allowupload;
+			 
+		}
+		else
+		{
+			$allowupload = $limitrow[0]->allowupload;
+		}
+		$pages = ceil($total/$length);
+		if($pageno==1)
+		$start=0;
+		else
+		$start= ($pageno - 1) * $length;
+		
+		/* quries to display myvideos based on sorting */
+		if(JRequest::getVar('sorting','','post','int')=="1")
+		{
+			// Query is to display the myvideos results order by title
+			$order = "ORDER BY a.title asc";
+		}
+		else if(JRequest::getVar('sorting','','post','int')=="2")
+		{
+			// Query is to display the myvideos results order by added date
+			$order = "ORDER BY a.addedon desc";
+		}
+		else if(JRequest::getVar('sorting','','post','int')=="3")
+		{
+			// Query is to display the myvideos results order by time of views
+			$order = "ORDER BY a.times_viewed desc";
+		}
+		else if(strlen(JRequest::getVar('searchtxtboxmember','','post','string'))>0)
+		{			
+			// Query for display the myvideos results based on search value
+			$where = " AND (a.title like '%$search%' OR a.description like '%$search%' OR a.tags like '%$search%' OR b.category like '%$search%' OR d.username like '%$search%')"; 
+		}
+		else
+		{
+			// Query is to display the myvideos results
+			$order = "ORDER BY a.id desc";
+		}
+		// Query is to display the myvideos results
+			$query = "SELECT a.*,b.category,d.username,e.*,count(f.videoid) as total
+	        		  FROM  #__hdflv_upload a 
+	        		  LEFT JOIN #__users d on a.memberid=d.id 
+	        		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+	        		  LEFT JOIN #__hdflv_category b on e.catid=b.id 
+	        		  LEFT JOIN #__hdflv_comments f on f.videoid=a.id 
+	        		  WHERE a.published=1 AND b.published=1 AND a.memberid=$memberid $where
+	        		  GROUP BY a.id 
+	        		  $order 
+	        		  LIMIT $start,$length";		
+		
+		$db->setQuery($query);
+		$rows=$db->LoadObjectList();		
+		$row1['allowupload'] = $allowupload;		
+		if(count($rows)>0){
+			$rows['pageno'] = $pageno;
+			$rows['pages'] = $pages;
+			$rows['start'] = $start;
+			$rows['length'] = $length;
+		}		
+		return array('rows' => $rows,'row1' => $row1);
+	}
 
 
-function getmyvideorowcol()
-{
- $user =& JFactory::getUser();
- $memberid="";
-   if($user->get('id'))
-        {
-            $memberid=$user->get('id'); //Setting the loginid into session
-        }
-        $db = $this->getDBO();
-		$myvideorowcolquery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
-        $db->setQuery($myvideorowcolquery);
-        $rows=$db->LoadObjectList();
-
-       
-       
-        return $rows;
-}
+	function getmyvideorowcol()
+	{
+		$user = JFactory::getUser();
+		$memberid="";
+		if($user->get('id'))
+		{
+			$memberid=$user->get('id'); //Setting the login id into session
+		}
+		$db = $this->getDBO();
+		//Query is to select the myvideos settings
+		$myvideorowcolquery="SELECT myvideorow,myvideocol,seo_option,viewedconrtol,allowupload 
+							 FROM #__hdflv_site_settings";
+		$db->setQuery($myvideorowcolquery);
+		$rows=$db->LoadObjectList();	 
+		return $rows;
+	}
 
 }
 ?>

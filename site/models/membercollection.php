@@ -1,67 +1,87 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Myvideos Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined( '_JEXEC' ) or die( 'Restricted access' );
+// import Joomla model library
 jimport( 'joomla.application.component.model' );
+/**
+ * Contushdvideoshare Component Myvidos Model
+ */
 class Modelcontushdvideosharemembercollection extends JModel
 {
     
 /* Following function is to display the videos of a particular registered member */
 function getmembercollection()
 {
-    $session =& JFactory::getSession();
-    $user =& JFactory::getUser();
+    $session = JFactory::getSession();
+    $user = JFactory::getUser();
         if(JRequest::getVar('memberidvalue','','post','int'))
         {
-            $memberid=JRequest::getVar('memberidvalue','','post','int'); // Getting the memberid
-           // $_SESSION['memberid']=$memberid; // Assining it to session for future purpose
+           $memberid = JRequest::getVar('memberidvalue','','post','int'); // Getting the memberid           
            $session->set('memberid', $memberid);
         }
         else
         {
-            $memberid=$user->get('id');
+            $memberid = $user->get('id');
         }
-        $totalquery="select a.*,b.category,d.username from  #__hdflv_upload a left join #__hdflv_category b on a.playlistid=b.id left join #__users d on a.memberid=d.id where a.published=1 and a.type=0 and a.memberid=$memberid"; // Query for membercollection pagination display
-        $db =& JFactory::getDBO();
+        // Query for fetching membercollection total for pagination
+        $totalquery	= "SELECT count(a.id)
+        			   FROM  #__hdflv_upload a 
+        			   LEFT JOIN #__hdflv_category b on a.playlistid=b.id 
+        			   LEFT JOIN #__users d on a.memberid=d.id 
+        			   WHERE a.published=1 AND b.published=1 AND a.type=0 AND d.block=0 AND a.memberid=$memberid";
+        $db = JFactory::getDBO();
         $db->setQuery($totalquery);
-        $resulttotal = $db->loadObjectList();
-        $subtotal=count($resulttotal);
-        $total=$subtotal;
+        $resulttotal = $db->loadResult();        
+        $total=$resulttotal;
         $pageno = 1;
         if(JRequest::getVar('page','','post','int'))
         {
             $pageno = JRequest::getVar('page','','post','int');
         }
-        $limitrow=$this->getmemberpagerowcol();
+        $limitrow=$this->getmemberpagerowcol();//function call for fetching member collection settings
         $length=$limitrow[0]->memberpagerow * $limitrow[0]->memberpagecol;
         $pages = ceil($total/$length);
         if($pageno==1)
         $start=0;
         else
         $start= ($pageno - 1) * $length;
-        $query="select a.*,b.category,d.username,e.* from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where a.published=1 and a.type=0 and a.memberid=$memberid group by e.vid order by a.id desc LIMIT $start,$length";// Query for displaying the member collection videos when click on his name
+        // Query for displaying the member collection videos when click on his name
+        $query = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+				  a.times_viewed,a.seotitle,b.category,b.seo_category,d.username,e.catid,e.vid 
+        		  FROM #__hdflv_upload a 
+        		  LEFT JOIN #__users d on a.memberid=d.id 
+        		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+        		  LEFT JOIN #__hdflv_category b on e.catid=b.id 
+        		  WHERE a.published=1 and b.published=1 and d.block=0 and a.type=0 and a.memberid=$memberid 
+        		  GROUP BY e.vid 
+        		  ORDER BY a.id desc 
+        		  LIMIT $start,$length";
         $db->setQuery($query);
         $rows=$db->LoadObjectList();
         // Below code is to merge the pagination values like pageno,pages,start value,length value
         if(count($rows)>0)
         {
-            $insert_data_array = array('pageno' => $pageno);
-            $rows = array_merge($rows, $insert_data_array);
-            $insert_data_array = array('pages' => $pages);
-            $rows = array_merge($rows, $insert_data_array);
-            $insert_data_array = array('start' => $start);
-            $rows = array_merge($rows, $insert_data_array);
-            $insert_data_array = array('length' => $length);
-            $rows = array_merge($rows, $insert_data_array);
-        }
-       
-        // merge code ends here
+        	$rows['pageno'] = $pageno;
+			$rows['pages'] = $pages;
+			$rows['start'] = $start;
+			$rows['length'] = $length;	            
+        }       
         return $rows;
 }
 
@@ -71,7 +91,9 @@ function getmemberpagerowcol()
 {
 
         $db = $this->getDBO();
-        $memberpagequery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
+        //Query is to fetch membercollection settings
+        $memberpagequery="SELECT memberpagecol,memberpagerow,viewedconrtol,ratingscontrol,seo_option 
+        				  FROM #__hdflv_site_settings";
         $db->setQuery($memberpagequery);
         $rows=$db->LoadObjectList();
         return $rows;

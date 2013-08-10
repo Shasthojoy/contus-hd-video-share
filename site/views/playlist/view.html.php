@@ -1,54 +1,70 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Playlist View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
+// No direct access to this file
 defined( '_JEXEC' ) or die( 'Restricted access' );
+// import Joomla view library
 jimport('joomla.application.component.view');
+/**
+ * hdvideoshare component playlist view page
+ *
+ */
 class contushdvideoshareViewplaylist extends JView
 {
-function display()
-{
+	/**
+	 * function to prepare view for playlist view
+	 */
+	function display($cachable = false, $urlparams = false)
+	{
+		$app = JFactory::getApplication();
+		$model = $this->getModel();
+		//save playlist		
+		if(JRequest::get( 'post' )) {
+			$playlistExists = $model->playlistExists();
+			if(!$playlistExists) {
+				$saveSettings = $model->savePlaylist();
+			}else {				
+				JError::raiseWarning( 100, JText::_('HDVS_PLAYLIST_EXISTS') );
+				$app->redirect('index.php?option=com_contushdvideoshare&view=playlist');
+			}
+			//update recent activity
+			$updateRecentactivity = $model->updateRecentactivity();
+		}
 
-$model = $this->getModel();
+		//get myvideos
+		$myVideos = $model->getMyvideos();
+		$this->assignRef('myvideos', $myVideos);
 
-//save playlist
-//save settings
-if(JRequest::get( 'post' )) {
-$playlistExists = $model->playlistExists();
-if(!$playlistExists) {
-    $saveSettings = $model->savePlaylist();
-}else {
-    echo '<p style="color:red">'._HDVS_PLAYLIST_EXISTS.'</p>';
-}
-//update recent activity
-$updateRecentactivity = $model->updateRecentactivity();
-}
+		//get playlists
+		$playList = $model->getPlaylist();
+		$this->assignRef('channelvideos', $playList);
 
-//get myvideos
-$myVideos = $model->getMyvideos();
-$this->assignRef('myvideos', $myVideos);
+		if(JRequest::getString('category')) {
+			//get videos for playlist
+			$playlistVideos = $model->getplaylistVideos();
+			$this->assignRef('playlistvideos', $playlistVideos);
+		}
 
-//get playlists
-$playList = $model->getPlaylist();//echo '<pre>';print_r($playList);exit;
-$this->assignRef('channelvideos', $playList);
+		$channelName = $model->getChannel();
+		$this->assignRef('channelName', $channelName);
 
-if(JRequest::getString('category')) {
-//get videos for playlist
-$playlistVideos = $model->getplaylistVideos();
-$this->assignRef('playlistvideos', $playlistVideos);
-}
-
-$channelName = $model->getChannel();
-$this->assignRef('channelName', $channelName);
-
-
-parent::display();
-}
+		parent::display();
+	}
 
 }
 ?>

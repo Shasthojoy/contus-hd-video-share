@@ -1,21 +1,31 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Mychannel View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 //check login or not
-//include($baseurl."components/com_contushdvideoshare/language/danish.php");
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
 $logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
-$user = & JFactory::getUser();
-$session = & JFactory::getSession();
+$playerpath = JURI::base() . "components/com_contushdvideoshare/hdflvplayer/hdplayer.swf";
+$user = JFactory::getUser();
+$session = JFactory::getSession();
 $editing = '';
-$editor = & JFactory::getEditor();
+$editor = JFactory::getEditor();
 $mobile = detect_mobile();
 $baseurl = JURI::base();
 if ($user->get('id') == '')
@@ -29,9 +39,13 @@ if ($user->get('id') == '')
 	header("Location: $url");
       }
 }
+
+// add js file
+$document = JFactory::getDocument();
+$document->addScript( JURI::base().'components/com_contushdvideoshare/js/autoHeight.js' );
+$document->addScript( JURI::base().'components/com_contushdvideoshare/js/mychannel.js' );
+$document->addScript( JURI::base().'components/com_contushdvideoshare/js/membervalidator.js' );
 ?>
-<script
-	src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/popup.js"></script>
 <?php
 if (JRequest::getVar('url', '', 'post', 'string'))
 {
@@ -47,40 +61,53 @@ if (JRequest::getVar('url', '', 'post', 'string'))
 		$channelDetails = $this->channeldetails[0];
 	}?>
 <?php
-
-$app = & JFactory::getApplication();
-if ($app->getTemplate() != 'hulutheme')
-{
-	echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
-
+	$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
 	if ($user->get('id') != '')
 	{
 		     if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
-                    <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></div>
+                    <div class="toprightmenu">
+                    <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                    <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                    </div>
             <?php }else { ?>
-                <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></div>
+                <div class="toprightmenu">
+                <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                </div>
            <?php  }?>
 
 
 
 		<?php } else
 		{if(version_compare(JVERSION,'1.6.0','ge'))
-        { ?><div class="toprightmenu"><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
+        { ?><div class="toprightmenu">
+            <a href="index.php?option=com_users&view=registration"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
+            <a  href="index.php?option=com_users&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+        </div>
            <?php }  else {      ?>
-                    <div class="toprightmenu"><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
+                    <div class="toprightmenu">
+                        <a href="index.php?option=com_user&view=register"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
+                        <a  href="index.php?option=com_user&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+                    </div>
         <?php
                 }
 			?>
 
 			<?php
 		}
-}
+
 
 
 ?>
-                    <script type="text/javascript">
+<script type="text/javascript">
 function submitform()
 {
   document.myform.submit();
@@ -112,29 +139,24 @@ function submitform()
             function facebook_share_code(bookmarkf){
                 document.getElementById('fbshare').href=bookmarkf;
             }
-      </script>
-<script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/autoHeight.js"></script>
-<script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/popup.js"></script>
-<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-<script
-	type="text/javascript"
-	src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/mychannel.js"></script>
-<script
-	type="text/javascript"
-	src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/membervalidator.js"></script>
+</script>
+
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1" type="text/javascript"></script>
 <div class="player clearfix">
+ <div class="bot_dot clearfix">
     <?php
-if(isset($this->channelvideorowcol[0]->logo)) {?>
-    <div class="bot_dot clearfix">
+if(isset($this->channelvideorowcol[0]->logo) && $this->channelvideorowcol[0]->logo) {?>
     <img id="closeimgm" src="<?php echo JURI::base();?>components/com_contushdvideoshare/videos/<?php echo $this->channelvideorowcol[0]->logo;?>" alt="logo" width="36" height="41" />
+    <?php } else {?>
+	<img id="closeimgm" src="<?php echo JURI::base();?>components/com_contushdvideoshare/videos/default_thumb.jpg" alt="logo" width="36" height="41" class="floatleft"/>
+   <?php }
+   if(isset($channelDetails->channel_name) && $channelDetails->channel_name) {?>
 <h1><?php echo $channelDetails->channel_name;?></h1>
-</div>
 <?php } else {?>
-<div class="bot_dot clearfix">
-<img id="closeimgm" src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/default_thumb.jpg" alt="logo" width="36" height="41" class="floatleft"/>
 <h1 class="imgtit">HD Videoshare</h1>
+<?php }?>
 </div>
-<?php } if(isset($this->channelvideorowcol[0])) {?>
+<?php if(isset($this->channelvideorowcol[0])) {?>
 	<div id="videoplayer" style="padding: 5px;">
 
 		<?php if(isset($this->frontvideodetails[0])) {
@@ -173,31 +195,31 @@ if($mobile === true){
 			frameborder="0" webkitAllowFullScreen mozallowfullscreen
 			allowFullScreen></iframe>
 			<?php } else {?>
-		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+<!--		<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
 			width="<?php echo $width;?>" height="<?php echo $height;?>">
 			<param name="movie"
-				value="<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=playerbase" />
+				value="<?php echo $playerpath;?>" />
 			<param name="flashvars"
-				value="id=<?php echo $frontVideo;?>&baserefJ=<?php echo JURI::base(); ?>&autoplay=false" />
+				value="catid=-1&id=<?php echo $frontVideo;?>&baserefJ=<?php echo JURI::base(); ?>&autoplay=true" />
 			<param name="allowFullScreen" value="true" />
 			<param name="wmode" value="transparent" />
-			<param name="allowscriptaccess" value="always" />
-			<embed src="<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=playerbase"flashvars="id=<?php echo $frontVideo;?>&baserefJ=<?php echo JURI::base(); ?>&autoplay=false" style="width:<?php echo $width;?>px;height:<?php echo $height;?>px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash" wmode="transparent"></embed>
-		</object>
+			<param name="allowscriptaccess" value="always" />-->
+			<embed src="<?php echo $playerpath;?>" flashvars="catid=-1&id=<?php echo $frontVideo;?>&baserefJ=<?php echo JURI::base(); ?>&autoplay=true&showPlaylist=true" style="width:<?php echo $width;?>px;height:<?php echo $height;?>px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash" wmode="transparent"></embed>
+<!--		</object>-->
 		<?php } } else {?>
-                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+<!--                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
 			codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"
 			width="<?php echo $width;?>" height="<?php echo $height;?>">
 			<param name="movie"
-				value="<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=playerbase" />
+				value="<?php echo $playerpath;?>" />
 			<param name="flashvars"
-				value="baserefJ=<?php echo JURI::base(); ?>&id=<?php echo $frontVideo;?>&catid=<?php echo $this->channelvideorowcol[0]->start_playlist;?>&autoplay=false" />
+				value="baserefJ=<?php echo JURI::base(); ?>&id=<?php echo $frontVideo;?>&catid=<?php echo $this->channelvideorowcol[0]->start_playlist;?>&autoplay=true" />
 			<param name="allowFullScreen" value="true" />
 			<param name="wmode" value="transparent" />
-			<param name="allowscriptaccess" value="always" />
-			<embed src="<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=playerbase"flashvars="id=<?php echo $frontVideo;?>&catid=<?php echo $this->channelvideorowcol[0]->start_playlist;?>&baserefJ=<?php echo JURI::base(); ?>&autoplay=false" style="width:<?php echo $width;?>px;height:<?php echo $height;?>px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash" wmode="transparent"></embed>
-		</object>
+			<param name="allowscriptaccess" value="always" />-->
+			<embed src="<?php echo $playerpath;?>" flashvars="id=<?php echo $frontVideo;?>&catid=<?php echo $this->channelvideorowcol[0]->start_playlist;?>&baserefJ=<?php echo JURI::base(); ?>&autoplay=true" style="width:<?php echo $width;?>px;height:<?php echo $height;?>px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash" wmode="transparent"></embed>
+<!--		</object>-->
             <?php } }?>
 	</div>
 	<script type="text/javascript">
@@ -215,11 +237,12 @@ var playerCode ="<iframe type='text/html' width='600' height='400' src='http://w
 <?php }else{?>
         document.getElementById("video_id").value=vid;
     	var baseurl = '<?php echo JURI::base()?>';
+        var playerpath = '<?php echo $playerpath;?>';
     	var width = '<?php echo $width;?>';
     	var height = '<?php echo $height;?>';
-    	//var vimeoId = vimeoid;
     	if(vimeoid == 0) {
-        	var playerCode = "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0\" width="+ width+" height="+ height+"><param name=\"movie\" value="+ baseurl+"index.php?option=com_contushdvideoshare&view=playerbase\" /><param name=\"flashvars\" value=\"id="+ vid+"&baserefJ="+ baseurl+"&autoplay=false\" /><param name=\"allowFullScreen\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /><param name=\"allowscriptaccess\" value=\"always\" /><embed src=\""+ baseurl+"index.php?option=com_contushdvideoshare&view=playerbase\"flashvars=\"id="+ vid+"&baserefJ="+ baseurl+"&autoplay=false\" style=\"width:"+ width+"px;height:"+ height+"px\" allowFullScreen=\"true\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" wmode=\"transparent\"></embed></object>";
+                //var playerCode = "<object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0\" width="+ width+" height="+ height+"><param name=\"movie\" value="+ playerpath+" /><param name=\"flashvars\" value=\"id="+ vid+"&baserefJ="+ baseurl+"&autoplay=false\" /><param name=\"allowFullScreen\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /><param name=\"allowscriptaccess\" value=\"always\" /><embed src=\""+ playerpath+"\" flashvars=\"id="+ vid+"&baserefJ="+ baseurl+"&autoplay=false\" style=\"width:"+ width+"px;height:"+ height+"px\" allowFullScreen=\"true\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" wmode=\"transparent\"></embed></object>";
+               var playerCode = "<embed src=\""+ playerpath+"\" flashvars=\"id="+ vid+"&baserefJ="+ baseurl+"&autoplay=true\" style=\"width:"+ width+"px;height:"+ height+"px\" allowFullScreen=\"true\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\" wmode=\"transparent\"></embed>";
     	}else {
     		var playerCode = "<iframe src=\"http://player.vimeo.com/video/"+vimeoid+"?title=0&amp;byline=0&amp;portrait=0\" width="+ width+" height="+ height+" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>";
 		}
@@ -233,6 +256,7 @@ var playerCode ="<iframe type='text/html' width='600' height='400' src='http://w
                     <td style="width:50%;">
 				<div class="centermargin">
 					<div contentEditable='false' unselectable='true'>
+                                            <?php if($this->sitesettings[0]->ratingscontrol == 1) {?>
 						<div class="rateimgleft" id="rateimg"
 							onmouseover="displayrating('');" onmouseout="resetvalue();">
 							<div id="a" class="floatleft"></div>
@@ -278,7 +302,7 @@ var playerCode ="<iframe type='text/html' width='600' height='400' src='http://w
 
 								</div>
 							</div>
-
+                                            <?php }?>
 
 					</div>
 				</div>
@@ -286,15 +310,17 @@ var playerCode ="<iframe type='text/html' width='600' height='400' src='http://w
                         <td style="width:50%;">
 
 				<div class="video_addedon">
-                                        <span><b><?php echo _HDVS_VIEWS;?>: </b></span><span style="padding-right:10px;" id="views"></span>
-					<span class="addedon"><b><?php echo _HDVS_ADDED_ON;?>: </b></span><span id="createdate"></span>
+                                    <?php if($this->sitesettings[0]->viewedconrtol == 1) {?>
+                                        <span><b><?php echo JText::_('HDVS_VIEWS');?>: </b></span><span style="padding-right:10px;" id="views"></span>
+                                        <?php } ?>
+					<span class="addedon"><b><?php echo JText::_('HDVS_ADDED_ON');?>: </b></span><span id="createdate"></span>
 				</div>
 			</td>
 		</tr>
 	</table>
 <?php } else {?>
-<div class="novideo"><?php echo _HDVS_FRONTEND_MSG;?></div><?php }?>
-    <h3 id="viewtitle"></h3>
+<div class="novideo"><?php echo JText::_('HDVS_FRONTEND_MSG');?></div><?php }?>
+    <h3 id="viewtitle" class="user_channel_title"></h3>
     <div id="share">
 	<div class="floatleft">
 	<a href="" class="fbshare" id="fbshare" target="_blank" ></a>
@@ -318,14 +344,16 @@ var playerCode ="<iframe type='text/html' width='600' height='400' src='http://w
 	<?php if(isset($this->channelvideorowcol[0]->fb_comment) && $this->channelvideorowcol[0]->fb_comment == 1 && isset($this->frontvideodetails[0])) {?>
 
     <div class="fbcomments" id="theFacebookComment">
-                        <h1>Add Your Comments</h1>
+                        <h1><?php echo JText::_('HDVS_ADD_YOUR_COMMENTS'); ?></h1>
                         <br />
                         <?php $facebookapi = '';
                         if(isset($this->sitesettings[0]->facebookapi)) {
                         	$facebookapi = $this->sitesettings[0]->facebookapi; }
+                                $style = '#face-comments iframe{width:  '.$width.'px !important;}';
+                                $document->addStyleDeclaration( $style );
                         ?>
                         <div id ="face-comments">
-                        <script>
+                            <script type="text/javascript">
                             window.fbAsyncInit = function() {
                                 FB.init({
                                     appId  : "<?php echo $facebookapi; ?>",
@@ -346,7 +374,7 @@ var playerCode ="<iframe type='text/html' width='600' height='400' src='http://w
     </div>
 
 	<?php }} else {?>
-	<div class="novideo"><?php echo _HDVS_CHANNEL_ALERT;?></div>
+	<div class="novideo"><?php echo JText::_('HDVS_CHANNEL_ALERT');?></div>
 	<?php }?>
 
 	<?php $channelId = '';
@@ -370,20 +398,22 @@ var playerCode ="<iframe type='text/html' width='600' height='400' src='http://w
     <?php }?>
 
             </script>
-            <h1><?php echo _HDVS_SORT_VIDEOS;?></h1>
-	<?php if(isset($this->channelvideorowcol[0]->popular_videos) && $this->channelvideorowcol[0]->popular_videos == 1) {?>
+            <?php if(isset ($this->frontvideodetails[0]->id)) {?>
+            <h1><?php echo JText::_('HDVS_SORT_VIDEOS');?></h1>
+            <?php if(isset($this->channelvideorowcol[0]->popular_videos) && $this->channelvideorowcol[0]->popular_videos == 1) {?>
             <button class="button" id="1001" type="button" style="cursor: pointer"
-			onclick="channelvideos('popular','<?php echo $channelId?>','1001',startno)"><?php echo _HDVS_POPULAR_VIDEOS;?></button>
+			onclick="channelvideos('popular','<?php echo $channelId?>','1001',startno)"><?php echo JText::_('HDVS_POPULAR_VIDEOS');?></button>
 			<?php } if(isset($this->channelvideorowcol[0]->recent_videos) && $this->channelvideorowcol[0]->recent_videos == 1) {?>
 		<button class="button" id="1002" type="button" style="cursor: pointer"
-			onclick="channelvideos('recent','<?php echo $channelId?>','1002',startno)"><?php echo _HDVS_RECENT_VIDEOS;?></button>
+			onclick="channelvideos('recent','<?php echo $channelId?>','1002',startno)"><?php echo JText::_('HDVS_RECENT_VIDEOS');?></button>
 			<?php } if(isset($this->channelvideorowcol[0]->top_videos) && $this->channelvideorowcol[0]->top_videos == 1) {?>
 		<button class="button" id="1003" type="button" style="cursor: pointer"
-			onclick="channelvideos('toprated','<?php echo $channelId?>','1003',startno)"><?php echo _HDVS_TOPRATED_VIDEOS;?></button>
+			onclick="channelvideos('toprated','<?php echo $channelId?>','1003',startno)"><?php echo JText::_('HDVS_TOPRATED_VIDEOS');?></button>
 			<?php } if(isset($this->channelvideorowcol[0]->playlist) && $this->channelvideorowcol[0]->playlist == 1) {?>
 		<button class="button" id="1004" type="button" style="cursor: pointer"
-			onclick="channelvideos('playlist','<?php echo $channelId?>','1004',startno)"><?php echo _HDVS_MY_PLAYLISTS;?></button>
+			onclick="channelvideos('playlist','<?php echo $channelId?>','1004',startno)"><?php echo JText::_('HDVS_MY_PLAYLISTS');?></button>
 			<?php }?>
+
 	</div>
 
         <div id="channel_videos">
@@ -399,78 +429,81 @@ var playerCode ="<iframe type='text/html' width='600' height='400' src='http://w
                     <?php }?>
 	</script>
 	</div>
-
+<?php }?>
         <?php if(isset($channelDetails)) {?>
 			<div class="description_display">
 
-				<h1><?php echo _HDVS_DESCRIPTION;?></h1>
+				<h1><?php echo JText::_('HDVS_DESCRIPTION');?></h1>
 				<?php if(isset($channelDetails->description)) { echo $channelDetails->description; }?>
 			</div>
 			<?php } ?>
 	<div class="clear"></div>
 	<div class="channeldetails">
         <div class="channelhead">
-            <h1><?php echo _HDVS_CHANNEL_DETAILS;?></h1>
+            <h1><?php echo JText::_('HDVS_CHANNEL_DETAILS');?></h1>
 	<?php if(!JRequest::getVar('channelname')) {?>
-			<button class="button" type="button" id="editbtn" onclick="editchannel()"><?php echo _HDVS_EDIT;?></button>
+			<button class="button" type="button" id="editbtn" onclick="editchannel()"><?php echo JText::_('HDVS_EDIT');?></button>
 		<?php }?></div>
+		    <div class="clearfix"></div>
+            <div id="msg_channel_details" style="display: none"></div>
             <div id="channel_details">
             <?php if(isset($channelDetails)) {?>
 
                  <div class="bot_dot1 clearfix">
-                        <div class="leftdiv"><?php echo _HDVS_CHANNEL_NAME;?> :</div>
+                        <div class="leftdiv"><?php echo JText::_('HDVS_CHANNEL_NAME');?> :</div>
 						<div class="rightdiv"><?php if(isset($channelDetails->channel_name)) { echo $channelDetails->channel_name; }?>
 						</div>
 					</div>
                     <div class="bot_dot1 clearfix">
-						<div class="leftdiv"><?php echo _HDVS_CHANNEL_VIEWS;?> :</div>
+						<div class="leftdiv"><?php echo JText::_('HDVS_CHANNEL_VIEWS');?> :</div>
 						<div class="rightdiv"><?php if(isset($channelDetails->channel_views)) { echo $channelDetails->channel_views; }?></div>
 					</div>
                     <div class="bot_dot1 clearfix">
-						<div class="leftdiv"><?php echo _HDVS_TOTAL_UPLOADS;?> :</div>
+						<div class="leftdiv"><?php echo JText::_('HDVS_TOTAL_UPLOADS');?> :</div>
 						<div class="rightdiv"><?php if(isset($this->totaluploads)) { echo $this->totaluploads; }?></div>
 					</div>
                     <div class="bot_dot1 clearfix">
-						<div class="leftdiv"><?php echo _HDVS_RECENT_ACTIVITY;?> :</div>
-						<div class="rightdiv"><?php if(isset($channelDetails->updated_date)) {echo date('Y-m-d H:i:s',strtotime($channelDetails->updated_date)); }?>
+						<div class="leftdiv"><?php echo JText::_('HDVS_RECENT_ACTIVITY');?> :</div>
+						<div class="rightdiv"><?php if(isset($channelDetails->updated_date)) {echo date('M d,y H:i',strtotime($channelDetails->updated_date)); }?>
 						</div>
 					</div>
                     <div class="bot_dot1 clearfix">
-						<div class="leftdiv"><?php echo _HDVS_ABOUT_ME;?> :</div>
+						<div class="leftdiv"><?php echo JText::_('HDVS_ABOUT_ME');?> :</div>
 						<div class="rightdiv"><?php if(isset($channelDetails->about_me)) { echo $channelDetails->about_me; }?>
 						</div>
 					</div>
                     <div class="bot_dot1 clearfix">
-						<div class="leftdiv"><?php echo _HDVS_TAGS;?> :</div>
+						<div class="leftdiv"><?php echo JText::_('HDVS_TAGS');?> :</div>
 						<div class="rightdiv"><?php if(isset($channelDetails->tags)) { echo $channelDetails->tags; }?>
 						</div>
 					</div>
 					<div class="bot_dot1">
-						<div class="leftdiv"><?php echo _HDVS_WEBSITE;?> :</div>
+						<div class="leftdiv"><?php echo JText::_('HDVS_WEBSITE');?> :</div>
 						<div class="rightdiv"><?php if(isset($channelDetails->website)) { echo $channelDetails->website; }?>
 						</div>
 					</div>
 
 			<?php } else{?>
 
-                    <div class="bot_dot1 clearfix"><div class="leftdiv"><?php echo _HDVS_CHANNEL_VIEWS;?> :</div>
+                    <div class="bot_dot1 clearfix"><div class="leftdiv"><?php echo JText::_('HDVS_CHANNEL_VIEWS');?> :</div>
 					<div class="rightdiv">0</div></div>
-                    <div class="bot_dot1 clearfix"><div class="leftdiv"><?php echo _HDVS_TOTAL_UPLOADS;?> :</div>
+                    <div class="bot_dot1 clearfix"><div class="leftdiv"><?php echo JText::_('HDVS_TOTAL_UPLOADS');?> :</div>
                         <div class="rightdiv">0</div></div>
-                        <div class="bot_dot1 clearfix"><div class="leftdiv"><?php echo _HDVS_RECENT_ACTIVITY;?> :</div>
+                        <div class="bot_dot1 clearfix"><div class="leftdiv"><?php echo JText::_('HDVS_RECENT_ACTIVITY');?> :</div>
 					<div class="rightdiv">0</div></div>
 
 			<?php }?>
 <script type="text/javascript">
-                    function editchannel() {
-	if(document.getElementById('edit_channel').style.display = "none") {
+function editchannel() {
+	document.getElementById('msg_channel_details').style.display = "none";
+	if(document.getElementById('edit_channel').style.display == "none") {
 	document.getElementById('edit_channel').style.display = "block";
 	document.getElementById('channel_details').style.display = "none";
         document.getElementById('editbtn').style.display = "none";
 	}
 }
 function searchchannel() {
-	if(document.getElementById('search_channel').style.display = "none") {
+	if(document.getElementById('search_channel').style.display == "none") {
 	document.getElementById('search_channel').style.display = "block";
          document.getElementById('cancel_search').style.display = "none";
 	}
@@ -482,6 +515,7 @@ function cancelChannel() {
 
 }
 function cancelChanneldetail() {
+	document.getElementById('msg_channel_details').style.display = "none";
     document.getElementById('edit_channel').style.display = "none";
     document.getElementById('channel_details').style.display = "block";
     document.getElementById('editbtn').style.display = "block";
@@ -491,13 +525,13 @@ function cancelChanneldetail() {
                 <div id="edit_channel" style="display: none;">
 
                     <div class="bot_dot1 clearfix">
-                            <div class="leftdiv"><?php echo _HDVS_CHANNEL_NAME;?></div>
+                            <div class="leftdiv"><?php echo JText::_('HDVS_CHANNEL_NAME');?></div>
                             <div class="rightdiv"><input type="text" id="channel_name" name="channel_name"
 						value="<?php if(isset($channelDetails->channel_name)) { echo $channelDetails->channel_name; }?>" />
 					</div>
 				</div>
 				<div class="bot_dot1 clearfix">
-					<div class="leftdiv"><?php echo _HDVS_DESCRIPTION;?></div>
+					<div class="leftdiv"><?php echo JText::_('HDVS_DESCRIPTION');?></div>
 					<div class="rightdiv">
 
                                             <div id="clsinsertbtns">
@@ -511,24 +545,24 @@ function cancelChanneldetail() {
                                             </div></div>
 				</div>
                     <div class="bot_dot1 clerfix">
-                        <div class="leftdiv"><?php echo _HDVS_ABOUT_ME;?></div>
+                        <div class="leftdiv"><?php echo JText::_('HDVS_ABOUT_ME');?></div>
                         <div class="rightdiv"><textarea name="about_me" id="about_me" ><?php if(isset($channelDetails->about_me)) { echo $channelDetails->about_me; }?></textarea></div>
 				</div>
                     <div class="bot_dot1 clearfix">
-                        <div class="leftdiv"><?php echo _HDVS_TAGS;?></div>
+                        <div class="leftdiv"><?php echo JText::_('HDVS_TAGS');?></div>
 					<div class="rightdiv"><textarea name="tags" id="tags" rows="2" cols="20"><?php if(isset($channelDetails->tags)) { echo $channelDetails->tags; }?></textarea><!--Separated by space--></div>
 				</div>
                     <div class="bot_dot1 clearfix">
-                        <div class="leftdiv"><?php echo _HDVS_WEBSITE;?></div>
+                        <div class="leftdiv"><?php echo JText::_('HDVS_WEBSITE');?></div>
                         <div class="rightdiv"><input type="text" id="website" name="website" 	value="<?php if(isset($channelDetails->website)) { echo $channelDetails->website; }?>" />
 					</div>
 				</div>
 				<div class="bot_dot1 clearfix">
 
 					<button class="button floatright" type="button"
-							onclick="cancelChanneldetail();"><?php echo _HDVS_CANCEL;?></button>
+							onclick="cancelChanneldetail();"><?php echo JText::_('HDVS_CANCEL');?></button>
                                         <button style="margin-right:10px;"  class="button floatright" type="button"
-							onclick="return editChanneldetail();"><?php echo _HDVS_SAVE;?></button>
+							onclick="return editChanneldetail();"><?php echo JText::_('HDVS_SAVE');?></button>
 				</div>
 
 		</div></div>
@@ -541,9 +575,9 @@ function cancelChanneldetail() {
 
 
 		<div id="other_channels">
-                    <div class="channelhead"><h1><?php echo _HDVS_FAVORITE_CHANNEL;?></h1>
+                    <div class="channelhead"><h1><?php echo JText::_('HDVS_FAVORITE_CHANNEL');?></h1>
 			<?php if(!JRequest::getVar('channelname')) {?>
-				<button class="button" type="button" id="cancel_search" onclick="searchchannel()"><?php echo _HDVS_ADD;?></button>
+				<button class="button" type="button" id="cancel_search" onclick="searchchannel()"><?php echo JText::_('HDVS_ADD');?></button>
 			<?php }?>
                         </div>
 			<div id="output"></div>
@@ -552,13 +586,13 @@ function cancelChanneldetail() {
                                 <?php if($this->otherchannels[$i]->logo) {?>
                                 <img id="closeimgm" src="<?php echo JURI::base();?>components/com_contushdvideoshare/videos/<?php echo $this->otherchannels[$i]->logo;?>" alt="logo" width="36" height="41" class="floatleft"/>
                                 <?php } else {?>
-                                <img id="closeimgm" src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/default_thumb.jpg" alt="logo" width="36" height="41" class="floatleft"/>
+                                <img id="closeimgm" src="<?php echo JURI::base();?>components/com_contushdvideoshare/videos/default_thumb.jpg" alt="logo" width="36" height="41" class="floatleft"/>
                                 <?php }?>
-                                <a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=mychannel&channelname='.$this->otherchannels[$i]->channel_name,true); ?>"><?php echo $this->otherchannels[$i]->channel_name?></a>
+                                <a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=mychannel&channelname='.$this->otherchannels[$i]->channel_name,true); ?>" target="_blank"><?php echo $this->otherchannels[$i]->channel_name?></a>
                             </div>
                                 <?php if(!JRequest::getVar('channelname')) {?>
 
-                            <div class="rightdiv clsdeletebtn"><button class="button" type="submit" onclick="deleteChannel('<?php echo $this->otherchannels[$i]->other_channel;?>');" style=" margin-top: 10px;"><?php echo _HDVS_DELETE;?></button></div>
+                            <div class="rightdiv clsdeletebtn"><button class="button" type="submit" onclick="deleteChannel('<?php echo $this->otherchannels[$i]->other_channel;?>');" style=" margin-top: 10px;"><?php echo JText::_('HDVS_DELETE');?></button></div>
 
 
 
@@ -569,17 +603,17 @@ function cancelChanneldetail() {
 			?>
 
 			<div id="search_channel" style="display: none;">
-                            <div id="channel_list"></div>
                             <div class="bot_dot3">
                                 <div class="leftdiv"><input type="text" id="other_channel" name="other_channel"
 							value="" /></div>
-						<div class="rightdiv"><button class="button floatright" type="submit" onclick="return otherChannel()"><?php echo _HDVS_SEARCH;?></button>
+						<div class="rightdiv"><button class="button floatright" type="submit" onclick="return otherChannel()"><?php echo JText::_('HDVS_SEARCH');?></button>
 						</div>
 					</div>
+                            <div id="channel_list"></div>
                             <div class="bot_dot3">
                                 <div class="leftdiv">
-                                    <button class="button" type="submit" onclick="applyChannel()" style="margin-right: 8px;"><?php echo _HDVS_APPLY;?></button>
-                                    <button class="button" type="submit" onclick="cancelChannel()"><?php echo _HDVS_CANCEL;  ?></button>
+                                    <button class="button" type="submit" onclick="applyChannel()" style="margin-right: 8px;"><?php echo JText::_('HDVS_APPLY');?></button>
+                                    <button class="button" type="submit" onclick="cancelChannel()"><?php echo JText::_('HDVS_CANCEL');  ?></button>
 						</div>
 					</div>
 
@@ -646,14 +680,14 @@ nocache = Math.random();
 http.open('get', 'index.php?option=com_contushdvideoshare&view=player&ajaxview=&id='+id+'&rate='+t+'&nocache = '+nocache,true);
 http.onreadystatechange = insertReply;
 http.send(null);
-//return true;
-//document.getElementById('rate').style.visibility='disable';
 }
 function insertReply()
 {
 if(http.readyState == 4)
 {
+  document.getElementById('ratemsg').innerHTML="<?php echo JText::_('HDVS_RATTING'); ?> : "+http.responseText;
   document.getElementById('rate').className="";
+  document.getElementById('storeratemsg').value=http.responseText;
 }
 }
 
@@ -663,46 +697,35 @@ function resetvalue()
 document.getElementById('ratemsg1').style.display="none";
 document.getElementById('ratemsg').style.display="block";
 
-            document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_RATTING;?> : "+document.getElementById('storeratemsg').value;
+            document.getElementById('ratemsg').innerHTML="<?php echo JText::_('HDVS_RATTING');?> : "+document.getElementById('storeratemsg').value;
 
 }
 function displayrating(t)
 {
-//alert("DFsdg");
-
 if(t=='1')
 {
-    document.getElementById('ratemsg').innerHTML="<?php ECHO _HDVS_POOR; ?>";
+    document.getElementById('ratemsg').innerHTML="<?php echo JText::_('HDVS_POOR'); ?>";
 }
 if(t=='2')
 {
-    document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_NOTHING_SPECIAL; ?>";
+    document.getElementById('ratemsg').innerHTML="<?php echo JText::_('HDVS_NOTHING_SPECIAL'); ?>";
 }
 if(t=='3')
 {
-    document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_WORTH_WATCHING; ?>";
+    document.getElementById('ratemsg').innerHTML="<?php echo JText::_('HDVS_WORTH_WATCHING'); ?>";
 }
 if(t=='4')
 {
-    document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_PRETTY_COOL; ?>";
+    document.getElementById('ratemsg').innerHTML="<?php echo JText::_('HDVS_PRETTY_COOL'); ?>";
 }
 if(t=='5')
 {
-    document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_AWESOME; ?>";
+    document.getElementById('ratemsg').innerHTML="<?php echo JText::_('HDVS_AWESOME'); ?>";
 }
 document.getElementById('ratemsg1').style.display="none";
 document.getElementById('ratemsg').style.display="block";
 }
-//document.getElementById('ratemsg1').style.display="none";
-//document.getElementById('ratemsg').style.display="block";
 
-        function downloadlink(file)
-        {
-           // document.getElementById('downloadurl').href = file;
-        }
-        function embedcode(code){
-           // document.getElementById('embedcode').value=code;
-        }
 function onVideoChanged(videodetails)
 {
 var create_date = videodetails['date'];
@@ -723,20 +746,21 @@ var create_date = videodetails['date'];
     var ratecount = videodetails['ratecount'];
     var rating = videodetails['rating'];
     var ratestar = videodetails['rating']/videodetails['ratecount'];
-      document.getElementById('id').value=videodetails['id'];
-        //document.getElementById('id').value=id;
+    document.getElementById('views').innerHTML =  views;
+    document.getElementById('viewtitle').innerHTML = title;
+    document.getElementById('id').value=videodetails['id'];
+    ratecal(rating,ratecount);
+
         var js, xid = 'facebook-jssdk';
      js = document.createElement('script'); js.id = xid; js.async = true;
      js.src = "//connect.facebook.net/en_US/all.js";
      document.getElementsByTagName('head')[0].appendChild(js);
      var fid ='<?php echo JURI::base().'index.php?option=com_contushdvideoshare&view=player&id=';?>'+id;
-     document.getElementById('face-comments').innerHTML=  '<fb:comments  href='+fid+' num_posts="2" xid='+id+' width="700" ></fb:comments>';
+     document.getElementById('face-comments').innerHTML=  '<fb:comments  href='+fid+' num_posts="2" xid='+id+'></fb:comments>';
 
-    document.getElementById('views').innerHTML =  views;
-    document.getElementById('viewtitle').innerHTML = title;
-    document.getElementById('id').value=videodetails['id'];
 
-    ratecal(rating,ratecount);
+
+
  function createObject()
         {
             var request_type;
@@ -753,7 +777,7 @@ var create_date = videodetails['date'];
         var http = createObject();
         var nocache = 0;
         nocache = Math.random();
-        http.open('get', 'index.php?option=com_contushdvideoshare&view=player&id='+id+'&nocache= '+nocache,true);
+        http.open('get', 'index.php?option=com_contushdvideoshare&controller=contushdvideoshare&task=updateView&videoid='+id+'&nocache= '+nocache,true);
         http.onreadystatechange = insertReply;
         http.send(null);
 
@@ -769,12 +793,9 @@ var create_date = videodetails['date'];
                         }
                     if( cmdoption==2 || cmdoption==3 || cmdoption==4)
                     {
-
                         url= 'index.php?option=com_contushdvideoshare&view=commentappend&tmpl=component&id='+id+'&cmdid='+cmdoption;
                         document.getElementById('myframe1').src=url;
                         document.getElementById('myframe1').style.display="block";
-                        //        alert(document.getElementById('myframe').contentWindow.document.body.scrollHeight);
-
                     }
                     if(cmdoption != 0 && cmdoption != 1 && cmdoption != 3  && cmdoption != 4)
                     {
@@ -785,7 +806,6 @@ var create_date = videodetails['date'];
 
             }
         }
-
 }
  function commentappendfunction(url)
     {
@@ -831,12 +851,8 @@ document.getElementById('storeratemsg').value = ratecount;
     else
         document.getElementById('rate').className="ratethis nopos";
 
-    document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_RATTING;?> : "+ratecount;
-
-
-
+    document.getElementById('ratemsg').innerHTML="<?php echo JText::_('HDVS_RATTING');?> : "+ratecount;
 }
-
 
 </script>
 <input type="hidden" id="loadingimg" value="<?php echo JURI::base();?>components/com_contushdvideoshare/images/ajax-loader.gif">

@@ -1,74 +1,126 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.3
-* Author: Contus Support - http://www.contussupport.com
-* Copyright (c) 2010 Contus Support - support@hdvideoshare.net
-* License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
-* Project page and Demo at http://www.hdvideoshare.net
-* Creation Date: March 30 2011
-*/
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Related Videos Model
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined( '_JEXEC' ) or die( 'Restricted access' );
+// import Joomla model library
 jimport( 'joomla.application.component.model' );
+/**
+ * Contushdvideoshare Component Related Vidos Model
+ */
 class Modelcontushdvideosharerelatedvideos extends JModel
 {
-/* Following function is to display the related videos */
+/* function is to display the related videos */
 function getrelatedvideos()
 {
         $db = $this->getDBO();
-        $session =& JFactory::getSession();
-       
+        $session =& JFactory::getSession();       
         $categoryid=JRequest::getVar('catid','','get','int');
-        $totalquery="select a.*,b.id as catid,b.category,e.* from #__hdflv_upload a left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where e.catid=$categoryid and a.published=1  group by e.vid"; //Query for getting the pagination values
+        $limitrow=$this->getrelatedvideosrowcol();
+        $seoOption = $limitrow[0]->seo_option;
+		$category = $video = '';
+		if ($seoOption == 1)
+		{
+			$videoid = JRequest::getVar('video', '', 'get', 'string');
+			$video = $videoid;
+		}
+		else
+		{
+                    if(JRequest::getVar('id')) {
+			$videoid = JRequest::getVar('id');
+                    } else {
+                        $videoid = JRequest::getVar('video');
+                    }
+			$catidquery = "select title from #__hdflv_upload where id ='$videoid'";
+			$db->setQuery($catidquery);
+			$resulttotal = $db->loadObjectList();
+			if(count($resulttotal)>0){
+				if ($videoid) {
+					$video = $resulttotal[0]->title;
+				}
+			}
+		}
+        //Query for getting the pagination values for related video page
+        $totalquery="SELECT count(a.id) FROM #__hdflv_upload a
+        			 LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+        			 LEFT JOIN #__hdflv_category b on e.catid=b.id 
+                     WHERE a.published=1 and b.published=1 and  (a.title like '%$video%' ) ";
         $db->setQuery( $totalquery );
-        $resulttotal = $db->loadObjectList();
-        $subtotal=count($resulttotal);
-        $total=$subtotal;
+        $total = $db->loadResult();
         $pageno = 1;
         if(JRequest::getVar('page','','post','int'))
         {
             $pageno = JRequest::getVar('page','','post','int');
         }
-        $limitrow=$this->getrelatedvideosrowcol();
         $length=$limitrow[0]->relatedrow * $limitrow[0]->relatedcol;
         $pages = ceil($total/$length);
         if($pageno==1)
         $start=0;
         else
         $start= ($pageno - 1) * $length;
-        if($categoryid!="featured")
-        $query = "select a.*,b.id as catid,b.category,d.username,e.* from #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where e.catid=$categoryid and a.published=1  group by e.vid order by a.id desc LIMIT $start,$length";//Query for displaying the related videos when click the more videos in the player page
-        else
-        $query = "select a.*,b.id as catid,b.category,d.username,e.* from #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where a.featured=1 and a.published=1  group by e.vid order by a.id desc LIMIT $start,$length";//Query for displaying the related videos when click the more videos in the player page
+        if (isset($videoid) && (isset($video)) && !empty($video)) {
+			// $category = JRequest::getVar('category', '', 'get', 'string');
+			/* Getting the category value Following code is to change the catgeory name which is passing in the url like -,and to '','&' */
+
+			// Query is to get the category id based on category value passing in the url
+			$kt=preg_split("/[\s,]+/", $video);//Breaking the string to array of words
+			// Now let us generate the sql
+			while(list($key,$video)=each($kt)){
+				if($video<>" " and strlen($video) > 0)
+				{
+					//Quer is to display the related videos in the right hand side
+					$query = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+						 	  a.times_viewed,a.seotitle,b.id as catid,b.category,b.seo_category,e.catid,e.vid
+        		  FROM #__hdflv_upload a 
+        		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+        		  LEFT JOIN #__hdflv_category b on e.catid=b.id 
+							  WHERE a.published=1 and b.published=1 and  (a.title like '%$video%' )  group by a.id order by rand() LIMIT $start,$length";
+
+				}
+			}
+		} else {
+			$_SESSION['related'] = "featured";
+			//Query is to display the related videos in the right hand side
+			$query = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+					  a.times_viewed,a.seotitle,b.id as catid,b.category,b.seo_category,e.catid,e.vid
+        		  FROM #__hdflv_upload a 
+        		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
+        		  LEFT JOIN #__hdflv_category b on e.catid=b.id 
+					  WHERE a.published=1 and b.published=1 and a.featured=1
+					  GROUP BY a.id
+					  ORDER BY rand() LIMIT $start,$length";
+
+
+		}
         $db->setQuery( $query );
         $rows = $db->loadObjectList();
-        // Below code is to merge the pagination values like pageno,pages,start value,length value
         if(count($rows)>0){
-        $insert_data_array = array('pageno' => $pageno);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('pages' => $pages);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('start' => $start);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('length' => $length);
-        $rows = array_merge($rows, $insert_data_array);
+        $rows['pageno'] = $pageno;
+		$rows['pages'] = $pages;
+		$rows['start'] = $start;
+		$rows['length'] = $length;	
         }
-        else{
-        $insert_data_array = array('pageno' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('pages' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('start' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('length' => 0);
-        $rows = array_merge($rows, $insert_data_array);
-        }
-        // merge code ends here
         return $rows;
 }
 function getrelatedvideosrowcol()
 {
         $db = $this->getDBO();
-	$relatedvideosquery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
+		$relatedvideosquery="SELECT relatedcol,relatedrow,seo_option,viewedconrtol,ratingscontrol 
+							 FROM #__hdflv_site_settings";//Query is to select the popular videos row
         $db->setQuery($relatedvideosquery);
         $rows=$db->LoadObjectList();
         return $rows;

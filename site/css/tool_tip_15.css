@@ -1,0 +1,15 @@
+#module_videos .tipimage {
+*margin-left: 0px !important;
+margin-left: -0px \0/;
+}
+:root #module_videos .tipimage { left: -35px \0/IE9; } /* IE9 */
+@media all and (min-width:0) {
+    #module_videos .tipimage { left:0px \0/; }  /* IE9-IE10pp4 */
+}
+
+@media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0)
+{
+head~body #module_videos .tipimage { left: -35px; }
+}
+
+noindex:-o-prefocus, #module_videos .tipimage { left: -35px ; }

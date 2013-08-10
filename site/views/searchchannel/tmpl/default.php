@@ -1,17 +1,25 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2012 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Edit Channel View Page
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+
+/*
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-//check login or not
-//include($baseurl."components/com_contushdvideoshare/language/danish.php");
-$user = & JFactory::getUser();
-$session = & JFactory::getSession();
+$user = JFactory::getUser();
+$session = JFactory::getSession();
 $editing = '';
 if ($user->get('id') == '')
 {
@@ -42,7 +50,7 @@ if(isset($this->searchannel[0])) {
         <?php } else {?>
         <img id="closeimgm" src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/default_thumb.jpg" alt="logo" width="36" height="41" class="floatleft"/>
         <?php }?>
-        <a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=mychannel&channelname='.$channelName->channel_name,true); ?>"><?php echo $channelName->channel_name?></a>
+        <a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=mychannel&channelname='.$channelName->channel_name,true); ?>" target="_blank"><?php echo $channelName->channel_name?></a>
     </div>
 
                                 </div>
@@ -51,7 +59,7 @@ if(isset($this->searchannel[0])) {
 <input type="hidden" name="channel_name" id="channel_name" value="<?php echo $channelName->channel_name;?>" />
 <?php }
 } else {
-echo _HDVS_NO_CHANNEL_AVAILABLE;
+echo JText::_('HDVS_NO_CHANNEL_AVAILABLE');
 }
 }
 exit();

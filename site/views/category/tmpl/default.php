@@ -1,18 +1,28 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Category View
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
+/*
+ ***********************************************************/
+//No direct acesss
 defined('_JEXEC') or die('Restricted access');
 $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
-$user = & JFactory::getUser();
+$user = JFactory::getUser();
 $logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
+$document = JFactory::getDocument();
+$document->addScript( 'components/com_contushdvideoshare/js/popup.js' );
 ?>
-<script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/popup.js"></script>
 <script type="text/javascript">
 function submitform()
 {
@@ -30,11 +40,8 @@ function submitform()
 	</div>
 </form>
 <?php
-$app = & JFactory::getApplication();
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
-if ($app->getTemplate() != 'hulutheme')
-{
-    echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
+	$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css');
      if (USER_LOGIN == '1')
             {
                 if ($user->get('id') != '')
@@ -42,20 +49,37 @@ if ($app->getTemplate() != 'hulutheme')
                         if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
-                    <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></div>
+                    <div class="toprightmenu">
+                        <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                        <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                        <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                    </div>
             <?php }else { ?>
-                <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></div>
+                <div class="toprightmenu">
+                    <a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo JText::_('HDVS_MY_CHANNEL'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo JText::_('HDVS_MY_PLAYLIST'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo JText::_('HDVS_CHANNEL_SETTINGS'); ?></a> |
+                    <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
+                    <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                </div>
            <?php  } }
                 else
                 {
                     if(version_compare(JVERSION,'1.6.0','ge'))
-        { ?><span class="toprightmenu"><b><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+        { ?><span class="toprightmenu"><b>
+                <a href="index.php?option=com_users&view=registration"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
+                <a  href="index.php?option=com_users&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+            </b></span>
            <?php }  else {      ?>
-                    <span class="toprightmenu"><b><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+                    <span class="toprightmenu"><b>
+                            <a href="index.php?option=com_user&view=register"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
+                            <a  href="index.php?option=com_user&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+                        </b></span>
         <?php
                 } }
             }
-}
 ?>
 <div class="player clearfix">
     <div id="clsdetail">
@@ -71,7 +95,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                 <h2 class="home-link hoverable"><?php echo $this->categoryview[0]->category; ?></h2>
             </div>
             <?php
-            echo '<div  class="no-record"> ' . _HDVS_NO_CATEGORY_VIDEOS_FOUND . ' </div>';
+            echo '<div  class="no-record"> ' . JText::_('HDVS_NO_CATEGORY_VIDEOS_FOUND') . ' </div>';
         } else {
             ?>
             <div class="videoheadline"></div>
@@ -83,7 +107,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
 
                                 <div class="gr a">
 
-                                    <table>
+
 <?php
 					            $no_of_columns = $this->categoryrowcol[0]->categorycol; // specifying the no of columns
 					        	foreach($this->categoryList as $val){
@@ -93,11 +117,11 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                             if($val->parent_id == $this->categoryview[$i]->parent_id && $val->category == $this->categoryview[$i]->category){
                                             	$colcount = $current_column % $no_of_columns;
                                             	if($colcount == 1 && $l==0){
-                                            		echo  "<thead>
+                                            		echo  "<table><thead>
 												      	<tr>
 												         <th><h2 class='home-link hoverable'> $val->category </h2></th>
 												      	</tr>
-											   		</thead>";
+											   		</thead></table><table>";
                                             	}
                                             if ($colcount == 1) {
                                                 echo "<tr>";
@@ -136,21 +160,21 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                         ?>
                                             <div class="home-thumb">
                                                 <div class="home-play-container" >
-                                                    <span class="play-button-hover">
+                                                    <div class="play-button-hover">
                                                         <div class="movie-entry yt-uix-hovercard">
                                         <div class="tooltip">
-                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $categoryCategoryVal . "&amp;" . $categoryVideoVal); ?>" ><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="125" height="69" title=""  /></p></a>
+                                          <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $categoryCategoryVal . "&amp;" . $categoryVideoVal); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="125" height="69" title="" alt="thumb_image" /></a>
 
                                                 <div class="Tooltipwindow" >
-                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage"/>
-                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . _HDVS_CATEGORY . ' : ' . '</span>' .'<span class="clstoolright">'. $this->categoryview[$i]->category.'</span></div>'; ?>
-                                                    <?php echo '<span class="clsdescription">' . _HDVS_DESCRIPTION . ' : ' . '</span>' .'<p>'. $this->categoryview[$i]->description.'</p>'; ?>
+                                               <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage" alt="tip_image "/>
+                                                    <?php echo '<div class="clearfix"><span class="clstoolleft">' . JText::_('HDVS_CATEGORY') . ' : ' . '</span>' .'<span class="clstoolright">'. $this->categoryview[$i]->category.'</span></div>'; ?>
+                                                    <?php echo '<span class="clsdescription">' . JText::_('HDVS_DESCRIPTION') . ' : ' . '</span>' .'<p>'. $this->categoryview[$i]->description.'</p>'; ?>
 
                                                         <?php if ($this->categoryrowcol[0]->viewedconrtol == 1) { ?>
-                                                    <div class="clearfix"><span class="clstoolleft"><?php echo _HDVS_VIEWS; ?>: </span><span class="clstoolright"><?php echo $this->categoryview[$i]->times_viewed; ?> </span></div>
+                                                    <div class="clearfix"><span class="clstoolleft"><?php echo JText::_('HDVS_VIEWS'); ?>: </span><span class="clstoolright"><?php echo $this->categoryview[$i]->times_viewed; ?> </span></div>
                                                            <?php } ?></div></div>
                                                                                                                 </div>
-                                                    </span>
+                                                    </div>
                                                 </div>
                                                 <div class="show-title-container">
                                                     <a href="index.php?option=com_contushdvideoshare&view=player&<?php echo $categoryCategoryVal; ?>&<?php echo $categoryVideoVal; ?>" class="show-title-gray info_hover"><?php if (strlen($this->categoryview[$i]->title) > 18) {
@@ -165,7 +189,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                                 </span>
                                         <?php if ($this->categoryrowcol[0]->ratingscontrol == 1)
                                                { ?>
-                                                <span class="floatleft">
+                                                <div class="floatleft">
 
                                                     <?php
                                                     if (isset($this->categoryview[$i]->ratecount) && $this->categoryview[$i]->ratecount != 0)
@@ -176,15 +200,15 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                                     {
                                                         $ratestar = 0;
                                                     } ?>
-                                                    <span class="floatleft"><div class="ratethis1 <?php echo $ratearray[$ratestar]; ?> "></div></span>
-                                                </span>
+                                                    <div class="floatleft"><div class="ratethis1 <?php echo $ratearray[$ratestar]; ?> "></div></div>
+                                                </div>
                                           <?php } ?>
 
                                                 <?php if ($this->categoryrowcol[0]->viewedconrtol == 1)
                                                        {
  ?>
 
-                                                        <span class="floatright viewcolor"> <?php echo _HDVS_VIEWS; ?></span>
+                                                        <span class="floatright viewcolor"> <?php echo JText::_('HDVS_VIEWS'); ?></span>
                                                         <span class="floatright viewcolor view"><?php echo $this->categoryview[$i]->times_viewed; ?></span>
 
                                                 <?php } ?>
@@ -192,7 +216,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                                 </div>
                                             </td>
                             <?php } ?>
-                                        <!----------First row---------->
+                                        <!--First row-->
                                                 <?php
                                                 if ($colcount == 0)
                                                 {
@@ -216,7 +240,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                         </div>
                     </div>
                 </div>
-                <!--  PAGINATION STARTS HERE-->
+                <!--  PAGINATION STARTS HERE -->
                 <table cellpadding="0" cellspacing="0" border="0"  class="floatright" id="pagination" >
                     <tr align="right">
                         <td align="right"  class="page_rightspace">
@@ -227,7 +251,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                               {
                                                 $q = $this->categoryview['pageno'] - 1;
                                                 if ($this->categoryview['pageno'] > 1)
-                                                    echo("<td align='right'><a onclick='changepage($q);'>" . _HDVS_PREVIOUS . "</a></td>");
+                                                    echo("<td align='right'><a onclick='changepage($q);'>" . JText::_('HDVS_PREVIOUS') . "</a></td>");
                                                 if ($requestpage)
                                                   {
                                                     if ($requestpage > 3)
@@ -250,7 +274,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                                     if ($this->categoryview['pageno'] != $i)
                                                         echo("<td align='right'><a onclick='changepage(" . $i . ")'>" . $i . "</a></td>");
                                                     else
-                                                        echo("<td align='right'><a onclick='changepage($i);' class='active'>$i</a></td>");
+                                                        echo("<td align='right'><a onclick='changepage($i);' class='activepage'>$i</a></td>");
                                                     if ($j > 3)
                                                         break;
                                                 }
@@ -262,7 +286,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                                 }
                                                 $p = $this->categoryview['pageno'] + 1;
                                                 if ($this->categoryview['pageno'] < $this->categoryview['pages'])
-                                                    echo ("<td align='right'><a onclick='changepage($p);'>" . _HDVS_NEXT . "</a></td>");}
+                                                    echo ("<td align='right'><a onclick='changepage($p);'>" . JText::_('HDVS_NEXT') . "</a></td>");}
                                             }
 ?>
                                         </tr>
@@ -325,3 +349,5 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                 document.pagination.submit();
             }
         </script>
+
+        

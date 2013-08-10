@@ -1,15 +1,24 @@
 <?php
+/*
+ ***********************************************************/
+/**
+ * @name          : Joomla Hdvideoshare
+ * @version	      : 3.0
+ * @package       : apptha
+ * @since         : Joomla 1.5
+ * @author        : Apptha - http://www.apptha.com
+ * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @abstract      : Contushdvideoshare Component Googlead Controller 
+ * @Creation Date : March 2010
+ * @Modified Date : June 2012
+ * */
 
 /*
- * "ContusHDVideoShare Component" - Version 2.3
- * Author: Contus Support - http://www.contussupport.com
- * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
- * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * Project page and Demo at http://www.hdvideoshare.net
- * Creation Date: March 30 2011
- */
+ ***********************************************************/
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-
+// import joomla controller library
 jimport('joomla.application.component.controller');
 
 /**
@@ -17,13 +26,15 @@ jimport('joomla.application.component.controller');
  */
 class contushdvideoshareControllergooglead extends JController {
 
-    function display()
+	/**
+	 * Fuction to display google ad
+	 */
+    function display($cachable = false, $urlparams = false)
     {
-
         $viewName = JRequest::getVar('view', 'googlead');
         $viewLayout = JRequest::getVar('layout', 'googlead');
-        $view = & $this->getView($viewName);
-        if ($model = & $this->getModel('googlead'))
+        $view = $this->getView($viewName);
+        if ($model = $this->getModel('googlead'))
         {
             $view->setModel($model, true);
         }
@@ -31,42 +42,13 @@ class contushdvideoshareControllergooglead extends JController {
         $view->display();
     }
 
-    function edit()
+    /**
+     * Fuction to save google ad
+     */
+    function apply() 
     {
-        $this->display();
-    }
-
-    function save()
-    {
-        $detail = JRequest::get('POST');
-        $model = & $this->getModel('googlead');
-        $model->savegooglead($detail);
-        $this->setRedirect('index.php?layout=googlead&option=' . JRequest::getVar('option'), 'Google Ad Saved!');
-    }
-
-    function publish()
-    {
-        $detail = JRequest::get('POST');
-        $model = & $this->getModel('googlead');
-        $model->pubcategary($detail);
-        $this->setRedirect('index.php?layout=googlead&option=' . JRequest::getVar('option'));
-    }
-
-    function unpublish()
-    {
-        $detail = JRequest::get('POST');
-        $model = & $this->getModel('googlead');
-        $model->pubcategary($detail);
-        $this->setRedirect('index.php?layout=googlead&option=' . JRequest::getVar('option'));
-    }
-
-    function apply()
-    {
-        $detail = JRequest::get('POST');
-        $model = & $this->getModel('googlead');
-        $model->savegooglead($detail);
-        $link = 'index.php?option=com_contushdvideoshare&layout=googlead&task=edit&cid[]=' . $detail['id'];
-        $this->setRedirect($link, 'Google Ad Apply!');
-    }
+        $model = $this->getModel('googlead');
+        $model->savegooglead();        
+    }   
 }
 ?>
