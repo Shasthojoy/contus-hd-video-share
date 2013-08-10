@@ -1,7 +1,7 @@
 <?php
 
 /*
- * "ContusHDVideoShare Component" - Version 2.2
+ * "ContusHDVideoShare Component" - Version 2.3
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -19,7 +19,7 @@ function contushdvideoshareBuildRoute(&$query) {
         $db->setQuery("select id from #__menu where link='index.php?option=com_contushdvideoshare&view=index' and published=1 order by id desc Limit 1");
         $query['Itemid'] = $db->loadResult();
     }
-     if (isset($query['view'])) 
+     if (isset($query['view']))
      {
         $segments[] = $query['view'];
         unset($query['view']);
@@ -43,7 +43,20 @@ function contushdvideoshareBuildRoute(&$query) {
         $segments[] = $query['type'];
         unset($query['type']);
     }
+    if (isset($query['channelname'])) {
+        $segments[] = $query['channelname'];
+        unset($query['channelname']);
+    }
+    if (isset($query['category'])) {
+        $segments[] = $query['category'];
+        unset($query['category']);
+    }
+    if (isset($query['title'])) {
+        $segments[] = $query['title'];
+        unset($query['title']);
+    }
     
+
     return $segments;
 }
 
@@ -141,6 +154,23 @@ function contushdvideoshareParseRoute($segments) {
                 if (isset($segments[2]))
                     $vars['type'] = $segments[2];
                 break;
+            case 'mychannel':
+                $vars['view'] = 'mychannel';               
+                if (isset($segments[1]))
+                    $vars['channelname'] = $segments[1];
+                if (isset($segments[2]))
+                    $vars['title'] = $segments[2];
+                break;
+            case 'channelsettings':
+                $vars['view'] = 'channelsettings';
+                 break;
+            case 'playlist':
+                $vars['view'] = 'playlist';
+                if (isset($segments[1]))
+                    $vars['category'] = $segments[1];
+                break;
+                 break;
+
         }
     }
     return $vars;

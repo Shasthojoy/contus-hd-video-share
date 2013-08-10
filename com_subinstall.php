@@ -1,15 +1,12 @@
 <?php
-
-/**
- * @version     2.2, Creation Date : March-24-2011
- * @name        hdvideoshareinstall.php
- * @location    administrator/components/com_contushdvideoshare/com_subinstall.php
- * @package	Joomla 1.6
- * @subpackage	contushdvideoshare
- * @author      Contus Support - http://www.contussupport.com
- * @copyright   Copyright (C) 2011 Contus Support
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
- * @link        http://www.hdvideoshare.net
+/*
+ * Contushdvideoshare - 2.3
+ * Author        : Contus Support - http://www.contussupport.com
+ * Creation Date : 21 - Oct - 2010
+ * File Path     : administrator/components/com_contushdvideoshare/com_subinstall.php
+ * Created By    : Contus Support
+ * Copyright (c) 2010 Contus Support - support@contussupport.com
+ * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
  */
 
 // Check to ensure this file is included in Joomla!

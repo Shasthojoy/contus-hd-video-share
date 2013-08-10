@@ -1,6 +1,6 @@
 <?php
 /*
- * Version       : 2.2
+ * Contushdvideoshare - 2.3
  * Author        : Contus Support - http://www.contussupport.com
  * Creation Date : December 16 2010
  * File Path     : administrator/components/com_contushdvideoshare/views/memberdetail/tmpl/memberdetails.php

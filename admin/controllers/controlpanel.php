@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version     2.2, Creation Date : March-24-2011
+ * @version     2.3, Creation Date : March-24-2011
  * @name        settings.php
  * @location    /components/com_contushdvideosahre/controller/settings.php
  * @package	Joomla 1.6

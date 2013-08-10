@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     2.2, Creation Date : March-24-2011
+ * @version     2.3, Creation Date : March-24-2011
  * @name        hdvideoshareinstall.php
  * @location    /components/com_contushdvideosahre/hdvideoshareinstall.php
  * @package	Joomla 1.6
@@ -117,10 +117,57 @@ $result = '';
      $db->setQuery($query);
     //$db->setQuery("SELECT * FROM #__components where parent=0 and admin_menu_link ='option=com_contushdvideoshare' LIMIT 1;");
     $result = $db->loadResult();
-  
+
 }
 
 if (empty($result)) {
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `channel_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `about_me` varchar(255) NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `website` varchar(255) NOT NULL,
+  `channel_views` int(11) NOT NULL DEFAULT '0',
+  `total_uploads` int(11) NOT NULL DEFAULT '0',
+  `recent_activity` int(11) NOT NULL DEFAULT '0',
+  `created_date` datetime,
+  `updated_date` timestamp,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channelsettings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(11) NOT NULL,
+  `player_width` int(11) NOT NULL,
+  `player_height` int(11) NOT NULL,
+  `video_row` int(11) NOT NULL,
+  `video_colomn` int(11) NOT NULL,
+  `logo` varchar(255) NOT NULL,
+  `recent_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `popular_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `top_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `playlist` tinyint(2) NOT NULL DEFAULT '1',
+  `type` tinyint(2) NOT NULL DEFAULT '1',
+  `start_videotype` tinyint(2) NOT NULL DEFAULT '1',
+  `start_video` int(11) NOT NULL,
+  `start_playlist` int(11) NOT NULL,
+  `fb_comment` tinyint(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channellist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(11) NOT NULL,
+  `other_channel` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
+
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_ads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `published` tinyint(4) NOT NULL,
@@ -141,6 +188,7 @@ if (empty($result)) {
 
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `member_id` int(11) NOT NULL,
   `category` varchar(255) CHARACTER SET utf8 NOT NULL,
   `seo_category` varchar(255) CHARACTER SET utf8 NOT NULL,
   `parent_id` int(11) NOT NULL,
@@ -412,11 +460,58 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
 (6, '11');");
     $db->query();
 } else {
+     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channel` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `channel_name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `about_me` varchar(255) NOT NULL,
+  `tags` varchar(255) NOT NULL,
+  `website` varchar(255) NOT NULL,
+  `channel_views` int(11) NOT NULL DEFAULT '0',
+  `total_uploads` int(11) NOT NULL DEFAULT '0',
+  `recent_activity` int(11) NOT NULL DEFAULT '0',
+  `created_date` datetime,
+  `updated_date` timestamp,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channelsettings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(11) NOT NULL,
+  `player_width` int(11) NOT NULL,
+  `player_height` int(11) NOT NULL,
+  `video_row` int(11) NOT NULL,
+  `video_colomn` int(11) NOT NULL,
+  `logo` varchar(255) NOT NULL,
+  `recent_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `popular_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `top_videos` tinyint(2) NOT NULL DEFAULT '1',
+  `playlist` tinyint(2) NOT NULL DEFAULT '1',
+  `type` tinyint(2) NOT NULL DEFAULT '1',
+  `start_videotype` tinyint(2) NOT NULL DEFAULT '1',
+  `start_video` int(11) NOT NULL,
+  `start_playlist` int(11) NOT NULL,
+  `fb_comment` tinyint(2) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
+
+    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_channellist` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `channel_id` int(11) NOT NULL,
+  `other_channel` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
+    $db->query();
     $upgra = 'upgrade';
     $updateDid = '';
     $updateDid = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "useraccess");
 
     $updateDidface = AddColumnIfNotExists($errorMsg, "#__hdflv_site_settings", "facebookapi");
+
+    $updateMid = AddColumnIfNotExists($errorMsg, "#__hdflv_category", "member_id");
     if (!$updateDid) {
         $msgSQL .= "error adding 'playlist_autoplay' column to 'hdflvplayersettings' table <br />";
     }
@@ -424,7 +519,11 @@ INSERT INTO `#__hdflv_category` (`id`, `category`,`seo_category`, `parent_id`, `
     if (!$updateDidface) {
         $msgSQL .= "error adding 'facebookapi' column to 'hdflv_site_settings' table <br />";
     }
-    
+
+    if(!$updateMid) {
+    	$msgSQL .= "error adding 'member_id' column to 'category' table <br />";
+    }
+
 }
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareCategories');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareFeatured');

@@ -1,6 +1,6 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.2
+* "ContusHDVideoShare Component" - Version 2.3
 * Author: Contus Support - http://www.contussupport.com
 * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
 * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -73,6 +73,12 @@ form {float:left;}
             if (document.getElementById('title').value == "")
             {
                 alert( "<?php echo JText::_( 'You must provide a Title', true ); ?>" )
+                return;
+            }
+
+            if (document.getElementById('playlistid').value == 0)
+            {
+                alert( "<?php echo JText::_( 'You must select a category', true ); ?>" )
                 return;
             }
 
@@ -273,12 +279,12 @@ form {float:left;}
                     </form>
                 </div>
                 <div id="f1-upload-progress" style="display:none">
-                    <img id="f1-upload-image" src='components/com_contushdvideoshare/images/empty.gif' alt="Uploading" />
-                    <label style="position:absolute;padding-top:3px;padding-left:4px;font-size:14px;font-weight:bold;"  id="f1-upload-filename">PostRoll.flv</label>
+                    <label style="position: absolute;padding-top: 1px;width: auto;font-size: 14px;font-weight: bold;margin: 0;"  id="f1-upload-filename">PostRoll.flv</label>
+                    <img style="float:none;padding: 0;margin: 0;" id="f1-upload-image" src='components/com_contushdvideoshare/images/empty.gif' alt="Uploading" />
                     <span id="f1-upload-cancel">
-                        <a style="float:right;padding-right:10px;" href="javascript:cancelUpload('normalvideoform');" name="submitcancel">Cancel</a>
+                        <a style="float:right;padding-right:10px;padding-top: 5px;padding-left: 5px;" href="javascript:cancelUpload('normalvideoform');" name="submitcancel">Cancel</a>
                     </span>
-                    <label id="f1-upload-status" style="float:right;padding-right:40px;padding-left:20px;">Uploading</label>
+                    <label id="f1-upload-status" style="float:right;width: auto;">Uploading</label>
                     <span id="f1-upload-message" style="float:right;font-size:12px;background:#FFAFAE;padding:5px 150px 5px 10px;">
                         <b>Upload Failed:</b> User Cancelled the upload
                     </span>
@@ -295,12 +301,12 @@ form {float:left;}
                     </form>
                 </div>
                 <div id="f2-upload-progress" style="display:none">
-                    <img id="f2-upload-image" src='components/com_contushdvideoshare/images/empty.gif' alt="Uploading" />
-                    <label style="position:absolute;padding-top:3px;padding-left:4px;font-size:14px;font-weight:bold;"  id="f2-upload-filename">PostRoll.flv</label>
+                    <label style="position: absolute;padding-top: 1px;width: auto;font-size: 14px;font-weight: bold;margin: 0;"  id="f2-upload-filename">PostRoll.flv</label>
+                    <img style="float:none;padding: 0;margin: 0;" id="f2-upload-image" src='components/com_contushdvideoshare/images/empty.gif' alt="Uploading" />
                     <span id="f2-upload-cancel">
-                        <a style="float:right;padding-right:10px;" href="javascript:cancelUpload('hdvideoform');" name="submitcancel">Cancel</a>
+                        <a style="float:right;padding-right:10px;padding-top: 5px;padding-left: 5px;" href="javascript:cancelUpload('normalvideoform');" name="submitcancel">Cancel</a>
                     </span>
-                    <label id="f2-upload-status" style="float:right;padding-right:40px;padding-left:20px;">Uploading</label>
+                    <label id="f2-upload-status" style="float:right;width: auto;">Uploading</label>
                     <span id="f2-upload-message" style="float:right;font-size:12px;background:#FFAFAE;padding:5px 150px 5px 10px;">
                         <b>Upload Failed:</b> User Cancelled the upload
                     </span>
@@ -316,12 +322,12 @@ form {float:left;}
                     </form>
                 </div>
                 <div id="f3-upload-progress" style="display:none">
-                    <img id="f3-upload-image" src="components/com_contushdvideoshare/images/empty.gif" alt="Uploading" />
-                    <label style="position:absolute;padding-top:3px;padding-left:4px;font-size:14px;font-weight:bold;"  id="f3-upload-filename">PostRoll.flv</label>
+                    <label style="position: absolute;padding-top: 1px;width: auto;font-size: 14px;font-weight: bold;margin: 0;"  id="f3-upload-filename">PostRoll.flv</label>
+                    <img style="float:none;padding: 0;margin: 0;" id="f3-upload-image" src="components/com_contushdvideoshare/images/empty.gif" alt="Uploading" />
                     <span id="f3-upload-cancel">
-                        <a style="float:right;padding-right:10px;" href="javascript:cancelUpload('thumbimageform');" name="submitcancel">Cancel</a>
+                        <a style="float:right;padding-right:10px;padding-top: 5px;padding-left: 5px;" href="javascript:cancelUpload('normalvideoform');" name="submitcancel">Cancel</a>
                     </span>
-                    <label id="f3-upload-status" style="float:right;padding-right:40px;padding-left:20px;">Uploading</label>
+                    <label id="f3-upload-status" style="float:right;width: auto;">Uploading</label>
                     <span id="f3-upload-message" style="float:right;font-size:12px;background:#FFAFAE;padding:5px 150px 5px 10px;">
                         <b>Upload Failed:</b> User Cancelled the upload
                     </span>
@@ -339,12 +345,12 @@ form {float:left;}
                     </form>
                 </div>
                 <div id="f4-upload-progress" style="display:none">
-                    <img id="f4-upload-image" src='components/com_contushdvideoshare/images/empty.gif' alt="Uploading" />
-                    <label style="position:absolute;padding-top:3px;padding-left:4px;font-size:14px;font-weight:bold;"  id="f4-upload-filename">PostRoll.flv</label>
+                    <label style="position: absolute;padding-top: 1px;width: auto;font-size: 14px;font-weight: bold;margin: 0;"  id="f4-upload-filename">PostRoll.flv</label>
+                    <img style="float:none;padding: 0;margin: 0;" id="f4-upload-image" src='components/com_contushdvideoshare/images/empty.gif' alt="Uploading" />
                     <span id="f4-upload-cancel">
-                        <a style="float:right;padding-right:10px;" href="javascript:cancelUpload('previewimageform');" name="submitcancel">Cancel</a>
+                        <a style="float:right;padding-right:10px;padding-top: 5px;padding-left: 5px;" href="javascript:cancelUpload('normalvideoform');" name="submitcancel">Cancel</a>
                     </span>
-                    <label id="f4-upload-status" style="float:right;padding-right:40px;padding-left:20px;">Uploading</label>
+                    <label id="f4-upload-status" style="float:right;width: auto;">Uploading</label>
                     <span id="f4-upload-message" style="float:right;font-size:12px;background:#FFAFAE;padding:5px 150px 5px 10px;">
                         <b>Upload Failed:</b> User Cancelled the upload
                     </span>
@@ -377,12 +383,12 @@ form {float:left;}
                 </div>
                 <div id="f5-upload-progress" style="display:none">
                     <img id="f5-upload-image" src='components/com_contushdvideoshare/images/empty.gif' alt="Uploading" />
-                    <label style="position:absolute;padding-top:3px;padding-left:4px;font-size:14px;font-weight:bold;"  id="f5-upload-filename">PostRoll.flv</label>
+                    <label style="position:absolute;padding-top:3px;font-size:14px;font-weight:bold;"  id="f5-upload-filename">PostRoll.flv</label>
                     <span id="f5-upload-cancel">
-                        <a style="float:right;padding-right:10px;" href="javascript:cancelUpload('ffmpegvideoform');" name="submitcancel">Cancel</a>
+                        <a style="float:right;padding-right:10px;padding-top: 5px;padding-left: 5px;" href="javascript:cancelUpload('normalvideoform');" name="submitcancel">Cancel</a>
 
                     </span>
-                    <label id="f5-upload-status" style="float:right;padding-right:40px;padding-left:20px;">Uploading</label>
+                    <label id="f5-upload-status" style="float:right;width: auto;">Uploading</label>
                     <span id="f5-upload-message" style="float:right;font-size:12px;background:#FFAFAE;padding:5px 150px 5px 10px;">
                         <b>Upload Failed:</b> User Cancelled the upload
                     </span>
@@ -414,13 +420,13 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
 }
 ?>
             </script>
-            <tr><td>Display Playlist</td>
+            <tr><td>Display Category</td>
                 <td>
                     <input type="radio" name="displayplaylist"  id="displayplaylist1"  <?php echo 'checked="checked" ';?> value="1" />All
                     <input type="radio" name="displayplaylist"  id="displayplaylist2" value="2"   />Most Recently Added(Up to 25 Playlist Names)
                 </td>
             </tr>
-            <tr><td class="key">Playlist</td><td>
+            <tr><td class="key">Sort by Category</td><td>
             <input type="radio" name="playliststart" id="playliststart1" value="AF"  <?php echo 'checked'; ?> onchange="select_alphabet('AF')" />&nbsp;&nbsp;A-F
             <input type="radio" name="playliststart" id='playliststart2' value="GL"  <?php echo 'checked'; ?> onchange="select_alphabet('GL')" />&nbsp;&nbsp;G-L
             <input type="radio" name="playliststart" id='playliststart3' value="MR"  <?php echo 'checked'; ?> onchange="select_alphabet('MR')" />&nbsp;&nbsp;M-R
@@ -587,13 +593,24 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
                     if($editVideo['rs_editupload']->published=='0')
                        {  $publishedNo = 'checked="checked" ';
                        }
-                       ?>
+                       $midrollcheck = $midrollcheck1 ='';
+                       if ($editVideo['rs_editupload']->midrollads == '1')
+                       {
+                         $midrollcheck  = 'checked="checked" ';
+
+                       }
+                       if ($editVideo['rs_editupload']->midrollads == '0' || $editvideo['rs_editupload']->midrollads == '')
+                             {
+                           $midrollcheck1 = 'checked="checked" ';
+
+                           }
+                    ?>
             </td></tr>
              <tr>
                         <td>MidRoll ads</td>
                         <td>
-                            <input type="radio" style="float:none;"  name="midrollads"  id="midrollads"  <?php if ($editVideo['rs_editupload']->midrollads == '1') echo 'checked="checked"';  ?>  value="1"/>Enable
-                            <input type="radio"  style="float:none;"  name="midrollads"  id="midrollads" <?php if ($editVideo['rs_editupload']->midrollads == '0') echo 'checked="checked"';  ?> value="0"  />Disable
+                            <input type="radio" style="float:none;"  name="midrollads"  id="midrollads"  <?php echo $midrollcheck; ?>  value="1"/>Enable
+                            <input type="radio"  style="float:none;"  name="midrollads"  id="midrollads" <?php echo $midrollcheck1; ?> value="0"  />Disable
                         </td>
                     </tr>
             <tr id="download"><td>Download (Note:Not supported for vimeo, youtube and streamer)</td>

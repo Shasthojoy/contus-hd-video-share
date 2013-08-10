@@ -1,7 +1,7 @@
 <?php
 
 /*
- * "ContusHDVideoShare Component" - Version 2.2
+ * "ContusHDVideoShare Component" - Version 2.3
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -38,7 +38,7 @@ class contushdvideoshareViewshowvideos extends JView {
         JToolBarHelper::custom($task = 'featured', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable Featured', $listSelect = true);
         JToolBarHelper::custom($task = 'unfeatured', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable Featured', $listSelect = true);
         $userId = (JRequest::getVar('userid', '', 'get', 'int')) ? JRequest::getVar('userid', '', 'get', 'int') : 0;
-
+        
         // Joomla! 1.6 code here
         if(version_compare(JVERSION,'1.6.0','ge'))
         {
@@ -58,7 +58,7 @@ class contushdvideoshareViewshowvideos extends JView {
 
         if ($ugp->group_id == "8") {
             JToolBarHelper::deleteList('', 'Removevideos');
-            JToolBarHelper::editList('editvideos', 'Edit');
+                        JToolBarHelper::editList('editvideos', 'Edit');
             //JToolBarHelper::deleteList('', 'Removevideos');
         }
         if ((($ugp->group_id == "7") || ($ugp->group_id == "8") || ($ugp->group_id == "6")) && ($userId == 62)) {
@@ -76,7 +76,7 @@ class contushdvideoshareViewshowvideos extends JView {
             }
         }
         }
-
+        
         $model = $this->getModel();
         $showvideos = $model->showvideosmodel();
 
@@ -94,4 +94,4 @@ class contushdvideoshareViewshowvideos extends JView {
     }
 
 }
-?>
+?>   

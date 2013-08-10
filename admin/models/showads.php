@@ -1,6 +1,6 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.2
+* "ContusHDVideoShare Component" - Version 2.3
 * Author: Contus Support - http://www.contussupport.com
 * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
 * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -77,7 +77,10 @@ class contushdvideoshareModelshowads extends JModel {
             $normal_video=$_POST['normalvideoform-value'];
             $video_name=explode("uploads/", $normal_video);
             $vpath=VPATH2."/";
+            $file_video = '';
+            if(isset($video_name[1])) {
             $file_video=$video_name[1];
+            }
             if($file_video<>"")
             {
                 $exts1=$this->findexts($file_video);

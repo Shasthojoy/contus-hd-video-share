@@ -1,7 +1,7 @@
 <?php
 
 /*
- * "ContusHDVideoShare Component" - Version 2.2
+ * "ContusHDVideoShare Component" - Version 2.3
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -218,7 +218,7 @@ class contushdvideoshareModelshowvideos extends JModel {
         $seoTitle = preg_replace('/[&:\s]+/i', '-', $seoTitle);
         $data['seotitle'] = preg_replace('/[#!@$%^.,:;\/&*(){}\"\'\[\]<>|?]+/i', '', $seoTitle);
     $data['seotitle'] = preg_replace('/---|--+/i', '-', $data['seotitle']);
-//        $data['seotitle'] = $seoTitle;
+      //  $data['seotitle'] = $seoTitle;
 
         if (!$rs_saveupload->bind($data))
         {

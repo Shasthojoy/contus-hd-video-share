@@ -43,6 +43,8 @@ text-decoration:underline;
 /*my videos page css*/
 .lodinpad{width:100%;margin:0 auto;margin-top:5px;}
 .lodinpad h2{margin:0px;}
+.player{margin: 10px 0;clear:both;width:100%;}
+#clsdetail{color: black;}
 #clsdetail ul#myclstopul{ float:left; font-size:12px;padding:5px 10px 5px 0;margin:0px;list-style:none;background:none;}
 #clsdetail ul#myclstopul li{ float:left;  padding: 0 0px 7px 9px;background:none;list-style:none;}
 #clsdetail ul#myclstopul li a{  text-decoration:none;font-weight:bold;}
@@ -236,7 +238,7 @@ ul.ratethis li.five a:hover {background-position:0 -200px;background: none !impo
 .googlead_img{ width:48px;height:12px;cursor:pointer;position:absolute;top:-8px;right:0px;}
 /*video css*/
 #HDVideoshare1{width:100%;}
-#HDVideoshare1 div{text-align:center;}
+#HDVideoshare1 div{text-align:center;margin-bottom: 10px;overflow: hidden;}
 /*video content css*/
 .content_center{width:100%;}
 .content_center1{margin-left:auto;margin-right:auto;}
@@ -246,7 +248,7 @@ ul.ratethis li.five a:hover {background-position:0 -200px;background: none !impo
 .rateimgleft{width:auto;float:left;}
 .ratethis{float:left;list-style:none;margin:0px;}
 ul.ratethis li{background:none;}
-.rateright-views{font-size:13px;padding:5px 0 0 5px;}
+.rateright-views{font-size:13px;padding: 5px 0 0 0;}
 .rightrateimg{display:block;padding:4px;}
 
 .rightrate{vertical-align:top;}
@@ -335,7 +337,7 @@ div.footsearchnav {
 
 
 h3#video_title{font-size:18px;margin:0px;}
-.clsrateviews{display:block;padding:4px;}
+.clsrateviews{display:block;padding: 8px 0 0;}
 
 /*upload page css*/
 
@@ -368,7 +370,7 @@ h3#video_title{font-size:18px;margin:0px;}
 .show-title-container a{font-weight:bold;font-size:93%;display:block;text-align:left;text-decoration: none;}
 .show-title-container a:hover{color: red}
 #title a{font-weight:bold;font-size:13px;width:150px;display:block;}
-.gr{margin-right:10px;}
+.gr{margin-right:10px;width:100%;}
 
 .viewsubname strong{font-weight:bold;}
 .leave{font-weight:bold;padding-bottom:5px;}
@@ -407,8 +409,7 @@ float: left;
 height: 73px;
 margin-top: 5px;
 width: 335px;}
-.underline{border-bottom: 1px solid #C3C3C3;
-padding-bottom: 4px;}
+.underline{border-bottom: 1px dotted #C3C3C3;padding-bottom: 12px;}
 .toprightmenu{font-size:13px;float:right;}
 #rateid{width:100%;}
 #clsdetail  ul li{list-style:none;}
@@ -446,7 +447,6 @@ z-index: 100;left:57px; top:27px;}
 .home-thumb{margin:0px 10px 5px 0px;}
 
 
-#clsdetail .lodinpad h1{font-size:18px;}
 #module_videos #title{padding:0px;}
 #module_videos #catagory-view{padding:0px;}
 #module_videos .home-play-container{padding:0px;}
@@ -518,3 +518,128 @@ background: url(../images/fb_share_button.png);
 margin-right: 20px;
 }
 .video_addedon{float:right;}
+.user-thumb-semismall {
+display: block;
+overflow: hidden;
+background-color: white;
+border: 3px double #999;
+border-image: initial;
+}
+.channel-title-container {
+float: left;
+padding: 0.4em;
+}
+.user-thumb-semismall div {
+width: 400px;
+float: left;}
+.bot_dot3 .leftdiv button{
+text-align: center;
+}
+
+.novideo{background: #ccc;padding: 100px 0;text-align: center !important;margin: 10px 0;}
+.channeldetails{ width: 45%;float: left;border:1px solid ;padding: 5px;}
+.channelhead{overflow: hidden;}
+.channelhead h1{float: left;margin: 0 !important;width: 75%;line-height: 25px;}
+.channelhead button{float:right;}
+
+#channel_details .bot_dot1{overflow: hidden; padding: 10px 5px;border-bottom:1px solid;}
+#channel_details .bot_dot1 .leftdiv{width: 45%;padding-right: 5%;}
+
+.bot_dot1{overflow: hidden; padding: 10px 5px;}
+
+#other_channels{ padding: 5px;border:1px solid;width: 45%;float: right;}
+
+.bot_dot2{margin-top:10px;overflow: hidden; padding:5px;background: #ccc;}
+.bot_dot2 .leftdiv { float:left;width:75%;text-align: left;}
+.bot_dot2 .rightdiv {float:right;width:25%;text-align: right;}
+.bot_dot2 .leftdiv a{display: inline-block;padding:10px 5px;}
+.bot_dot2 .rightdiv a{background: url("../images/delete.png") no-repeat bottom;display: inline-block;float: right;height: 18px;padding: 12px 0 0 10px;width: 18px;}
+
+.bot_dot3{overflow: hidden;padding: 8px 0px 0;}
+.bot_dot3 .leftdiv { float:left;width:75%;;text-align: left;}
+.bot_dot3 .leftdiv input{width:100%;}
+
+.bot_dot3 .rightdiv {float:right;width:25%;text-align: right;}
+.bot_dot3 .leftdiv a{display: inline-block;padding:10px 5px;}
+.bot_dot3 .rightdiv a{background: url("../images/delete.png") no-repeat bottom;display: inline-block;float: right;height: 18px;padding: 12px 0 0 10px;width: 18px;}
+
+.description_display{overflow: hidden;padding: 10px 0;}
+#channel_videos{overflow: hidden;}
+#channel_details{overflow: hidden;}
+
+.bot_dot{border-bottom:1px dotted #2A2A2A; }
+.ch_textboxl{width:50%;float:left;padding:10px 0;}
+.ch_textboxl input{width:70px;float:left;border: 1px solid #C6C6C6;}
+.ch_textboxl select{border: 1px solid #C6C6C6;float: left;height: 27px;width: 50%;}
+.ch_textboxl label{width:115px;line-height:25px;float:left;}
+
+.ch_textboxl1{width:50%;float:left;padding:10px 0;}
+.ch_textboxl1 input{display: inline-block;float: left;height: 24px;padding-right: 10px; }
+.ch_textboxl1 span{display: block;float: left;padding: 7px 7px 0px 7px;}
+.ch_textboxl1 select{border: 1px solid #C6C6C6;float: left;height: 27px;width: 150px;}
+.ch_textboxl1 label{width:115px;line-height:25px;float:left;}
+
+.ch_textboxr{width:50%;float:right;padding:10px 0;}
+.ch_textboxr input{width: 70px;float: left;border: 1px solid #C6C6C6;padding: 0 5px !important;}
+.ch_textboxr select{border: 1px solid #C6C6C6;float: left;
+height: 27px;
+width: 50%;
+}
+.ch_textboxr label{width:115px;line-height:25px;float:left;}
+.bot_dot img{float:left;border:1px solid #fff;}
+
+.bot_dot1  .leftdiv{float:left;}
+.bot_dot1  .rightdiv{float:left;width: 50%;}
+
+
+#edit_channel .leftdiv{float:none;width:100%;}
+#edit_channel .rightdiv{float:none;width:100%;}
+#edit_channel .rightdiv input{float:none;width:100%;}
+#edit_channel .rightdiv textarea{float:none;width:100%;}
+#other_channels .clsdeletebtn{text-align: right}
+#description_tbl{width:100px !important;}
+
+.ch_textboxl{width:50%;float:left;padding:10px 0;}
+.ch_textboxl input{width:70px;float:left;border: 1px solid #C6C6C6;}
+.ch_textboxl select{border: 1px solid #C6C6C6;float: left;height: 27px;width: 50%;}
+.ch_textboxl label{width:115px;line-height:25px;float:left;}
+
+
+.player .bot_dot{border:none;height: 41px;}
+.player .bot_dot img{position: relative;margin: 0px 0 -30px 0;display: block;float: none;}
+.player .bot_dot h1{margin: 0px 0 0 40px !important;}
+
+.ch_textbox2{width:50%;float:left;padding:10px 0;}
+.ch_textbox2 input{width:75%;float:left;border: 1px solid #C6C6C6;}
+.ch_textbox2 label{width:115px;line-height:25px;float:left;}
+.channeldetails1{ width: 98%;border:1px solid ;padding: 1%;margin-bottom:10px;}
+.ch_textbox2 #logo {margin: 0;display: block;padding: 0px;width: auto;
+font-weight: normal;
+line-height: normal;
+font-size: 12px;
+}
+#channel_list{color:red;}
+#output{color:green;}
+.activetab{color: #333;
+background: white;
+border: 1px solid #DADADA;
+padding: 5px 5px 5px;
+position: relative;
+float: left;
+display: block;
+margin: 0 10px 10px 0;
+font-weight: bold;}
+.disabletab{color: white;
+background: #333;
+border: 1px solid #DADADA;
+padding: 5px;
+margin: 0 5px 0 0;
+float: left;
+margin: 0 5px 0 0;font-weight: bold;}
+#fbshare:hover{width: 57px;
+height:18px;
+float: left;
+background: url(../images/fb_share_button.png) !important;
+margin-right: 20px;}
+
+#clsinsertbtns table{width:200px !important;}

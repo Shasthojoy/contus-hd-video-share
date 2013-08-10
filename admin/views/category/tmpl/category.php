@@ -34,7 +34,7 @@ if (JRequest::getVar('task') == 'edit' || JRequest::getVar('task') == 'add') {
                 </td>
             </tr>
             <tr>
-                <td class="key">Category</td>
+                <td class="key">Category Name</td>
                 <td><input type="text" name="category" id="category" size="32" maxlength="250" value="<?php echo $this->categary->category; ?>" /></td>
             </tr>
             <tr>
@@ -57,7 +57,9 @@ if (JRequest::getVar('task') == 'edit' || JRequest::getVar('task') == 'add') {
                                 $categoryListchecked = 'checked';
                              }
                 ?>
-                            <td><input type="radio" name="published" id="published" value="1" <?php echo $categoryChecked; ?> />Yes&nbsp;&nbsp;<input type="radio" name="published" id="published" value="0" <?php echo $categoryListchecked; ?> />No </td>
+                <td><input type="radio" name="published" id="published" value="1" <?php echo $categoryChecked; ?> style="float: none;"/>Yes&nbsp;&nbsp;
+                    <input type="radio" name="published" id="published" value="0" <?php echo $categoryListchecked; ?> style="float: none;"/>No
+                            </td>
                         </tr>
 
                     </table>
@@ -148,3 +150,25 @@ if (JRequest::getVar('task') == 'edit' || JRequest::getVar('task') == 'add') {
 
         </form>
 <?php } ?>
+<script language="JavaScript" type="text/javascript">
+   <?php if(version_compare(JVERSION,'1.6.0','ge'))
+                    { ?>Joomla.submitbutton = function(pressbutton) {<?php } else { ?>
+                        function submitbutton(pressbutton) {<?php } ?>
+        if (pressbutton == "save")
+        {
+
+
+            if (document.getElementById('category').value == "")
+            {
+                alert( "<?php echo JText::_('You must provide a category name', true); ?>" )
+                return;
+            }
+
+            submitform( pressbutton );
+            return;
+        }
+        submitform( pressbutton );
+        return;
+
+    }
+</script>

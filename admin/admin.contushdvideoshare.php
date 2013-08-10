@@ -1,7 +1,6 @@
 <?php
 /*
-* "ContusHDVideoShare Component"
-* Version: 2.2
+* "ContusHDVideoShare Component" - Version 2.3
 * Author: Contus Support - http://www.contussupport.com
 * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
 * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -14,6 +13,12 @@ define('VPATH2', realpath(dirname(__FILE__).'/../../../components/com_contushdvi
 define('FVPATH', realpath(dirname(__FILE__)));
 date_default_timezone_set('UTC');
 $controllerName = JRequest::getCmd( 'layout','videos');
+
+
+ $folder = JPATH_ROOT . DS . 'components' . DS . 'com_contushdvideoshare' . DS . 'videos';
+        if(!is_dir($folder)){
+    mkdir($folder);
+}
 
 
 if($controllerName == 'category') {

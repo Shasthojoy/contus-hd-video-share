@@ -1,7 +1,7 @@
 <?php
 
 /*
- * "ContusHDVideoShare Component" - Version 2.2
+ * "ContusHDVideoShare Component" - Version 2.3
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -124,10 +124,11 @@ class Modelcontushdvideoshareplayer extends JModel {
             }
             $query = "select count(*) from #__hdflv_site_settings where viewedconrtol='1'";
             $db->setQuery($query);
-            $nocache = JRequest::getVar('ajaxview');
+            $nocache = JRequest::getInt('nocache','1','GET');
+
             $boolval = $db->loadResult();
             if ($videoid) {
-                if (!isset($nocache)) {
+                if ($nocache!=1) {
                     $query = "update #__hdflv_upload SET times_viewed=1+times_viewed where id=$playid";
                     $db->setQuery($query);
                     $db->query();

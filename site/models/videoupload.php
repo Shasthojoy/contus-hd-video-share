@@ -1,6 +1,6 @@
 <?php
 /*
-* "ContusHDVideoShare Component" - Version 2.2
+* "ContusHDVideoShare Component" - Version 2.3
 * Author: Contus Support - http://www.contussupport.com
 * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
 * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -25,6 +25,7 @@ class Modelcontushdvideosharevideoupload extends JModel {
     function getupload()
     {
         $user =& JFactory::getUser();
+        $member_id = $user->get('id');
         $editvideo1="";
         if (JRequest::getVar('type','','get','string') == 'edit')
          {
@@ -36,7 +37,7 @@ class Modelcontushdvideosharevideoupload extends JModel {
         $session =& JFactory::getSession();
         $url="";
         $success="";
-        $query = 'SELECT * FROM #__hdflv_category where published=1 order by Category ASC'; //Query is to get the category list
+        $query = 'SELECT * FROM #__hdflv_category where published=1 and (member_id = 0 or member_id = '.$member_id.') order by Category ASC'; //Query is to get the category list
         $db = $this->getDBO();
         $db->setQuery($query);
         $category1 = $db->loadObjectList();
@@ -266,6 +267,7 @@ class Modelcontushdvideosharevideoupload extends JModel {
                 header("Location: $url");
 
         }
+         $this->updateRecentactivity();
         return array($category1,$success,$editvideo1);
     }
     function ezffmpeg_vdofile_infos( $src_filepath )
@@ -499,5 +501,25 @@ class Modelcontushdvideosharevideoupload extends JModel {
         }
         return $vid_location;
     } // END catchURL() FUNCTION
+
+     /* function for updating recent activity */
+    function updateRecentactivity() {
+        $channelId = $this->getChannel();
+        $db = $this->getDBO();
+        $query='update #__hdflv_channel SET updated_date=now() where id='.$channelId;
+        $db->setQuery($query);
+        $db->query();
+    }
+
+       /*function to get channel id*/
+function getChannel() {
+    	$user =& JFactory::getUser();
+    	$memberId = $user->get('id');
+    	$db = $this->getDBO();
+    	$query = "select id from #__hdflv_channel where user_id = $memberId";
+    	$db->setQuery($query);
+        $channelId = $db->loadResult();
+        return $channelId;
+    }
 }
 ?>

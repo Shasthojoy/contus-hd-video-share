@@ -1,6 +1,6 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.2
+ * "ContusHDVideoShare Component" - Version 2.3
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -32,10 +32,10 @@ class Modelcontushdvideosharecategory extends JModel {
             $searchtotal1 = $db->loadObjectList();
             //     print_r($searchtotal1);
             $catid = $searchtotal1[0]->id;
-        } //Category id is stored in this catid variable        
+        } //Category id is stored in this catid variable
         $catid = $db->getEscaped($catid);
 
-        
+
         $totalquery = "select a.*,b.id as cid,b.category,b.seo_category,b.parent_id,c.* from #__hdflv_upload a left join #__hdflv_video_category c on a.id=c.vid left join #__hdflv_category b on c.catid=b.id where (c.catid=$catid OR b.parent_id = $catid OR a.playlistid=$catid) and a.published=1 and a.type='0' order by b.id asc"; // this query is for category view pagination
         $db->setQuery($totalquery);
         $searchtotal = $db->loadObjectList();
@@ -55,7 +55,7 @@ class Modelcontushdvideosharecategory extends JModel {
             $categoryquery = "select a.*,b.id as cid,b.category,b.seo_category,b.parent_id,d.username,e.* from #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on a.id=e.vid left join #__hdflv_category b on e.catid=b.id where (e.catid=$catid OR a.playlistid=$catid OR b.parent_id = $catid ) and a.published=1  group by e.vid order by b.id asc LIMIT $start,$length"; // This query for displaying category's full view display
         $db->setQuery($categoryquery);
         $rows = $db->LoadObjectList();
-     
+
         $categoryquery = "select category from #__hdflv_category where id=$catid"; // This query for displaying category's full view display
         $db->setQuery($categoryquery);
         $category = $db->LoadObjectList();
@@ -78,7 +78,7 @@ class Modelcontushdvideosharecategory extends JModel {
             $rows = $db->LoadObjectList();
         }
         // merge code ends here
-        
+
         return $rows;
     }
     function getcategoryrowcol()
@@ -89,7 +89,7 @@ class Modelcontushdvideosharecategory extends JModel {
         $rows = $db->LoadObjectList();
         return $rows;
     }
-    
+
  function getcategoryList()
     {
         $db = $this->getDBO();
@@ -112,7 +112,7 @@ class Modelcontushdvideosharecategory extends JModel {
             //print_r($searchtotal1);
             $catid = $searchtotal1[0]->id;
         }
-        $catid = $db->getEscaped($catid);        
+        $catid = $db->getEscaped($catid);
         $categoryquery = "select * from #__hdflv_category where id=$catid or parent_id=$catid "; //Query is to select the popular videos row
         $db->setQuery($categoryquery);
         $rows = $db->LoadObjectList();

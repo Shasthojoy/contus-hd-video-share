@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version     2.2, Creation Date : March-24-2011
+ * @version     2.3, Creation Date : March-24-2011
  * @name        mod_HDVideoSharePopular.php
  * @location    /components/modules/mod_HDVideoSharePopular/mod_HDVideoSharePopular.php
  * @package	Joomla 1.6

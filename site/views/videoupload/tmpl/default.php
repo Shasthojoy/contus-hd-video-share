@@ -1,6 +1,6 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.2
+ * "ContusHDVideoShare Component" - Version 2.3
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -13,10 +13,17 @@ defined('_JEXEC') or die('Restricted access');
 $user = & JFactory::getUser();
 $session = & JFactory::getSession();
 $editing = '';
+$baseurl = JURI::base();
 if ($user->get('id') == '')
 {
-    $url = $baseurl . "index.php?option=com_user&view=register";
-    header("Location: $url");
+    if(version_compare(JVERSION,'1.6.0','ge'))
+      {
+	$url = $baseurl . "index.php?option=com_users&view=login";
+	header("Location: $url");
+      }else {
+        $url = $baseurl . "index.php?option=com_user&view=login";
+	header("Location: $url");
+      }
 }
 if (JRequest::getVar('type', '', 'get', 'string') == 'edit') {
     $videoedit1 = $this->videodetails;
@@ -38,24 +45,38 @@ if (JRequest::getVar('url', '', 'post', 'string'))
 }
 ?>
 <?php
+
 $app = & JFactory::getApplication();
 if ($app->getTemplate() != 'hulutheme')
- {
-    echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
+{
+	echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
 
-    if ($user->get('id') != '') 
-      {
-    ?>
+	if ($user->get('id') != '')
+	{
+		     if(version_compare(JVERSION,'1.6.0','ge'))
+                        {
+                       ?>
+                    <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></div>
+            <?php }else { ?>
+                <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></div>
+           <?php  }?>
 
-        <span style='float:right'><b><a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare'); ?>"><?php echo _HDVS_LOGOUT; ?></a></b></span>
 
-<?php } else 
-         {
-?>
-        <span style='float:right'><b><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  onclick="javascript:popUpWindow('<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=commentlogin&rmode=true', '200', '200', '320', '240')"><?php ECHO _HDVS_LOGIN; ?></a></b></span>
-<?php
-         }
+
+		<?php } else
+		{if(version_compare(JVERSION,'1.6.0','ge'))
+        { ?><div class="toprightmenu"><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
+           <?php }  else {      ?>
+                    <div class="toprightmenu"><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
+        <?php
+                }
+			?>
+
+			<?php
+		}
 }
+
+
 ?>
 <script type="text/javascript" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/upload_script.js"></script>
 <script type="text/javascript" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/membervalidator.js"></script>
@@ -71,7 +92,7 @@ if ($app->getTemplate() != 'hulutheme')
                 echo _HDVS_EDIT_VIDEO;
 ?>
             </h1>
-            <span class="floatright">
+            <span class="floatright" style="padding-top: 10px;">
                 <input type="button"  value="<?php echo _HDVS_BACK_TO_MY_VIDEOS; ?>" class="button cursor_pointer"  onclick="window.open('index.php?option=com_contushdvideoshare&view=myvideos','_self');"  />
             </span><div class="clear"></div>
             <div class="underline" style="margin-bottom:10px;"></div>
@@ -82,7 +103,7 @@ if ($app->getTemplate() != 'hulutheme')
                 if (isset($videoedit->filepath) && $videoedit->filepath == 'Youtube')
                 {
                     echo 'checked="checked"';
-                } ?> checked ="checked" onclick="filetypeshow(this);" />&nbsp;&nbsp;<?php echo _HDVS_URL; ?> / <?php echo 'Youtube';?> / <?php echo 'Vimeo';?></div>
+                } ?> checked ="checked" onclick="filetypeshow(this);" />&nbsp;&nbsp;<?php echo _HDVS_URL; ?> / <?php echo _HDVS_YOUTUBE;?> / <?php echo _HDVS_VIMEO;?></div>
                     <div class="radiobtn" >
                     <input type="radio"  class="butnmargin" name="filetype" id="filetype1" value="1" <?php
                       if (isset($videoedit->filepath) && $videoedit->filepath == 'File') {
@@ -256,14 +277,14 @@ if ($app->getTemplate() != 'hulutheme')
                     <div class="allform">
                         <ul>
                             <li class="changeli">
-                                <div class="form-label floatleft"><label>Url:</label></div>
+                                <div class="form-label floatleft"><label><?php echo _HDVS_UPLOAD_URL;?>:</label></div>
                                 <div class="form-input floatleft"><input type="text" name="Youtubeurl" value="<?php
                                                   if (isset($videoedit->filepath)
-                                                  
+
                                                       )if ($videoedit->filepath == 'Youtube')
                                                           echo $videoedit->videourl ?>" class="text" size="20" id="Youtubeurl" onchange="bindvideo();"  /><span class="star">*</span>&nbsp;&nbsp </div>
                                                           <div class="clear"></div>
-                                                          <div class="form-label floatleft"><label>Hd Url:</label></div>
+                                                          <div class="form-label floatleft"><label><?php echo _HDVS_UPLOAD_HDURL;?>:</label></div>
                                                           <div class="form-input floatleft"><input type="text" name="hdurl" value="<?php
                                                   if (isset($videoedit->filepath)
 
@@ -276,26 +297,26 @@ if ($app->getTemplate() != 'hulutheme')
                                           <div class="allform">
                                               <ul>
                                                   <li class="changeli">
-                                                      <div class="form-label floatleft"><label>Image Url:</label></div>
+                                                      <div class="form-label floatleft"><label><?php echo _HDVS_UPLOAD_IMAGEURL;?>:</label></div>
 <?php
                                                           if (isset($videoedit->thumburl))
                                                           {
                                                               preg_match('@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $videoedit->thumburl, $imgresult);
                                                           }
 ?>
-                                                      <div class="form-input floatleft">Image Url<input type="radio" name="imagepath" id="imagepath" value="1" <?php
+                                                      <div class="form-input floatleft"><?php echo _HDVS_UPLOAD_IMAGEURL;?><input type="radio" name="imagepath" id="imagepath" value="1" <?php
                                                           if (isset($imgresult[0]))
                                                           {
                                                               echo "checked='checked'";
                                                           }
-?>                                                     onclick="changeimageurltype(this);">&nbsp;&nbsp;&nbsp;&nbsp;Image Upload<input type="radio" name="imagepath" id="imagepath" value="0" <?php
+?>                                                     onclick="changeimageurltype(this);">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo _HDVS_IMAGE_UPLOAD;?><input type="radio" name="imagepath" id="imagepath" value="0" <?php
                                                           if (!isset($imgresult[0]))
                                                           {
                                                               echo "checked='checked'";
                                                           } ?>  onclick="changeimageurltype(this);"> <div class="clear"></div>
                                                           <div id="imageurltype"></div>
 <?php
-                                                          if (isset($imgresult[0])) 
+                                                          if (isset($imgresult[0]))
                                                            {
                                                        ?>
                                                               <script type="text/javascript">
@@ -386,7 +407,7 @@ if ($app->getTemplate() != 'hulutheme')
                                                                  if (JRequest::getVar('type', '', 'get', 'string') == 'edit')
                                                                  {
                                                                      $editbutton = _HDVS_UPDATE;
-                                                                 } 
+                                                                 }
                                                                  else
                                                                  {
                                                                      $editbutton = _HDVS_UPLOAD;
@@ -456,7 +477,7 @@ if ($app->getTemplate() != 'hulutheme')
                                                                   document.getElementById('seltype').value=0;
                                                                   document.getElementById("ffmpeg").style.display="none";
                                                                   document.getElementById("normalvideoformval").style.display="none";
-                                                                
+
                                                               }
                                                               if(obj.value==1 || obj==1)
                                                               {
@@ -469,7 +490,7 @@ if ($app->getTemplate() != 'hulutheme')
                                                                   document.getElementById('seltype').value=1;
                                                                   document.getElementById("ffmpeg").style.display="none";
                                                                   document.getElementById("normalvideoformval").style.display="block";
-                                                                
+
                                                               }
                                                               if(obj.value==2 || obj==2)
                                                               {
@@ -479,12 +500,12 @@ if ($app->getTemplate() != 'hulutheme')
                                                                   document.getElementById("ffmpeg").style.display="block";
                                                                   document.getElementById('seltype').value=2;
                                                                   document.getElementById("normalvideoformval").style.display="none";
-                                                                
+
                                                               }
 
                                                           }
                                                           document.getElementById("ffmpeg").style.display="none";
-                                                        
+
                                                           document.getElementById("typeff").style.display="none";
 
 
@@ -505,9 +526,9 @@ if ($app->getTemplate() != 'hulutheme')
                                                               var match_exp = /http\:\/\/www\.youtube\.com\/watch\?v=[^&]+/;
 
                                                               if(str.match(match_exp)==null){
-                                                               
+
                                                                   var metacafe=/http:\/\/www\.metacafe\.com\/watch\/(.*?)\/(.*?)\//;
-                                                                 
+
                                                                   if(str.match(metacafe)!=null)
                                                                   {
                                                                       document.upload1111.url1.value=document.getElementById('url').value;
@@ -534,11 +555,11 @@ if ($app->getTemplate() != 'hulutheme')
                                                               }
 
                                                           }
-                                                       
+
 
                                                           function changeimageurltype(urltype)
                                                           {
-                                                              
+
 
                                                               if(urltype.value==1)
                                                               {
@@ -579,15 +600,15 @@ if ($app->getTemplate() != 'hulutheme')
                                                       </script>
                                                       <script type="text/javascript">
 <?php
-                                                           if (isset($videoedit->filepath) && $videoedit->filepath == 'Youtube') 
+                                                           if (isset($videoedit->filepath) && $videoedit->filepath == 'Youtube')
                                                               {
                                                               ?>
                                                               filetypeshow("0");
 <?php
-                                                              } 
+                                                              }
                                                               elseif (isset($videoedit->filepath) && $videoedit->filepath == 'File')
                                                                {
-                                                           
+
                                                            ?>
                                                               filetypeshow("1");
 <?php

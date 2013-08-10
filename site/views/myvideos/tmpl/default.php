@@ -1,6 +1,6 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.2
+ * "ContusHDVideoShare Component" - Version 2.3
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -12,10 +12,17 @@ $session = & JFactory::getSession();
 $user = & JFactory::getUser();
 $logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
+$baseurl = JURI::base();
 if ($user->get('id') == '')
 {
-    $url = $baseurl . "index.php?option=com_user&view=register";
-    header("Location: $url");
+    if(version_compare(JVERSION,'1.6.0','ge'))
+      {
+	$url = $baseurl . "index.php?option=com_users&view=login";
+	header("Location: $url");
+      }else {
+        $url = $baseurl . "index.php?option=com_user&view=login";
+	header("Location: $url");
+      }
 }
 ?>
 <script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/popup.js"></script>
@@ -37,44 +44,59 @@ function submitform()
 	</div>
 </form>
 <?php
+
 $app = & JFactory::getApplication();
 if ($app->getTemplate() != 'hulutheme')
- {
-    echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
+{
+	echo '<link rel="stylesheet" href="' . JURI::base() . 'components/com_contushdvideoshare/css/stylesheet.css" type="text/css" />';
 
-     if (USER_LOGIN == '1')
-            {
-                if ($user->get('id') != '')
-                  {
-                        if(version_compare(JVERSION,'1.6.0','ge'))
+	if ($user->get('id') != '')
+	{
+		     if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
-                    <span class="toprightmenu"><b><a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></b></span>
+                    <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></div>
             <?php }else { ?>
-                <span class="toprightmenu"><b><a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></b></span>
-           <?php  } }
-                else
-                {
-                    if(version_compare(JVERSION,'1.6.0','ge'))
-        { ?><span class="toprightmenu"><b><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+                <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></div>
+           <?php  }?>
+
+
+
+		<?php } else
+		{if(version_compare(JVERSION,'1.6.0','ge'))
+        { ?><div class="toprightmenu"><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
            <?php }  else {      ?>
-                    <span class="toprightmenu"><b><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+                    <div class="toprightmenu"><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
         <?php
-                } }
-            }
+                }
+			?>
+
+			<?php
+		}
 }
+
+
 ?>
 <div class="player clearfix">
     <div id="clsdetail">
         <div class="lodinpad">
-            <div class="toptitle"><h1> <?php echo _HDVS_MY_VIDEOS; ?></h1></div>
-           <div align="right">
+            <h1> <?php echo _HDVS_MY_VIDEOS; ?></h1>        
+            <div>
+                <ul id="myclstopul"  >
+                    <li ><?php echo _HDVS_SORT_BY; ?> :</li>
+                    <li><a  title="Sort by title"  class="namelink cursor_pointer" onclick="sortvalue('1');"><?php echo _HDVS_TITLE; ?></a></li>
+                    <li >|</li>
+                    <li ><a  title="Sort by Date"  class="namelink cursor_pointer" onclick="sortvalue('2');"><?php echo _HDVS_DATE_ADDED; ?></a></li>
+                    <li >|</li>
+                    <li ><a  title="Sort by Views"  class="namelink cursor_pointer" onclick="sortvalue('3');"><?php echo _HDVS_VIEWS; ?></a></li>
+                </ul>
+                <div style="padding: 5px 0 10px;float:right;">
                 <?php
                 $searchTxtbox = '';
                 if (isset($_POST['searchtxtboxmember']))
                 {
                  $searchTxtbox = $_POST['searchtxtboxmember'];
-                }           
+                }
 ?>
                 <form name="hsearch" id="hsearch" method="post" action='index.php?option=com_contushdvideoshare&view=myvideos' >
                     <input type="text"  name="searchtxtboxmember" value="<?php echo $searchTxtbox; ?>" id="searchtxtboxmember" class="clstextfield clscolor"  onkeypress="validateenterkey(event,'hsearch');" stye="color:#000000; "/>
@@ -89,17 +111,6 @@ if ($app->getTemplate() != 'hulutheme')
 ?>
                 </form>
             </div>
-            <div class="clear"></div>
-            <div class="underline"></div>
-            <div>
-                <ul id="myclstopul"  >
-                    <li ><?php echo _HDVS_SORT_BY; ?> :</li>
-                    <li><a  title="Sort by title"  class="namelink cursor_pointer" onclick="sortvalue('1');"><?php echo _HDVS_TITLE; ?></a></li>
-                    <li >|</li>
-                    <li ><a  title="Sort by Date"  class="namelink cursor_pointer" onclick="sortvalue('2');"><?php echo _HDVS_DATE_ADDED; ?></a></li>
-                    <li >|</li>
-                    <li ><a  title="Sort by Views"  class="namelink cursor_pointer" onclick="sortvalue('3');"><?php echo _HDVS_VIEWS; ?></a></li>
-                </ul>
             </div>
             <div class="clear"></div>
             <table width="auto">

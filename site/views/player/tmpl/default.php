@@ -1,6 +1,6 @@
 <?php
 /*
- * "ContusHDVideoShare Component" - Version 2.2
+ * "ContusHDVideoShare Component" - Version 2.3
  * Author: Contus Support - http://www.contussupport.com
  * Copyright (c) 2010 Contus Support - support@hdvideoshare.net
  * License: GNU/GPL http://www.gnu.org/copyleft/gpl.html
@@ -84,6 +84,8 @@ if ($details1[0]->googleana_visible == 1) {
     function onVideoChanged(videodetails)
     {
          var create_date = videodetails['date'];
+         var create_date = create_date.split('-');
+         var create_date = create_date[1]+'-'+create_date[0]+'-'+create_date[2];
             if(create_date == undefined){
                 create_date = '';
             }else{
@@ -108,6 +110,7 @@ if ($details1[0]->googleana_visible == 1) {
         var rating = videodetails['rating'];
         var description = videodetails['description'];
 
+document.getElementById('viewcount').innerHTML=views;
         document.getElementById('id').value=videodetails['id'];
         //document.getElementById('id').value=id;
         var js, xid = 'facebook-jssdk';
@@ -115,7 +118,6 @@ if ($details1[0]->googleana_visible == 1) {
      js.src = "//connect.facebook.net/en_US/all.js";
      document.getElementsByTagName('head')[0].appendChild(js);
      var fid ='<?php echo JURI::base().'index.php?option=com_contushdvideoshare&view=player&id=';?>'+id;
-     document.getElementById('face-comments').innerHTML=  '<fb:comments  href='+fid+' num_posts="2" xid='+id+' width="700" ></fb:comments>';
 
        if(vimeo!=1)
        {
@@ -135,14 +137,16 @@ if ($details1[0]->googleana_visible == 1) {
         if(document.getElementById('videotitle'))
         {
             document.getElementById('videotitle').innerHTML=title;
-            if((!description.match('/undefined/')) && (description != ''))
+            if((description!='undefined') && (description != ''))
              {
             document.getElementById('videoDescription').innerHTML = description;
              }
         }
-       // document.getElementById('storeratemsg').value=ratecount;
+        document.getElementById('storeratemsg').value=ratecount;
         //document.getElementById('id').value=id;
         resethomepagerate();
+         document.getElementById('face-comments').innerHTML=  '<fb:comments  href='+fid+' num_posts="2" xid='+id+' width="700" ></fb:comments>';
+
 }
         function createObject()
         {
@@ -159,7 +163,8 @@ if ($details1[0]->googleana_visible == 1) {
         var http = createObject();
         var nocache = 0;
         nocache = Math.random();
-        http.open('get', 'index.php?option=com_contushdvideoshare&view=player&id='+id+'&nocache = '+nocache,true);
+
+        http.open('get', 'index.php?option=com_contushdvideoshare&view=player&id='+id+'&nocache= '+nocache,true);
         http.onreadystatechange = insertReply;
         http.send(null);
 
@@ -246,7 +251,7 @@ if ($details1[0]->googleana_visible == 1) {
         {
             document.getElementById('viewid').innerHTML="<b><h3 style='text-align:right'><?php echo _HDVS_VIEWS; ?> : "+views+"</h3></b>";
         }
-//   rating=Math.round(rating/ratecount);
+    //   rating=Math.round(rating/ratecount);
 
         if(rating==1)
             document.getElementById('rate').className="ratethis onepos";
@@ -260,7 +265,7 @@ if ($details1[0]->googleana_visible == 1) {
             document.getElementById('rate').className="ratethis fivepos";
         else
             document.getElementById('rate').className="ratethis nopos";
-        document.getElementById('ratemsg').innerHTML="Ratings : "+ratecount;
+        document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_RATTING;?> : "+ratecount;
 
     }
  //var cmdoption = document.getElementById('commentoption').value;
@@ -289,16 +294,16 @@ if ($app->getTemplate() != 'hulutheme')
                         if(version_compare(JVERSION,'1.6.0','ge'))
                         {
                        ?>
-                    <span class="toprightmenu"><b><a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></b></span>
+                    <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="javascript: submitform();"><?php echo _HDVS_LOGOUT; ?></a></div>
             <?php }else { ?>
-                <span class="toprightmenu"><b><a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></b></span>
+                <div class="toprightmenu"><a href="index.php?option=com_contushdvideoshare&view=mychannel"><?php echo _HDVS_MY_CHANNEL; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=playlist"><?php echo _HDVS_MY_PLAYLIST; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=channelsettings"><?php echo _HDVS_CHANNEL_SETTINGS; ?></a> | <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo _HDVS_LOGOUT; ?></a></div>
            <?php  } }
                 else
                 {
                     if(version_compare(JVERSION,'1.6.0','ge'))
-        { ?><span class="toprightmenu"><b><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+        { ?><div class="toprightmenu"><a href="index.php?option=com_users&view=registration"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_users&view=login"  alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
            <?php }  else {      ?>
-                    <span class="toprightmenu"><b><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></b></span>
+                    <div class="toprightmenu"><a href="index.php?option=com_user&view=register"><?php ECHO _HDVS_REGISTER; ?></a> | <a  href="index.php?option=com_user&view=login" alt="login"> <?php ECHO _HDVS_LOGIN; ?></a></div>
         <?php
                 } }
             }
@@ -338,7 +343,7 @@ if ($app->getTemplate() != 'hulutheme')
             var video_src = "<?php echo JURI::getInstance()->toString(); ?>";
             embedCode = '<iframe src="http://player.vimeo.com/video/<?php echo $split[3]; ?>?title=0&amp;byline=0&amp;portrait=0&amp;color=6fde9f" width="400" height="225" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
             var pagevalues = "<?php echo JURI::base();?>index.php?option=com_contushdvideoshare&amp;view=player&id=<?php echo $this->videodetails->id; ?>&catid=<?php echo $this->videodetails->playlistid; ?>";
-            var bookmark = "http://www.facebook.com/sharer.php?s=100&p[title]=<?php echo $this->htmlVideoDetails->title; ?>&p[summary]=<?php echo $this->htmlVideoDetails->description; ?>&p[medium]="+escape('103')+"&p[video][src]="+escape(video_src)+"&p[url]="+escape(pagevalues)+"&p[images][0]=<?php echo $this->htmlVideoDetails->thumburl; ?>";
+            var bookmark = "http://www.facebook.com/sharer.php?s=100&p[title]=<?php echo $this->htmlVideoDetails->title; ?>&p[summary]=<?php echo $this->htmlVideoDetails->description; ?>&p[medium]="+escape('103')+"&p[video][src]="+escape(video_src)+"&p[url]="+escape(pagevalues)+"&p[images][0]=<?php echo $this->htmlVideoDetails->thumburl; ?>&p[redirect_uri]=<?php echo 'http://apptha.com';?>";
             var cmdoption = document.getElementById('commentoption').value;
             if(cmdoption == 1){
                  document.getElementById('theFacebookComment').style.display = 'block';
@@ -394,7 +399,7 @@ if ($app->getTemplate() != 'hulutheme')
                         {
                            if (preg_match('/www\.youtube\.com\/watch\?v=[^&]+/', $htmlVideoDetails->videourl, $vresult))
                             {
-                               $urlArray = split("=", $vresult[0]);
+                               $urlArray = explode("=", $vresult[0]);
                                $videoid = trim($urlArray[1]);
                             }
 ?>
@@ -497,14 +502,14 @@ if ($app->getTemplate() != 'hulutheme')
                         <div class="floatleft">
                             <div class="rateright-views" style="width:200px;"><b><span  class="clsrateviews"  id="ratemsg" onmouseover="displayrating('');" onmouseout="resetvalue();" > </span></b>
                                 <b><span  class="rightrateimg" id="ratemsg1" onmouseover="displayrating('');" onmouseout="resetvalue();"  >  </span></b></div>
-     <input type="hidden" value="" id="storeratemsg" ></div>
+                          <input type="hidden" value="" id="storeratemsg" ></div>
 
                     </div>
                 </div></td>
 <?php } ?>
                     <td>
                         <div class="video_addedon">
-                            <span class="addedon">Added On:</span><span id="createdate"></span>
+                            <span class="addedon"><?php echo _HDVS_ADDED_ON;?>:</span><span id="createdate"></span>
                         </div>
                     </td>
             <?php
@@ -593,10 +598,10 @@ if ($app->getTemplate() != 'hulutheme')
                         if (isset($this->commentview[0]->ratecount))
                            {
                        ?>
-                        document.getElementById('ratemsg').innerHTML="Ratings :  <?php echo $this->commentview[0]->ratecount; ?>";
+                        document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_RATTING;?> :  <?php echo $this->commentview[0]->ratecount; ?>";
                      <?php }
                      else { ?>
-                                document.getElementById('ratemsg').innerHTML="Ratings : "+document.getElementById('storeratemsg').value;
+                                document.getElementById('ratemsg').innerHTML="<?php echo _HDVS_RATTING;?> : "+document.getElementById('storeratemsg').value;
                     <?php } ?>
                 }
                 function displayrating(t)
@@ -655,7 +660,7 @@ if ($app->getTemplate() != 'hulutheme')
                 <?php if ($this->homepagebottomsettings[0]->viewedconrtol == 1)
                                     {
                     ?>
-                                        <div style="float:right;"><br><h3 style="margin:0px;padding:0px;">Views : <?php echo $row->times_viewed; ?></h3></div>
+                                        <div style="float:right;"><br><h3 style="margin:0px;padding:0px;" ><?php echo _HDVS_VIEWS;?> : <span id="viewcount"><?php echo $row->times_viewed; ?></span></h3></div>
 
     <?php
                                     }
@@ -697,7 +702,7 @@ if ($app->getTemplate() != 'hulutheme')
                         <a href="" id="downloadurl">Download</a>
                         <?php if($this->homepagebottomsettings[0]->facebooklike == 1){?>
                         <a onclick="enableEmbed()" class="embed" id="allowEmbed">Embed </a><?php } ?>
-                        <div class="clear"></div>
+<div class="clear"></div>
                         <textarea id="embedcode" name="embedcode" style="display:none;width:<?php
                         if ($details1[0]->width > 10) {
                             echo ($details1[0]->width) - (17);
@@ -1341,4 +1346,3 @@ if ($app->getTemplate() != 'hulutheme')
 	                               }
 	                        }
                         </script>
-                       

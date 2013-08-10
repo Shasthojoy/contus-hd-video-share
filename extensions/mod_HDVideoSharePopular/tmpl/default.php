@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     2.2, Creation Date : March-24-2011
+ * @version     2.3, Creation Date : March-24-2011
  * @name        default.php
  * @location    /components/modules/mod_HDVideoSharePopular/tmpl/default.php
  * @package	Joomla 1.6
@@ -30,17 +30,6 @@ $recentVideoVal = $recentCategoryVal = '';
             $totalrecords = count($result);
             $j = 0;
             for ($i = 0; $i < $totalrecords; $i++) {
-               $seoOption = $result1[0]->seo_option;
-                                                     if ($seoOption == 1)
-                                                        {
-                                                            $recentCategoryVal = "category=" . $result[$i]->seo_category;
-                                                            $recentVideoVal = "video=" . $result[$i]->seotitle;
-                                                        }
-                                                        else
-                                                        {
-                                                            $recentCategoryVal = "catid=" . $result[$i]->catid;
-                                                            $recentVideoVal = "id=" . $result[$i]->id;
-                                                        }
                 if ($i == 0) {
              ?>
             <tr>
@@ -69,8 +58,7 @@ $recentVideoVal = $recentCategoryVal = '';
 
                                             <div class="tooltip">
                                           <a class=" info_hover featured_vidimg" href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $recentVideoVal . "&amp;" . $recentCategoryVal); ?>" ><p class="thumb_resize"><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="125" height="69" title=""  /></p></a>
-
-                                          <div class="Tooltipwindow clearfix" >
+                                            <div class="Tooltipwindow" >
                                                <img src="<?php echo JURI::base();?>components/com_contushdvideoshare/images/tip.png" class="tipimage"/>
                                                     <?php echo '<div class="clearfix"><span class="clstoolleft">' . _HDVS_CATEGORY . ' : ' . '</span>' .'<span class="clstoolright">'. $result[$i]->category.'</span></div>'; ?>
                                                     <?php echo '<span class="clsdescription">' . _HDVS_DESCRIPTION . ' : ' . '</span>' .'<p>'. $result[$i]->description.'</p>'; ?>
@@ -82,10 +70,10 @@ $recentVideoVal = $recentCategoryVal = '';
                                     </span>
                                 </div>
                                 <div class="show-title-container" id="title">
-                                   <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&amp;view=player&amp;" . $recentVideoVal . "&amp;" . $recentCategoryVal); ?>" class="show-title-gray info_hover"><?php if (strlen($result[$i]->title) > 18) { echo JHTML::_('string.truncate', ($result[$i]->title), 18); } else { echo $result[$i]->title; } ?></a>
+                                    <a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=player&id=" . $result[$i]->id . "&catid=" . $result[$i]->catid); ?>" class="show-title-gray info_hover"><?php if (strlen($result[$i]->title) > 18) { echo JHTML::_('string.truncate', ($result[$i]->title), 18); } else { echo $result[$i]->title; } ?></a>
                                 </div>
                                 <div class="video-info" id="catagory-view">
-                                    <span><?PHP ECHO _HDVS_CATEGORY; ?>: </span><a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&" . $recentCategoryVal); ?>"><?php echo $result[$i]->category; ?></a>
+                                    <span><?PHP ECHO _HDVS_CATEGORY; ?>: </span><a href="<?php echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&catid=" . $result[$i]->catid); ?>"><?php echo $result[$i]->category; ?></a>
                                 </div>
                                     <?php if ($result1[0]->ratingscontrol == 1) { ?>
                                     <span class="video-info">
