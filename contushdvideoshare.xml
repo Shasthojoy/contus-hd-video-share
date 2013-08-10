@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="1.5.0" method="upgrade" client="site">
     <name>Contus HD Video Share</name>
-    <version>3.3</version>
+    <version>3.4</version>
     <copyright>Copyright (C) 2011 Powered by Apptha</copyright>
-    <license>GNU http://www.gnu.org/licenses/gpl-2.0.html</license>
-    <creationDate>April 2013</creationDate>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <creationDate>May 2013</creationDate>
     <author>Apptha</author>
     <authorEmail>support@apptha.com</authorEmail>
     <authorUrl>http://www.apptha.com</authorUrl>

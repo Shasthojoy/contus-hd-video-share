@@ -1,15 +1,15 @@
 <?php
 /**
  * @name          : Joomla HD Video Share
- * @version	  : 3.3
+ * @version	  : 3.4
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Hdvideoshare Player View
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 //No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -19,7 +19,6 @@ $username = $user->get('username');
 $details1 = $this->detail;
 $video_title=$video_desc=$video_thumb='';
 $playerpath = JURI::base() . "components/com_contushdvideoshare/hdflvplayer/hdplayer.swf";
-$logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&amp;view=player');
 $document = JFactory::getDocument();
 $homepagebottomsettings=$this->homepagebottomsettings;
 $facebookapi=$homepagebottomsettings[0]->facebookapi;
@@ -99,7 +98,7 @@ $document->addStyleDeclaration($style);
     <div class="logout-button">
         <input type="hidden" name="option" value="com_users" />
         <input type="hidden" name="task" value="user.logout" />
-        <input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />
+<!--        <input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />-->
         <?php echo JHtml::_('form.token'); ?>
     </div>
 </form>
@@ -143,7 +142,7 @@ $document->addStyleDeclaration($style);
                     <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
     <?php } else {
     ?>
-                    <a href="index.php?option=com_user&amp;task=logout&amp;return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&amp;view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                    <a href="index.php?option=com_user&amp;task=logout"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                <?php
                     }
                 ?>
@@ -153,10 +152,10 @@ $document->addStyleDeclaration($style);
             } else {
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
                     $register_url = "index.php?option=com_users&amp;view=registration";
-                    $login_url = "index.php?option=com_users&amp;view=login&amp;return=".base64_encode('index.php?option=com_contushdvideoshare&amp;view=player');
+                    $login_url = "index.php?option=com_users&amp;view=login";
                 } else {
                     $register_url = "index.php?option=com_user&amp;view=register";
-                    $login_url = "index.php?option=com_user&amp;view=login&amp;return=".base64_encode('index.php?option=com_contushdvideoshare&amp;view=player');
+                    $login_url = "index.php?option=com_user&amp;view=login";
                 }
 ?>
                 <div class="toprightmenu">
@@ -193,7 +192,7 @@ $document->addStyleDeclaration($style);
                 <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
                        allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJ=<?php echo $details1['baseurl']; ?><?php echo $baseref; ?>"  style="width:<?php echo $details1[0]->width; ?>px; height:<?php echo $details1[0]->height; ?>px"></embed>
             </div>
-        <?php } ?>
+
             <!-- Flash player End and HTML5 PLAYER START-->
             <div id="htmlplayer" style="display:none;">
             <?php
@@ -253,6 +252,7 @@ $document->addStyleDeclaration($style);
         </script>
         <!-- HTML5 PLAYER  END -->
             <?php
+     }
         if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1') {
             ?>
             <div style="clear:both;font-size:0px; height:0px;"></div>
@@ -748,9 +748,9 @@ var xmlhttp;
             }
             else {
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                    $login_url = "index.php?option=com_users&amp;view=login&amp;return=".base64_encode(JFactory::getURI()->toString());
+                    $login_url = "index.php?option=com_users&amp;view=login";
                 } else {
-                    $login_url = "index.php?option=com_user&amp;view=login&amp;return=".base64_encode(JFactory::getURI()->toString());
+                    $login_url = "index.php?option=com_user&amp;view=login";
                 }
 ?>
  <div class="commentpost floatright"><a  href="<?php echo $login_url; ?>"  class="utility-link"><?php echo "Login to post comment"; ?></a></div>

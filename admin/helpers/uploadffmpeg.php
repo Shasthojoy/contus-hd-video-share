@@ -3,15 +3,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	  	  : 3.3
+ * @version	  	  : 3.4
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Adminvideos Uploadffmpeg Helper
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 
 /*
@@ -32,7 +32,7 @@ class uploadFfmpegHelper
 	 */ 
 	function uploadFfmpeg($arrFormData,$idval)
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 				
 		/**
 		 * query for get HEIGTH,WIDTH player size and FFMPEG path from player settings		 
@@ -65,6 +65,8 @@ class uploadFfmpegHelper
 		
 		$ffmpeg_video = $arrFormData['ffmpegform-value'];
 		$video_name = explode('uploads/', $ffmpeg_video);		
+                if(!empty($video_name[1])){
+
 		$strTmpVidName = $video_name[1];
 		
 		/**
@@ -112,6 +114,12 @@ class uploadFfmpegHelper
 			$video_name = $idval . '_video' . ".flv";
 			$hd_name = "";
 		}
+        }else{
+            $video_name=$video_name[0];
+            $query = "select hdurl from  #__hdflv_upload WHERE id = $idval";
+		$db->setQuery($query);
+		$hd_name = $db->loadResult();
+        }
 		$thumb_name = $idval . '_thumb' . ".jpeg";
 		$preview_name = $idval . '_preview' . ".jpeg";
 		$fileoption = $arrFormData['fileoption'];

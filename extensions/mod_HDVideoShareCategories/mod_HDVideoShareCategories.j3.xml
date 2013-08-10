@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.5" method="upgrade" client="site">
     <name>Video Category</name>
-    <version>3.3</version>
-    <license>GNU http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <version>3.4</version>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <copyright>Copyright (C) 2011 Powered by Apptha</copyright>
     <description>Video Category Module for ContusHDVideoShare</description>
-    <creationDate>April 2013</creationDate>
+    <creationDate>May 2013</creationDate>
     <author>Apptha</author>
     <authorEmail>support@apptha.com</authorEmail>
     <authorUrl>http://www.apptha.com</authorUrl>

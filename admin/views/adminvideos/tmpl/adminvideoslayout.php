@@ -3,15 +3,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ * @version	  : 3.4
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Adminvideos View Page
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 
 /*
@@ -206,7 +206,7 @@ if (!tomatch.test(streamer_name))
                     }
                     else
                      {
-                        var theurl=document.getElementById("videourl").value;                         
+                        var theurl=document.getElementById("videourl").value;
                          if (theurl.contains("youtube.com") || theurl.contains("vimeo.com") || theurl.contains("youtu.be"))
                          {
                                    document.getElementById('fileoption').value='Youtube';
@@ -259,7 +259,7 @@ if (!tomatch.test(streamer_name))
                     alert( "<?php echo JText::_( 'You must select a category', true ); ?>" )
                     return;
                 }
-                
+
             submitform( pressbutton );
             return;
         }
@@ -373,7 +373,7 @@ if (!tomatch.test(streamer_name))
                 <div id="f1-upload-form" >
                     <form name="normalvideoform" method="post" enctype="multipart/form-data" >
                         <input type="file" name="myfile" id="myfile" onchange="enableUpload(this.form.name);" />
-                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Video" style="width: 125px;margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
+                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Video" style="margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
                         <label id="lbl_normal"><?php if($editVideo['rs_editupload']->filepath == 'File') echo $editVideo['rs_editupload']->videourl;?></label>
 
                         <input type="hidden" name="mode" value="video" />
@@ -408,7 +408,7 @@ if (!tomatch.test(streamer_name))
                 <div id="f2-upload-form" >
                     <form name="hdvideoform" method="post" enctype="multipart/form-data" >
                         <input type="file" name="myfile" id="myfile1" onchange="enableUpload(this.form.name);" />
-                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload HD Video" style=" width: 125px; margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
+                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload HD Video" style="margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
                         <label><?php if($editVideo['rs_editupload']->filepath == 'File') echo $editVideo['rs_editupload']->hdurl;?></label>
                         <input type="hidden" name="mode" value="video" />
                     </form>
@@ -441,7 +441,7 @@ if (!tomatch.test(streamer_name))
                 <div id="f3-upload-form" >
                     <form name="thumbimageform" method="post" enctype="multipart/form-data" >
                         <input type="file" name="myfile" id="myfile2"  onchange="enableUpload(this.form.name);"/>
-                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Thumb Image" style=" width: 125px; margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
+                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Thumb Image" style="margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
                         <label><?php if($editVideo['rs_editupload']->filepath == 'File') echo $editVideo['rs_editupload']->thumburl;?></label>
                         <input type="hidden" name="mode" value="image" />
                     </form>
@@ -476,7 +476,7 @@ if (!tomatch.test(streamer_name))
                     <form name="previewimageform" method="post" enctype="multipart/form-data" >
 
                         <input type="file" name="myfile" id="myfile3"  onchange="enableUpload(this.form.name);" />
-                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Preview Image" style="width: 125px; margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
+                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Preview Image" style="margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
                         <label><?php if($editVideo['rs_editupload']->filepath == 'File') echo $editVideo['rs_editupload']->previewurl;?></label>
                         <input type="hidden" name="mode" value="image" />
                     </form>
@@ -774,7 +774,7 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
                     if($editVideo['rs_editupload']->download=='0')
                       {
                         $downloadDisable = 'checked="checked" ';
-                      }                    
+                      }
                        $midrollenable = $midrolldisable = '';
                        if ($editVideo['rs_editupload']->midrollads == '1')
                        {
@@ -807,11 +807,11 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
             <tr><td><?php echo JHTML::tooltip('Option to enable/disable video', 'Status',
 	            '', 'Status');?></td>
                 <td <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="radio_algin"'; ?>>
-                <select name="published" id="published">					
+                <select name="published" id="published">
 					<option value="1" <?php if(isset($editVideo['rs_editupload']->published) && $editVideo['rs_editupload']->published == 1) echo 'selected';?>>Published</option>
 					<option value="0" <?php if(isset($editVideo['rs_editupload']->published) && $editVideo['rs_editupload']->published == 0) echo 'selected';?>>Unpublished</option>
 					<option value="-2" <?php if(isset($editVideo['rs_editupload']->published) && $editVideo['rs_editupload']->published == -2) echo 'selected';?>>Trashed</option>
-				</select>	
+				</select>
                 </td>
             </tr>
         </table>
@@ -838,7 +838,7 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
     <input type="hidden" name="hdvideoform-value" id="hdvideoform-value" value="" />
     <input type="hidden" name="thumbimageform-value" id="thumbimageform-value" value="" />
     <input type="hidden" name="previewimageform-value" id="previewimageform-value" value="" />
-    <input type="hidden" name="ffmpegform-value" id="ffmpegform-value" value="" />
+    <input type="hidden" name="ffmpegform-value" id="ffmpegform-value" value="<?php echo $editVideo['rs_editupload']->videourl ; ?>" />
     <input type="hidden" name="videourl-value" id="videourl-value" value="" />
     <input type="hidden" name="thumburl-value" id="thumburl-value" value="" />
     <input type="hidden" name="previewurl-value" id="previewurl-value" value="" />
