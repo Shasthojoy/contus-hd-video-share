@@ -32,7 +32,21 @@ class contushdvideoshareModeleditvideos extends JModel {
         $rs_editupload->load($id);
         $lists['published'] = JHTML::_('select.booleanlist','published',$rs_editupload->published);
         // To call html function class name: HTML_player function name:editUpload
-        $editadd = array('rs_editupload' => $rs_editupload,'rs_play'=>$rs_play,'rs_ads'=>$rs_ads);
+           if(version_compare(JVERSION,'1.6.0','ge'))
+        {
+       $query = "SELECT id as id ,title as title FROM #__viewlevels order by id asc";
+//          $query->select('g.id AS group_id')
+//                ->from('#__usergroups AS g')
+//                ->leftJoin('#__user_usergroup_map AS map ON map.group_id = g.id');
+        }
+        else
+        {
+     $query = "SELECT id as id ,name as title FROM #__groups order by id asc";
+  //echo    $query = "select g.id AS group_id from #__usergroups AS g leftjoin #__user_usergroup_map AS map ON map.group_id = g.id ";
+        }
+       $db->setQuery($query);
+        $usergroups = $db->loadObjectList();
+        $editadd = array('rs_editupload' => $rs_editupload,'rs_play'=>$rs_play,'rs_ads'=>$rs_ads,'user_groups'=>$usergroups);
         return $editadd;
 
 	}
@@ -81,7 +95,9 @@ class contushdvideoshareModeleditvideos extends JModel {
 				}
             }
             // page redirect
-            $mainframe->redirect( 'index.php?option=' . $option.'&layout=adminvideos'.'&userid='.JRequest::getVar('userid'));
+            $mainframe = & JFactory::getApplication();
+            $msg = JText::_('Video file Deleted');
+            $mainframe->redirect( 'index.php?option=' . $option.'&layout=adminvideos'.'&userid='.JRequest::getVar('userid'),$msg);
     }
 
 

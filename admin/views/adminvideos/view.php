@@ -10,7 +10,7 @@
 // no direct access
 
 defined( '_JEXEC' ) or die( 'Restricted access' );
-
+jimport('joomla.access.access');
 jimport( 'joomla.application.component.view');
 
 /**
@@ -26,11 +26,12 @@ class contushdvideoshareViewadminvideos extends JView
             
             if(JRequest::getVar('userid','','get','int') && JRequest::getVar('userid','','get','int') == 62)
             {
-        JToolBarHelper::title( JText::_( 'Admin Videos' ),'generic.png' );
+                JToolBarHelper::title( JText::_( 'Admin Videos' ),'generic.png' );
             }
- else {
-        JToolBarHelper::title( JText::_( 'Member Videos' ),'generic.png' );
-}
+         else
+           {
+                JToolBarHelper::title( JText::_( 'Member Videos' ),'generic.png' );
+           }
         JToolBarHelper::save('savevideos','Save');
         JToolBarHelper::apply('applyvideos','Apply');
         JToolBarHelper::cancel('CANCEL7','Cancel');
@@ -45,9 +46,9 @@ class contushdvideoshareViewadminvideos extends JView
             {
         JToolBarHelper::title( JText::_( 'Admin Videos' ),'generic.png' );
             }
- else {
+    else {
         JToolBarHelper::title( JText::_( 'Member Videos' ),'generic.png' );
-}
+        }
         JToolBarHelper::save('savevideos','Save');
         JToolBarHelper::apply('applyvideos','Apply');
         JToolBarHelper::cancel('CANCEL7','Cancel');

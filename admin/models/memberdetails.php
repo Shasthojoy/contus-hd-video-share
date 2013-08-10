@@ -16,10 +16,11 @@ class contushdvideoshareModelmemberdetails extends JModel {
 	function getmemberdetails()
     {
         global $option, $mainframe;
+         $mainframe = JFactory::getApplication();
 		$db = $this->getDBO();
 		$db->setQuery('SELECT a.*,b.allowupload from #__users a left join #__hdflv_user b on a.id = b.member_id where a.usertype <> "Super Administrator"');
 	
-      
+      $option = 'com_contushdvideoshare';
 		$memberdetails = $db->loadObjectList();
 		
 		if ($memberdetails === null)

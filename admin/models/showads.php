@@ -14,6 +14,15 @@ jimport('joomla.application.component.model');
 
 class contushdvideoshareModelshowads extends JModel {
 
+      function __construct() {
+            global $mainframe;
+        parent::__construct();
+        $mainframe = JFactory::getApplication();
+        $config = JFactory::getConfig();
+       // $this->setState('limit', $mainframe->getUserStateFromRequest('ads.limit', 'limit', $config->get('list_limit'), 'int'));
+        //$this->setState('limitstart', JRequest::getVar('limitstart', 0, '', 'int'));
+    }
+
 
     function showadsmodel()
     {
@@ -64,7 +73,7 @@ class contushdvideoshareModelshowads extends JModel {
         }
         
         if($fileoption=="File" || $fileoption=="")   // Checked for file option
-        {
+        {$target_path ='';
             $normal_video=$_POST['normalvideoform-value'];
             $video_name=explode("uploads/", $normal_video);
             $vpath=VPATH2."/";
@@ -88,7 +97,7 @@ class contushdvideoshareModelshowads extends JModel {
             }
 
         }
-
+         $option = 'com_contushdvideoshare';
         switch ($task)
         {
             case 'applyads':
@@ -108,6 +117,7 @@ class contushdvideoshareModelshowads extends JModel {
     {
         global $mainframe;
         $option = JRequest::getCmd('option');
+         $option = 'com_contushdvideoshare';
         $db =& JFactory::getDBO();
         $targetpath1=$targetpath;
         if($newupload==1)
@@ -129,6 +139,30 @@ class contushdvideoshareModelshowads extends JModel {
         $n = count($exts)-1;
         $exts = $exts[$n];
         return $exts;
+    }
+     function pubads($task) {
+
+        $tblname = "";
+        $taskname = "";
+        $option = 'com_contushdvideoshare';
+        global $mainframe;
+        $n = count($task['cid']);
+        $taskname = JRequest::getvar('task', '', 'get', 'var');
+        if ($task['task'] == 'publish') {
+            $publish = 1;
+            $msg = 'Published successfully';
+        } else {
+            $publish = 0;
+            $msg = 'Un Published successfully';
+        }
+        for ($i = 0; $i < $n; $i++) {
+            $query = "UPDATE #__hdflv_ads set published=" . $publish . " WHERE id=" . $task['cid'][$i];
+            $db = $this->getDBO();
+            $db->setQuery($query);
+            $db->query();
+        }
+        $link = 'index.php?option=com_contushdvideoshare&layout=ads';
+        JFactory::getApplication()->redirect($link, $msg);
     }
 }
 ?>

@@ -13,7 +13,7 @@ class contushdvideoshareViewfeaturedvideos extends JView
 {
 function display()
 	{
-			$model = $this->getModel();  
+            $model = $this->getModel();
             $featuredvideos = $model->getfeaturedvideos(); // calling the function in models featuredvideos.php
             $this->assignRef('featuredvideos', $featuredvideos); // assigning the reference for the results
             $featurevideosrowcol = $model->getfeaturevideorowcol();

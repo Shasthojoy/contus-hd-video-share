@@ -68,6 +68,7 @@ DEFINE("_HDVS_PRETTY_COOL","Pretty cool");
 DEFINE("_HDVS_AWESOME","Awesome");
 DEFINE("_HDVS_RELATED_VIDEOS","Related Videos");
 DEFINE("_HDVS_NO_RECORDS_FOUND","No Records Found");
+DEFINE("_HDVS_NO_CATEGORY_VIDEOS_FOUND","No videos found for this category");
 DEFINE("_HDVS_SEARCH_RESULT","Search Result");
 DEFINE("_HDVS_PREVIOUS","Previous");
 DEFINE("_HDVS_NEXT","Next");
@@ -126,4 +127,6 @@ DEFINE("_HDVS_BEBO","Bebo");
 DEFINE("_HDVS_FARK","Fark");
 DEFINE("_HDVS_TWEET","Tweet");
 DEFINE("_HDVS_FURL","Furl");
+DEFINE("_HDVS_VIDEO","video");
+DEFINE("_HDVS_TAGS","Tags");
 ?>

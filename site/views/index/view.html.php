@@ -13,8 +13,6 @@ class contushdvideoshareViewindex extends JView
 {
 function display()
 	{
-
-
 			parent::display();
 	}
 }

@@ -16,17 +16,13 @@ class Modelcontushdvideosharevideourl extends JModel
 {
     
     function getallvideourl()
-    {
-
-        
+    {     
         $this->showallurl();
         exit();
-
     }
 
     function showallurl()
     {
-       
         if(JRequest::getVar('url','','get','string'))
         {
             $vurl=JRequest::getVar('url','','get','string');
@@ -55,37 +51,22 @@ class Modelcontushdvideosharevideourl extends JModel
 
 
         }
-        
-
-    }
-
-
-
-       
-        function page_exists($url){
+           }
+     
+        function page_exists($url)
+          {
 
             $c = curl_init();
-
             $url = trim($url);
-
             curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
-
             curl_setopt($c, CURLOPT_URL, $url);
-
             $contents = curl_exec($c);
-
             curl_close($c);
-
             if($contents) {
-
                 return true;
-
             } else {
-
                 return false;
-
             }
-
         } 
         function getVideoType($location, $add = 0){
             
@@ -116,22 +97,9 @@ class Modelcontushdvideosharevideourl extends JModel
                 $type= 'dailymotion';
                 $vresult[0]=$location;
             }
-
-
             $this->url = $vresult[0];
-
             $this->type = $type;
-
-
-
-
-
-
-
-        } // END getVideoType() FUNCTION
-
-       
-
+        } // END getVideoType() FUNCTION  
         function imgURL()
         {
 
@@ -164,228 +132,94 @@ class Modelcontushdvideosharevideourl extends JModel
                     $img=str_replace('www.dailymotion.com','www.dailymotion.com/thumbnail',$this->url);
                     break;
                 }
-
-
                 return $img;
-
-
-
             } // END getType() FUNCTION
-
-
-
-
-
-          
+        
             function catchData(){
-
-
                 echo "Allow".ini_get('allow_url_fopen');
                 exit();
                 $newInfo = trim($this->file_get_contents_curl($this->url));
-
-
-
                 switch ($this->type) {
 
                     case "youtube":
-
                         $feed = explode("=", $this->url);
-
                         $feed = "http://gdata.youtube.com/feeds/api/videos/".$feed[1];
-
                         $newInfo = trim($this->file_get_contents_curl($feed));
-
-
-
                         preg_match('/<media:title(.*?)<\/media:title>/', $newInfo, $result);
-
                         $title = strip_tags($result[0]);
-
-
-
                         preg_match('/<media:description(.*?)<\/media:description>/', $newInfo, $result);
-
                         $desc = strip_tags($result[0]);
-
-
-
                         preg_match('/<media:keywords(.*?)<\/media:keywords>/', $newInfo, $result);
-
                         $tags = strip_tags(str_replace(",", "", $result[0]));
-
-
-
                         break;
 
                     case "bliptv":
-
                         preg_match('/div id=\"EpisodeTitle\">(.*?)<\/div>/', $newInfo, $result);
-
                         $title = str_replace('div id="EpisodeTitle">', '', $result[0]);
-
                         $title = stripslashes(str_replace('</div>', '', $title));
-
-
-
                         preg_match('/div class=\'BlipDescription\'><p>(.*?)<\/p><\/div>/', $newInfo, $result);
-
                         $desc = str_replace('div class=\'BlipDescription\'><p>', '', $result[0]);
-
                         $desc = stripslashes(str_replace('</p></div>', '', $desc));
-
                         $desc = strip_tags(preg_replace("/<br(.*?)>/", "\n", $desc));
-
-
-
                         preg_match('/<a href=\'http:\/\/blip\.tv\/topics\/view\/(.*?)<\/a>\s/', $newInfo, $result);
-
                         $tags = strip_tags(str_replace(",", "", $result[0]));
-
-
-
                         break;
 
                     case "metacafe":
-
                         $new_string = preg_replace("/\n|\r\n|\r$/", "", $newInfo);
-
                         $new_string = preg_replace("/>\s{2,}</", "> <", $new_string);
-
-
-
                         preg_match('/<h1 id=\"ItemTitle\">(.*?)<\/h1>/', $new_string, $result);
-
                         $title = preg_replace("/<br(.*?)>/", "\n", $result[0]);
-
                         $title = trim(strip_tags($title));
-
-
-
                         preg_match('/<div id=\"Desc\">(.*?)<\/div>/', $new_string, $result);
-
                         $desc = preg_replace("/<br(.*?)>/", "\n", $result[0]);
-
                         $desc = trim(strip_tags($desc));
-
-
-
                         preg_match('/<dd>(.*?)<\/dd>/', $new_string, $result);
-
                         $tags = preg_replace("/<br(.*?)>/", "\n", $result[0]);
-
                         $tags = trim(strip_tags($tags));
-
-
-
                         break;
 
                     case "break":
-
                         $new_string = preg_replace("/\n|\r\n|\r$/", "", $newInfo);
-
                         $new_string = preg_replace("/>\s{2,}</", "> <", $new_string);
-
-
-
                         preg_match('/meta name="title" content="[^\"]+/', $new_string, $result);
-
                         $pos = strrpos($result[0], "\"");
-
                         $title = substr($result[0], $pos+1);
-
-
-
                         preg_match('/meta name=\"embed_video_description\" id=\"vid_desc\" content="[^\"]+/', $new_string, $result);
-
                         $pos = strrpos($result[0], "\"");
-
                         $desc = substr($result[0], $pos+1);
-
-
-
                         preg_match('/meta name="keywords" content="[^\"]+/', $new_string, $result);
-
                         $pos = strrpos($result[0], "\"");
-
                         $tags = str_replace(",", "", substr($result[0], $pos+1));
-
-
-
                         break;
 
                     case "google":
-
                         $new_string = preg_replace("/\n|\r\n|\r$/", "", $newInfo);
-
                         $new_string = preg_replace("/>\s{2,}</", "> <", $new_string);
-
-
-
                         preg_match('/<span id=details-title>(.*?)<\/span>/', $new_string, $result);
-
                         $title = trim(strip_tags($result[0]));
-
-
-
                         preg_match('/<p id=details-desc>(.*?)<p id=share-report>/', $new_string, $result);
-
                         $desc = trim(strip_tags($result[0]));
-
                         if (substr($desc, -7) == '&laquo;') {
-
                             $desc = substr($desc, 0, -7);
-
                         }
-
-
-
                         $tags = "";
-
-
-
                         break;
 
                     case "dailymotion":
-
                         $new_string = preg_replace("/\n|\r\n|\r$/", "", $newInfo);
-
                         $new_string = preg_replace("/>\s{2,}</", "> <", $new_string);
-
-
-
                         preg_match('/<h1 class="dmco_title">(.*?)<\/h1>/', $new_string, $result);
-
                         $title = trim(strip_tags($result[0]));
-
-
-
                         preg_match('/<div class="dmco_html column span-8 last video_description foreground" id="video_description">(.*?)<\/div>/', $new_string, $result);
-
                         $desc = trim(strip_tags($result[0]));
-
                         if (substr($desc, -7) == '&laquo;') {
-
                             $desc = substr($desc, 0, -7);
-
                         }
-
-
-
                         $tags = "";
-
-
-
                         break;
-
                     }
-
-
-
                     return array($title, $desc, $tags);
-
-
-
                 } // END catchData() FUNCTION
 
                 function http_test_existance($url, $timeout = 10) {
@@ -489,17 +323,14 @@ function file_get_contents_curl($url) {
       return $data;
       }
 	  
-
-
-
-
                 // THIS FUNCTION CATCHES FLV URL
 
                 // INPUT: $url REPRESENTING THE VIDEO PAGE URL
 
                 // OUTPUT: ARRAY CONTAINING $location AND $type
 
-                function catchURL(){
+                function catchURL()
+      {
                     $url = $this->url;
                     $vid_location=array();
                     $newInfo = trim($this->file_get_contents_curl($url));
@@ -511,22 +342,13 @@ function file_get_contents_curl($url) {
                             $urlArray = split("=", $url);
 
                             $videoid = trim($urlArray[1]);
-
-
-
                             $pageurl = $_SERVER["HTTP_REFERER"];
-
                             $newAPIurl = "http://www.youtube.com/get_video_info?&video_id=$videoid";
-
                             $newAPIurl .= "&el=embedded&ps=chromeless&eurl=$pageurl";
-
-
-
                             $newInfo = trim($this->file_get_contents_curl($newAPIurl));
-
                             $infoArray = split("&", $newInfo);
-
-                            for ($i=0; $i < count($infoArray); $i++) {
+                            for ($i=0; $i < count($infoArray); $i++)
+                            {
 
                                 $tmp = split("=", $infoArray[$i]);
 
@@ -537,22 +359,16 @@ function file_get_contents_curl($url) {
                                 $paramArray["$key"] = "$val";
 
                             }
-
-
-
-                            if (array_key_exists("token", $paramArray)) {
-
+                            if (array_key_exists("token", $paramArray))
+                            {
                                 $t = $paramArray["token"];
 
-                            } else {
-
+                            } 
+                            else
+                            {
                                 $legacyAPIurl="http://www.youtube.com/api2_rest?method=youtube.videos.get_video_token&video_id=$videoid";
-
                                 $t = trim(strip_tags($this->file_get_contents_curl($legacyAPIurl)));
-
                             }
-
-
                             $vid = "http://www.youtube.com/get_video.php?video_id=$videoid&t=$t&fmt=18";
                             $response=$this->http_test_existance($vid);
                             $uri=$response["location"];
@@ -565,92 +381,45 @@ function file_get_contents_curl($url) {
                             $response=$this->http_test_existance($vid);
                             $uri=$response["location"];
                             $vid_location[2] = $uri;
-
-
-
-
-
-
                             break;
 
                         case "bliptv":
 
                             preg_match('/http:\/\/(.*?)blip\.tv\/file\/get\/(.*?)\.flv/', $newInfo, $result);
-
-
-
-
-
                             $vid_location[0] = urldecode($result[0]);
-
-
-
                             break;
 
                         case "break":
 
                             preg_match('/sGlobalFileName=\'[^\']+/', $newInfo, $resulta);
-
                             $resulta = str_replace('sGlobalFileName=\'', '', $resulta[0]);
-
                             preg_match('/sGlobalContentFilePath=\'[^\']+/', $newInfo, $resultb);
-
                             $resultb = str_replace('sGlobalContentFilePath=\'', '', $resultb[0]);
-
-
-
                             $vid_location[0] = 'http://media1.break.com/dnet/media/'.$resultb.'/'.$resulta.'.flv';
-
-
-
-
                             break;
 
                         case "metacafe":
 
                             preg_match('/mediaURL=http%3A%2F%2F(.*?)%2FItemFiles%2F%255BFrom%2520www.metacafe.com%255D%25(.*?)\.flv+/', $newInfo, $result);
                             preg_match('/http%3A%2F%2F(.*?)%2FItemFiles%2F%255BFrom%2520www.metacafe.com%255D%25(.*?)\.flv+/', $result[0], $result);
-
                             $vid_location[0] = urldecode(str_replace('&gdaKey', '?__gda__', $result[0]));
-
-
-
                             break;
 
                         case "google":
 
-
-
                             preg_match('/http:\/\/(.*?)googlevideo.com\/videoplayback%3F[^\\\\]+/', $newInfo, $result);
-
-
-
                             $vid_location[0] = urldecode($result[0]);
-
-
-
                             break;
                         case "dailymotion":
 
                             preg_match('/"video", "(.*?)"/', $newInfo, $result);
-
                             $flv = preg_split('/@@(.*?)\|\|/', urldecode($result[1]));
-
                             $vid_location[0]       = $flv[0];
-
                             break;
 
 
                     }
-
-
                     return $vid_location;
-
-
-
                 } // END catchURL() FUNCTION
-
-
-
         }
         ?>

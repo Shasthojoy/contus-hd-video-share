@@ -8,7 +8,5 @@
 * Creation Date: March 30 2011
 */
 defined('_JEXEC') or die('Restricted access');
-
-
 ?>
 

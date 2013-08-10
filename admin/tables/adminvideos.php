@@ -39,9 +39,12 @@ class Tableadminvideos extends JTable {
     var $rate = null;
     var $ratecount = null;
     var $addedon = null;
+    var $usergroupid = null;
     var $created_date = null;
     var $scaletologo = null;
+    var $tags=null;
     var $seotitle=null;
+    var $useraccess = null;
     function Tableadminvideos(&$db) {
         parent::__construct('#__hdflv_upload', 'id', $db);
     }

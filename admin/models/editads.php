@@ -28,6 +28,7 @@ class contushdvideoshareModeleditads extends JModel {
     function removeads()
     {
         global $mainframe;
+         $mainframe = JFactory::getApplication();
         $cid = JRequest::getVar( 'cid', array(), '', 'array' );
         $db =& JFactory::getDBO();
         $cids = implode( ',', $cid );

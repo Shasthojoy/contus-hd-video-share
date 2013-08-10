@@ -99,9 +99,10 @@ header ("content-type: text/xml");
     echo'<furl>';
     echo '<![CDATA['._HDVS_FURL.']]>';
     echo '</furl>';
-    echo '<adindicator><![CDATA[Your selection will follow this sponsorss message in - seconds]]>';
+    echo '<adindicator><![CDATA[Your selection will follow this sponsors message in - seconds]]>';
     echo '</adindicator>';
     echo '<Skip><![CDATA[Skip this Video]]></Skip>';
+    echo '<Skip><![CDATA[You are not Authorized Member to view this Video]]></Skip>';
     echo '</language>';
 exit();
 ?>

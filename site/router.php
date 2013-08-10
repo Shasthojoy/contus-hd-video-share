@@ -14,13 +14,13 @@ function contushdvideoshareBuildRoute(&$query) {
 
     //Code for get itemid if itemid is empty. It's used to add alias name in URL link
     $db = JFactory::getDBO();
-    if (empty($query['Itemid'])) {
+    if (empty($query['Itemid']))
+    {
         $db->setQuery("select id from #__menu where link='index.php?option=com_contushdvideoshare&view=index' and published=1 order by id desc Limit 1");
         $query['Itemid'] = $db->loadResult();
     }
-    
-
-    if (isset($query['view'])) {
+     if (isset($query['view'])) 
+     {
         $segments[] = $query['view'];
         unset($query['view']);
     }
@@ -32,16 +32,18 @@ function contushdvideoshareBuildRoute(&$query) {
         unset($query['category']);
     }
     if (isset($query['id'])) {
-        $segments['id'] = $query['id'];
+        $segments[] = $query['id'];
         unset($query['id']);
-    } else if (isset($query['video'])) {
-        $segments['video'] = $query['video'];
+    }
+    else if (isset($query['video'])) {
+        $segments[] = $query['video'];
         unset($query['video']);
     }
     if (isset($query['type'])) {
         $segments[] = $query['type'];
         unset($query['type']);
     }
+    
     return $segments;
 }
 
@@ -61,6 +63,7 @@ function contushdvideoshareParseRoute($segments) {
     $vars = array();
     // view is always the first element of the array
     $count = count($segments);
+    //echo '<pre>';print_r($segments);
     if ($count) {
         switch ($segments[0]) {
             case 'category':
@@ -73,7 +76,7 @@ function contushdvideoshareParseRoute($segments) {
                     $vars['category'] = $segments[1];
                     $vars['video'] = $segments[2];
                 } else {
-                    $vars['video'] = $segments[1];
+                  //  $vars['video'] = $segments[1];
                 }
                 break;
             case 'configxml':

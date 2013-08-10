@@ -16,31 +16,26 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
  {
         $db = $this->getDBO();
         $session =& JFactory::getSession();
-        $searchtotal="select a.id,a.category,a.seo_category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0  group by c.id";
-
+        $searchtotal="select a.id as vid,a.category,a.seo_category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and c.published=1 group by c.id";
         if(JRequest::getVar('searchtxtbox','','post','string'))
         {
             $search=JRequest::getVar('searchtxtbox','','post','string'); // Getting the search  text  box value
             $session->set('search', $search);
-            //$_SESSION['search']=$search; // Setting the search text box value into session
         }
         else
         {
-
             $search=$session->get('search');
         }
-        $kt=split(" ",$search);//Breaking the string to array of words
+        $kt=preg_split("/[\s,]+/", $search);//Breaking the string to array of words
         // Now let us generate the sql
         while(list($key,$search)=each($kt)){
-            if($search<>" " and strlen($search) > 0){
-        $searchtotal="select a.id,a.category,a.seo_category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and (c.title like '%$search%' OR a.category like '%$search%' OR d.username like '%$search%')  group by c.id"; // Query for displayin the pagination results
-      
-       }
-            
+         if($search<>" " and strlen($search) > 0)
+            {
+            $searchtotal="select a.id as vid,a.category,a.seo_category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and c.published=1 and (c.title like '%$search%' OR c.tags like '%$search%' OR a.category like '%$search%' OR d.username like '%$search%')  group by c.id"; // Query for displayin the pagination results
+            }
             }
         $db->setQuery($searchtotal);
         $resulttotal = $db->loadObjectList();
-        //print_r($resulttotal);
         $subtotal=count($resulttotal);
         $total=$subtotal;
         $pageno = 1;
@@ -59,19 +54,18 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
         {
             $search=JRequest::getVar('searchtxtbox','','post','string');
             $session->set('search', $search);
-//            $_SESSION['search']=$search;
         }
         else
         {
             $search=$session->get('search');
         }
-        $kt=split(" ",$search);//Breaking the string to array of words
+        $kt=preg_split("/[\s,]+/", $search);//Breaking the string to array of words
         // Now let us generate the sql
-        $searchquery="select a.id,a.category,a.seo_category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and c.published=1  group by c.id LIMIT $start,$length";//Query for displaying the search value results
+        $searchquery="select a.id as vid,a.category,a.seo_category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and c.published=1  group by c.id LIMIT $start,$length";//Query for displaying the search value results
         
         while(list($key,$search)=each($kt)){
             if($search<>" " and strlen($search) > 0){
-        $searchquery="select a.id,a.category,a.seo_category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and c.published=1 and (c.title like '%$search%'  OR a.category like '%$search%' OR d.username like '%$search%')  group by c.id LIMIT $start,$length";//Query for displaying the search value results
+        $searchquery="select a.id as vid,a.category,a.seo_category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and c.published=1 and (c.title like '%$search%' OR c.tags like '%$search%' OR a.category like '%$search%' OR d.username like '%$search%')  group by c.id LIMIT $start,$length";//Query for displaying the search value results
                }}
         $db->setQuery($searchquery);
         $rows = $db->loadObjectList();
@@ -87,23 +81,16 @@ class Modelcontushdvideosharehdvideosharesearch extends JModel
         $insert_data_array = array('length' => $length);
         $rows = array_merge($rows, $insert_data_array);
         // merge code ends here
-        }
-       
-        return $rows;
-        
+        }       
+        return $rows;        
     }
-
-
-
 function getsearchrowcol()
 {
-
- $db = $this->getDBO();
-		$searchquery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
+        $db = $this->getDBO();
+	$searchquery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
         $db->setQuery($searchquery);
         $rows=$db->LoadObjectList();
         return $rows;
 }
-
 }
 ?>

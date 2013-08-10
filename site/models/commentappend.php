@@ -19,7 +19,7 @@ class Modelcontushdvideosharecommentappend extends JModel
     {
 
         if(JRequest::getVar('id','','get','int'))
-{
+        {
         $commenttitle = array();
         $db = $this->getDBO();
         $id=JRequest::getVar('id','','get','int');
@@ -38,8 +38,6 @@ class Modelcontushdvideosharecommentappend extends JModel
         $db->setQuery( $titlequery );
         $commenttitle = $db->loadObjectList();
         /* Title query for video ends here */
-
-
         $commenttotalquery = "select count(*) from #__hdflv_comments where published=1 and videoid=$id"; // Query is to get the pagination value for comments display
         $db->setQuery( $commenttotalquery );
         $total = $db->loadResult();
@@ -57,13 +55,10 @@ class Modelcontushdvideosharecommentappend extends JModel
         $start=0;
         else
         $start= ($pageno - 1) * $length;
-
-
-$commentscount="SELECT id as number,id,parentid,videoid,subject,name,created,message from #__hdflv_comments where parentid = 0 and published=1 and videoid=$id union select parentid as number,id,parentid,videoid,subject,name,created,message from #__hdflv_comments where parentid !=0 and published=1 and videoid=$id order by number desc,parentid ";// Query is to display the comments posted for particular video
+        $commentscount="SELECT id as number,id,parentid,videoid,subject,name,created,message from #__hdflv_comments where parentid = 0 and published=1 and videoid=$id union select parentid as number,id,parentid,videoid,subject,name,created,message from #__hdflv_comments where parentid !=0 and published=1 and videoid=$id order by number desc,parentid ";// Query is to display the comments posted for particular video
         $db->setQuery( $commentscount );
         $rowscount = $db->loadObjectList();
         $totalcomment=count($rowscount);
-
         $comments="SELECT id as number,id,parentid,videoid,subject,name,created,message from #__hdflv_comments where parentid = 0 and published=1 and videoid=$id union select parentid as number,id,parentid,videoid,subject,name,created,message from #__hdflv_comments where parentid !=0 and published=1 and videoid=$id order by number desc,parentid LIMIT $start,$length";// Query is to display the comments posted for particular video
         $db->setQuery( $comments );
         $rows = $db->loadObjectList();
@@ -79,8 +74,7 @@ $commentscount="SELECT id as number,id,parentid,videoid,subject,name,created,mes
          $insert_data_array = array('totalcomment' => $totalcomment);
         $commenttitle = array_merge($commenttitle, $insert_data_array);
         // merge code ends here
-
-         $playersettings="select * from #__hdflv_player_settings";
+        $playersettings="select * from #__hdflv_player_settings";
         $db->setQuery( $playersettings );
         $playersettingsresult = $db->loadObjectList();
         return array($commenttitle, $rows,$playersettingsresult);
@@ -105,7 +99,8 @@ if(JRequest::getVar('rate','','get','int'))
          exit;
 }
 
-if(JRequest::getVar('id','','get','int')){
+if(JRequest::getVar('id','','get','int'))
+{
         /*Get Views counting*/
         $titlequery="select a.times_viewed,a.rate,a.ratecount,a.memberid,b.username from #__hdflv_upload a left join #__users b on a.memberid=b.id where a.id=$id"; //This query is to display the title and times of views in the video page
         $db->setQuery( $titlequery );
@@ -114,11 +109,5 @@ if(JRequest::getVar('id','','get','int')){
         return $commenttitle;
 }
     }
-
-
-
-
-
-
 }
         ?>

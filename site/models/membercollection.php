@@ -11,11 +11,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport( 'joomla.application.component.model' );
 class Modelcontushdvideosharemembercollection extends JModel
 {
+    
 /* Following function is to display the videos of a particular registered member */
 function getmembercollection()
 {
     $session =& JFactory::getSession();
- $user =& JFactory::getUser();
+    $user =& JFactory::getUser();
         if(JRequest::getVar('memberidvalue','','post','int'))
         {
             $memberid=JRequest::getVar('memberidvalue','','post','int'); // Getting the memberid
@@ -48,15 +49,16 @@ function getmembercollection()
         $db->setQuery($query);
         $rows=$db->LoadObjectList();
         // Below code is to merge the pagination values like pageno,pages,start value,length value
-        if(count($rows)>0){
-        $insert_data_array = array('pageno' => $pageno);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('pages' => $pages);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('start' => $start);
-        $rows = array_merge($rows, $insert_data_array);
-        $insert_data_array = array('length' => $length);
-        $rows = array_merge($rows, $insert_data_array);
+        if(count($rows)>0)
+        {
+            $insert_data_array = array('pageno' => $pageno);
+            $rows = array_merge($rows, $insert_data_array);
+            $insert_data_array = array('pages' => $pages);
+            $rows = array_merge($rows, $insert_data_array);
+            $insert_data_array = array('start' => $start);
+            $rows = array_merge($rows, $insert_data_array);
+            $insert_data_array = array('length' => $length);
+            $rows = array_merge($rows, $insert_data_array);
         }
        
         // merge code ends here
@@ -68,8 +70,8 @@ function getmembercollection()
 function getmemberpagerowcol()
 {
 
- $db = $this->getDBO();
-		$memberpagequery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
+        $db = $this->getDBO();
+        $memberpagequery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
         $db->setQuery($memberpagequery);
         $rows=$db->LoadObjectList();
         return $rows;

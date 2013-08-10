@@ -17,10 +17,10 @@ class contushdvideoshareViewconfigxml extends JView
 
 	function display()
 	{
-        $model =& $this->getModel();
+                $model =& $this->getModel();
 		$detail = $model->configgetrecords();
 		$this->assignRef('detail', $detail);
-        $this->setLayout('playerlayout');
+                $this->setLayout('playerlayout');
 		parent::display();
 	}
 

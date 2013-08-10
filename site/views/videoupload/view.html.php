@@ -15,6 +15,7 @@ function display()
 {
 
 $model = $this->getModel();
+
 //get category
 $category = $model->getupload();
 $this->assignRef('videocategory', $category[0]);

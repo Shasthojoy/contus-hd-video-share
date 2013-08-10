@@ -17,7 +17,6 @@
 // No Direct access
 defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
-
 class Modelcontushdvideoshareimpressionclicks extends JModel {
 
     function impressionclicks() {
@@ -33,7 +32,5 @@ class Modelcontushdvideoshareimpressionclicks extends JModel {
         $db->query();
         exit();
     }
-
 }
-
 ?>

@@ -13,11 +13,13 @@ class contushdvideoshareViewcategory extends JView
 {
 function display()
 	{
-	    $model = $this->getModel();
+	    	$model = $this->getModel();
             $getcategoryview = $model->getcategory();// calling the function in models categoryview.php
             $this->assignRef('categoryview', $getcategoryview); // assigning reference for the results
             $categorrowcol = $model->getcategoryrowcol();
             $this->assignRef('categoryrowcol', $categorrowcol);
+            $getcategoryListVal = $model->getcategoryList();
+            $this->assignRef('categoryList', $getcategoryListVal);
             parent::display();
 	}
 }

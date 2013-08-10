@@ -23,13 +23,12 @@ class contushdvideoshareViewcommentappend extends JView
 
 	function display()
 	{
-        	$model = $this->getModel();
+            $model = $this->getModel();
             $getcomments = $model->getcomment();
             $this->assignRef('commenttitle', $getcomments[0]); // Assigning the reference for the results
             $this->assignRef('commenttitle1', $getcomments[1]); // Assigning the reference for the results
             $this->assignRef('playersettings', $getcomments[2]); // Assigning the reference for the results
-
-             $commentsview = $model->ratting();
+            $commentsview = $model->ratting();
             $this->assignRef('commentview', $commentsview);
             parent::display();
 	}

@@ -13,12 +13,12 @@ class contushdvideoshareModelcategory extends JModel {
     function getcategory() {
 
         global $option, $mainframe;
-
+         $mainframe = JFactory::getApplication();
         $total = 0;
         $filter_order = $mainframe->getUserStateFromRequest($option . 'filter_order', 'filter_order', 'ordering', 'cmd');
         $filter_order_Dir = $mainframe->getUserStateFromRequest($option . 'filter_order_Dir', 'filter_order_Dir', 'asc', 'word');
         $filter_id = $mainframe->getUserStateFromRequest($option . 'filter_id', 'filter_id', '', 'int');
-
+$option = 'com_contushdvideoshare';
         // page navigation
         $limit = $mainframe->getUserStateFromRequest($option . '.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
         $limitstart = $mainframe->getUserStateFromRequest($option . '.limitstart', 'limitstart', 0, 'int');

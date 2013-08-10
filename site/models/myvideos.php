@@ -78,7 +78,7 @@ function getdeletevideo()
         }
         else if(strlen(JRequest::getVar('searchtxtboxmember','','post','string'))>0)
         {
-       $search=JRequest::getVar('searchtxtboxmember','','post','string');
+        $search=JRequest::getVar('searchtxtboxmember','','post','string');
         //$query="select a.*,b.category,d.username,e.*,count(f.videoid) as total from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id left join #__hdflv_comments f on f.videoid=a.id where a.published=1 and a.memberid=$memberid group by a.id order by a.id desc LIMIT $start,$length";// Query is to display the myvideos results
         $query="select a.id,a.category,b.*,c.*,d.id,d.username from #__hdflv_category a left join #__hdflv_video_category b on b.catid=a.id left join #__hdflv_upload c on c.id=b.vid left join #__users d on c.memberid=d.id where c.type=0 and c.memberid=$memberid and (c.title like '%$search%'  OR a.category like '%$search%' OR d.username like '%$search%')  group by c.id"; // Query for displayin the pagination results
         }
@@ -86,9 +86,7 @@ function getdeletevideo()
         {
         $query="select a.*,b.category,d.username,e.*,count(f.videoid) as total from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id left join #__hdflv_comments f on f.videoid=a.id where a.published=1 and a.memberid=$memberid group by a.id order by a.id desc LIMIT $start,$length";// Query is to display the myvideos results
         }
-     
-//        echo $query;
-        $db->setQuery($query);
+         $db->setQuery($query);
         $rows=$db->LoadObjectList();
         // Below code is to merge the pagination values like pageno,pages,start value,length value
         if(count($rows)>0){

@@ -12,7 +12,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 class Tablesettings extends JTable {
-
     var $id = null;
     var $published = null;
     var $buffer = null;
@@ -54,6 +53,9 @@ class Tablesettings extends JTable {
     var $licensekey = null;
     var $Youtubeapi = null;
     var $scaletologo = null;
+    var $googleana_visible=null;
+    var $googleanalyticsID = null;
+    var $facebookapi = null;
 
     function __construct(&$db) {
         parent::__construct('#__hdflv_player_settings', 'id', $db);

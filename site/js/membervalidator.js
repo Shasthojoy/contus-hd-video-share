@@ -158,12 +158,41 @@ function videoupload()
 
 if(document.getElementById("filetype2").checked==true)
     {
+        if(document.getElementById("title").value=="")
+    {
+        alert("Please Enter Your Video Title");
+        document.getElementById("title").focus();
+        return false;
+    }
+    if(document.getElementById("tagname").value=="")
+    {
+        alert("Please Select the category");
+        document.getElementById("title").focus();
+        return false;
+    }
         if(document.getElementById("Youtubeurl").value=="" || document.getElementById("Youtubeurl").value==" ")
     {
-        alert("Please Enter valid Video URL");
+        alert("Please Enter the Video URL");
         document.getElementById("Youtubeurl").focus();
         return false;
     }
+     else
+     {
+     
+        var theurl=document.getElementById("Youtubeurl").value;
+        var tomatch= /http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/
+         if (tomatch.test(theurl))
+         {
+                     return;
+         }
+         else
+         {
+             alert("URL invalid. Try again.");
+             document.getElementById("Youtubeurl").focus();
+             return false;
+         }
+    }
+ 
     }
 
     if(document.getElementById("ffmpeg").value=="" && document.getElementById("seltype").value==2)

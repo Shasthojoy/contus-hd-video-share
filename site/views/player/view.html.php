@@ -14,14 +14,19 @@ jimport('joomla.application.component.view');
 class contushdvideoshareViewplayer extends JView {
 
     function display() {
+        $videoid = '';
+        $categoryid = '';
+        $videourl = '';
         $model = & $this->getModel();
 
         /* CODE FOR SEO OPTION OR NOT - START */
         $video = JRequest::getVar('video');
         $id = JRequest::getVar('id');
         $flagVideo = is_numeric($video);
-        if (isset($video) && $video != "") {
-            if ($flagVideo != 1) {
+        if (isset($video) && $video != "")
+         {
+            if ($flagVideo != 1)
+             {
 
                 // joomla router replaced to : from - in query string
                 $video = str_replace(':','-',$video);
@@ -29,26 +34,45 @@ class contushdvideoshareViewplayer extends JView {
                 $videodetails = $model->getVideoId($video);
                 $videoid = $videodetails->id;
                 $categoryid = $videodetails->playlistid;
-            } else {
+                 $videodetails->videourl = $videodetails->videourl;
+            } 
+            else
+            {
                 $videoid = JRequest::getVar('video');
+                $videodetails = $model->getVideodetail($videoid);
                 $categoryid = JRequest::getVar('category');
                 $videodetails->id = $videoid;
                 $videodetails->playlistid = $categoryid;
+                $videodetails->videourl = $videodetails->videourl; 
             }
             $this->assignRef('videodetails', $videodetails);
-        } else if (isset($id) && $id != '') {
+        } 
+        else if (isset($id) && $id != '')
+         {
+
             $videoid = JRequest::getVar('id');
+            $videodetails = $model->getVideodetail($videoid);
             $categoryid = JRequest::getVar('catid');
             $videodetails->id = $videoid;
             $videodetails->playlistid = $categoryid;
+             $videodetails->videourl = $videodetails->videourl; 
             $this->assignRef('videodetails', $videodetails);
         }
+        else
+            {
+                $videodetails->id = $videoid;
+                $videodetails->playlistid = $categoryid;
+                $videodetails->videourl = ''; 
+                $this->assignRef('videodetails', $videodetails);
+            }
         /* CODE FOR SEO OPTION OR NOT - END */
 
         //Code for html5 player
         $htmlVideoDetails = $model->getHTMLVideoDetails($videoid);
         $this->assignRef('htmlVideoDetails', $htmlVideoDetails);
 
+        $getfeatured = $model->getfeatured();
+        $this->assignRef('getfeatured', $getfeatured);
 
         $detail = $model->showhdplayer($videoid, $categoryid);
         $this->assignRef('detail', $detail);
@@ -65,6 +89,9 @@ class contushdvideoshareViewplayer extends JView {
 
         $homepagebottomsettings = $model->gethomepagebottomsettings(); //calling the function in models homepagebottom.php
         $this->assignRef('homepagebottomsettings', $homepagebottomsettings); // assigning the reference for the results
+        
+        $homeAccessLevel=$model->getHTMLVideoAccessLevel();
+        $this->assignRef('homepageaccess', $homeAccessLevel);
         parent::display();
     }
 

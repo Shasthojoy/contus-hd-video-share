@@ -62,6 +62,7 @@ class contushdvideoshareModelsettings extends JModel
     {
         $option= 'com_contushdvideoshare';
 		global $mainframe;
+                $mainframe = & JFactory::getApplication();
             $db =& JFactory::getDBO();
             $rs_savesettings =& JTable::getInstance('settings', 'Table');
             $cid = JRequest::getVar( 'cid', array(0), '', 'array' );
@@ -117,6 +118,7 @@ class contushdvideoshareModelsettings extends JModel
         {
             $option= 'com_contushdvideoshare';
             global $mainframe;
+             $mainframe = & JFactory::getApplication();
             // Get file extension
             $exts=$this->findexts($logoname);
             // To make sure exts is exists

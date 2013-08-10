@@ -46,6 +46,11 @@ class Modelcontushdvideoshareplayxml extends JModel {
             $query = "select a.*,b.category,d.username,e.* from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where a.published='1' and a.featured='1' and a.type='0' group by e.vid order by a.ordering asc"; // Query is to display recent videos in home page
             $db->setQuery($query);
             $rs_video = $db->loadObjectList();
+            if (count($rs_video) == 0) {
+                $query = "select a.*,b.category,d.username,e.* from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where a.published='1' and a.type='0' group by e.vid order by a.ordering asc limit 0,1"; // Query is to display recent videos in home page
+                $db->setQuery($query);
+                $rs_video = $db->loadObjectList();
+            }
         }
 
         if (isset($rows) && count($rows) > 0)
@@ -61,7 +66,34 @@ class Modelcontushdvideoshareplayxml extends JModel {
     }
 
     function showxml($rs_video, $playlistautoplay) {
+        $user = & JFactory::getUser();
+        $rows = '';
+        if (version_compare(JVERSION, '1.6.0', 'ge')) {
+            $uid = $user->get('id');
+            if ($uid) {
+                $db = &JFactory::getDBO();
+                $query = $db->getQuery(true);
+                $query->select('g.id AS group_id')
+                        ->from('#__usergroups AS g')
+                        ->leftJoin('#__user_usergroup_map AS map ON map.group_id = g.id')
+                        ->where('map.user_id = ' . (int) $uid);
+                $db->setQuery($query);
+                $message = $db->loadObjectList();
+                foreach ($message as $mess) {
+                    $accessid[] = $mess->group_id;
+                }
+            } else {
+                $accessid[] = 1;
+            }
+        } else {
+            $accessid = $user->get('aid');
+        }
+
+
+
         ob_clean();
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
         header("content-type: text/xml");
         echo '<?xml version="1.0" encoding="utf-8"?>';
         echo '<playlist autoplay="' . $playlistautoplay . '">';
@@ -72,6 +104,17 @@ class Modelcontushdvideoshareplayxml extends JModel {
             foreach ($rs_video as $rows) {
                 $timage = "";
                 $streamername = "";
+                if (version_compare(JVERSION, '1.6.0', 'ge')) {
+                    $db = &JFactory::getDBO();
+                    $query = $db->getQuery(true);
+                    if($rows->useraccess == 0) $rows->useraccess = 1;
+                    $query->select('rules as rule')
+                            ->from('#__viewlevels AS view')
+                            ->where('id = ' . (int) $rows->useraccess);
+                    $db->setQuery($query);
+                    $message = $db->loadResult();
+                    $accessLevel = json_decode($message);
+                }
                 if ($rows->filepath == "File" || $rows->filepath == "FFmpeg") {
                     $video = JURI::base() . $current_path . $rows->videourl;
                     ($rows->hdurl != "") ? $hdvideo = JURI::base() . $current_path . $rows->hdurl : $hdvideo = "";
@@ -141,6 +184,23 @@ class Modelcontushdvideoshareplayxml extends JModel {
                 }
 
                 ($rows->download == 0) ? $download = "false" : $download = "true";
+                $member = "true";
+
+                if (version_compare(JVERSION, '1.6.0', 'ge')) {
+                    $member = "false";
+                    foreach ($accessLevel as $useracess) {
+                        if (in_array("$useracess", $accessid) || $useracess == 1) {
+                            $member = "true";
+                            break;
+                        }
+                    }
+                } else {
+                    if ($rows->useraccess != 0) {
+                        if ($accessid != $rows->useraccess && $accessid != 2) {
+                            $member = "false";
+                        }
+                    }
+                }
                 ($rows->targeturl == "") ? $targeturl = "" : $targeturl = $rows->targeturl;
                 ($rows->postrollads == "1") ? $postrollid = $rows->postrollid : $postrollid = 0;
                 ($rows->prerollads == "1") ? $prerollid = $rows->prerollid : $prerollid = 0;
@@ -148,22 +208,30 @@ class Modelcontushdvideoshareplayxml extends JModel {
                 $rate = $rows->rate;
                 $ratecount = $rows->ratecount;
                 $views = $rows->times_viewed;
+                if ($rows->filepath == "Youtube") {
+                    $download = "false";
+                }
                 $islive = "false";
+                $date = '';
+                $date = date("m-d-Y", strtotime($rows->addedon));
                 if ($streamername != "")
                     $islive = "true";
-                echo '<mainvideo  rating="' . $rate . '" views="' . $views . '" ratecount="' . $ratecount . '" category="' . $rows->playlistid . '" url="' . $video . '" isLive ="' . $islive . '" allow_download="' . $download . '" preroll_id="' . $prerollid . '" midroll="' . $midrollads . '" postroll_id="' . $postrollid . '" postroll="' . $postrollads . '" preroll="' . $prerollads . '" streamer="' . $streamername . '" Preview="' . $previewimage . '" hdpath="' . $hdvideo . '" thu_image="' . $timage . '" id="' . $rows->id . '" hd="' . $hd_bol . '" >';
-                echo '<title>';
-                echo '<![CDATA[' . $rows->title . ']]>';
-                echo '</title>';
-                echo '<captions>';
-                echo '<![CDATA[' . $rows->description . ']]>';
-                echo '</captions>';
-                echo '</mainvideo>';
+                $tags = $rows->tags;
+                if (!preg_match('/vimeo/', $video)) {
+                    echo '<mainvideo member = "' . $member . '" date="' . $date . '" rating="' . $rate . '" views="' . $views . '" ratecount="' . $ratecount . '" category="' . $rows->playlistid . '" url="' . $video . '" isLive ="' . $islive . '" allow_download="' . $download . '" preroll_id="' . $prerollid . '" midroll="' . $midrollads . '" postroll_id="' . $postrollid . '" postroll="' . $postrollads . '" preroll="' . $prerollads . '" streamer="' . $streamername . '" Preview="' . $previewimage . '" hdpath="' . $hdvideo . '" thu_image="' . $timage . '" id="' . $rows->id . '" hd="' . $hd_bol . '" tags="' . $tags . '" >';
+                    echo '<title>';
+                    echo '<![CDATA[' . $rows->title . ']]>';
+                    echo '</title>';
+                    echo '<tagline targeturl="' . $targeturl . '">';
+                    if ($rows->description != "") {
+                        echo '<![CDATA[<b>' . $rows->description . '</b>]]>';
+                    }
+                    echo '</tagline>';
+                    echo '</mainvideo>';
+                }
             }
         }
         echo '</playlist>';
         exit();
     }
-
 }
-

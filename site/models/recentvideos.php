@@ -14,10 +14,11 @@ class Modelcontushdvideosharerecentvideos extends JModel
 /* Following function is to display the recent videos */
 function getrecentvideos()
 {
-        $featuredtotal = "select count(*) from #__hdflv_upload where published=1 and type='0'";  //Query is to get the pagination for related values
+      
+        $featuredtotal = "select count(*) from #__hdflv_upload where published=1 and type='0'  ";  //Query is to get the pagination for related values
         $db = $this->getDBO();
-		$db->setQuery($featuredtotal);
-		$total = $db->loadResult();
+        $db->setQuery($featuredtotal);
+        $total = $db->loadResult();
         $pageno = 1;
         if(JRequest::getVar('page','','post','int'))
         {
@@ -30,11 +31,9 @@ function getrecentvideos()
         $start=0;
         else
         $start= ($pageno - 1) * $length;
-    
-        $query="select a.*,b.category,b.seo_category,d.username,e.* from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where a.published=1 and a.type='0' group by e.vid desc LIMIT $start,$length";//Query is to display the recent videos
+        $query="select a.*,b.category,b.seo_category,d.username,e.* from  #__hdflv_upload a left join #__users d on a.memberid=d.id left join #__hdflv_video_category e on e.vid=a.id left join #__hdflv_category b on e.catid=b.id where a.published=1 and a.type='0'  group by e.vid desc LIMIT $start,$length";//Query is to display the recent videos
         $db->setQuery($query);
         $rows=$db->LoadObjectList();
-
         if(count($rows)>0){
         $insert_data_array = array('pageno' => $pageno);
         $rows = array_merge($rows, $insert_data_array);
@@ -55,21 +54,15 @@ function getrecentvideos()
         $insert_data_array = array('length' => 0);
         $rows = array_merge($rows, $insert_data_array);
         }
-
-
         return $rows;
 }
-
-
 function getrecentvideosrowcol()
 {
-
- $db = $this->getDBO();
-		$recentvideosquery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
+        $db = $this->getDBO();
+	$recentvideosquery="select * from #__hdflv_site_settings";//Query is to select the popular videos row
         $db->setQuery($recentvideosquery);
         $rows=$db->LoadObjectList();
         return $rows;
 }
-
 }
 ?>

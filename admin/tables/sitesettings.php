@@ -52,6 +52,7 @@ class Tablesitesettings extends JTable {
   var $user_login =null;
   var $ratingscontrol =null;
   var $viewedconrtol =null;
+  var $facebooklike =null;
   var $seo_option =null;
 
 

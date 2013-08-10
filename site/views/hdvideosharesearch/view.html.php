@@ -18,7 +18,7 @@ function display()
             $this->assignRef('search', $search);
             $searchrowcol = $model->getsearchrowcol();
             $this->assignRef('searchrowcol', $searchrowcol);
-			parent::display();
+            parent::display();
 	}
 }
 ?>

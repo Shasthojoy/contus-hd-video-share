@@ -11,9 +11,7 @@
 defined('_JEXEC') or die('Restricted access');
 $rs_roll = $this->adslist;
 $uploadscript = JURI::base() . "components/com_contushdvideoshare/upload_script.js";
-
 // Add Description Advaced Editor
-
 /* $editor = & JFactory::getEditor();
   $params = array('smilies' => '1',
   'style' => '1',
@@ -36,18 +34,21 @@ $uploadscript = JURI::base() . "components/com_contushdvideoshare/upload_script.
   'colors' => '1'
   ); */
 ?>
-
+<style>
+   fieldset input, fieldset textarea, fieldset select, fieldset img, fieldset button {float:none;}
+</style>
 <script src="<?php echo $uploadscript; ?>" language="javascript"></script>
 <script language="JavaScript" type="text/javascript">
-    function submitbutton(pressbutton)
-    {
+   <?php if(version_compare(JVERSION,'1.6.0','ge'))
+                    { ?>Joomla.submitbutton = function(pressbutton) {<?php } else { ?>
+                        function submitbutton(pressbutton) {<?php } ?>
         if (pressbutton == "saveads" || pressbutton=="applyads")
         {
             var bol_file1=(document.getElementById('filepath01').checked);
 
             if (document.getElementById('adsname').value == "")
             {
-                alert( "<?php echo JText::_('You must provide a Title', true); ?>" )
+                alert( "<?php echo JText::_('You must provide a Ad name', true); ?>" )
                 return;
             }
 
@@ -96,8 +97,6 @@ $uploadscript = JURI::base() . "components/com_contushdvideoshare/upload_script.
 
     }
 </script>
-
-
 <fieldset class="adminform">
     <legend>Select Add Settings</legend>
     <table class="admintable">
@@ -117,34 +116,33 @@ if ($rs_roll['rs_ads']->typeofadd == "prepost" || $rs_roll['rs_ads']->typeofadd 
         </tr>
     </table>
 </fieldset>
-
 <!-- editing -->
-
 <?php
                        $var1 = "";
-                       if (isset($rs_roll['rs_ads']->typeofadd) && $rs_roll['rs_ads']->typeofadd == "mid") {
+                       if (isset($rs_roll['rs_ads']->typeofadd) && $rs_roll['rs_ads']->typeofadd == "mid")
+                       {
                            $var1 = 'style="display: none;"';
                        }
 ?>
-
                        <fieldset class="adminform" id="videodet" <?php echo $var1; ?>>
                            <legend>Video Details</legend>
                            <table class="admintable">
                                <tr><td class="key" width="200px;">File Path</td>
                                    <td>
-                                       <input type="radio" name="filepath" id="filepath01" <?php
-                       if ($rs_roll['rs_ads']->filepath == "File" || $rs_roll['rs_ads']->filepath == '') {
+                        <input type="radio" name="filepath" id="filepath01" <?php
+                       if ($rs_roll['rs_ads']->filepath == "File" || $rs_roll['rs_ads']->filepath == '')
+                       {
                            echo 'checked="checked" ';
                        }
-?> value="File" onclick="fileads('File');"  />File
+                 ?> value="File" onclick="fileads('File');"  />File
                 <input type="radio" name="filepath" id="filepath02"<?php
-                       if ($rs_roll['rs_ads']->filepath == "Url") {
+                       if ($rs_roll['rs_ads']->filepath == "Url")
+                       {
                            echo 'checked="checked" ';
                        }
-?>value="Url" onclick="fileads('Url');"/>Url
+                ?>value="Url" onclick="fileads('Url');"/>Url
             </td>
         </tr>
-
         <tr id="postrollnf" name="postrollnf"><td class="key">Upload Preroll/Post Roll</td>
             <td>
                 <div id="f1-upload-form" >
@@ -169,7 +167,6 @@ if ($rs_roll['rs_ads']->typeofadd == "prepost" || $rs_roll['rs_ads']->typeofadd 
                 </div>
                 <div id="nor"><iframe id="uploadvideo_target" name="uploadvideo_target" src="#" style="width:0;height:0;border:0px solid #fff;"></iframe></div>
             </td>
-
         </tr>
         <tr id="postrollurl">
             <td class="key">
@@ -177,101 +174,44 @@ if ($rs_roll['rs_ads']->typeofadd == "prepost" || $rs_roll['rs_ads']->typeofadd 
             </td>
             <td>
                 <input type="text" name="posturl"  id="posturl" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->postvideopath; ?>"/></td>
-
         </tr>
     </table>
 </fieldset>
-
-
 <form action="index.php?option=com_contushdvideoshare&layout=ads" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
-
     <fieldset class="adminForm">
         <legend>Ads </legend>
         <table class="admintable">
-<!--            <tr><td class="key">Ad Name</td><td> <?php //echo $editor->display('adsname', $rs_roll['rs_ads']->adsname, '40', '15', '40', '15',false,$params );     ?> -->
-            <tr><td class="key">Ad Name</td><td><input type="text" name="adsname"  id="adsname" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->adsname; ?>" /></td></tr>
-           <!--  <tr><td class="key">Ad Description</td><td> <?php //echo $editor->display('adsdesc', $rs_roll['rs_ads']->adsdesc, '40', '15', '40', '15', false, $params);   ?></td></tr> -->
-            <!-- <tr><td class="key">Description</td><td><input type="text" name="adsdesc"  id="adsdesc" style="width:300px" maxlength="250" value="<?php //echo $rs_roll['rs_ads']->adsdesc;     ?>" /></td></tr> -->
+        <!--            <tr><td class="key">Ad Name</td><td> <?php //echo $editor->display('adsname', $rs_roll['rs_ads']->adsname, '40', '15', '40', '15',false,$params );      ?> -->
+            <tr><td class="key">Ad Title</td><td><input type="text" name="adsname"  id="adsname" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->adsname; ?>" /></td></tr>
+            <!--  <tr><td class="key">Ad Description</td><td> <?php //echo $editor->display('adsdesc', $rs_roll['rs_ads']->adsdesc, '40', '15', '40', '15', false, $params);    ?></td></tr> -->
+            <!-- <tr><td class="key">Description</td><td><input type="text" name="adsdesc"  id="adsdesc" style="width:300px" maxlength="250" value="<?php //echo $rs_roll['rs_ads']->adsdesc;      ?>" /></td></tr> -->
             <td class="key">Ad Description</td>
             <td>
-
                 <textarea rows="5" cols="40" name="adsdesc" id="adsdesc"><?php echo trim($rs_roll['rs_ads']->adsdesc); ?></textarea>
-               </td>
-               <tr><td class="key">Target URL </td><td><input type="text" name="targeturl"  id="targeturl" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->targeturl; ?>" /></td></tr>
-               <tr><td class="key">Click Hits URL </td><td><input type="text" name="clickurl"  id="clickurl" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->clickurl; ?>" /></td></tr>
-               <tr><td class="key">Impression Hits URL </td><td><input type="text" name="impressionurl"  id="impressionurl" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->impressionurl; ?>" /></td></tr>
-               <tr><td class="key">Published</td><td>No<input type="radio" name="published" value=0 />Yes<input type="radio" name="published"  value=1  checked="checked" /></td>
-               </tr>
-           </table>
-       </fieldset>
-       <input type="hidden" name="id" id="id" value="<?php echo $rs_roll['rs_ads']->id; ?>" />
-       <input type="hidden" name="option" value="<?php echo $option; ?>"/>
-       <input type="hidden" name="typeofadd" id="typeofadd" value="prepost" />
-       <input type="hidden" name="task" value="addads" />
-       <input type="hidden" name="boxchecked" value="1">
-       <input type="hidden" name="submitted" value="true" id="submitted">
-       <input type="hidden" name="fileoption" id="fileoption" value="<?php echo $rs_roll['rs_ads']->filepath; ?>" />
+            </td>
+            <tr><td class="key">Target URL </td><td><input type="text" name="targeturl"  id="targeturl" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->targeturl; ?>" /></td></tr>
+            <tr><td class="key">Click Hits URL </td><td><input type="text" name="clickurl"  id="clickurl" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->clickurl; ?>" /></td></tr>
+            <tr><td class="key">Impression Hits URL </td><td><input type="text" name="impressionurl"  id="impressionurl" style="width:300px" maxlength="250" value="<?php echo $rs_roll['rs_ads']->impressionurl; ?>" /></td></tr>
+            <tr><td class="key">Published</td><td>No<input type="radio" name="published" value=0 />Yes<input type="radio" name="published"  value=1  checked="checked" /></td>
+            </tr>
+        </table>
+    </fieldset>
+    <input type="hidden" name="id" id="id" value="<?php echo $rs_roll['rs_ads']->id; ?>" />
+<!--    <input type="hidden" name="option" value="<?php echo $option; ?>"/>-->
+    <input type="hidden" name="typeofadd" id="typeofadd" value="prepost" />
+    <input type="hidden" name="task" value="addads" />
+    <input type="hidden" name="boxchecked" value="1">
+    <input type="hidden" name="submitted" value="true" id="submitted">
+    <input type="hidden" name="fileoption" id="fileoption" value="<?php echo $rs_roll['rs_ads']->filepath; ?>" />
     <input type="hidden" name="normalvideoform-value" id="normalvideoform-value" value="" />
     <input type="hidden" name="posturl-value" id="posturl-value" value="" />
 </form>
-
-<script language="JavaScript" type="text/javascript">
-
-    if((document.getElementById('fileoption').value == 'File') || (document.getElementById('fileoption').value == ''))
-    {
-        adsflashdisable();
-
-    }
-    if(document.getElementById('fileoption').value == 'Url')
-    {
-        urlenable();
-
-    }
-
-    function urlenable()
-    {
-        document.getElementById('postrollnf').style.display='none';
-        document.getElementById('postrollurl').style.display='';
-    }
-    function adsflashdisable()
-    {
-        document.getElementById('postrollnf').style.display='';
-        document.getElementById('postrollurl').style.display='none';
-    }
-    function fileads(filepath)
-    {
-        if(filepath=="File")
-        {
-            adsflashdisable();
-            document.getElementById('fileoption').value='File';
-        }
-        if(filepath=="Url")
-        {
-            urlenable();
-            document.getElementById('fileoption').value='Url';
-        }
-
-    }
-
-    /* altering */
-
-
-    function addsetenable()
-    {
-        document.getElementById('videodet').style.display='';
-    }
-    function addsetdisable()
-    {
-
-        document.getElementById('videodet').style.display='none';
-    }
-
-    function checkadd(recadd)
+<script type="text/javascript" src="<?php echo JURI::base().'components/com_contushdvideoshare/js/adslayout.js';?>"></script>
+<script  type="text/javascript">
+ function checkadd(recadd)
     {
         if(recadd=="prepost")
         {
-            //alert("prepost");
-            // alert (document.getElementById('selectadd01').value);
             addsetenable();
             document.getElementById('typeofadd').value='prepost';
         }
@@ -282,5 +222,13 @@ if ($rs_roll['rs_ads']->typeofadd == "prepost" || $rs_roll['rs_ads']->typeofadd 
         }
 
     }
+     function addsetenable()
+    {
+        document.getElementById('videodet').style.display='';
+    }
+    function addsetdisable()
+    {
 
+        document.getElementById('videodet').style.display='none';
+    }
 </script>

@@ -11,7 +11,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 define('VPATH1', realpath(dirname(__FILE__).'../../../../components/com_contushdvideoshare/videos') );
 define('VPATH2', realpath(dirname(__FILE__).'/../../../components/com_contushdvideoshare/videos') );
 define('FVPATH', realpath(dirname(__FILE__)));
-
+date_default_timezone_set('UTC');
 $controllerName = JRequest::getCmd( 'layout','videos');
 
 
@@ -116,10 +116,11 @@ elseif($controllerName == 'ads') {
 switch ($controllerName)
 {
 	default:
-		$controllerName = 'settings';
+		$controllerName = 'controlpanel';
 		// allow fall through
 
 	case 'category':
+		case 'categorylist':
         case 'settings':
   
             case 'memberdetails':
@@ -132,7 +133,9 @@ switch ($controllerName)
 		// Temporary interceptor
 		$task = JRequest::getCmd('task');
         
-
+	if($controllerName == 'categorylist'){
+		$controllerName = 'category';
+	}
   		require_once( JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php' );
 		$controllerName = 'contushdvideoshareController'.$controllerName;
 
