@@ -4,15 +4,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Router file
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 /*
  ***********************************************************/
@@ -63,7 +63,11 @@ function contushdvideoshareBuildRoute(&$query) {
         $segments[] = $query['title'];
         unset($query['title']);
     }
-    
+    if (isset($query['Itemid']))
+    {
+        $segments[] = $query['Itemid'];
+        unset($query['Itemid']);
+    }
 
     return $segments;
 }
@@ -96,6 +100,7 @@ function contushdvideoshareParseRoute($segments) {
                 if (isset($segments[2])) {
                     $vars['category'] = $segments[1];
                     $vars['video'] = $segments[2];
+                    $vars['Itemid'] = $segments[3];
                 } else {
                   //  $vars['video'] = $segments[1];
                 }

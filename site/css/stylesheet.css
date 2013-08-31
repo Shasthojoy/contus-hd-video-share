@@ -2,15 +2,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	  : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share component stylesheet
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 
 /*
@@ -58,20 +58,20 @@
 .catclass a:hover{text-decoration:underline;font-weight:bold;}
 
 .ratethis1{ background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;clear:both;position:relative;list-style:none;float:left;margin: 4px 0;}
-.module_videos .nopos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 0;margin: 3px 0;}
-.module_videos .onepos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -12px;margin: 3px 0;}
-.module_videos .twopos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -24px;margin: 3px 0;}
-.module_videos .threepos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -36px;margin: 3px 0;}
-.module_videos .fourpos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -48px;margin: 3px 0;}
-.module_videos .fivepos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -60px;margin: 3px 0;}
+.module_videos .nopos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 0 !important;margin: 3px 0;}
+.module_videos .onepos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -12px !important;margin: 3px 0;}
+.module_videos .twopos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -24px !important;margin: 3px 0;}
+.module_videos .threepos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -36px !important;margin: 3px 0;}
+.module_videos .fourpos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -48px !important;margin: 3px 0;}
+.module_videos .fivepos1 {background: url(../images/stars831.png) no-repeat !important;width:60px;height:12px;position:relative;list-style:none;padding:0px;background-position:0 -60px !important;margin: 3px 0;}
 
 ul.ratethis1 li {cursor: pointer;float:left;}
-.nopos1 {background-position:0 0}
-.onepos1 {background-position:0 -12px}
-.twopos1 {background-position:0 -24px}
-.threepos1 {background-position:0 -36px}
-.fourpos1 {background-position:0 -48px}
-.fivepos1 {background-position:0 -60px}
+.nopos1 {background-position:0 0 !important;}
+.onepos1 {background-position:0 -12px !important;}
+.twopos1 {background-position:0 -24px !important;}
+.threepos1 {background-position:0 -36px !important;}
+.fourpos1 {background-position:0 -48px !important;}
+.fivepos1 {background-position:0 -60px !important;}
 
 .commentstop{padding:5px 0;}
 .viewsubname{font-size:12px;padding:5px 0;width: 70%;float: left;}
@@ -531,13 +531,14 @@ border:1px solid #999 !important;line-height:1.3em;width: 200px;-moz-border-radi
 .module_videos .video-grid-container ul .video-item:last-child{padding-right: 0px;}
 .module_videos .video-grid-container .ulvideo_thumb{margin: 0px; padding: 0px;}
 .module_videos .video-grid-container ul li .show-title-container{clear: both;overflow: hidden;margin-top:0px;font-size: 12px;}
-.module_videos .video-grid-container ul {padding: 0 !important;}
+.module_videos .video-grid-container ul {padding: 0 !important; margin: 0 !important;}
 .module_videos .video-grid-container .home-link{border-bottom: 1px solid #ccc;}
 .module_videos .video-grid-container .video-item-details{width:115px;}
 .module_videos .video-grid-container ul .video-item .mod_video_item{float: left;}
 
 /*Player thumb size*/
-.yt-uix-hovercard-target{width: 115px !important;height: 80px;}
+.yt-uix-hovercard-target{height: 80px;}
+.module_videos .yt-uix-hovercard-target{width: 115px !important;}
 #playlist .playlist_main .yt-uix-hovercard-target{height: 80px;width:145px;}
 .module_videos .video-grid-container ul li .yt-uix-hovercard-target{margin-right:8px;width: 115px !important; max-width: 115px;height: 80px;}
 #video-grid-container ul .video-item .yt-uix-hovercard-target{height: 80px;width:145px;}
@@ -622,3 +623,75 @@ margin-right:3px;
 .iframe_frameborder{
     frameborder:0;
 }
+
+
+
+
+
+@media only screen and (max-width: 750px)  {
+
+#flashplayer embed{
+width: 700px !important;
+height: 400px !important;
+float: left;
+} 
+#htmlplayer video, 
+#htmlplayer iframe, 
+#htmlplayer .html5-video-player{
+width: 700px !important;
+height: 400px !important;
+float: left;
+}
+}
+
+
+@media screen and (max-width : 450px) {
+
+#flashplayer embed{
+width: 400px !important;
+height: 400px !important;
+float: left;
+}
+
+#htmlplayer video, 
+#htmlplayer iframe, 
+#htmlplayer .html5-video-player{
+width: 400px !important;
+height: 400px !important;
+float: left;
+
+}
+.sharing_vid #share_like .fbshare, 
+.sharing_vid #share_like iframe, 
+.sharing_vid #share_like .floatleft, 
+.sharing_vid #share_like .google-plus{display: block; clear: both;}
+
+}
+
+ 
+
+@media screen and (max-width : 320px) {
+
+#flashplayer embed{
+width: 280px !important;
+height: 200px !important;
+float: left;
+}
+
+#htmlplayer video, 
+#htmlplayer iframe, 
+#htmlplayer .html5-video-player{
+width: 235px !important;
+height: 200px !important;
+float: left;
+}
+
+.sharing_vid #share_like .fbshare, 
+.sharing_vid #share_like iframe, 
+.sharing_vid #share_like .floatleft, 
+.sharing_vid #share_like .google-plus{display: block; clear: both;}
+
+}   
+
+
+

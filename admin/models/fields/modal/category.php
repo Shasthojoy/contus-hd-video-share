@@ -3,15 +3,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-3.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component category Modal
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 /*
  ***********************************************************/
@@ -70,7 +70,7 @@ class JFormFieldModal_Category extends JFormField
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
 		// The current user display field.
-                if(!version_compare(JVERSION, '3.0.0', 'ge')) {
+                if(version_compare(JVERSION, '3.0.0', 'ge')) {
                 $html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="'.$this->id.'_name" value="'.$title.'" disabled="disabled" size="35" /><a class="modal btn" title="Select Category"  href="'.$link.'&amp;'.JSession::getFormToken().'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> '.JText::_('JSELECT').'</a>';
 		$html[] = '</span>';

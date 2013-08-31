@@ -3,15 +3,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Controlpanel View Page
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 
 /*
@@ -125,7 +125,7 @@ $pane   = JPane::getInstance('sliders');
 echo $pane->startPane( 'pane' );
 echo $pane->startPanel( 'Welcome to HD Video Share', 'panel1' );?>
 	<div class="main-text">
-		<div class="text">HD Video Share is an extension for Joomla, you can create your own video sharing site in matter of minutes. It offers a complete video sharing solutions with advanced features such as featured videos, popular videos, recent videos, related videos, video search, video categories,  my playlist, my channel, ratings, comments, social sharing and more. It supports more joomla templates by default and few paid templates specialy made for supporting HD Video Share which are available in apptha.com for purchase.</div>
+		<div class="text" style=" text-align: justify;width: auto !important; ">HD Video Share is an extension for Joomla, you can create your own video sharing site in matter of minutes. It offers a complete video sharing solutions with advanced features such as featured videos, popular videos, recent videos, related videos, video search, video categories, ratings, comments, social sharing and more. It supports more Joomla templates by default and few paid templates specially made for supporting HD Video Share which are available in apptha.com for purchase.</div>
 		<div class="text">
 			<a href="http://www.apptha.com/forum/viewforum.php?f=45"
 				target="_blank"> Support</a> <a
@@ -215,10 +215,10 @@ echo $pane->startPanel( 'Welcome to HD Video Share', 'panel1' );?>
 	?>
     <div class="well well-small"><div class="module-title nav-header">Welcome to HD Video Share</div><div class="row-striped">
 			<div class="row-fluid">
-			<div class="span9" style=" text-align: justify; ">
+			<div class="span9" style=" text-align: justify;width: auto !important; ">
 
-				<strong class="row-title">HD Video Share is an extension for Joomla, you can create your own video sharing site in matter of minutes. It offers a complete video sharing solutions with advanced features such as featured videos, popular videos, recent videos, related videos, video search, video categories,  my playlist, my channel, ratings, comments, social sharing and more. It supports more joomla templates by default and few paid templates specialy made for supporting HD Video Share which are available in apptha.com for purchase.
-									</strong></div>
+				<div class="row-title">HD Video Share is an extension for Joomla, you can create your own video sharing site in matter of minutes. It offers a complete video sharing solutions with advanced features such as featured videos, popular videos, recent videos, related videos, video search, video categories, ratings, comments, social sharing and more. It supports more Joomla templates by default and few paid templates specially made for supporting HD Video Share which are available in apptha.com for purchase.
+									</div></div>
 			<div class="text" style=" float: left; ">
 			<a href="http://www.apptha.com/forum/viewforum.php?f=45"
 				target="_blank"> Support</a> <a

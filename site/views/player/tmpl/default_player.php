@@ -1,15 +1,15 @@
 <?php
 /**
  * @name          : Joomla HD Video Share
- * @version	  : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Hdvideoshare Player View
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 //No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -19,7 +19,6 @@ $username = $user->get('username');
 $details1 = $this->detail;
 $video_title=$video_desc=$video_thumb='';
 $playerpath = JURI::base() . "components/com_contushdvideoshare/hdflvplayer/hdplayer.swf";
-$logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&amp;view=player');
 $document = JFactory::getDocument();
 $homepagebottomsettings=$this->homepagebottomsettings;
 $facebookapi=$homepagebottomsettings[0]->facebookapi;
@@ -64,7 +63,6 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
  if(!empty($this->htmlVideoDetails->title)) $video_title = $this->htmlVideoDetails->title;
  if(!empty($this->htmlVideoDetails->description)) $video_desc = $this->htmlVideoDetails->description;
 $document->addCustomTag('<link rel="image_src" href="' . $video_thumb. '"/>');
-$document->addCustomTag('<link rel="canonical" href="' . $instance->toString(). '"/>');
 $document->addCustomTag('<meta property="fb:app_id" content="' . $facebookapi. '"/>');
 $document->addCustomTag('<meta property="og:site_name" content="' . $siteName . '"/>');
 $document->addCustomTag('<meta property="og:type" content="website"/>');
@@ -99,7 +97,7 @@ $document->addStyleDeclaration($style);
     <div class="logout-button">
         <input type="hidden" name="option" value="com_users" />
         <input type="hidden" name="task" value="user.logout" />
-        <input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />
+<!--        <input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />-->
         <?php echo JHtml::_('form.token'); ?>
     </div>
 </form>
@@ -143,7 +141,7 @@ $document->addStyleDeclaration($style);
                     <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
     <?php } else {
     ?>
-                    <a href="index.php?option=com_user&amp;task=logout&amp;return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&amp;view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                    <a href="index.php?option=com_user&amp;task=logout"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                <?php
                     }
                 ?>
@@ -153,10 +151,10 @@ $document->addStyleDeclaration($style);
             } else {
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
                     $register_url = "index.php?option=com_users&amp;view=registration";
-                    $login_url = "index.php?option=com_users&amp;view=login&amp;return=".base64_encode('index.php?option=com_contushdvideoshare&amp;view=player');
+                    $login_url = "index.php?option=com_users&amp;view=login";
                 } else {
                     $register_url = "index.php?option=com_user&amp;view=register";
-                    $login_url = "index.php?option=com_user&amp;view=login&amp;return=".base64_encode('index.php?option=com_contushdvideoshare&amp;view=player');
+                    $login_url = "index.php?option=com_user&amp;view=login";
                 }
 ?>
                 <div class="toprightmenu">
@@ -169,8 +167,8 @@ $document->addStyleDeclaration($style);
 ?>
         <!-- Component Starts Version 1.3-->
         <div class="fluid bg playerbg clearfix" id="player_page" >
-            <div id="HDVideoshare1" style="position:relative;width:<?php echo $details1[0]->width; ?>px; " class="clearfix">
-                <h1 id="viewtitle" class="floatleft" style="width:<?php echo $details1[0]->width; ?>px;" ><?php if(isset($this->htmlVideoDetails->title)) echo $this->htmlVideoDetails->title; ?></h1>
+            <div id="HDVideoshare1" style="position:relative;   " class="clearfix">
+                <h1 id="viewtitle" class="floatleft" style="" ><?php if(isset($this->htmlVideoDetails->title)) echo $this->htmlVideoDetails->title; ?></h1>
                 <div class="clear"></div>
                 <!-- Flash player Start -->
         <?php
@@ -193,14 +191,18 @@ $document->addStyleDeclaration($style);
                 <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
                        allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJ=<?php echo $details1['baseurl']; ?><?php echo $baseref; ?>"  style="width:<?php echo $details1[0]->width; ?>px; height:<?php echo $details1[0]->height; ?>px"></embed>
             </div>
-        <?php } ?>
+
             <!-- Flash player End and HTML5 PLAYER START-->
             <div id="htmlplayer" style="display:none;">
             <?php
+            $windo='';
+            $useragent = $_SERVER['HTTP_USER_AGENT'];
+            if(strpos($useragent,'Windows Phone') > 0)
+            $windo='Windows Phone';
             if ($this->homepageaccess == 'true') {
                 if ($htmlVideoDetails->filepath == "File" || $htmlVideoDetails->filepath == "FFmpeg" || $htmlVideoDetails->filepath == "Url") {
                     $current_path = "components/com_contushdvideoshare/videos/";
-                    if ($htmlVideoDetails->filepath == "Url" && $htmlVideoDetails->streameroption == 'rtmp') {
+                    if ($htmlVideoDetails->filepath == "Url") {
                         if($htmlVideoDetails->streameroption == 'rtmp'){
                           $rtmp = str_replace('rtmp','http',$htmlVideoDetails->streamerpath);
                         $video = $rtmp.$htmlVideoDetails->videourl.'/playlist.m3u8';
@@ -233,7 +235,8 @@ $document->addStyleDeclaration($style);
         </div>
         <script type="text/javascript">
             var txt =  navigator.platform ;
-            if(txt =='iPod' || txt =='iPad' || txt =='iPhone' || txt =='Linux armv7l' || txt =='Linux armv6l')
+            var windo = "<?php echo $windo; ?>";
+            if(txt =='iPod' || txt =='iPad' || txt =='iPhone' || windo=="Windows Phone" || txt =='Linux armv7l' || txt =='Linux armv6l')
             {
                 document.getElementById("htmlplayer").style.display = "block";
                 document.getElementById("flashplayer").style.display = "none";
@@ -245,7 +248,7 @@ $document->addStyleDeclaration($style);
             }
             function failed(e)
             {
-                if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone'|| txt =='Linux armv7l' || txt =='Linux armv6l')
+                if(txt =='iPod'|| txt =='iPad'|| txt =='iPhone' || windo=="Windows Phone" || txt =='Linux armv7l' || txt =='Linux armv6l')
                 {
                     alert('Player doesnot support this video.');
                 }
@@ -253,6 +256,7 @@ $document->addStyleDeclaration($style);
         </script>
         <!-- HTML5 PLAYER  END -->
             <?php
+     }
         if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1') {
             ?>
             <div style="clear:both;font-size:0px; height:0px;"></div>
@@ -280,7 +284,7 @@ $document->addStyleDeclaration($style);
             </script>
 <?php } ?>
         <div id="rateid" class="ratingbg" >
-            <div class="content_center clearfix" style="width:<?php echo $details1[0]->width; ?>px;">
+            <div class="content_center clearfix" style="">
         <?php if ($this->homepagebottomsettings[0]->ratingscontrol == 1) {
             ?>
             <div class="centermargin floatleft" >
@@ -748,9 +752,9 @@ var xmlhttp;
             }
             else {
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                    $login_url = "index.php?option=com_users&amp;view=login&amp;return=".base64_encode(JFactory::getURI()->toString());
+                    $login_url = "index.php?option=com_users&amp;view=login";
                 } else {
-                    $login_url = "index.php?option=com_user&amp;view=login&amp;return=".base64_encode(JFactory::getURI()->toString());
+                    $login_url = "index.php?option=com_user&amp;view=login";
                 }
 ?>
  <div class="commentpost floatright"><a  href="<?php echo $login_url; ?>"  class="utility-link"><?php echo "Login to post comment"; ?></a></div>

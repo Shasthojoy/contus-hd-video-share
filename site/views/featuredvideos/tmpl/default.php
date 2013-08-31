@@ -3,15 +3,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Featured Videos View
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 /*
  ***********************************************************/
@@ -23,7 +23,7 @@ $user = JFactory::getUser();
 $requestpage = '';
 //get current page number
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
-$logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
+//
 $document = JFactory::getDocument();
 $style = '#video-grid-container .ulvideo_thumb .video-item{margin-right:'.$this->featurevideosrowcol[0]->featurwidth . 'px; }';
 $document->addStyleDeclaration($style);
@@ -40,7 +40,7 @@ function submitform()
 
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.logout" />
-		<input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />
+<!--		<input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />-->
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
@@ -55,7 +55,7 @@ function submitform()
             <?php }else { ?>
              <div class="toprightmenu">
                 <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
-                <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                <a href="index.php?option=com_user&task=logout"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
              </div>
            <?php  } }
                 else

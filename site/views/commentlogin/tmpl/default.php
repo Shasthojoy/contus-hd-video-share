@@ -3,15 +3,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Commentlogin Model
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 /*
  ***********************************************************/
@@ -52,16 +52,7 @@ if (JRequest::getvar('mode', '', 'get', 'string'))
     </fieldset>
     <input name="option" value="com_user" type="hidden">
     <input name="task" value="login" type="hidden">
-    <?php if (JRequest::getvar('mode', '', 'get', 'string'))
-            {
-                $player_path =  base64_encode('index.php?option=com_contushdvideoshare&view=player');
-            }
-           else
-            {
-                 $player_path = base64_encode('index.php?option=com_contushdvideoshare&view=commentlogin&mode=close');
-            } ?>
-    <input name="return" value="<?php echo $player_path; ?>" type="hidden">
-<?php echo JHTML::_('form.token'); ?>
+ <?php echo JHTML::_('form.token'); ?>
 </form>
 <?php
 exit;

@@ -1,15 +1,15 @@
 <?php
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Edit Video View Page
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 defined('_JEXEC') or die('Restricted access');
 $user = & JFactory::getUser();
@@ -33,7 +33,7 @@ if ($user->get('id') == '')
                {
 
  ?>
-              <span style='float:right'><b><a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=myvideos'); ?>"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="<?php JRoute::_('index.php?option=com_user&task=logout&return=' . base64_encode . ('index.php?option=com_contushdvideoshare')); ?>"><?php echo _HDVS_LOGOUT; ?></a></b></span>
+              <span style='float:right'><b><a href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=myvideos'); ?>"><?php echo _HDVS_MY_VIDEOS; ?></a> | <a href="<?php JRoute::_('index.php?option=com_user&task=logout'); ?>"><?php echo _HDVS_LOGOUT; ?></a></b></span>
  <?php
                }
             else

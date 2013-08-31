@@ -3,15 +3,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Playxml Model
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 
 /*
@@ -39,9 +39,10 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
 		$prerollads = "false";
 		$videoid = 0;
 		$home_bol = "false";
-		if (JRequest::getvar('id', '', 'get', 'int')) {
-			$videoid = JRequest::getvar('id', '', 'get', 'int');
-
+                $vid = JRequest::getvar('id');
+                $categ_id = JRequest::getvar('catid');
+		if ($vid) {
+			$videoid = $vid;
                         if($videoid!=0){
                             $query = "UPDATE #__hdflv_upload SET times_viewed=1+times_viewed WHERE id=".$videoid;
 					$db->setQuery($query);
@@ -56,8 +57,8 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
 				$db->setQuery($query);
 				$rows = $db->loadObjectList();
 			}
-			if(JRequest::getvar('catid', '', 'get', 'int')) {
-				$videocategory = JRequest::getvar('catid', '', 'get', 'int');
+			if($categ_id) {
+				$videocategory = $categ_id;
 			} else {
 				$videocategory = $rows[0]->playlistid;
 			}
@@ -94,7 +95,6 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                                         }
                                     endforeach;
                                 }
-                                
                                 $playlist = array_merge($arr1,$arr2);
                                 
 			}
@@ -109,8 +109,8 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
 					  ORDER BY a.ordering asc"; // Query is to display recent videos in home page
 			$db->setQuery($query);
 			$rs_video = $db->loadObjectList();
-                         if (JRequest::getvar('featured', '', 'get', 'string') && !empty($rs_video)) {
-			$featured = JRequest::getvar('featured', '', 'get', 'string');
+                         if (JRequest::getvar('featured') && !empty($rs_video)) {
+			$featured = JRequest::getvar('featured');
                         if($featured=="true"){
                             $query = "UPDATE #__hdflv_upload SET times_viewed=1+times_viewed WHERE id=".$rs_video[0]->id;
 					$db->setQuery($query);

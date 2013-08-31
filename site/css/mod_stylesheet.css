@@ -2,15 +2,15 @@
  ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- * @version	  : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Module stylesheet.css
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 
 /*
@@ -78,6 +78,7 @@ border:1px solid #999 !important;line-height:1.3em;width:300px;-moz-border-radiu
 .htmltooltip .chat-bubble-arrow {border-color:transparent transparent #fff transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;top:-18px;left:30px;}
 .htmltooltip .chat-bubble-arrow-border1 {border-color:#999 transparent transparent transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;bottom:-21px;left:30px;}
 .htmltooltip .chat-bubble-arrow1 {border-color:#fff transparent transparent transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;bottom:-18px;left:30px;}
-
+.video_module, div.module_videos, div.module_videos div {background: transparent !important;padding: 0 0 !important;margin: 0;}
+.module_videos .video-grid-container ul {padding: 0 !important;margin: 0 !important;}
 /* Tooltip End*/
 

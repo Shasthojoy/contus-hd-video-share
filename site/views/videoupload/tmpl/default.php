@@ -3,15 +3,15 @@
  * ********************************************************* */
 /**
  * @name          : Joomla HD Video Share
- * @version	      : 3.3
+ *** @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
  * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : GNU/GPL http://www.gnu.org/licenses/gpl-2.0.html
+ * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component Videoupload View Page
  * @Creation Date : March 2010
- * @Modified Date : April 2013
+ * @Modified Date : May 2013
  * */
 /*
  * ********************************************************* */
@@ -19,7 +19,7 @@
 defined('_JEXEC') or die('Restricted access');
 $user = JFactory::getUser();
 //$session = JFactory::getSession();
-$logoutval_2 = base64_encode('index.php?option=com_contushdvideoshare&view=player');
+//
 $editing = '';
 $baseurl = JURI::base();
 if ($user->get('id') == '') {
@@ -73,7 +73,7 @@ if (JRequest::getVar('url', '', 'post', 'string')) {
 
         <input type="hidden" name="option" value="com_users" />
         <input type="hidden" name="task" value="user.logout" />
-        <input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />
+<!--        <input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />-->
 <?php echo JHtml::_('form.token'); ?>
     </div>
 </form>
@@ -89,7 +89,7 @@ if ($user->get('id') != '') {
  ?>
         <div class="toprightmenu">
             <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
-            <a href="index.php?option=com_user&task=logout&return=<?php echo base64_encode('index.php?option=com_contushdvideoshare&view=player'); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+            <a href="index.php?option=com_user&task=logout"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
         </div>
 <?php } ?>
 
@@ -714,7 +714,7 @@ color: #fff;}
                                                                 if((thumburl.value.length > 0))
                                                                 {
 
-                                                                    if(thumburl.value.substring(thumburl.value.length-3) == 'gif' || thumburl.value.substring(thumburl.value.length-3) == 'jpg' || thumburl.value.substring(thumburl.value.length-3) == 'png')
+                                                                    if(thumburl.value.substring(thumburl.value.length-3) == 'gif' || thumburl.value.substring(thumburl.value.length-3) == 'GIF' || thumburl.value.substring(thumburl.value.length-3) == 'JPG' || thumburl.value.substring(thumburl.value.length-3) == 'jpg' || thumburl.value.substring(thumburl.value.length-3) == 'PNG' || thumburl.value.substring(thumburl.value.length-3) == 'png' )
                                                                     {}
                                                                     else {
                                                                         alert("Invalid file formate select only jpg/gif/png");

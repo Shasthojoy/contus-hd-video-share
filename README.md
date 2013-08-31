@@ -1,2 +1,2 @@
-pt_hdvideoshare
+Contus HD Video Share
 ===============
