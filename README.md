@@ -1,2 +1,2 @@
-HVS Article and HVSKomento plugins for Contus HD Video Share
+Contus HD Video Share 3.4.1
 =====================
