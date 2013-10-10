@@ -49,6 +49,8 @@ class contushdvideoshareViewadminvideos extends ContushdvideoshareView
 		$model = $this->getModel();
 		$videoslist = $model->addvideosmodel();
 		$this->assignRef('editvideo', $videoslist);
+                $player_values = $model->showplayersettings();
+		$this->assignRef('player_values', $player_values);
 		parent::display();
 	}
 	
@@ -71,6 +73,8 @@ class contushdvideoshareViewadminvideos extends ContushdvideoshareView
 		$model = $this->getModel();
 		$editvideoslist = $model->editvideosmodel();
 		$this->assignRef('editvideo', $editvideoslist);
+		$player_values = $model->showplayersettings();
+		$this->assignRef('player_values', $player_values);
 		parent::display();
 	}
 }

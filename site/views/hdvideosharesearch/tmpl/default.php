@@ -118,7 +118,7 @@ function submitform()
                         $searchVideoVal = "id=" . $this->search[$i]->vid;
                     }
 
-                    if ($this->search[$i]->filepath == "File" || $this->search[$i]->filepath == "FFmpeg") {
+                    if ($this->search[$i]->filepath == "File" || $this->search[$i]->filepath == "FFmpeg" || $this->search[$i]->filepath == "Embed") {
                         $src_path = "components/com_contushdvideoshare/videos/" . $this->search[$i]->thumburl;
                     }elseif ($this->search[$i]->filepath == "Url" || $this->search[$i]->filepath == "Youtube") {
                         $src_path = $this->search[$i]->thumburl;

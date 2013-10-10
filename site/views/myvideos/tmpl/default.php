@@ -164,7 +164,7 @@ function submitform()
                    <?php } ?>
                             <li class="rightrate">
                         <?php
-                        if ($this->deletevideos[$i]->filepath == "File" || $this->deletevideos[$i]->filepath == "FFmpeg")
+                        if ($this->deletevideos[$i]->filepath == "File" || $this->deletevideos[$i]->filepath == "FFmpeg" || $this->deletevideos[$i]->filepath == "Embed")
                         {
                             if ($this->deletevideos[$i]->thumburl != "")
                             {

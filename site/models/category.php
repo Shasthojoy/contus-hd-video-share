@@ -64,7 +64,8 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
 			$pageno = JRequest::getVar('page', '', 'post', 'int');
 		}
 		$limitrow = $this->getcategoryrowcol();
-		$length = $limitrow[0]->categoryrow * $limitrow[0]->categorycol;
+                $thumbview       = unserialize($limitrow[0]->thumbview);
+		$length = $thumbview['categoryrow'] * $thumbview['categorycol'];
 		$pages = ceil($total / $length);
 		if ($pageno == 1)
 		$start = 0;

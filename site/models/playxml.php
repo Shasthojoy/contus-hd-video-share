@@ -44,7 +44,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                 $query      = "SELECT distinct a.*,b.category
                             FROM #__hdflv_upload a 
                             LEFT JOIN #__hdflv_category b on a.playlistid=b.id 
-                            WHERE $publish b.published='1' and a.id=$videoid ";
+                            WHERE $publish b.published='1' AND a.id=$videoid AND a.filepath!='Embed'";
                 $db->setQuery($query);
                 $rows       = $db->loadObjectList();
             }
@@ -57,7 +57,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                 $query          = "SELECT distinct a.*,b.category
                                 FROM #__hdflv_upload a 
                                 LEFT JOIN #__hdflv_category b on a.playlistid=b.id or a.playlistid=b.parent_id 
-                                WHERE $publish b.published='1' and b.id=" . $videocategory . " and a.id != $videoid";
+                                WHERE $publish b.published='1' AND b.id=" . $videocategory . " AND a.id != $videoid AND a.filepath!='Embed'";
                 $db->setQuery($query);
                 $playlist_loop  = $db->loadObjectList();
                 
@@ -67,18 +67,18 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                 if (count($playlist_loop) > 0) {
                     foreach ($playlist_loop as $r):
                         if ($r->id > $rows[0]->id) {      ##Storing greater values in an array
-                            $query      = "SELECT distinct a.*,b.category
+                            $query      = "SELECT DISTINCT a.*,b.category
                                         FROM #__hdflv_upload a 
-                                        LEFT JOIN #__hdflv_category b on a.playlistid=b.id 
-                                        WHERE $publish b.published='1' and a.id=$r->id ";
+                                        LEFT JOIN #__hdflv_category b ON a.playlistid=b.id 
+                                        WHERE $publish b.published='1' AND a.id=$r->id  AND a.filepath!='Embed'";
                             $db->setQuery($query);
                             $arrGreat   = $db->loadObject();
                             $arr1[]     = $arrGreat;
                         } else {                          ##Storing lesser values in an array
-                            $query      = "SELECT distinct a.*,b.category
+                            $query      = "SELECT DISTINCT a.*,b.category
                                         FROM #__hdflv_upload a 
-                                        LEFT JOIN #__hdflv_category b on a.playlistid=b.id 
-                                        WHERE $publish b.published='1' and a.id=$r->id ";
+                                        LEFT JOIN #__hdflv_category b ON a.playlistid=b.id 
+                                        WHERE $publish b.published='1' AND a.id=$r->id  AND a.filepath!='Embed'";
                             $db->setQuery($query);
                             $arrLess    = $db->loadObject();
                             $arr2[]     = $arrLess;
@@ -90,12 +90,12 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
         } else {
             $query                      = "SELECT a.*,b.category,d.username,e.*
                                         FROM #__hdflv_upload a 
-                                        LEFT JOIN #__users d on a.memberid=d.id 
-                                        LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
-                                        LEFT JOIN #__hdflv_category b on e.catid=b.id 
-                                        WHERE $publish b.published='1' and a.featured='1' and a.type='0'
+                                        LEFT JOIN #__users d ON a.memberid=d.id 
+                                        LEFT JOIN #__hdflv_video_category e ON e.vid=a.id 
+                                        LEFT JOIN #__hdflv_category b ON e.catid=b.id 
+                                        WHERE $publish b.published='1' AND a.featured='1' AND a.type='0' AND a.filepath!='Embed'
                                         GROUP BY e.vid 
-                                        ORDER BY a.ordering asc"; ## Query is to display recent videos in home page
+                                        ORDER BY a.ordering ASC"; ## Query is to display recent videos in home page
             $db->setQuery($query);
             $rs_video                   = $db->loadObjectList();
             if (JRequest::getvar('featured') && !empty($rs_video)) {
@@ -109,12 +109,12 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
             if (count($rs_video) == 0) {
                 $query                  = "SELECT a.*,b.category,d.username,e.* 
                                         FROM  #__hdflv_upload a 
-                                        LEFT JOIN #__users d on a.memberid=d.id 
-                                        LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
-                                        LEFT JOIN #__hdflv_category b on e.catid=b.id 
-                                        WHERE $publish b.published='1' and a.type='0'
+                                        LEFT JOIN #__users d ON a.memberid=d.id 
+                                        LEFT JOIN #__hdflv_video_category e ON e.vid=a.id 
+                                        LEFT JOIN #__hdflv_category b ON e.catid=b.id 
+                                        WHERE $publish b.published='1' AND a.type='0' AND a.filepath!='Embed'
                                         GROUP BY e.vid 
-                                        ORDER BY a.ordering asc limit 0,1"; ## Query is to display recent videos in home page
+                                        ORDER BY a.ordering ASC LIMIT 0,1"; ## Query is to display recent videos in home page
                 $db->setQuery($query);
                 $rs_video               = $db->loadObjectList();
             }
@@ -194,7 +194,9 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                         $video = JURI::base() . $current_path . $rows->videourl;
                     }
                     $video = JURI::base() . $current_path . $rows->videourl;
-                    ($rows->hdurl != "") ? $hdvideo = JURI::base() . $current_path . $rows->hdurl : $hdvideo = "";
+                    if ($rows->hdurl != "") {
+                        $hdvideo = JURI::base() . $current_path . $rows->hdurl;
+                    }
                     if (!empty($rows->previewurl)) {
                         $preview_image = $rows->previewurl;
                     } else {

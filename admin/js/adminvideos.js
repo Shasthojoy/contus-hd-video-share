@@ -1,8 +1,6 @@
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- ****@version	  : 3.4.1
+ * @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -12,9 +10,6 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-
-/*
- ***********************************************************/
 
 /*
  * Description : validation for upload videos and thumb image from admin
@@ -43,6 +38,7 @@ if (document.getElementById('mode1').value == 'Youtube') {
 	document.getElementById('ffmpeg_disable_new6').style.display = "none";
 	document.getElementById('ffmpeg_disable_new7').style.display = "none";
 	document.getElementById('ffmpeg_disable_new8').style.display = "none";
+	document.getElementById('ffmpeg_disable_new9').style.display = "none";
 	document.getElementById('fvideos').style.display = "none";
 }
 if (document.getElementById('mode1').value == 'Vimeo') {
@@ -51,6 +47,7 @@ if (document.getElementById('mode1').value == 'Vimeo') {
 	document.getElementById('ffmpeg_disable_new6').style.display = "none";
 	document.getElementById('ffmpeg_disable_new7').style.display = "none";
 	document.getElementById('ffmpeg_disable_new8').style.display = "none";
+	document.getElementById('ffmpeg_disable_new9').style.display = "none";
 	document.getElementById('fvideos').style.display = "none";
 
 }
@@ -100,6 +97,7 @@ function withoutflashhide() {
 	document.getElementById('ffmpeg_disable_new2').style.display = "none";
 	document.getElementById('ffmpeg_disable_new3').style.display = "none";
 	document.getElementById('ffmpeg_disable_new4').style.display = "none";
+	document.getElementById('ffmpeg_disable_new9').style.display = "none";
 }
 
 function withoutflashvisible() {
@@ -107,10 +105,11 @@ function withoutflashvisible() {
 	document.getElementById('ffmpeg_disable_new2').style.display = "";
 	document.getElementById('ffmpeg_disable_new3').style.display = "";
 	document.getElementById('ffmpeg_disable_new4').style.display = "";
+        document.getElementById('ffmpeg_disable_new9').style.display = "none";
 }
 
 //function to select file path from (file,url,you tube,vimeo and ffmpeg)
-function fileedit(file_var) {
+function fileedit(file_var) { 
 	if (file_var == 'File') {
 		withoutflashvisible();
 		urlhide();
@@ -151,6 +150,13 @@ function fileedit(file_var) {
 		urlhide();
 		document.getElementById('fvideos').style.display = "";
 		document.getElementById('fileoption').value = 'FFmpeg';
+	} else if (file_var == 'Embed') {
+		withoutflashhide();
+		urlhide();
+		document.getElementById('fvideos').style.display = "none";
+		document.getElementById('ffmpeg_disable_new9').style.display = "";
+                document.getElementById('ffmpeg_disable_new3').style.display = "";
+		document.getElementById('fileoption').value = 'Embed';
 	}
 }
 

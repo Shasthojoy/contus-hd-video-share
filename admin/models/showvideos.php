@@ -145,7 +145,7 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 			$strMainQuery = "SELECT distinct(d.videoid) as cvid,a.`id`, a.`memberid`, a.`published`, a.`title`, a.`seotitle`,
 							  a.`featured`, a.`type`, a.`rate`, a.`ratecount`, a.`times_viewed`, a.`videos`, a.`filepath`,
 							  a.`videourl`, a.`thumburl`, a.`previewurl`, a.`hdurl`, a.`home`, a.`playlistid`, a.`duration`,
-							  a.`ordering`, a.`streamerpath`, a.`streameroption`, a.`postrollads`, a.`prerollads`, a.`midrollads`, a.`imaads`,
+							  a.`ordering`, a.`streamerpath`, a.`streameroption`, a.`postrollads`, a.`prerollads`, a.`midrollads`, a.`imaads`, a.`embedcode`,
 							  a.`description`, a.`targeturl`, a.`download`, a.`prerollid`, a.`postrollid`, a.`created_date`,
 							  a.`addedon`, a.`usergroupid`, a.`tags`, a.`useraccess`,b.category,c.username
 		          			  FROM #__hdflv_upload a
@@ -271,6 +271,8 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 
 		##  variable initialization
 		$arrFormData = JRequest::get('post');
+                $embedcode=JRequest::getVar('embedcode', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$arrFormData['embedcode']=$embedcode;
 		$fileoption = $arrFormData['fileoption'];
 		$seoTitle = $arrFormData['title'];
                 $seoTitle=stripslashes($seoTitle);
@@ -317,6 +319,11 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 			require_once(FVPATH.DS.'helpers'.DS.'uploadyoutube.php');
 			uploadYouTubeHelper::uploadYouTube($arrFormData,$idval);
 		}
+		## uploading videos type : Embed
+		if ($fileoption == "Embed"){
+			require_once(FVPATH.DS.'helpers'.DS.'uploadembed.php');
+			uploadEmbedHelper::uploadEmbed($arrFormData,$idval);
+		}
 
 		/**
 		 * uploading videos
@@ -339,7 +346,6 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
             $db->setQuery($query);
             $db->query();
         ## query to find the existing of category for video
-
         $query = "SELECT count(vid) FROM #__hdflv_video_category where vid=$idval";
         $db->setQuery($query);
         $total = $db->loadResult();
@@ -364,7 +370,6 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
         ##  set to redirect
         $mainframe->redirect($link, $msg);
 	}
-
 
 	##  function to make video as featured/unfeatured
 	function featuredvideo($arrVideoId)

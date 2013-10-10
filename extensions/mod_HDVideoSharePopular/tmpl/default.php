@@ -46,7 +46,7 @@ $seoOption =$dispenable['seo_option'];
             <ul class="ulvideo_thumb1 clearfix">
                 <?php } ?>
                     <?php
-                    if ($result[$i]->filepath == "File" || $result[$i]->filepath == "FFmpeg")
+                    if ($result[$i]->filepath == "File" || $result[$i]->filepath == "FFmpeg" || $result[$i]->filepath == "Embed")
                         $src_path = JURI::base() . "components/com_contushdvideoshare/videos/" . $result[$i]->thumburl;
                     if ($result[$i]->filepath == "Url" || $result[$i]->filepath == "Youtube")
                         $src_path = $result[$i]->thumburl;

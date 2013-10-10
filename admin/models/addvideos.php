@@ -30,7 +30,7 @@ class contushdvideoshareModeladdvideos extends ContushdvideoshareModel {
 	{
 		$db = JFactory::getDBO();
 		// query to get ffmpegpath & file max upload size from #__hdflv_player_settings
-		$query = "SELECT `ffmpeg`,`uploadmaxsize`
+		$query = "SELECT `uploadmaxsize`
 				  FROM #__hdflv_player_settings";
 		$db->setQuery($query);
 		$rs_playersettings = $db->loadObjectList();
@@ -103,6 +103,17 @@ class contushdvideoshareModeladdvideos extends ContushdvideoshareModel {
 		return $add;
 	}
 
+        /**
+	 * function to get player settings
+	 */
+        function showplayersettings()
+	{
+		$db = JFactory::getDBO();
+		//query to fetch player settings
+		$query = "SELECT `player_values` FROM #__hdflv_player_settings";
+		$db->setQuery( $query);
+		return $db->loadResult();
+}
 }
 
 ?>

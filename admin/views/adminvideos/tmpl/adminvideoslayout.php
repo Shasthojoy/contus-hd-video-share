@@ -15,6 +15,7 @@
 ##  no direct access
 defined('_JEXEC') or die('Restricted access');
 $editVideo      = $this->editvideo;
+$player_values  = unserialize($this->player_values);
 $editor         = JFactory::getEditor();
 $usergroups     = $editVideo['user_groups'];
 $user           = JFactory::getUser();
@@ -56,6 +57,7 @@ JHTML::_('behavior.tooltip');
             var bol_file2=(document.getElementById('filepath2').checked);
             var bol_file3=(document.getElementById('filepath3').checked);
             var bol_file4=(document.getElementById('filepath4').checked);
+            var bol_file5=(document.getElementById('filepath5').checked);
             var streamer_name='';
             var islive = '';
             var stream_opt=document.getElementsByName('streameroption[]');
@@ -200,7 +202,7 @@ JHTML::_('behavior.tooltip');
                     else
                      {
                         var theurl=document.getElementById("videourl").value;
-                         if (theurl.contains("youtube.com") || theurl.contains("vimeo.com") || theurl.contains("youtu.be") || theurl.contains("dailymotion"))
+                         if (theurl.contains("youtube.com") || theurl.contains("vimeo.com") || theurl.contains("youtu.be") || theurl.contains("dailymotion") || theurl.contains("viddler"))
                          {
                                    document.getElementById('fileoption').value='Youtube';
                                    if(document.getElementById('videourl').value!="")
@@ -208,12 +210,35 @@ JHTML::_('behavior.tooltip');
                          }
                          else
                          {
-                             alert( "<?php echo JText::_( 'Please Enter Valid youtube or vimeo url', true ); ?>" )
+                             alert( "<?php echo JText::_( 'Please Enter Valid Youtube or Vimeo or Dailymotion or Viddler url', true ); ?>" )
                              document.getElementById("videourl").focus();
                              return false;
                          }
                     }
                 }
+				/**
+				* validation for embed code
+				*/
+
+                if(bol_file5==true)
+                {
+                var embed_code = document.getElementById('embed_code').value;
+                embed_code = (embed_code + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+                document.getElementById('embedcode').value = embed_code;
+                alert(embed_code);
+                if(embed_code===''){
+                alert( "<?php echo JText::_( 'You must provide Embed code', true ); ?>" )
+                return;
+                } else if(embed_code.indexOf('<iframe')!=0 && embed_code.indexOf('<embed')!=0 && embed_code.indexOf('<object')!=0){
+                alert( "<?php echo JText::_( 'Enter Valid Embed Code', true ); ?>" )            
+                return;
+                }
+                if(document.getElementById('thumbimageform-value').value=="")
+                        {
+                        alert("<?php echo JText::_('You must Upload a Thumb Image',true);?>");
+                        return;
+                        }
+                 }
 
                 if(bol_file3==true)
                 {
@@ -269,60 +294,22 @@ JHTML::_('behavior.tooltip');
     <?php } ?>
     <table class="admintable <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'table table-striped'; ?>">
 <?php
-    $streamerOptionNone = $streamerOptionLighthttpd = $streamerOptionRtmp = $filePath = $filePathUrl = $filePathYoutube = $filePathFfmpeg = $rtmpchk = $filePathembed = '';
-    if($editVideo['rs_editupload']->streameroption == 'None' ||$editVideo['rs_editupload']->streameroption == '')
-        {
-          $streamerOptionNone = 'checked="checked" ';
-
-        }
-     if($editVideo['rs_editupload']->streameroption == 'lighttpd')
-        {
-          $streamerOptionLighthttpd = 'checked="checked" ';
-
-        }
-     if($editVideo['rs_editupload']->streameroption=="rtmp")
-        {
-
-         $streamerOptionRtmp = 'checked="checked" ';
-
-        }
-      if($editVideo['rs_editupload']->filepath == 'File' ||$editVideo['rs_editupload']->filepath == '')
-       {
-          $filePath = 'checked="checked" ';
-
-       }
-      if($editVideo['rs_editupload']->filepath == 'Url')
-       {
-       if ($editVideo['rs_editupload']->streameroption == "lighttpd" || $editVideo['rs_editupload']->streameroption == "rtmp" ) {
-                $rtmpchk = 'disabled';
-         }
-          $filePathUrl = 'checked="checked" ';
-
-       }
-     if($editVideo['rs_editupload']->filepath == 'Youtube')
-       {
-         $filePathYoutube = 'checked="checked" ';
-
-       }
-      if($editVideo['rs_editupload']->filepath == 'FFmpeg')
-       {
-          $filePathFfmpeg = 'checked="checked" ';
-
-       }
-      if($editVideo['rs_editupload']->filepath == 'Embed')
-       {
-          $filePathembed = 'checked="checked" ';
-
-       }
+   $youtubefilepathchk = $isfilepathchk = $ffmpegchk = $embedchk = $filePathembed = '';
+    
+//         if($editVideo['rs_editupload']->filepath == 'Url') {
+//            if ($editVideo['rs_editupload']->streameroption == "lighttpd" || $editVideo['rs_editupload']->streameroption == "rtmp" ) {
+//                     $youtubefilepathchk = $isfilepathchk = $ffmpegchk = $embedchk = 'disabled';
+//              }
+//         }
 ?>
         <tr>
             <td><?php echo JHTML::tooltip('Select streamer option', 'Streamer Option',
 	            '', 'Streamer Option');?></td>
             <td <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="radio_algin"'; ?>>
 
-                <input type="radio" name="streameroption[]" id="streameroption1" <?php echo $streamerOptionNone; ?> value="None"  checked="checked" onclick="streamer1('None');" />None
-                <input type="radio" name="streameroption[]" id="streameroption2" <?php echo $streamerOptionLighthttpd; ?>value="lighttpd"  onclick="streamer1('lighttpd');" />Lighttpd
-                <input type="radio" name="streameroption[]" id="streameroption3" <?php echo $streamerOptionRtmp; ?> value="rtmp"  onclick="streamer1('rtmp');" />RTMP
+                <input type="radio" name="streameroption[]" id="streameroption1" value="None"  checked="checked" onclick="streamer1('None');" />None
+                <input type="radio" name="streameroption[]" id="streameroption2" value="lighttpd"  onclick="streamer1('lighttpd');" />Lighttpd
+                <input type="radio" name="streameroption[]" id="streameroption3" value="rtmp"  onclick="streamer1('rtmp');" />RTMP
             </td>
         </tr>
 
@@ -350,13 +337,19 @@ JHTML::_('behavior.tooltip');
         <tr><td width="200px;"><?php echo JHTML::tooltip('Select file path', 'File Option',
 	            '', 'File Option');?></td>
             <td <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="radio_algin"'; ?>>
-                <input type="radio" name="filepath" id="filepath1" <?php echo $filePath; ?> <?php echo $rtmpchk;?> value="File" onclick="fileedit('File');" />File
-                <input type="radio" name="filepath" id="filepath2"<?php echo $filePathUrl; ?> value="Url" onclick="fileedit('Url');"/>URL
-                <input type="radio" name="filepath" id="filepath4"<?php echo $filePathYoutube; ?> <?php echo $rtmpchk;?> value="Youtube" onclick="fileedit('Youtube');" />YouTube / Vimeo / DailyMotion / Viddler
-                <input type="radio" name="filepath" id="filepath3"<?php echo $filePathFfmpeg; ?> <?php echo $rtmpchk;?> value="FFmpeg" onclick="fileedit('FFmpeg');" />FFmpeg
-                <input type="radio" name="filepath" id="filepath5"<?php echo $filePathembed; ?> <?php echo $rtmpchk;?> value="Embed" onclick="fileedit('Embed');" />Embed Video
+                <input type="radio" name="filepath" id="filepath1" <?php echo $isfilepathchk;?> value="File" onclick="fileedit('File');" />File
+                <input type="radio" name="filepath" id="filepath2" value="Url" onclick="fileedit('Url');"/>URL
+                <input type="radio" name="filepath" id="filepath4" <?php echo $youtubefilepathchk;?> value="Youtube" onclick="fileedit('Youtube');" />YouTube / Vimeo / DailyMotion / Viddler
+                <input type="radio" name="filepath" id="filepath3" <?php echo $ffmpegchk;?> value="FFmpeg" onclick="fileedit('FFmpeg');" />FFmpeg
+                <?php if (isset($player_values['licensekey']) && $player_values['licensekey'] != '') { ?>
+                <input type="radio" name="filepath" id="filepath5" <?php echo $embedchk;?> value="Embed" onclick="fileedit('Embed');" />Embed Video
+                <?php } ?>
         </td></tr>
 
+        <tr id="ffmpeg_disable_new9" name="ffmpeg_disable_edit9" style="display: none"><td><?php echo JHTML::tooltip('Enter Embed Code', 'Embed Code','', 'Embed Code');?></td>
+            <td>
+                <textarea id="embed_code" name="embed_code" rows="5" cols="60"><?php if (isset($editVideo['rs_editupload']->embedcode))echo stripslashes($editVideo['rs_editupload']->embedcode); ?></textarea>
+         </td></tr>
         <tr id="ffmpeg_disable_new1" name="ffmpeg_disable_new1"><td><?php echo JHTML::tooltip('Select video to upload', 'Upload Video',
 	            '', 'Upload Video');?></td>
             <td>
@@ -432,7 +425,7 @@ JHTML::_('behavior.tooltip');
                     <form name="thumbimageform" method="post" enctype="multipart/form-data" >
                         <input type="file" name="myfile" id="myfile2"  onchange="enableUpload(this.form.name);"/>
                         <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Thumb Image" style="margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
-                        <label><?php if($editVideo['rs_editupload']->filepath == 'File') echo $editVideo['rs_editupload']->thumburl;?></label>
+                        <label><?php if($editVideo['rs_editupload']->filepath == 'File' || $editVideo['rs_editupload']->filepath == 'Embed') echo $editVideo['rs_editupload']->thumburl;?></label>
                         <input type="hidden" name="mode" value="image" />
                     </form>
                 </div>
@@ -511,20 +504,7 @@ JHTML::_('behavior.tooltip');
         <tr id="ffmpeg_disable_new7" name="ffmpeg_disable_edit7"><td><?php echo JHTML::tooltip('Enter Video Preview URL (Eg:http://www.yourdomain.com/images)', 'Preview URL','', 'Preview URL');?></td>
             <td><input type="text" name="previewurl"  id="previewurl" size="100" maxlength="250" value="<?php  if($editVideo['rs_editupload']->filepath == 'Url') echo $editVideo['rs_editupload']->previewurl;?>"/>
         </td></tr>
-        <tr id="ffmpeg_disable_new9" name="ffmpeg_disable_edit9"><td><?php echo JHTML::tooltip('Enter Video Preview URL (Eg:http://www.yourdomain.com/images)', 'Preview URL','', 'Preview URL');?></td>
-            <td><input type="text" name="previewurl"  id="previewurl" size="100" maxlength="250" value="<?php  if($editVideo['rs_editupload']->filepath == 'Url') echo $editVideo['rs_editupload']->previewurl;?>"/>
-        </td></tr>
-        <div id="embedvideo" class="rtmp_inside inside" >
-                    <table class="form-table">
-                        <tr>
-                            <th scope="row"><?php _e('Embed Code', 'video_gallery') ?></th>
-                            <td class="rtmp_td">
-                                <textarea id="embedcode" name="embedcode" rows="5" cols="60"><?php if (isset($videoEdit->embedcode))echo stripslashes($videoEdit->embedcode); ?></textarea>
-                             <span id="embedmessage" style="display: block; margin-top:10px;color:red;font-size:12px;font-weight:bold;"></span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+ 
         <tr id="fvideos" name="fvideos"> <td><?php echo JHTML::tooltip('Select video to upload', 'Upload Video',
 	            '', 'Upload Video');?></td>
             <td>
@@ -562,20 +542,6 @@ JHTML::_('behavior.tooltip');
     </table>
 </fieldset>
 </div>
-<?php
-if (isset($_POST['youtube_media'])) {
-$act1 = contushdvideoshareControlleradminvideos::youtubeurl();
-?>          
-<input type="hidden" name="act" id="act3" value="<?php if (isset($act1[3]))
-echo $act1[3] ?>" />
-<input type="hidden" name="act" id="act0" value="<?php echo stripslashes(str_replace('"', '', $act1[0])); ?>" />
-<input type="hidden" name="act" id="act4" value="<?php echo $act1[4] ?>" />
-<input type="hidden" name="act" id="act5" value="<?php if (isset($act1[5]))
-echo $act1[5]; ?>" />
-<input type="hidden" name="act" id="act6" value="<?php if (isset($act1[6]))
-echo $act1[6] ?>" />
-
-<?php } ?>     
 <script type="text/javascript">
         var http = createObject();
         document.getElementById('generate').style.visibility  = "hidden";
@@ -922,6 +888,7 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
     <input type="hidden" name="previewimageform-value" id="previewimageform-value" value="" />
     <input type="hidden" name="ffmpegform-value" id="ffmpegform-value" value="<?php echo $editVideo['rs_editupload']->videourl ; ?>" />
     <input type="hidden" name="videourl-value" id="videourl-value" value="" />
+    <input type="hidden" name="embedcode" id="embedcode" value="" />
     <input type="hidden" name="thumburl-value" id="thumburl-value" value="" />
     <input type="hidden" name="previewurl-value" id="previewurl-value" value="" />
     <input type="hidden" name="hdurl-value" id="hdurl-value" value="" />
@@ -934,5 +901,32 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
     <!-- Ends -->
     <input type="hidden" name="submitted" value="true" id="submitted">
 </form>
-<script type="text/javascript" src="<?php echo JURI::base().'components/com_contushdvideoshare/js/adminvideos.js';?>"></script>
 <!-- video info form end --> 
+<script type="text/javascript" src="<?php echo JURI::base().'components/com_contushdvideoshare/js/adminvideos.js';?>"></script>
+<script type="text/javascript">
+        <?php
+        if($editVideo['rs_editupload']->streameroption == 'None' ||$editVideo['rs_editupload']->streameroption == '') { ?>
+          document.getElementById("streameroption1").checked = true;
+      <?php
+        } else if($editVideo['rs_editupload']->streameroption == 'lighttpd') { ?>
+          document.getElementById("streameroption2").checked = true;
+      <?php } else if($editVideo['rs_editupload']->streameroption=="rtmp") { ?>
+         document.getElementById("streameroption3").checked = true;
+      <?php }
+      if($editVideo['rs_editupload']->filepath == 'File' ||$editVideo['rs_editupload']->filepath == '') { ?>
+          fileedit('File');
+          document.getElementById("filepath1").checked = true;
+      <?php } else if($editVideo['rs_editupload']->filepath == 'Url') { ?>
+          fileedit('Url');
+          document.getElementById("filepath2").checked = true;
+      <?php  } else if($editVideo['rs_editupload']->filepath == 'Youtube') { ?>
+          fileedit('Youtube');
+          document.getElementById("filepath4").checked = true;
+      <?php } else if($editVideo['rs_editupload']->filepath == 'FFmpeg') { ?>
+          fileedit('FFmpeg');
+          document.getElementById("filepath3").checked = true;
+      <?php } else if($editVideo['rs_editupload']->filepath == 'Embed') { ?>
+          fileedit('Embed');
+          document.getElementById("filepath5").checked = true;
+      <?php } ?>
+        </script>

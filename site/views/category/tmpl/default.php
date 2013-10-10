@@ -118,7 +118,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                     $categoryVideoVal = "id=" . $this->categoryview[$i]->id;
                 }
 
-                if ($this->categoryview[$i]->filepath == "File" || $this->categoryview[$i]->filepath == "FFmpeg")
+                if ($this->categoryview[$i]->filepath == "File" || $this->categoryview[$i]->filepath == "FFmpeg" || $this->categoryview[$i]->filepath == "Embed")
                     $src_path = "components/com_contushdvideoshare/videos/" . $this->categoryview[$i]->thumburl;
                 if ($this->categoryview[$i]->filepath == "Url" || $this->categoryview[$i]->filepath == "Youtube")
                     $src_path = $this->categoryview[$i]->thumburl;

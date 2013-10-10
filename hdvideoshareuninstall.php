@@ -1,6 +1,4 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
  *** @version	  : 3.4.1
@@ -14,9 +12,6 @@
  * @Modified Date : May 2013
  * */
 
-/*
- ***********************************************************/
-
 /**
  * Description :    Uninstallation file
  */
@@ -26,7 +21,7 @@ defined('_JEXEC') or die('Restricted access');
 error_reporting(0);
 // Imports
 jimport('joomla.installer.installer');
-$db = &JFactory::getDBO();
+$db = JFactory::getDBO();
 $db->setQuery("DROP TABLE IF EXISTS `#__hdflv_category_backup`");
 $db->query();
 $db->setQuery("RENAME TABLE `#__hdflv_category` TO `#__hdflv_category_backup`");
@@ -146,6 +141,17 @@ $id = $db->loadResult();
 if ($id) {
     $installer = new JInstaller();
     $installer->uninstall('module', $id);
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge')) {
+    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'plugin' AND element = 'hvsarticle' AND folder = 'content' LIMIT 1");
+} else {
+    $db->setQuery("SELECT id FROM #__plugins WHERE element = 'hvsarticle' LIMIT 1");
+}
+$id = $db->loadResult();
+if ($id) {
+    $installer = new JInstaller();
+    $installer->uninstall('plugin', $id);
 }
 ?>
 <h2 align="center">HDVideo Share UnInstallation Status</h2>
@@ -299,6 +305,27 @@ if ($id) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareSearch' LIMIT 1");
                 } else {
                     $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareSearch' LIMIT 1");
+                }
+
+                $id = $db->loadResult();
+                if (!$id) {
+                    echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+                } else {
+                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+                }
+                ?>
+            </td>
+        </tr>
+        <tr class="row0">
+            <td class="key" colspan="2"><?php echo 'HVS Article Plugin - ' . JText::_('Plugin'); ?></td>
+            <td style="text-align: center;">
+                <?php
+                //check installed modules
+                $db = &JFactory::getDBO();
+                if (version_compare(JVERSION, '1.6.0', 'ge')) {
+                        $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'plugin' AND element = 'hvsarticle' AND folder = 'content' LIMIT 1");
+                } else {
+                        $db->setQuery("SELECT id FROM #__plugins WHERE element = 'hvsarticle' LIMIT 1");
                 }
 
                 $id = $db->loadResult();

@@ -93,6 +93,7 @@ class contushdvideoshareModelsettings extends ContushdvideoshareModel
                     'normalscale'               => $arrFormData['normalscale'],
                     'fullscreenscale'           => $arrFormData['fullscreenscale'],
                     'volume'                    => $arrFormData['volume'],
+                    'nrelated'                  => 8,
                     'ffmpegpath'                => $arrFormData['ffmpegpath'],
                     'stagecolor'                => $arrFormData['stagecolor'],
                     'licensekey'                => $arrFormData['licensekey'],

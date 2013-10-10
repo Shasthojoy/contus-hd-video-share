@@ -168,6 +168,7 @@ if (empty($result)) {
   `clickcounts` int(11) NOT NULL DEFAULT '0',
   `adsdesc` varchar(500) NOT NULL,
   `typeofadd` varchar(50) NOT NULL,
+  `imaaddet` longtext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
     $db->query();
@@ -238,125 +239,38 @@ if (empty($result)) {
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_player_settings` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `published` tinyint(4) NOT NULL,
-  `buffer` int(10) NOT NULL,
-  `normalscale` varchar(100) NOT NULL,
-  `fullscreenscale` varchar(100) NOT NULL,
-  `autoplay` tinyint(1) NOT NULL,
-  `volume` int(10) NOT NULL,
-  `logoalign` varchar(10) NOT NULL,
-  `logoalpha` int(50) NOT NULL,
-  `skin_autohide` tinyint(2) NOT NULL,
-  `stagecolor` varchar(20) NOT NULL,
-  `skin` varchar(255) NOT NULL,
-  `embedpath` varchar(50) NOT NULL,
-  `fullscreen` tinyint(1) NOT NULL,
-  `zoom` tinyint(1) NOT NULL,
-  `width` int(20) NOT NULL,
-  `height` int(20) NOT NULL DEFAULT '400',
+  `player_colors` longtext NOT NULL,
+  `player_icons` longtext NOT NULL,
+  `player_values` longtext NOT NULL,
   `uploadmaxsize` int(10) NOT NULL,
-  `ffmpegpath` varchar(255) NOT NULL,
-  `login_page_url` varchar(300) NOT NULL,
-  `ffmpeg` varchar(20) NOT NULL,
-  `related_videos` tinyint(1) NOT NULL,
-  `timer` tinyint(1) NOT NULL,
   `logopath` varchar(255) NOT NULL,
-  `logourl` varchar(255) NOT NULL,
-  `nrelated` int(11) NOT NULL,
-  `shareurl` tinyint(1) NOT NULL,
-  `playlist_autoplay` int(11) NOT NULL,
-  `hddefault` int(1) NOT NULL,
-  `ads` tinyint(4) NOT NULL,
-  `prerollads` tinyint(4) NOT NULL,
-  `postrollads` tinyint(4) NOT NULL,
-  `random` tinyint(4) NOT NULL,
-  `midrollads` tinyint(4) NOT NULL,
-  `midbegin` int(11) NOT NULL,
-  `midinterval` int(11) NOT NULL,
-  `midrandom` tinyint(4) NOT NULL,
-  `midadrotate` tinyint(4) NOT NULL,
-  `playlist_open` tinyint(4) NOT NULL,
-  `licensekey` varchar(255) NOT NULL,
-  `vast` tinyint(1) NOT NULL,
-  `vast_pid` int(20) NOT NULL,
-  `Youtubeapi` tinyint(1) NOT NULL DEFAULT '1',
-  `scaletologo` tinyint(4) NOT NULL,
-  `googleanalyticsID` text NOT NULL,
-  `googleana_visible` tinyint(4) NOT NULL,
-  `IMAAds_path` text NOT NULL,
-  `IMAAds` tinyint(4) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;");
     $db->query();
-
-    $db->setQuery("INSERT INTO `#__hdflv_player_settings` (`id`, `published`, `buffer`, `normalscale`, `fullscreenscale`, `autoplay`, `volume`, `logoalign`, `logoalpha`, `skin_autohide`, `stagecolor`, `skin`, `embedpath`, `fullscreen`, `zoom`, `width`, `height`, `uploadmaxsize`, `ffmpegpath`, `login_page_url`, `ffmpeg`, `related_videos`, `timer`, `logopath`, `logourl`, `nrelated`, `shareurl`, `playlist_autoplay`, `hddefault`, `ads`, `prerollads`, `postrollads`, `random`, `midrollads`, `midbegin`, `midinterval`, `midrandom`, `midadrotate`, `playlist_open`, `licensekey`, `vast`, `vast_pid`, `Youtubeapi`, `scaletologo`, `googleanalyticsID`, `googleana_visible`, `IMAAds_path`, `IMAAds`) VALUES
-(1, 1, 15, '0', '0', 1, 34, 'TL', 35, 1, '000000', 'skin_black.swf', 'http://localhost/joomlatry/', 1, 1, 700, 475, 100, 'usr/bin/ffmpeg/','', '0', 1, 1, '', 'http://www.hdvideoshare.net', 8, 1, 0, 1, 0, 1, 1, 0, 0, 1, 5, 0, 0, 1, '', 0, 0, 1, 1, '', 0, '', 0);");
+$player_colors= 'a:18:{s:21:"sharepanel_up_BgColor";s:0:"";s:23:"sharepanel_down_BgColor";s:0:"";s:19:"sharepaneltextColor";s:0:"";s:15:"sendButtonColor";s:0:"";s:19:"sendButtonTextColor";s:0:"";s:9:"textColor";s:0:"";s:11:"skinBgColor";s:0:"";s:13:"seek_barColor";s:0:"";s:15:"buffer_barColor";s:0:"";s:13:"skinIconColor";s:0:"";s:11:"pro_BgColor";s:0:"";s:15:"playButtonColor";s:0:"";s:17:"playButtonBgColor";s:0:"";s:17:"playerButtonColor";s:0:"";s:19:"playerButtonBgColor";s:0:"";s:19:"relatedVideoBgColor";s:0:"";s:15:"scroll_barColor";s:0:"";s:14:"scroll_BgColor";s:0:"";}';
+$player_icons = 'a:27:{s:8:"autoplay";s:1:"1";s:17:"playlist_autoplay";s:1:"1";s:13:"playlist_open";s:1:"1";s:13:"skin_autohide";s:1:"1";s:10:"fullscreen";s:1:"1";s:4:"zoom";s:1:"1";s:5:"timer";s:1:"1";s:7:"showTag";s:1:"1";s:8:"shareurl";s:1:"1";s:11:"emailenable";s:1:"1";s:14:"login_page_url";s:17:"http://apptha.com";s:13:"volumevisible";N;s:12:"embedVisible";s:1:"1";s:15:"progressControl";s:1:"1";s:9:"hddefault";s:1:"1";s:12:"imageDefault";s:1:"1";s:14:"enabledownload";s:1:"1";s:10:"prerollads";s:1:"1";s:11:"postrollads";s:1:"0";s:6:"imaads";s:1:"1";s:13:"volumecontrol";s:1:"1";s:7:"adsSkip";s:1:"0";s:10:"midrollads";s:1:"0";s:8:"midbegin";s:1:"2";s:9:"midrandom";s:1:"0";s:11:"midadrotate";s:1:"0";s:17:"googleana_visible";s:1:"0";}';
+$player_values = 'a:20:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"600";s:6:"height";s:3:"400";s:11:"normalscale";s:1:"2";s:15:"fullscreenscale";s:1:"2";s:6:"volume";s:2:"50";s:8:"nrelated";i:8;s:10:"ffmpegpath";s:15:"/usr/bin/ffmpeg";s:10:"stagecolor";s:8:"0x000000";s:10:"licensekey";s:31:"SX3B-SL7VFIQ-WBCTIL6AWWIRCONTUS";s:7:"logourl";s:43:"http://stationfi.com/images/custom-logo.png";s:9:"logoalpha";s:3:"100";s:9:"logoalign";s:2:"BL";s:15:"adsSkipDuration";s:1:"3";s:17:"googleanalyticsID";s:0:"";s:8:"midbegin";s:1:"2";s:11:"midinterval";s:1:"1";s:14:"related_videos";s:1:"1";s:16:"relatedVideoView";s:4:"side";s:14:"login_page_url";s:17:"http://apptha.com";}';
+    $db->setQuery("INSERT INTO `#__hdflv_player_settings` (`id`, `published`, `uploadmaxsize`, `logopath`, `player_colors`, `player_icons`, `player_values`) VALUES
+(1, 1, 100, '', '$player_colors', '$player_icons', '$player_values');
+");
     $db->query();
 
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_site_settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `published` tinyint(4) NOT NULL,
-  `seo_option` tinyint(4) NOT NULL,
-  `facebooklike` tinyint(4) NOT NULL,
-  `facebookapi` varchar(100) NOT NULL,
-  `featurrow` int(5) NOT NULL DEFAULT '3',
-  `featurcol` int(5) NOT NULL DEFAULT '3',
-  `featurwidth` int(5) NOT NULL DEFAULT '3',
-  `recentrow` int(5) NOT NULL DEFAULT '3',
-  `recentcol` int(5) NOT NULL DEFAULT '4',
-  `recentwidth` int(5) NOT NULL DEFAULT '3',
-  `categoryrow` int(5) NOT NULL DEFAULT '3',
-  `categorycol` int(5) NOT NULL DEFAULT '5',
-  `categorywidth` int(5) NOT NULL DEFAULT '3',
-  `popularrow` int(5) NOT NULL DEFAULT '3',
-  `popularcol` int(5) NOT NULL DEFAULT '4',
-  `popularwidth` int(5) NOT NULL DEFAULT '3',
-  `searchrow` int(5) NOT NULL DEFAULT '3',
-  `searchcol` int(5) NOT NULL DEFAULT '4',
-  `searchwidth` int(5) NOT NULL DEFAULT '3',
-  `relatedrow` int(5) NOT NULL DEFAULT '3',
-  `relatedcol` int(5) NOT NULL DEFAULT '4',
-  `relatedwidth` int(5) NOT NULL DEFAULT '3',
-  `memberpagerow` int(5) NOT NULL DEFAULT '3',
-  `memberpagecol` int(5) NOT NULL DEFAULT '4',
-  `memberpagewidth` int(5) NOT NULL DEFAULT '3',
-  `homepopularvideo` tinyint(4) NOT NULL DEFAULT '0',
-  `homepopularvideorow` int(5) NOT NULL DEFAULT '2',
-  `homepopularvideocol` int(5) NOT NULL DEFAULT '2',
-  `homepopularvideowidth` int(5) NOT NULL DEFAULT '3',
-  `homefeaturedvideo` tinyint(4) NOT NULL DEFAULT '1',
-  `homefeaturedvideorow` int(5) NOT NULL DEFAULT '2',
-  `homefeaturedvideocol` int(5) NOT NULL DEFAULT '2',
-  `homefeaturedvideowidth` int(5) NOT NULL DEFAULT '3',
-  `homerecentvideo` tinyint(4) NOT NULL DEFAULT '1',
-  `homerecentvideorow` int(5) NOT NULL DEFAULT '2',
-  `homerecentvideocol` int(5) NOT NULL DEFAULT '2',
-  `homerecentvideowidth` int(5) NOT NULL DEFAULT '3',
-  `myvideorow` int(5) NOT NULL DEFAULT '5',
-  `myvideocol` int(5) NOT NULL DEFAULT '2',
-  `myvideowidth` int(5) NOT NULL DEFAULT '3',
-  `sidepopularvideorow` int(3) NOT NULL DEFAULT '3',
-  `sidepopularvideocol` int(3) NOT NULL DEFAULT '1',
-  `sidefeaturedvideorow` int(3) NOT NULL DEFAULT '3',
-  `sidefeaturedvideocol` int(3) NOT NULL DEFAULT '1',
-  `siderelatedvideorow` int(3) NOT NULL DEFAULT '3',
-  `siderelatedvideocol` int(3) NOT NULL DEFAULT '1',
-  `siderecentvideorow` int(3) NOT NULL DEFAULT '3',
-  `siderecentvideocol` int(3) NOT NULL DEFAULT '1',
-  `allowupload` tinyint(4) NOT NULL,
-  `comment` int(2) NOT NULL DEFAULT '0',
-  `language_settings` varchar(100) NOT NULL DEFAULT 'English.php',
-  `homepopularvideoorder` int(2) NOT NULL DEFAULT '1',
-  `homefeaturedvideoorder` int(2) NOT NULL DEFAULT '2',
-  `homerecentvideoorder` int(2) NOT NULL DEFAULT '3',
-  `user_login` int(2) NOT NULL DEFAULT '1',
-`ratingscontrol` tinyint(4) NOT NULL,
-`viewedconrtol` tinyint(4) NOT NULL,
+  `thumbview` longtext NOT NULL,
+  `homethumbview` longtext NOT NULL,
+  `homethumbview` longtext NOT NULL,
+  `dispenable` longtext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;");
     $db->query();
-
-    $db->setQuery("INSERT INTO `#__hdflv_site_settings` (`id`, `published`, `featurrow`, `featurcol`,`featurwidth`, `recentrow`, `recentcol`, `recentwidth`,`categoryrow`, `categorycol`,`categorywidth`, `popularrow`, `popularcol`,`popularwidth`, `searchrow`, `searchcol`,`searchwidth`, `relatedrow`, `relatedcol`,`relatedwidth`, `memberpagerow`, `memberpagecol`, `memberpagewidth`,`homepopularvideo`, `homepopularvideorow`, `homepopularvideocol`, `homepopularvideowidth`,`homefeaturedvideo`, `homefeaturedvideorow`, `homefeaturedvideocol`, `homefeaturedvideowidth`,`homerecentvideo`, `homerecentvideorow`, `homerecentvideocol`, `homerecentvideowidth`,`myvideorow`, `myvideocol`,`myvideowidth`, `sidepopularvideorow`, `sidepopularvideocol`, `sidefeaturedvideorow`, `sidefeaturedvideocol`, `siderelatedvideorow`, `siderelatedvideocol`, `siderecentvideorow`, `siderecentvideocol`, `allowupload`, `comment`, `language_settings`, `homepopularvideoorder`, `homefeaturedvideoorder`, `homerecentvideoorder`, `user_login`,`ratingscontrol`,`viewedconrtol`,`seo_option`,`facebooklike`,`facebookapi`) VALUES
-(1, 1, 3, 4, 20, 3, 4, 20, 3, 4, 20, 3, 4, 20, 3, 4, 20, 3, 4, 20, 3, 4, 20, 1, 1, 4, 20, 1, 1, 4, 20, 1, 1, 4, 20, 4, 2, 20, 3, 1, 2, 1, 3, 1, 3, 1, 1, 1, 'English.php', 1, 2, 3, 1,1,1,0,0,'');");
+$homethumbview = 'a:15:{s:16:"homepopularvideo";s:1:"1";s:19:"homepopularvideorow";s:1:"1";s:19:"homepopularvideocol";s:1:"4";s:17:"homefeaturedvideo";s:1:"1";s:20:"homefeaturedvideorow";s:1:"1";s:20:"homefeaturedvideocol";s:1:"4";s:15:"homerecentvideo";s:1:"1";s:18:"homerecentvideorow";s:1:"1";s:18:"homerecentvideocol";s:1:"4";s:21:"homepopularvideoorder";s:1:"3";s:22:"homefeaturedvideoorder";s:1:"2";s:20:"homerecentvideoorder";s:1:"1";s:21:"homepopularvideowidth";s:2:"20";s:22:"homefeaturedvideowidth";s:2:"20";s:20:"homerecentvideowidth";s:2:"20";}';
+$disenable = 'a:10:{s:11:"allowupload";s:1:"1";s:10:"user_login";s:1:"1";s:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:10:"seo_option";s:1:"1";s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:15:"karthilocalhost";s:11:"facebookapi";s:0:"";s:7:"comment";s:1:"5";s:12:"facebooklike";s:1:"1";}';
+$thumbview = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";s:9:"recentcol";s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";s:1:"3";s:10:"popularcol";s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";s:1:"3";s:10:"relatedcol";s:1:"4";s:11:"featurwidth";s:2:"20";s:11:"recentwidth";s:2:"20";s:13:"categorywidth";s:2:"20";s:12:"popularwidth";s:2:"20";s:11:"searchwidth";s:2:"20";s:12:"relatedwidth";s:2:"20";s:15:"memberpagewidth";s:2:"20";s:13:"memberpagerow";s:1:"3";s:13:"memberpagecol";s:1:"4";s:10:"myvideorow";s:1:"3";s:10:"myvideocol";s:1:"4";s:12:"myvideowidth";s:2:"20";}';
+$sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideocol";s:1:"4";s:20:"sidefeaturedvideorow";s:1:"1";s:20:"sidefeaturedvideocol";s:1:"4";s:19:"siderelatedvideorow";s:1:"1";s:19:"siderelatedvideocol";s:1:"4";s:18:"siderecentvideorow";s:1:"1";s:18:"siderecentvideocol";s:1:"4";}';
+    $db->setQuery("INSERT INTO `jos_hdflv_site_settings` (`id`, `published`, `homethumbview`, `dispenable`, `thumbview`, `sidethumbview`) VALUES
+(1, 1, '$homethumbview', '$disenable', '$thumbview', '$sidethumbview');");
     $db->query();
 
 
@@ -397,6 +311,8 @@ if (empty($result)) {
   `tags` text CHARACTER SET utf8 NOT NULL,
   `useraccess` int(11) NOT NULL DEFAULT '0',
   `islive` tinyint(1) NOT NULL DEFAULT '0',
+  `imaads` int(11) NOT NULL DEFAULT '0',
+  `embedcode` longtext NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
     $db->query();
@@ -414,13 +330,13 @@ if (empty($result)) {
         $groupname = $ugp->group_id;
         $user = & JFactory::getUser();
         $userid = $user->get('id');
-        $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`,`islive`) VALUES
-(1, $userid, 1, 'The Hobbit: The Desolation of Smaug International Trailer','The-Hobbit-The-Desolation-of-Smaug-International-Trailer', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0),
-(2, $userid, 1, 'Iron Man 3', 'Iron-Man-3',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0),
-(3, $userid, 1, 'GI JOE 2 Retaliation Trailer 2','GI-JOE-2-Retaliation-Trailer-2', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=mKNpy-tGwxE', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0,0),
-(4, $userid, 1, 'UP HD 1080p Trailer','UP-HD-1080p-Trailer', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=1cRuA64m_lY', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0,0),
-(5, $userid, 1, 'Chipwrecked: Survival Tips', 'Chipwrecked-Survival-Tips',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=dLIEKGNYbVU', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0,0),
-(6, $userid, 1, 'THE TWILIGHT SAGA: BREAKING DAWN PART 2','THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=ey0aA3YY0Mo', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0,0);
+        $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`,`islive`,`imaads`,`embedcode`) VALUES
+(1, $userid, 1, 'The Hobbit: The Desolation of Smaug International Trailer','The-Hobbit-The-Desolation-of-Smaug-International-Trailer', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0,0,''),
+(2, $userid, 1, 'Iron Man 3', 'Iron-Man-3',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0,0,''),
+(3, $userid, 1, 'GI JOE 2 Retaliation Trailer 2','GI-JOE-2-Retaliation-Trailer-2', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=mKNpy-tGwxE', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0,0,0,''),
+(4, $userid, 1, 'UP HD 1080p Trailer','UP-HD-1080p-Trailer', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=1cRuA64m_lY', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0,0,0,''),
+(5, $userid, 1, 'Chipwrecked: Survival Tips', 'Chipwrecked-Survival-Tips',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=dLIEKGNYbVU', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0,0,0,''),
+(6, $userid, 1, 'THE TWILIGHT SAGA: BREAKING DAWN PART 2','THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=ey0aA3YY0Mo', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0,0,0,'');
 ");
         $db->query();
 
@@ -429,13 +345,13 @@ if (empty($result)) {
     } else {
         $groupname = '25';
 
-        $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`,`islive`) VALUES
-(1, 62, 1, 'The Hobbit: The Desolation of Smaug International Trailer','The-Hobbit-The-Desolation-of-Smaug-International-Trailer', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0),
-(2, 62, 1, 'Iron Man 3', 'Iron-Man-3',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0),
-(3, 62, 1, 'GI JOE 2 Retaliation Trailer 2','GI-JOE-2-Retaliation-Trailer-2', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=mKNpy-tGwxE', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0,0),
-(4, 62, 1, 'UP HD 1080p Trailer','UP-HD-1080p-Trailer', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=1cRuA64m_lY', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0,0),
-(5, 62, 1, 'Chipwrecked: Survival Tips', 'Chipwrecked-Survival-Tips',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=dLIEKGNYbVU', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0,0),
-(6, 62, 1, 'THE TWILIGHT SAGA: BREAKING DAWN PART 2','THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=ey0aA3YY0Mo', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0,0);
+        $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`,`islive`,`imaads`,`embedcode`) VALUES
+(1, 62, 1, 'The Hobbit: The Desolation of Smaug International Trailer','The-Hobbit-The-Desolation-of-Smaug-International-Trailer', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0,0,''),
+(2, 62, 1, 'Iron Man 3', 'Iron-Man-3',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0,0,''),
+(3, 62, 1, 'GI JOE 2 Retaliation Trailer 2','GI-JOE-2-Retaliation-Trailer-2', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=mKNpy-tGwxE', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0,0,0,''),
+(4, 62, 1, 'UP HD 1080p Trailer','UP-HD-1080p-Trailer', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=1cRuA64m_lY', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0,0,0,''),
+(5, 62, 1, 'Chipwrecked: Survival Tips', 'Chipwrecked-Survival-Tips',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=dLIEKGNYbVU', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0,0,0,''),
+(6, 62, 1, 'THE TWILIGHT SAGA: BREAKING DAWN PART 2','THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=ey0aA3YY0Mo', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0,0,0,'');
 ");
         $db->query();
     }
@@ -519,6 +435,7 @@ $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoS
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareRecent');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareRelated');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareSearch');
+$installer->install($this->parent->getPath('source') . '/extensions/hvsarticle');
 if (version_compare(JVERSION, '1.5.0', 'ge')) {
     $componentPath = str_replace("com_installer", "com_contushdvideoshare", JPATH_COMPONENT_ADMINISTRATOR);
     if (file_exists($componentPath . '/admin.contushdvideoshare.php')) {
@@ -570,6 +487,7 @@ if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6.0
         JFile::delete($rootPath . '/modules/mod_HDVideoShareSearch/mod_HDVideoShareSearch.xml');
     }
     JFile::move($rootPath . '/modules/mod_HDVideoShareSearch/mod_HDVideoShareSearch.j3.xml', $rootPath . '/modules/mod_HDVideoShareSearch/mod_HDVideoShareSearch.xml');
+    JFile::move($rootPath . '/plugins/content/hvsarticle/hvsarticle.j3.xml', $rootPath . '/plugins/content/hvsarticle/hvsarticle.xml');
 }
 ?>
 
@@ -604,7 +522,7 @@ if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6.0
             <td style="text-align: center;">
 <?php
 //check installed components
-$db = &JFactory::getDBO();
+$db = JFactory::getDBO();
 $db->setQuery("SELECT id FROM #__hdflv_player_settings LIMIT 1");
 $id = $db->loadResult();
 if ($id) {
@@ -623,8 +541,6 @@ if ($id) {
             <td class="key" colspan="2"><?php echo 'HD Video Share Categories - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
 <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareCategories' LIMIT 1");
                 } else {
@@ -648,8 +564,6 @@ if ($id) {
             <td class="key" colspan="2"><?php echo 'HD Video Share Featured - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
 <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareFeatured' LIMIT 1");
                 } else {
@@ -674,8 +588,6 @@ if ($id) {
             <td class="key" colspan="2"><?php echo 'HD Video Share Related - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
 <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRelated' LIMIT 1");
                 } else {
@@ -700,8 +612,6 @@ if ($id) {
             <td class="key" colspan="2"><?php echo 'HD Video Share Popular - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
 <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoSharePopular' LIMIT 1");
                 } else {
@@ -726,8 +636,6 @@ if ($id) {
             <td class="key" colspan="2"><?php echo 'HD Video Share Recent - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
 <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRecent' LIMIT 1");
                 } else {
@@ -754,13 +662,34 @@ if ($id) {
             <td class="key" colspan="2"><?php echo 'HD Video Share Search - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
 <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
                 if (version_compare(JVERSION, '1.6.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareSearch' LIMIT 1");
                 } else {
                     $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareSearch' LIMIT 1");
                 }
+
+                $id = $db->loadResult();
+                if ($id) {
+                    if ($upgra == 'upgrade') {
+                        echo "<strong>" . JText::_('Upgrade successfully') . "</strong>";
+                    } else {
+                        echo "<strong>" . JText::_('Installed successfully') . "</strong>";
+                    }
+                } else {
+                    echo "<strong>" . JText::_('Not Installed successfully') . "</strong>";
+                }
+?>
+            </td>
+        </tr>
+        <tr class="row0">
+            <td class="key" colspan="2"><?php echo 'HVS Article Plugin - ' . JText::_('Plugin'); ?></td>
+            <td style="text-align: center;">
+<?php
+if (version_compare(JVERSION, '1.6.0', 'ge')) {
+        $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'plugin' AND element = 'hvsarticle' AND folder = 'content' LIMIT 1");
+} else {
+        $db->setQuery("SELECT id FROM #__plugins WHERE element = 'hvsarticle' LIMIT 1");
+}
 
                 $id = $db->loadResult();
                 if ($id) {

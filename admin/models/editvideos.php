@@ -65,6 +65,19 @@ class contushdvideoshareModeleditvideos extends ContushdvideoshareModel {
 		$editadd = array('rs_editupload' => $rs_editupload,'rs_play'=>$rs_play,'rs_ads'=>$rs_ads,'user_groups'=>$usergroups);
 		return $editadd;
 	}
+        
+        /**
+	 * function to get player settings
+	 */
+        function showplayersettings()
+	{
+		$db = JFactory::getDBO();
+		//query to fetch player settings
+		$query = "SELECT `player_values` FROM #__hdflv_player_settings";
+		$db->setQuery( $query);
+		return $db->loadResult();
+	}
+        
 	//function to remove videos
 	function removevideos()
 	{

@@ -76,4 +76,7 @@
     <module module="mod_HDVideoShareRelated" client="site" />
     <module module="mod_HDVideoShareSearch" client="site" />
   </modules>
+  <plugins>
+    <plugin plugin="hvsarticle" group="content" />
+  </plugins>
 </install>

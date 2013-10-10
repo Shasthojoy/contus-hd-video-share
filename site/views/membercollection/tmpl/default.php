@@ -123,7 +123,7 @@ foreach ($this->membercollection as $rows)
                                          $memberCategoryVal = "catid=" . $this->membercollection[$i]->catid;
                                          $memberVideoVal = "id=" . $this->membercollection[$i]->id;
                                     }
-                                    if ($this->membercollection[$i]->filepath == "File" || $this->membercollection[$i]->filepath == "FFmpeg")
+                                    if ($this->membercollection[$i]->filepath == "File" || $this->membercollection[$i]->filepath == "FFmpeg" || $this->membercollection[$i]->filepath == "Embed")
                                     {
                                         $src_path = "components/com_contushdvideoshare/videos/" . $this->membercollection[$i]->thumburl;
                                     }

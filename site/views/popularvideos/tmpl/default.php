@@ -108,7 +108,7 @@ function submitform()
                                     $popularCategoryVal = "catid=" . $this->popularvideos[$i]->catid;
                                     $popularVideoVal = "id=" . $this->popularvideos[$i]->id;
                                 }
-                                if ($this->popularvideos[$i]->filepath == "File" || $this->popularvideos[$i]->filepath == "FFmpeg")
+                                if ($this->popularvideos[$i]->filepath == "File" || $this->popularvideos[$i]->filepath == "FFmpeg" || $this->popularvideos[$i]->filepath == "Embed")
                                     $src_path = "components/com_contushdvideoshare/videos/" . $this->popularvideos[$i]->thumburl;
                                 if ($this->popularvideos[$i]->filepath == "Url" || $this->popularvideos[$i]->filepath == "Youtube")
                                     $src_path = $this->popularvideos[$i]->thumburl;

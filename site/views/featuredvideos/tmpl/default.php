@@ -106,7 +106,7 @@ function submitform()
                                     $featuredCategoryVal = "catid=" . $this->featuredvideos[$i]->catid;
                                     $featuredVideoVal = "id=" . $this->featuredvideos[$i]->id;
                                 }
-                                if ($this->featuredvideos[$i]->filepath == "File" || $this->featuredvideos[$i]->filepath == "FFmpeg")
+                                if ($this->featuredvideos[$i]->filepath == "File" || $this->featuredvideos[$i]->filepath == "FFmpeg" || $this->featuredvideos[$i]->filepath == "Embed")
                                     $src_path = "components/com_contushdvideoshare/videos/" . $this->featuredvideos[$i]->thumburl;
                                 if ($this->featuredvideos[$i]->filepath == "Url" || $this->featuredvideos[$i]->filepath == "Youtube")
                                     $src_path = $this->featuredvideos[$i]->thumburl;
