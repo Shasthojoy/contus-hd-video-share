@@ -270,7 +270,7 @@ $homethumbview = 'a:15:{s:16:"homepopularvideo";s:1:"1";s:19:"homepopularvideoro
 $disenable = 'a:10:{s:11:"allowupload";s:1:"1";s:10:"user_login";s:1:"1";s:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:10:"seo_option";s:1:"1";s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:15:"karthilocalhost";s:11:"facebookapi";s:0:"";s:7:"comment";s:1:"5";s:12:"facebooklike";s:1:"1";}';
 $thumbview = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";s:9:"recentcol";s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";s:1:"3";s:10:"popularcol";s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";s:1:"3";s:10:"relatedcol";s:1:"4";s:11:"featurwidth";s:2:"20";s:11:"recentwidth";s:2:"20";s:13:"categorywidth";s:2:"20";s:12:"popularwidth";s:2:"20";s:11:"searchwidth";s:2:"20";s:12:"relatedwidth";s:2:"20";s:15:"memberpagewidth";s:2:"20";s:13:"memberpagerow";s:1:"3";s:13:"memberpagecol";s:1:"4";s:10:"myvideorow";s:1:"3";s:10:"myvideocol";s:1:"4";s:12:"myvideowidth";s:2:"20";}';
 $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideocol";s:1:"4";s:20:"sidefeaturedvideorow";s:1:"1";s:20:"sidefeaturedvideocol";s:1:"4";s:19:"siderelatedvideorow";s:1:"1";s:19:"siderelatedvideocol";s:1:"4";s:18:"siderecentvideorow";s:1:"1";s:18:"siderecentvideocol";s:1:"4";}';
-    $db->setQuery("INSERT INTO `jos_hdflv_site_settings` (`id`, `published`, `homethumbview`, `dispenable`, `thumbview`, `sidethumbview`) VALUES
+    $db->setQuery("INSERT INTO `#__hdflv_site_settings` (`id`, `published`, `homethumbview`, `dispenable`, `thumbview`, `sidethumbview`) VALUES
 (1, 1, '$homethumbview', '$disenable', '$thumbview', '$sidethumbview');");
     $db->query();
 
