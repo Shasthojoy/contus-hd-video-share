@@ -1,7 +1,7 @@
 <?php
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.4.1
+ * @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -11,93 +11,317 @@
  * @Creation Date : March 2010
  * @Modified Date : May 2013
  * */
-// No direct access to this file
+## No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-/**
- * Script file of Contus HD Video Share component
- */
+## Script file of Contus HD Video Share component
 class com_contushdvideoshareInstallerScript {
 
-    /**
-     * method to install the component
-     *
-     * @return void
-     */
+    ## method to install the component 
     function install($parent) {
         $user = JFactory::getUser();
         $userid = $user->get('id');
         $db = JFactory::getDBO();
         $groupname = 8;
         $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`,`islive`,`imaads`,`embedcode`) VALUES
-(1, $userid, 1, 'The Hobbit: The Desolation of Smaug International Trailer','The-Hobbit-The-Desolation-of-Smaug-International-Trailer', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0,0,''),
-(2, $userid, 1, 'Iron Man 3', 'Iron-Man-3',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0,0,''),
-(3, $userid, 1, 'GI JOE 2 Retaliation Trailer 2','GI-JOE-2-Retaliation-Trailer-2', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=mKNpy-tGwxE', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0,0,0,''),
-(4, $userid, 1, 'UP HD 1080p Trailer','UP-HD-1080p-Trailer', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=1cRuA64m_lY', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0,0,0,''),
-(5, $userid, 1, 'Chipwrecked: Survival Tips', 'Chipwrecked-Survival-Tips',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=dLIEKGNYbVU', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0,0,0,''),
-(6, $userid, 1, 'THE TWILIGHT SAGA: BREAKING DAWN PART 2','THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=ey0aA3YY0Mo', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0,0,0,'');
-");
+                    (1, $userid, 1, 'The Hobbit: The Desolation of Smaug International Trailer','The-Hobbit-The-Desolation-of-Smaug-International-Trailer', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0,0,''),
+                    (2, $userid, 1, 'Iron Man 3', 'Iron-Man-3',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0,0,''),
+                    (3, $userid, 1, 'GI JOE 2 Retaliation Trailer 2','GI-JOE-2-Retaliation-Trailer-2', 1, 0, 5, 1, 9, '', 'Youtube', 'http://www.youtube.com/watch?v=mKNpy-tGwxE', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', 'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',$groupname,0,0,0,''),
+                    (4, $userid, 1, 'UP HD 1080p Trailer','UP-HD-1080p-Trailer', 1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=1cRuA64m_lY', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', 'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',$groupname,0,0,0,''),
+                    (5, $userid, 1, 'Chipwrecked: Survival Tips', 'Chipwrecked-Survival-Tips',1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=dLIEKGNYbVU', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', 'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg', '', 0, 5, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',$groupname,0,0,0,''),
+                    (6, $userid, 1, 'THE TWILIGHT SAGA: BREAKING DAWN PART 2','THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2', 1, 0, 0, 0, 8, '', 'Youtube', 'http://www.youtube.com/watch?v=ey0aA3YY0Mo', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', 'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg', '', 0, 11, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',$groupname,0,0,0,'');
+                    ");
         $db->query();
-//        $parent->getParent()->setRedirectURL('index.php?option=com_contushdvideoshare');
     }
 
-    /**
-     * method to uninstall the component
-     *
-     * @return void
-     */
+    ## method to uninstall the component
     function uninstall($parent) {
 
     }
 
-    /**
-     * method to update the component
-     *
-     * @return void
-     */
+    ## method to update the component
     function update($parent) {
 
     }
 
-    /**
-     * method to run before an install/update/uninstall method
-     *
-     * @return void
-     */
+    ## method to run before an install/update/uninstall method
     function preflight($type, $parent) {
-        // $parent is the class calling this method
-        // $type is the type of change (install, update or discover_install)
+        ## $parent is the class calling this method
+        ## $type is the type of change (install, update or discover_install)
     }
 
-    /**
-     * method to run after an install/update/uninstall method
-     *
-     * @return void
-     */
+    ## method to run after an install/update/uninstall method
     function postflight($type, $parent) {
 
         $db = JFactory::getDBO();
-
-
-         $columnExists = false;
-        $query = 'SHOW COLUMNS FROM `#__hdflv_player_settings`';
-
-        $db->setQuery($query);
+        $player_colorscolumnExists = $player_valuescolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = false;
+        $playersettingsquery = 'SHOW COLUMNS FROM `#__hdflv_player_settings`';
+        $db->setQuery($playersettingsquery);
         $db->query();
         $columnData = $db->loadObjectList();
         foreach ($columnData as $valueColumn) {
-            if ($valueColumn->Field == 'login_page_url') {
-                $columnExists = true;
+            if ($valueColumn->Field == 'player_colors') {
+                $player_colorscolumnExists = true;
+                break;
+            }
+            if ($valueColumn->Field == 'player_icons') {
+                $player_iconscolumnExists = true;
+                break;
+            }
+            if ($valueColumn->Field == 'player_values') {
+                $player_valuescolumnExists = true;
                 break;
             }
         }
 
-        if (!$columnExists) {
-            $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `login_page_url` VARCHAR( 300 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
+        $playerquery = 'SELECT * FROM `#__hdflv_player_settings`';
+        $db->setQuery($playerquery);
+        $playersettingstabeResult = $db->loadObject();
+        
+        if (!$player_colorscolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `player_colors` longtext NOT NULL");
             $db->query();
         }
+        if (!$player_iconscolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `player_icons` longtext NOT NULL");
+            $db->query();
+            ## Get player icon options and serialize data
+                $updateplayer_icons                   = array(
+                    'autoplay'                  => $playersettingstabeResult->autoplay,
+                    'playlist_autoplay'         => $playersettingstabeResult->playlist_autoplay,
+                    'playlist_open'             => $playersettingstabeResult->playlist_open,
+                    'skin_autohide'             => $playersettingstabeResult->skin_autohide,
+                    'fullscreen'                => $playersettingstabeResult->fullscreen,
+                    'zoom'                      => $playersettingstabeResult->zoom,
+                    'timer'                     => $playersettingstabeResult->timer,
+                    'showTag'                   => $playersettingstabeResult->showTag,
+                    'shareurl'                  => $playersettingstabeResult->shareurl,
+                    'emailenable'               => 1,
+                    'login_page_url'            => $playersettingstabeResult->login_page_url,
+                    'volumevisible'             => 1,
+                    'embedVisible'              => $playersettingstabeResult->embedVisible,
+                    'progressControl'           => 1,
+                    'hddefault'                 => $playersettingstabeResult->hddefault,
+                    'imageDefault'              => 1,
+                    'enabledownload'            => $playersettingstabeResult->enabledownload,
+                    'prerollads'                => $playersettingstabeResult->prerollads,
+                    'postrollads'               => $playersettingstabeResult->postrollads,
+                    'imaads'                    => 0,
+                    'volumecontrol'             => $playersettingstabeResult->volumecontrol,
+                    'adsSkip'                   => $playersettingstabeResult->adsSkip,
+                    'midrollads'                => $playersettingstabeResult->midrollads,
+                    'midbegin'                  => $playersettingstabeResult->midbegin,
+                    'midrandom'                 => $playersettingstabeResult->midrandom,
+                    'midadrotate'               => $playersettingstabeResult->midadrotate,
+                    'googleana_visible'         => $playersettingstabeResult->googleana_visible
+                );
+                $arrplayer_icons = serialize($updateplayer_icons);
+                $query = 'UPDATE #__hdflv_player_settings SET player_icons=\'' .$arrplayer_icons . '\'';
+                $db->setQuery($query);
+                $db->query();
+        }
+        if (!$player_valuescolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `player_values` longtext NOT NULL");
+            $db->query();
+            ## Get Player values and serialize data
+                $updateplayer_values                  = array(
+                    'buffer'                    => $playersettingstabeResult->buffer,
+                    'width'                     => $playersettingstabeResult->width,
+                    'height'                    => $playersettingstabeResult->height,
+                    'normalscale'               => $playersettingstabeResult->normalscale,
+                    'fullscreenscale'           => $playersettingstabeResult->fullscreenscale,
+                    'volume'                    => $playersettingstabeResult->volume,
+                    'nrelated'                  => $playersettingstabeResult->nrelated,
+                    'ffmpegpath'                => $playersettingstabeResult->ffmpegpath,
+                    'stagecolor'                => $playersettingstabeResult->stagecolor,
+                    'licensekey'                => $playersettingstabeResult->licensekey,
+                    'logourl'                   => $playersettingstabeResult->logourl,
+                    'logoalpha'                 => $playersettingstabeResult->logoalpha,
+                    'logoalign'                 => $playersettingstabeResult->logoalign,
+                    'adsSkipDuration'           => $playersettingstabeResult->adsSkipDuration,
+                    'googleanalyticsID'         => $playersettingstabeResult->googleanalyticsID,
+                    'midbegin'                  => $playersettingstabeResult->midbegin,
+                    'midinterval'               => $playersettingstabeResult->midinterval,
+                    'related_videos'            => $playersettingstabeResult->related_videos,
+                    'relatedVideoView'          => $playersettingstabeResult->relatedVideoView,
+                    'login_page_url'            => $playersettingstabeResult->login_page_url
+                );
+                $arrplayer_values = serialize($updateplayer_values);
+                $query = 'UPDATE #__hdflv_player_settings SET player_values=\'' .$arrplayer_values . '\'';
+                $db->setQuery($query);
+                $db->query();
+        }
 
+        $sitesettingsquery = 'SHOW COLUMNS FROM `#__hdflv_site_settings`';
+        $db->setQuery($sitesettingsquery);
+        $db->query();
+        $sitesettingscolumnData = $db->loadObjectList();
+        foreach ($sitesettingscolumnData as $valueColumn) {
+            if ($valueColumn->Field == 'thumbview') {
+                $thumbviewcolumnExists = true;
+                break;
+            }
+            if ($valueColumn->Field == 'homethumbview') {
+                $homethumbviewcolumnExists = true;
+                break;
+            }
+            if ($valueColumn->Field == 'sidethumbview') {
+                $sidethumbviewcolumnExists = true;
+                break;
+            }
+            if ($valueColumn->Field == 'dispenable') {
+                $dispenablecolumnExists = true;
+                break;
+            }
+        }
 
+        $query = 'SELECT * FROM `#__hdflv_site_settings`';
+        $db->setQuery($query);
+        $settingstabeResult = $db->loadObject();
+            
+        if (!$thumbviewcolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `thumbview` longtext NOT NULL");
+            $db->query();
+            ## Get thumbview details and serialize data
+                $sitethumbview               = array(
+                    'featurrow'             => $settingstabeResult->featurrow,
+                    'featurcol'             => $settingstabeResult->featurcol,
+                    'recentrow'             => $settingstabeResult->recentrow,
+                    'recentcol'             => $settingstabeResult->recentcol,
+                    'categoryrow'           => $settingstabeResult->categoryrow,
+                    'categorycol'           => $settingstabeResult->categorycol,
+                    'popularrow'            => $settingstabeResult->popularrow,
+                    'popularcol'            => $settingstabeResult->popularcol,
+                    'searchrow'             => $settingstabeResult->searchrow,
+                    'searchcol'             => $settingstabeResult->searchcol,
+                    'relatedrow'            => $settingstabeResult->relatedrow,
+                    'relatedcol'            => $settingstabeResult->relatedcol,
+                    'featurwidth'           => $settingstabeResult->featurwidth,
+                    'recentwidth'           => $settingstabeResult->recentwidth,
+                    'categorywidth'         => $settingstabeResult->categorywidth,
+                    'popularwidth'          => $settingstabeResult->popularwidth,
+                    'searchwidth'           => $settingstabeResult->searchwidth,
+                    'relatedwidth'          => $settingstabeResult->relatedwidth,
+                    'memberpagewidth'       => $settingstabeResult->memberpagewidth,
+                    'memberpagerow'         => $settingstabeResult->memberpagerow,
+                    'memberpagecol'         => $settingstabeResult->memberpagecol,
+                    'myvideorow'            => $settingstabeResult->myvideorow,
+                    'myvideocol'            => $settingstabeResult->myvideocol,
+                    'myvideowidth'          => $settingstabeResult->myvideowidth
+                 );
+                $arrthumbview = serialize($sitethumbview);
+                $query = 'UPDATE #__hdflv_site_settings SET thumbview=\'' .$arrthumbview . '\'';
+                $db->setQuery($query);
+                $db->query();
+        }
+        if (!$homethumbviewcolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `homethumbview` longtext NOT NULL");
+            $db->query();
+            ## Get home page thumb details and serialize data
+                $sitehomethumbview               = array(
+                    'homepopularvideo'      => $settingstabeResult->homepopularvideo,
+                    'homepopularvideorow'   => $settingstabeResult->homepopularvideorow,
+                    'homepopularvideocol'   => $settingstabeResult->homepopularvideocol,
+                    'homefeaturedvideo'     => $settingstabeResult->homefeaturedvideo,
+                    'homefeaturedvideorow'  => $settingstabeResult->homefeaturedvideorow,
+                    'homefeaturedvideocol'  => $settingstabeResult->homefeaturedvideocol,
+                    'homerecentvideo'       => $settingstabeResult->homerecentvideo,
+                    'homerecentvideorow'    => $settingstabeResult->homerecentvideorow,
+                    'homerecentvideocol'    => $settingstabeResult->homerecentvideocol,
+                    'homepopularvideoorder' => $settingstabeResult->homepopularvideoorder,
+                    'homefeaturedvideoorder'=> $settingstabeResult->homefeaturedvideoorder,
+                    'homerecentvideoorder'  => $settingstabeResult->homerecentvideoorder,
+                    'homefeaturedvideoorder'=> $settingstabeResult->homefeaturedvideoorder,
+                    'homepopularvideowidth' => $settingstabeResult->homepopularvideowidth,
+                    'homefeaturedvideowidth'=> $settingstabeResult->homefeaturedvideowidth,
+                    'homerecentvideowidth'  => $settingstabeResult->homerecentvideowidth
+                 );
+                $arrhomethumbview = serialize($sitehomethumbview);
+                $query = 'UPDATE #__hdflv_site_settings SET homethumbview=\'' .$arrhomethumbview . '\'';
+                $db->setQuery($query);
+                $db->query();
+        }
+        if (!$sidethumbviewcolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `sidethumbview` longtext NOT NULL");
+            $db->query();
+             ## Get home page thumb details and serialize data
+                $sitesidethumbview               = array(
+                    'sidepopularvideorow'   => $settingstabeResult->sidepopularvideorow,
+                    'sidepopularvideocol'   => $settingstabeResult->sidepopularvideocol,
+                    'sidefeaturedvideorow'  => $settingstabeResult->sidefeaturedvideorow,
+                    'sidefeaturedvideocol'  => $settingstabeResult->sidefeaturedvideocol,
+                    'siderelatedvideorow'   => $settingstabeResult->siderelatedvideorow,
+                    'siderelatedvideocol'   => $settingstabeResult->siderelatedvideocol,
+                    'siderecentvideorow'    => $settingstabeResult->siderecentvideorow,
+                    'siderecentvideocol'    => $settingstabeResult->siderecentvideocol
+                 );
+                $arrsidethumbview = serialize($sitesidethumbview);
+                $query = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrsidethumbview . '\'';
+                $db->setQuery($query);
+                $db->query();
+        }
+        if (!$dispenablecolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `dispenable` longtext NOT NULL");
+            $db->query();
+            ## Get thumbview details and serialize data
+                $sitedispenable               = array(
+                    'allowupload'         => $settingstabeResult->allowupload,
+                    'user_login'          => $settingstabeResult->user_login,
+                    'ratingscontrol'      => $settingstabeResult->ratingscontrol,
+                    'viewedconrtol'       => $settingstabeResult->viewedconrtol,
+                    'seo_option'          => $settingstabeResult->seo_option,
+                    'language_settings'   => 'English.php',
+                    'disqusapi'           => '',
+                    'facebookapi'         => $settingstabeResult->facebookapi,
+                    'comment'             => $settingstabeResult->comment,
+                    'facebooklike'        => $settingstabeResult->facebooklike
+                 );
+                $arrdispenable = serialize($sitedispenable);
+                $query = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrdispenable . '\'';
+                $db->setQuery($query);
+                $db->query();
+        }
+        
+        $googleadquery = 'SHOW COLUMNS FROM `#__hdflv_googlead`';
+        $db->setQuery($googleadquery);
+        $db->query();
+        $googleadcolumnData = $db->loadObjectList();
+        foreach ($googleadcolumnData as $valueColumn) {
+            if ($valueColumn->Field == 'imaaddet') {
+                $imaaddetcolumnExists = true;
+                break;
+            }
+         }
+
+        if (!$imaaddetcolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_googlead` ADD  `imaaddet` longtext NOT NULL");
+            $db->query();
+        }
+        
+        $uploadquery = 'SHOW COLUMNS FROM `#__hdflv_upload`';
+        $db->setQuery($uploadquery);
+        $db->query();
+        $uploadcolumnData = $db->loadObjectList();
+        foreach ($uploadcolumnData as $valueColumn) {
+            if ($valueColumn->Field == 'imaads') {
+                $imaadscolumnExists = true;
+                break;
+            }
+            if ($valueColumn->Field == 'embedcode') {
+                $embedcodecolumnExists = true;
+                break;
+            }
+         }
+
+        if (!$imaadscolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `imaads` TINYINT( 1 ) NOT NULL DEFAULT '0'");
+            $db->query();
+        }
+        if (!$embedcodecolumnExists) {
+            $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `embedcode` longtext NOT NULL ");
+            $db->query();
+        }
+        
         $status = new stdClass;
         $status->modules = array();
         $src = $parent->getParent()->getPath('source');
@@ -265,7 +489,6 @@ class com_contushdvideoshareInstallerScript {
                     <td style="text-align: center;">
 <?php
 //check installed components
-        $db = JFactory::getDBO();
         $db->setQuery("SELECT id FROM #__hdflv_player_settings LIMIT 1");
         $id = $db->loadResult();
 ?>
@@ -276,7 +499,6 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
 <?php
                 //check installed modules
-                $db = JFactory::getDBO();
                 if (!version_compare(JVERSION, '1.5.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareCategories' LIMIT 1");
                 }
@@ -295,7 +517,6 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
 <?php
                 //check installed modules
-                $db = JFactory::getDBO();
                 if (!version_compare(JVERSION, '1.5.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareFeatured' LIMIT 1");
                 }
@@ -314,7 +535,6 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
 <?php
                 //check installed modules
-                $db = JFactory::getDBO();
                 if (!version_compare(JVERSION, '1.5.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRelated' LIMIT 1");
                 }
@@ -333,7 +553,6 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
 <?php
                 //check installed modules
-                $db = JFactory::getDBO();
                 if (!version_compare(JVERSION, '1.5.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoSharePopular' LIMIT 1");
                 }
@@ -352,7 +571,6 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
 <?php
                 //check installed modules
-                $db = JFactory::getDBO();
                 if (!version_compare(JVERSION, '1.5.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRecent' LIMIT 1");
                 }
@@ -373,7 +591,6 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
 <?php
                 //check installed modules
-                $db = JFactory::getDBO();
                 if (!version_compare(JVERSION, '1.5.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareSearch' LIMIT 1");
                 }
@@ -391,7 +608,6 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
 <?php
                 //check installed modules
-                $db = JFactory::getDBO();
                 if (!version_compare(JVERSION, '1.5.0', 'ge')) {
                     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'plugin' AND element = 'hvsarticle' AND folder = 'content' LIMIT 1");
                 }

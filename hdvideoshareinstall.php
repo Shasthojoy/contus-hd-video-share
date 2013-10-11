@@ -1,9 +1,7 @@
 <?php
-/*
- * ********************************************************* */
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.4.1
+ * @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,21 +11,20 @@
  * @Creation Date : March 2010
  * @Modified Date : May 2013
  * */
-/*
- * ********************************************************* */
-/**
- * Description :    Installation file
- */
-//No direct access
+
+## Description :    Installation file
+
+## No direct access
 defined('_JEXEC') or die('Restricted access');
 error_reporting(0);
-// Imports
+## Import joomla installer
 jimport('joomla.installer.installer');
 $installer = new JInstaller();
-$upgra = '';
+$upgra = $errorMsg = '';
 
+## Function to alter tabe if column not exist
 function AddColumnIfNotExists(&$errorMsg, $table, $column, $attributes = "INT( 11 ) NOT NULL DEFAULT '0'", $after = '') {
-    $db = & JFactory::getDBO();
+    $db = JFactory::getDBO();
     $columnExists = false;
     $upgra = 'upgrade';
     $query = 'SHOW COLUMNS FROM ' . $table;
@@ -60,32 +57,25 @@ function AddColumnIfNotExists(&$errorMsg, $table, $column, $attributes = "INT( 1
     return true;
 }
 
+## Alter existing field in database
 function AddMebercolumn() {
-    $db = & JFactory::getDBO();
+    $db = JFactory::getDBO();
     $query = 'ALTER TABLE `#__hdflv_upload` CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL';
     $db->setQuery($query);
-    $query = "alter TABLE #__hdflv_site_settings add (`featurwidth` int(11) DEFAULT '20',`recentwidth` int(11) DEFAULT '20',`categorywidth` int(11) DEFAULT '20',`popularwidth` int(11) DEFAULT '20',`searchwidth` int(11) DEFAULT '20',`relatedwidth` int(11) DEFAULT '20',`memberpagewidth` int(11) DEFAULT '20',`homepopularvideowidth` int(11) DEFAULT '20',`homefeaturedvideowidth` int(11) DEFAULT '20',`homerecentvideowidth` int(11) DEFAULT '20',`myvideowidth` int(11) DEFAULT '20')";
-    $db->setQuery($query);
+    $dropquery = 'ALTER TABLE `#__hdflv_user` DROP `id`';
+    $db->setQuery($dropquery);
     if (!$result = $db->query()) {
         return false;
     }
-    $query = 'ALTER TABLE `#__hdflv_user` DROP `id`';
-    $db->setQuery($query);
-    if (!$result = $db->query()) {
-        return false;
-    }
-    $query = 'ALTER TABLE `#__hdflv_user` ADD PRIMARY KEY ( `member_id` )';
-    $db->setQuery($query);
+    $userquery = 'ALTER TABLE `#__hdflv_user` ADD PRIMARY KEY ( `member_id` )';
+    $db->setQuery($userquery);
     if (!$result = $db->query()) {
         return false;
     }
 }
 
-// Install success. Joomla's module installer
-// creates an additional module instance during
-// upgrade. This seems to confuse users, so
-// let's remove that now.
-$db = &JFactory::getDBO();
+##  Update component, modules and plugin in joomla table
+$db = JFactory::getDBO();
 $result = '';
 if (version_compare(JVERSION, '1.6.0', 'ge')) {
     $query = ' SELECT * FROM ' . $db->nameQuote('#__extensions') . 'where type="component" and element="com_contushdvideoshare" LIMIT 1;';
@@ -94,7 +84,6 @@ if (version_compare(JVERSION, '1.6.0', 'ge')) {
 } else {
     $query = 'SELECT id FROM #__hdflv_player_settings ';
     $db->setQuery($query);
-    //$db->setQuery("SELECT * FROM #__components where parent=0 and admin_menu_link ='option=com_contushdvideoshare' LIMIT 1;");
     $result = $db->loadResult();
 
     $query = 'UPDATE  #__components ' .
@@ -154,6 +143,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge')) {
 
 if (empty($result)) {
 
+    ## Create ads table
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_ads` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `published` tinyint(4) NOT NULL,
@@ -173,6 +163,7 @@ if (empty($result)) {
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;");
     $db->query();
 
+    ## Create category table
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` int(11) NOT NULL,
@@ -187,6 +178,7 @@ if (empty($result)) {
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;");
     $db->query();
 
+    ## Create sample data fo category table
     $db->setQuery("INSERT INTO `#__hdflv_category` (`id`, `member_id`, `category`, `seo_category`, `parent_id`, `ordering`, `lft`, `rgt`, `published`) VALUES
 (1, 0, 'Speeches', 'Speeches', 0, 1, 19, 20, 1),
 (2, 0, 'Interviews', 'Interviews', 0, 2, 11, 12, 1),
@@ -204,7 +196,8 @@ if (empty($result)) {
 (14, 0, 'Actors', 'Actors', 0, 14, 1, 2, 1);");
     $db->query();
 
-    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_comments` (
+    ## Create commetns table
+   $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parentid` int(11) NOT NULL,
   `videoid` int(11) NOT NULL,
@@ -218,6 +211,7 @@ if (empty($result)) {
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;");
     $db->query();
 
+    ## Create google ad table
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_googlead` (
   `id` int(2) NOT NULL,
   `code` text NOT NULL,
@@ -232,11 +226,13 @@ if (empty($result)) {
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     $db->query();
 
+    ## Create sample data for google ad table
     $db->setQuery("INSERT INTO `#__hdflv_googlead` (`id`, `code`, `showoption`, `closeadd`, `reopenadd`, `publish`, `ropen`, `showaddc`, `showaddm`, `showaddp`) VALUES
 (1, '', 1, 10, '0', 0, 10, 0, '0', '0');");
     $db->query();
 
-    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_player_settings` (
+    ## Create player settings table
+   $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_player_settings` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
   `published` tinyint(4) NOT NULL,
   `player_colors` longtext NOT NULL,
@@ -245,17 +241,20 @@ if (empty($result)) {
   `uploadmaxsize` int(10) NOT NULL,
   `logopath` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;");
+  ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;");
     $db->query();
+    
+## Create sample data for player settings table  
 $player_colors= 'a:18:{s:21:"sharepanel_up_BgColor";s:0:"";s:23:"sharepanel_down_BgColor";s:0:"";s:19:"sharepaneltextColor";s:0:"";s:15:"sendButtonColor";s:0:"";s:19:"sendButtonTextColor";s:0:"";s:9:"textColor";s:0:"";s:11:"skinBgColor";s:0:"";s:13:"seek_barColor";s:0:"";s:15:"buffer_barColor";s:0:"";s:13:"skinIconColor";s:0:"";s:11:"pro_BgColor";s:0:"";s:15:"playButtonColor";s:0:"";s:17:"playButtonBgColor";s:0:"";s:17:"playerButtonColor";s:0:"";s:19:"playerButtonBgColor";s:0:"";s:19:"relatedVideoBgColor";s:0:"";s:15:"scroll_barColor";s:0:"";s:14:"scroll_BgColor";s:0:"";}';
 $player_icons = 'a:27:{s:8:"autoplay";s:1:"1";s:17:"playlist_autoplay";s:1:"1";s:13:"playlist_open";s:1:"1";s:13:"skin_autohide";s:1:"1";s:10:"fullscreen";s:1:"1";s:4:"zoom";s:1:"1";s:5:"timer";s:1:"1";s:7:"showTag";s:1:"1";s:8:"shareurl";s:1:"1";s:11:"emailenable";s:1:"1";s:14:"login_page_url";s:17:"http://apptha.com";s:13:"volumevisible";N;s:12:"embedVisible";s:1:"1";s:15:"progressControl";s:1:"1";s:9:"hddefault";s:1:"1";s:12:"imageDefault";s:1:"1";s:14:"enabledownload";s:1:"1";s:10:"prerollads";s:1:"1";s:11:"postrollads";s:1:"0";s:6:"imaads";s:1:"1";s:13:"volumecontrol";s:1:"1";s:7:"adsSkip";s:1:"0";s:10:"midrollads";s:1:"0";s:8:"midbegin";s:1:"2";s:9:"midrandom";s:1:"0";s:11:"midadrotate";s:1:"0";s:17:"googleana_visible";s:1:"0";}';
 $player_values = 'a:20:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"600";s:6:"height";s:3:"400";s:11:"normalscale";s:1:"2";s:15:"fullscreenscale";s:1:"2";s:6:"volume";s:2:"50";s:8:"nrelated";i:8;s:10:"ffmpegpath";s:15:"/usr/bin/ffmpeg";s:10:"stagecolor";s:8:"0x000000";s:10:"licensekey";s:31:"SX3B-SL7VFIQ-WBCTIL6AWWIRCONTUS";s:7:"logourl";s:43:"http://stationfi.com/images/custom-logo.png";s:9:"logoalpha";s:3:"100";s:9:"logoalign";s:2:"BL";s:15:"adsSkipDuration";s:1:"3";s:17:"googleanalyticsID";s:0:"";s:8:"midbegin";s:1:"2";s:11:"midinterval";s:1:"1";s:14:"related_videos";s:1:"1";s:16:"relatedVideoView";s:4:"side";s:14:"login_page_url";s:17:"http://apptha.com";}';
-    $db->setQuery("INSERT INTO `#__hdflv_player_settings` (`id`, `published`, `uploadmaxsize`, `logopath`, `player_colors`, `player_icons`, `player_values`) VALUES
+$db->setQuery("INSERT INTO `#__hdflv_player_settings` (`id`, `published`, `uploadmaxsize`, `logopath`, `player_colors`, `player_icons`, `player_values`) VALUES
 (1, 1, 100, '', '$player_colors', '$player_icons', '$player_values');
 ");
     $db->query();
 
-    $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_site_settings` (
+   ## Create site settings table
+   $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_site_settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `published` tinyint(4) NOT NULL,
   `thumbview` longtext NOT NULL,
@@ -263,8 +262,10 @@ $player_values = 'a:20:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"600";s:6:"height";
   `homethumbview` longtext NOT NULL,
   `dispenable` longtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;");
+  ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;");
     $db->query();
+    
+ ## Create sample data for site settings tabele 
 $homethumbview = 'a:15:{s:16:"homepopularvideo";s:1:"1";s:19:"homepopularvideorow";s:1:"1";s:19:"homepopularvideocol";s:1:"4";s:17:"homefeaturedvideo";s:1:"1";s:20:"homefeaturedvideorow";s:1:"1";s:20:"homefeaturedvideocol";s:1:"4";s:15:"homerecentvideo";s:1:"1";s:18:"homerecentvideorow";s:1:"1";s:18:"homerecentvideocol";s:1:"4";s:21:"homepopularvideoorder";s:1:"3";s:22:"homefeaturedvideoorder";s:1:"2";s:20:"homerecentvideoorder";s:1:"1";s:21:"homepopularvideowidth";s:2:"20";s:22:"homefeaturedvideowidth";s:2:"20";s:20:"homerecentvideowidth";s:2:"20";}';
 $disenable = 'a:10:{s:11:"allowupload";s:1:"1";s:10:"user_login";s:1:"1";s:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:10:"seo_option";s:1:"1";s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:15:"karthilocalhost";s:11:"facebookapi";s:0:"";s:7:"comment";s:1:"5";s:12:"facebooklike";s:1:"1";}';
 $thumbview = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";s:9:"recentcol";s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";s:1:"3";s:10:"popularcol";s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";s:1:"3";s:10:"relatedcol";s:1:"4";s:11:"featurwidth";s:2:"20";s:11:"recentwidth";s:2:"20";s:13:"categorywidth";s:2:"20";s:12:"popularwidth";s:2:"20";s:11:"searchwidth";s:2:"20";s:12:"relatedwidth";s:2:"20";s:15:"memberpagewidth";s:2:"20";s:13:"memberpagerow";s:1:"3";s:13:"memberpagecol";s:1:"4";s:10:"myvideorow";s:1:"3";s:10:"myvideocol";s:1:"4";s:12:"myvideowidth";s:2:"20";}';
@@ -273,7 +274,7 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
 (1, 1, '$homethumbview', '$disenable', '$thumbview', '$sidethumbview');");
     $db->query();
 
-
+## Create video upload table
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_upload` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `memberid` int(11) NOT NULL,
@@ -318,7 +319,8 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
     $db->query();
     if (version_compare(JVERSION, '1.6.0', 'ge')) {
 
-        $user = & JFactory::getUser();
+        ## Get user detail
+        $user = JFactory::getUser();
         $userid = $user->get('id');
         $query = $db->getQuery(true);
         $query->select('g.id AS group_id')
@@ -328,8 +330,8 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
         $db->setQuery($query);
         $ugp = $db->loadObject();
         $groupname = $ugp->group_id;
-        $user = & JFactory::getUser();
-        $userid = $user->get('id');
+        
+## Create sample data for video upload table
         $db->setQuery("INSERT INTO `#__hdflv_upload` (`id`, `memberid`, `published`, `title`,`seotitle`, `featured`, `type`, `rate`, `ratecount`, `times_viewed`, `videos`, `filepath`, `videourl`, `thumburl`, `previewurl`, `hdurl`, `home`, `playlistid`, `duration`, `ordering`, `streamerpath`, `streameroption`, `postrollads`, `prerollads`, `description`, `targeturl`, `download`, `prerollid`, `postrollid`, `created_date`, `addedon`, `usergroupid`,`useraccess`,`islive`,`imaads`,`embedcode`) VALUES
 (1, $userid, 1, 'The Hobbit: The Desolation of Smaug International Trailer','The-Hobbit-The-Desolation-of-Smaug-International-Trailer', 1, 0, 9, 2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', 'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg', '', 0, 9, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',$groupname,0,0,0,''),
 (2, $userid, 1, 'Iron Man 3', 'Iron-Man-3',1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', 'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg', '', 0, 14, '', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',$groupname,0,0,0,''),
@@ -341,7 +343,7 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
         $db->query();
 
 
-// Joomla! 1.7 code here
+##  Joomla! 1.7 code here
     } else {
         $groupname = '25';
 
@@ -355,6 +357,7 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
 ");
         $db->query();
     }
+    ## Create video share user table
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_user` (
   `member_id` int(11) NOT NULL,
   `allowupload` tinyint(4) NOT NULL,
@@ -362,12 +365,14 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
     $db->query();
 
+    ## Create video category table
     $db->setQuery("CREATE TABLE IF NOT EXISTS `#__hdflv_video_category` (
   `vid` int(11) NOT NULL,
   `catid` varchar(100) CHARACTER SET utf8 NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;");
     $db->query();
 
+## Create sample data for video category table    
     $db->setQuery("INSERT INTO `#__hdflv_video_category` (`vid`, `catid`) VALUES
 (1, '9'),
 (2, '14'),
@@ -377,51 +382,236 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
 (6, '11');");
     $db->query();
 } else {
-
+    
+    ## Upgrade section starts here
     $upgra = 'upgrade';
-
     $db = JFactory::getDBO();
-    $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `IMAAds_path` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
-                            ADD  `IMAAds` TINYINT( 4 ) NOT NULL");
-    $db->query();
-    $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `login_page_url` VARCHAR( 300 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
-    $db->query();
-
-    $updateDid = '';
+    
+    ## Alter upload table
     $updateDid = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "useraccess");
+    $isliveupdateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "islive", "TINYINT( 1 ) NOT NULL DEFAULT '0'");
+    $imaadsupdateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "imaads", "TINYINT( 1 ) NOT NULL DEFAULT '0'");
+    $embedcodeupdateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "embedcode", "longtext NOT NULL");
 
-    $updateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "islive", "TINYINT( 1 ) NOT NULL DEFAULT '0'");
+    ## Alter site settings table
+    $updatethumbview = AddColumnIfNotExists($errorMsg, "#__hdflv_site_settings", "thumbview", "longtext NOT NULL");
+    $updatehomethumbview = AddColumnIfNotExists($errorMsg, "#__hdflv_site_settings", "homethumbview", "longtext NOT NULL");
+    $updatesidethumbview = AddColumnIfNotExists($errorMsg, "#__hdflv_site_settings", "sidethumbview", "longtext NOT NULL");
+    $updatedispenable = AddColumnIfNotExists($errorMsg, "#__hdflv_site_settings", "dispenable", "longtext NOT NULL");
+    
+    ## Alter player settings table
+    $updateplayer_colors = AddColumnIfNotExists($errorMsg, "#__hdflv_player_settings", "player_colors", "longtext NOT NULL");
+    $updateplayer_icons = AddColumnIfNotExists($errorMsg, "#__hdflv_player_settings", "player_icons", "longtext NOT NULL");
+    $updateplayer_values = AddColumnIfNotExists($errorMsg, "#__hdflv_player_settings", "player_values", "longtext NOT NULL");
 
-    $updateDidface = AddColumnIfNotExists($errorMsg, "#__hdflv_site_settings", "facebookapi");
-
+    ## Alter category table
     $updateMid = AddColumnIfNotExists($errorMsg, "#__hdflv_category", "member_id");
-
-    $updateGoogleAd = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddc", "TINYINT( 1 ) NOT NULL DEFAULT '0'");
-    $updateGoogleAd1 = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddm", "TINYINT NOT NULL DEFAULT '0'");
-    $updateGoogleAd2 = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddp", "TINYINT NOT NULL DEFAULT '0'");
-
     $updateCategory = AddColumnIfNotExists($errorMsg, "#__hdflv_category", "lft", "INT( 11 ) NOT NULL", "ordering");
     $updateCategory1 = AddColumnIfNotExists($errorMsg, "#__hdflv_category", "rgt", "INT( 11 ) NOT NULL", "lft");
 
-    $hdflvUsertable = AddMebercolumn();
+    ## Alter google ad table
+    $updateGoogleAd = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddc", "TINYINT( 1 ) NOT NULL DEFAULT '0'");
+    $updateGoogleAd1 = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddm", "TINYINT NOT NULL DEFAULT '0'");
+    $updateGoogleAd2 = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "showaddp", "TINYINT NOT NULL DEFAULT '0'");
+    $updateGoogleAd3 = AddColumnIfNotExists($errorMsg, "#__hdflv_googlead", "imaaddet", "longtext NOT NULL");
+    
+    AddMebercolumn();       ## Add fields to user table
 
-    if (!$updateDid) {
-        $msgSQL .= "error adding 'playlist_autoplay' column to 'hdflvplayersettings' table <br />";
+    if (!$updateDid || !$isliveupdateLive || !$imaadsupdateLive || !$embedcodeupdateLive) {
+        $msgSQL .= "error adding 'useraccess' column to 'hdflvupload' table <br />";
     }
-
-    if (!$updateLive) {
-        $msgSQL .= "error adding 'islive' column to 'hdflvupload' table <br />";
+    
+    ## Update site settings table
+    $query = 'SELECT * FROM `#__hdflv_site_settings`';
+    $db->setQuery($query);
+    $settingstabeResult = $db->loadObject();
+        
+    if (!$updatethumbview) {
+        $msgSQL .= "error adding 'thumbview' column to 'hdflv_site_settings' table <br />";
+    } else {
+        ## Get thumbview details and serialize data
+                $sitethumbview              = array(
+                    'featurrow'             => $settingstabeResult->featurrow,
+                    'featurcol'             => $settingstabeResult->featurcol,
+                    'recentrow'             => $settingstabeResult->recentrow,
+                    'recentcol'             => $settingstabeResult->recentcol,
+                    'categoryrow'           => $settingstabeResult->categoryrow,
+                    'categorycol'           => $settingstabeResult->categorycol,
+                    'popularrow'            => $settingstabeResult->popularrow,
+                    'popularcol'            => $settingstabeResult->popularcol,
+                    'searchrow'             => $settingstabeResult->searchrow,
+                    'searchcol'             => $settingstabeResult->searchcol,
+                    'relatedrow'            => $settingstabeResult->relatedrow,
+                    'relatedcol'            => $settingstabeResult->relatedcol,
+                    'featurwidth'           => $settingstabeResult->featurwidth,
+                    'recentwidth'           => $settingstabeResult->recentwidth,
+                    'categorywidth'         => $settingstabeResult->categorywidth,
+                    'popularwidth'          => $settingstabeResult->popularwidth,
+                    'searchwidth'           => $settingstabeResult->searchwidth,
+                    'relatedwidth'          => $settingstabeResult->relatedwidth,
+                    'memberpagewidth'       => $settingstabeResult->memberpagewidth,
+                    'memberpagerow'         => $settingstabeResult->memberpagerow,
+                    'memberpagecol'         => $settingstabeResult->memberpagecol,
+                    'myvideorow'            => $settingstabeResult->myvideorow,
+                    'myvideocol'            => $settingstabeResult->myvideocol,
+                    'myvideowidth'          => $settingstabeResult->myvideowidth
+                 );
+                $arrthumbview = serialize($sitethumbview);
+                $query = 'UPDATE #__hdflv_site_settings SET thumbview=\'' .$arrthumbview . '\'';
+                $db->setQuery($query);
+                $db->query();
     }
-
-    if (!$updateDidface) {
-        $msgSQL .= "error adding 'facebookapi' column to 'hdflv_site_settings' table <br />";
+    if (!$updatehomethumbview) {
+        $msgSQL .= "error adding 'homethumbview' column to 'hdflv_site_settings' table <br />";
+    } else {
+        ## Get home page thumb details and serialize data
+                $sitehomethumbview          = array(
+                    'homepopularvideo'      => $settingstabeResult->homepopularvideo,
+                    'homepopularvideorow'   => $settingstabeResult->homepopularvideorow,
+                    'homepopularvideocol'   => $settingstabeResult->homepopularvideocol,
+                    'homefeaturedvideo'     => $settingstabeResult->homefeaturedvideo,
+                    'homefeaturedvideorow'  => $settingstabeResult->homefeaturedvideorow,
+                    'homefeaturedvideocol'  => $settingstabeResult->homefeaturedvideocol,
+                    'homerecentvideo'       => $settingstabeResult->homerecentvideo,
+                    'homerecentvideorow'    => $settingstabeResult->homerecentvideorow,
+                    'homerecentvideocol'    => $settingstabeResult->homerecentvideocol,
+                    'homepopularvideoorder' => $settingstabeResult->homepopularvideoorder,
+                    'homefeaturedvideoorder'=> $settingstabeResult->homefeaturedvideoorder,
+                    'homerecentvideoorder'  => $settingstabeResult->homerecentvideoorder,
+                    'homefeaturedvideoorder'=> $settingstabeResult->homefeaturedvideoorder,
+                    'homepopularvideowidth' => $settingstabeResult->homepopularvideowidth,
+                    'homefeaturedvideowidth'=> $settingstabeResult->homefeaturedvideowidth,
+                    'homerecentvideowidth'  => $settingstabeResult->homerecentvideowidth
+                 );
+                $arrhomethumbview = serialize($sitehomethumbview);
+                $query = 'UPDATE #__hdflv_site_settings SET homethumbview=\'' .$arrhomethumbview . '\'';
+                $db->setQuery($query);
+                $db->query();
+    }
+    if (!$updatesidethumbview) {
+        $msgSQL .= "error adding 'sidethumbview' column to 'hdflv_site_settings' table <br />";
+    } else {
+        ## Get home page thumb details and serialize data
+                $sitesidethumbview          = array(
+                    'sidepopularvideorow'   => $settingstabeResult->sidepopularvideorow,
+                    'sidepopularvideocol'   => $settingstabeResult->sidepopularvideocol,
+                    'sidefeaturedvideorow'  => $settingstabeResult->sidefeaturedvideorow,
+                    'sidefeaturedvideocol'  => $settingstabeResult->sidefeaturedvideocol,
+                    'siderelatedvideorow'   => $settingstabeResult->siderelatedvideorow,
+                    'siderelatedvideocol'   => $settingstabeResult->siderelatedvideocol,
+                    'siderecentvideorow'    => $settingstabeResult->siderecentvideorow,
+                    'siderecentvideocol'    => $settingstabeResult->siderecentvideocol
+                 );
+                $arrsidethumbview = serialize($sitesidethumbview);
+                $query = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrsidethumbview . '\'';
+                $db->setQuery($query);
+                $db->query();
+    }
+    if (!$updatedispenable) {
+        $msgSQL .= "error adding 'dispenable' column to 'hdflv_site_settings' table <br />";
+    } else {
+        ## Get thumbview details and serialize data
+                $sitedispenable           = array(
+                    'allowupload'         => $settingstabeResult->allowupload,
+                    'user_login'          => $settingstabeResult->user_login,
+                    'ratingscontrol'      => $settingstabeResult->ratingscontrol,
+                    'viewedconrtol'       => $settingstabeResult->viewedconrtol,
+                    'seo_option'          => $settingstabeResult->seo_option,
+                    'language_settings'   => 'English.php',
+                    'disqusapi'           => '',
+                    'facebookapi'         => $settingstabeResult->facebookapi,
+                    'comment'             => $settingstabeResult->comment,
+                    'facebooklike'        => $settingstabeResult->facebooklike
+                 );
+                $arrdispenable = serialize($sitedispenable);
+                $query = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrdispenable . '\'';
+                $db->setQuery($query);
+                $db->query();
+    }
+    
+    ## Update player settings table
+    $playerquery = 'SELECT * FROM `#__hdflv_player_settings`';
+    $db->setQuery($playerquery);
+    $playersettingstabeResult = $db->loadObject();
+        
+    if (!$updateplayer_colors) {
+        $msgSQL .= "error adding 'player_colors' column to 'hdflv_player_settings' table <br />";
+    }
+    if (!$updateplayer_icons) {
+        $msgSQL .= "error adding 'player_icons' column to 'hdflv_player_settings' table <br />";
+    } else {
+        ## Get player icon options and serialize data
+                $updateplayer_icons             = array(
+                    'autoplay'                  => $playersettingstabeResult->autoplay,
+                    'playlist_autoplay'         => $playersettingstabeResult->playlist_autoplay,
+                    'playlist_open'             => $playersettingstabeResult->playlist_open,
+                    'skin_autohide'             => $playersettingstabeResult->skin_autohide,
+                    'fullscreen'                => $playersettingstabeResult->fullscreen,
+                    'zoom'                      => $playersettingstabeResult->zoom,
+                    'timer'                     => $playersettingstabeResult->timer,
+                    'showTag'                   => $playersettingstabeResult->showTag,
+                    'shareurl'                  => $playersettingstabeResult->shareurl,
+                    'emailenable'               => 1,
+                    'login_page_url'            => $playersettingstabeResult->login_page_url,
+                    'volumevisible'             => 1,
+                    'embedVisible'              => $playersettingstabeResult->embedVisible,
+                    'progressControl'           => 1,
+                    'hddefault'                 => $playersettingstabeResult->hddefault,
+                    'imageDefault'              => 1,
+                    'enabledownload'            => $playersettingstabeResult->enabledownload,
+                    'prerollads'                => $playersettingstabeResult->prerollads,
+                    'postrollads'               => $playersettingstabeResult->postrollads,
+                    'imaads'                    => 0,
+                    'volumecontrol'             => $playersettingstabeResult->volumecontrol,
+                    'adsSkip'                   => $playersettingstabeResult->adsSkip,
+                    'midrollads'                => $playersettingstabeResult->midrollads,
+                    'midbegin'                  => $playersettingstabeResult->midbegin,
+                    'midrandom'                 => $playersettingstabeResult->midrandom,
+                    'midadrotate'               => $playersettingstabeResult->midadrotate,
+                    'googleana_visible'         => $playersettingstabeResult->googleana_visible
+                );
+                $arrplayer_icons = serialize($updateplayer_icons);
+                $query = 'UPDATE #__hdflv_player_settings SET player_icons=\'' .$arrplayer_icons . '\'';
+                $db->setQuery($query);
+                $db->query();
+    }
+    if (!$updateplayer_values) {
+        $msgSQL .= "error adding 'player_values' column to 'hdflv_player_settings' table <br />";
+    } else {
+        ## Get Player values and serialize data
+                $updateplayer_values            = array(
+                    'buffer'                    => $playersettingstabeResult->buffer,
+                    'width'                     => $playersettingstabeResult->width,
+                    'height'                    => $playersettingstabeResult->height,
+                    'normalscale'               => $playersettingstabeResult->normalscale,
+                    'fullscreenscale'           => $playersettingstabeResult->fullscreenscale,
+                    'volume'                    => $playersettingstabeResult->volume,
+                    'nrelated'                  => $playersettingstabeResult->nrelated,
+                    'ffmpegpath'                => $playersettingstabeResult->ffmpegpath,
+                    'stagecolor'                => $playersettingstabeResult->stagecolor,
+                    'licensekey'                => $playersettingstabeResult->licensekey,
+                    'logourl'                   => $playersettingstabeResult->logourl,
+                    'logoalpha'                 => $playersettingstabeResult->logoalpha,
+                    'logoalign'                 => $playersettingstabeResult->logoalign,
+                    'adsSkipDuration'           => $playersettingstabeResult->adsSkipDuration,
+                    'googleanalyticsID'         => $playersettingstabeResult->googleanalyticsID,
+                    'midbegin'                  => $playersettingstabeResult->midbegin,
+                    'midinterval'               => $playersettingstabeResult->midinterval,
+                    'related_videos'            => $playersettingstabeResult->related_videos,
+                    'relatedVideoView'          => $playersettingstabeResult->relatedVideoView,
+                    'login_page_url'            => $playersettingstabeResult->login_page_url
+                );
+                $arrplayer_values = serialize($updateplayer_values);
+                $query = 'UPDATE #__hdflv_player_settings SET player_values=\'' .$arrplayer_values . '\'';
+                $db->setQuery($query);
+                $db->query();
     }
 
     if (!$updateMid) {
         $msgSQL .= "error adding 'member_id' column to 'category' table <br />";
     }
 
-    if (!$updateGoogleAd || !$updateGoogleAd1 || !$updateGoogleAd2) {
+    if (!$updateGoogleAd || !$updateGoogleAd1 || !$updateGoogleAd2 || !$updateGoogleAd3) {
         $msgSQL .= "error updating columns in 'googlead' table <br />";
     }
 
@@ -429,6 +619,8 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
         $msgSQL .= "error adding columns in 'hdflv_category' table <br />";
     }
 }
+
+## Install modules and plugin here
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareCategories');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareFeatured');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoSharePopular');
@@ -436,12 +628,16 @@ $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoS
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareRelated');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareSearch');
 $installer->install($this->parent->getPath('source') . '/extensions/hvsarticle');
+
+## delete admin.contushdvideoshare.php file from the previous pack
 if (version_compare(JVERSION, '1.5.0', 'ge')) {
     $componentPath = str_replace("com_installer", "com_contushdvideoshare", JPATH_COMPONENT_ADMINISTRATOR);
     if (file_exists($componentPath . '/admin.contushdvideoshare.php')) {
         unlink($componentPath . '/admin.contushdvideoshare.php');
     }
 }
+
+## Rename xml files for modules, plugin and component
 if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6.0', 'ge') || version_compare(JVERSION, '1.7.0', 'ge')) {
     if (file_exists($componentPath . '/contushdvideoshare.xml')) {
         unlink($componentPath . '/contushdvideoshare.xml');
@@ -490,7 +686,7 @@ if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6.0
     JFile::move($rootPath . '/plugins/content/hvsarticle/hvsarticle.j3.xml', $rootPath . '/plugins/content/hvsarticle/hvsarticle.xml');
 }
 ?>
-
+<!--Display installation status-->
 <div style="float: left;">
     <a href="http://www.apptha.com/category/extension/Joomla/HD-Video-Share" target="_blank">
         <img src="components/com_contushdvideoshare/assets/contushdvideoshare-logo.png" alt="Joomla! HDVideoShare" align="left" />
@@ -521,7 +717,7 @@ if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6.0
             <td class="key" colspan="2"><?php echo JText::_('HDVideoShare - Component'); ?></td>
             <td style="text-align: center;">
 <?php
-//check installed components
+## check installed components
 $db = JFactory::getDBO();
 $db->setQuery("SELECT id FROM #__hdflv_player_settings LIMIT 1");
 $id = $db->loadResult();
@@ -569,7 +765,6 @@ if ($id) {
                 } else {
                     $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareFeatured' LIMIT 1");
                 }
-
                 $id = $db->loadResult();
                 if ($id) {
                     if ($upgra == 'upgrade') {
@@ -593,7 +788,6 @@ if ($id) {
                 } else {
                     $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareRelated' LIMIT 1");
                 }
-
                 $id = $db->loadResult();
                 if ($id) {
                     if ($upgra == 'upgrade') {
@@ -617,7 +811,6 @@ if ($id) {
                 } else {
                     $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoSharePopular' LIMIT 1");
                 }
-
                 $id = $db->loadResult();
                 if ($id) {
                     if ($upgra == 'upgrade') {
@@ -641,7 +834,6 @@ if ($id) {
                 } else {
                     $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareRecent' LIMIT 1");
                 }
-
                 $id = $db->loadResult();
                 if ($id) {
                     if ($upgra == 'upgrade') {
@@ -690,7 +882,6 @@ if (version_compare(JVERSION, '1.6.0', 'ge')) {
 } else {
         $db->setQuery("SELECT id FROM #__plugins WHERE element = 'hvsarticle' LIMIT 1");
 }
-
                 $id = $db->loadResult();
                 if ($id) {
                     if ($upgra == 'upgrade') {
@@ -704,6 +895,5 @@ if (version_compare(JVERSION, '1.6.0', 'ge')) {
 ?>
             </td>
         </tr>
-
     </tbody>
 </table>

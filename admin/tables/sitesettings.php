@@ -23,7 +23,7 @@ class Tablesitesettings extends JTable {
   var $published = null;
   var $thumbview = null;
   var $homethumbview = null;
-  var $homethumbview = null;
+  var $sidethumbview = null;
   var $dispenable = null;
 
 	function Tablesitesettings(&$db){
