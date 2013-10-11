@@ -54,23 +54,26 @@ class com_contushdvideoshareInstallerScript {
     function postflight($type, $parent) {
 
         $db = JFactory::getDBO();
-        $player_colorscolumnExists = $player_valuescolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = false;
+        $player_colorscolumnExists = $player_valuescolumnExists = $imaadscolumnExists = $embedcodecolumnExists = $imaaddetcolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = 'false';
+        $query = 'SELECT id FROM #__hdflvplayersettings LIMIT 1;';
+        $db->setQuery($query);
+        $result = $db->loadResult();
+
+        if (!empty($result)) {
+        
         $playersettingsquery = 'SHOW COLUMNS FROM `#__hdflv_player_settings`';
         $db->setQuery($playersettingsquery);
         $db->query();
         $columnData = $db->loadObjectList();
         foreach ($columnData as $valueColumn) {
             if ($valueColumn->Field == 'player_colors') {
-                $player_colorscolumnExists = true;
-                break;
+                $player_colorscolumnExists = 'true';
             }
             if ($valueColumn->Field == 'player_icons') {
-                $player_iconscolumnExists = true;
-                break;
+                $player_iconscolumnExists = 'true';
             }
             if ($valueColumn->Field == 'player_values') {
-                $player_valuescolumnExists = true;
-                break;
+                $player_valuescolumnExists = 'true';
             }
         }
 
@@ -78,11 +81,11 @@ class com_contushdvideoshareInstallerScript {
         $db->setQuery($playerquery);
         $playersettingstabeResult = $db->loadObject();
         
-        if (!$player_colorscolumnExists) {
+        if ($player_colorscolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `player_colors` longtext NOT NULL");
             $db->query();
         }
-        if (!$player_iconscolumnExists) {
+        if ($player_iconscolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `player_icons` longtext NOT NULL");
             $db->query();
             ## Get player icon options and serialize data
@@ -94,21 +97,21 @@ class com_contushdvideoshareInstallerScript {
                     'fullscreen'                => $playersettingstabeResult->fullscreen,
                     'zoom'                      => $playersettingstabeResult->zoom,
                     'timer'                     => $playersettingstabeResult->timer,
-                    'showTag'                   => $playersettingstabeResult->showTag,
+                    'showTag'                   => 0,
                     'shareurl'                  => $playersettingstabeResult->shareurl,
                     'emailenable'               => 1,
                     'login_page_url'            => $playersettingstabeResult->login_page_url,
                     'volumevisible'             => 1,
-                    'embedVisible'              => $playersettingstabeResult->embedVisible,
+                    'embedVisible'              => 1,
                     'progressControl'           => 1,
                     'hddefault'                 => $playersettingstabeResult->hddefault,
                     'imageDefault'              => 1,
-                    'enabledownload'            => $playersettingstabeResult->enabledownload,
+                    'enabledownload'            => 0,
                     'prerollads'                => $playersettingstabeResult->prerollads,
                     'postrollads'               => $playersettingstabeResult->postrollads,
                     'imaads'                    => 0,
-                    'volumecontrol'             => $playersettingstabeResult->volumecontrol,
-                    'adsSkip'                   => $playersettingstabeResult->adsSkip,
+                    'volumecontrol'             => 1,
+                    'adsSkip'                   => 0,
                     'midrollads'                => $playersettingstabeResult->midrollads,
                     'midbegin'                  => $playersettingstabeResult->midbegin,
                     'midrandom'                 => $playersettingstabeResult->midrandom,
@@ -120,7 +123,7 @@ class com_contushdvideoshareInstallerScript {
                 $db->setQuery($query);
                 $db->query();
         }
-        if (!$player_valuescolumnExists) {
+        if ($player_valuescolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_player_settings` ADD  `player_values` longtext NOT NULL");
             $db->query();
             ## Get Player values and serialize data
@@ -138,12 +141,12 @@ class com_contushdvideoshareInstallerScript {
                     'logourl'                   => $playersettingstabeResult->logourl,
                     'logoalpha'                 => $playersettingstabeResult->logoalpha,
                     'logoalign'                 => $playersettingstabeResult->logoalign,
-                    'adsSkipDuration'           => $playersettingstabeResult->adsSkipDuration,
+                    'adsSkipDuration'           => 5,
                     'googleanalyticsID'         => $playersettingstabeResult->googleanalyticsID,
                     'midbegin'                  => $playersettingstabeResult->midbegin,
                     'midinterval'               => $playersettingstabeResult->midinterval,
                     'related_videos'            => $playersettingstabeResult->related_videos,
-                    'relatedVideoView'          => $playersettingstabeResult->relatedVideoView,
+                    'relatedVideoView'          => 'side',
                     'login_page_url'            => $playersettingstabeResult->login_page_url
                 );
                 $arrplayer_values = serialize($updateplayer_values);
@@ -158,20 +161,16 @@ class com_contushdvideoshareInstallerScript {
         $sitesettingscolumnData = $db->loadObjectList();
         foreach ($sitesettingscolumnData as $valueColumn) {
             if ($valueColumn->Field == 'thumbview') {
-                $thumbviewcolumnExists = true;
-                break;
+                $thumbviewcolumnExists = 'true';
             }
             if ($valueColumn->Field == 'homethumbview') {
-                $homethumbviewcolumnExists = true;
-                break;
+                $homethumbviewcolumnExists = 'true';
             }
             if ($valueColumn->Field == 'sidethumbview') {
-                $sidethumbviewcolumnExists = true;
-                break;
+                $sidethumbviewcolumnExists = 'true';
             }
             if ($valueColumn->Field == 'dispenable') {
-                $dispenablecolumnExists = true;
-                break;
+                $dispenablecolumnExists = 'true';
             }
         }
 
@@ -179,7 +178,7 @@ class com_contushdvideoshareInstallerScript {
         $db->setQuery($query);
         $settingstabeResult = $db->loadObject();
             
-        if (!$thumbviewcolumnExists) {
+        if ($thumbviewcolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `thumbview` longtext NOT NULL");
             $db->query();
             ## Get thumbview details and serialize data
@@ -214,7 +213,7 @@ class com_contushdvideoshareInstallerScript {
                 $db->setQuery($query);
                 $db->query();
         }
-        if (!$homethumbviewcolumnExists) {
+        if ($homethumbviewcolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `homethumbview` longtext NOT NULL");
             $db->query();
             ## Get home page thumb details and serialize data
@@ -241,7 +240,7 @@ class com_contushdvideoshareInstallerScript {
                 $db->setQuery($query);
                 $db->query();
         }
-        if (!$sidethumbviewcolumnExists) {
+        if ($sidethumbviewcolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `sidethumbview` longtext NOT NULL");
             $db->query();
              ## Get home page thumb details and serialize data
@@ -260,7 +259,7 @@ class com_contushdvideoshareInstallerScript {
                 $db->setQuery($query);
                 $db->query();
         }
-        if (!$dispenablecolumnExists) {
+        if ($dispenablecolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `dispenable` longtext NOT NULL");
             $db->query();
             ## Get thumbview details and serialize data
@@ -288,12 +287,12 @@ class com_contushdvideoshareInstallerScript {
         $googleadcolumnData = $db->loadObjectList();
         foreach ($googleadcolumnData as $valueColumn) {
             if ($valueColumn->Field == 'imaaddet') {
-                $imaaddetcolumnExists = true;
+                $imaaddetcolumnExists = 'true';
                 break;
             }
          }
 
-        if (!$imaaddetcolumnExists) {
+        if ($imaaddetcolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_googlead` ADD  `imaaddet` longtext NOT NULL");
             $db->query();
         }
@@ -304,24 +303,22 @@ class com_contushdvideoshareInstallerScript {
         $uploadcolumnData = $db->loadObjectList();
         foreach ($uploadcolumnData as $valueColumn) {
             if ($valueColumn->Field == 'imaads') {
-                $imaadscolumnExists = true;
-                break;
+                $imaadscolumnExists = 'true';
             }
             if ($valueColumn->Field == 'embedcode') {
-                $embedcodecolumnExists = true;
-                break;
+                $embedcodecolumnExists = 'true';
             }
          }
 
-        if (!$imaadscolumnExists) {
+        if ($imaadscolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `imaads` TINYINT( 1 ) NOT NULL DEFAULT '0'");
             $db->query();
         }
-        if (!$embedcodecolumnExists) {
+        if ($embedcodecolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `embedcode` longtext NOT NULL ");
             $db->query();
         }
-        
+        } 
         $status = new stdClass;
         $status->modules = array();
         $src = $parent->getParent()->getPath('source');

@@ -246,8 +246,8 @@ if (empty($result)) {
     
 ## Create sample data for player settings table  
 $player_colors= 'a:18:{s:21:"sharepanel_up_BgColor";s:0:"";s:23:"sharepanel_down_BgColor";s:0:"";s:19:"sharepaneltextColor";s:0:"";s:15:"sendButtonColor";s:0:"";s:19:"sendButtonTextColor";s:0:"";s:9:"textColor";s:0:"";s:11:"skinBgColor";s:0:"";s:13:"seek_barColor";s:0:"";s:15:"buffer_barColor";s:0:"";s:13:"skinIconColor";s:0:"";s:11:"pro_BgColor";s:0:"";s:15:"playButtonColor";s:0:"";s:17:"playButtonBgColor";s:0:"";s:17:"playerButtonColor";s:0:"";s:19:"playerButtonBgColor";s:0:"";s:19:"relatedVideoBgColor";s:0:"";s:15:"scroll_barColor";s:0:"";s:14:"scroll_BgColor";s:0:"";}';
-$player_icons = 'a:27:{s:8:"autoplay";s:1:"1";s:17:"playlist_autoplay";s:1:"1";s:13:"playlist_open";s:1:"1";s:13:"skin_autohide";s:1:"1";s:10:"fullscreen";s:1:"1";s:4:"zoom";s:1:"1";s:5:"timer";s:1:"1";s:7:"showTag";s:1:"1";s:8:"shareurl";s:1:"1";s:11:"emailenable";s:1:"1";s:14:"login_page_url";s:17:"http://apptha.com";s:13:"volumevisible";N;s:12:"embedVisible";s:1:"1";s:15:"progressControl";s:1:"1";s:9:"hddefault";s:1:"1";s:12:"imageDefault";s:1:"1";s:14:"enabledownload";s:1:"1";s:10:"prerollads";s:1:"1";s:11:"postrollads";s:1:"0";s:6:"imaads";s:1:"1";s:13:"volumecontrol";s:1:"1";s:7:"adsSkip";s:1:"0";s:10:"midrollads";s:1:"0";s:8:"midbegin";s:1:"2";s:9:"midrandom";s:1:"0";s:11:"midadrotate";s:1:"0";s:17:"googleana_visible";s:1:"0";}';
-$player_values = 'a:20:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"600";s:6:"height";s:3:"400";s:11:"normalscale";s:1:"2";s:15:"fullscreenscale";s:1:"2";s:6:"volume";s:2:"50";s:8:"nrelated";i:8;s:10:"ffmpegpath";s:15:"/usr/bin/ffmpeg";s:10:"stagecolor";s:8:"0x000000";s:10:"licensekey";s:31:"SX3B-SL7VFIQ-WBCTIL6AWWIRCONTUS";s:7:"logourl";s:43:"http://stationfi.com/images/custom-logo.png";s:9:"logoalpha";s:3:"100";s:9:"logoalign";s:2:"BL";s:15:"adsSkipDuration";s:1:"3";s:17:"googleanalyticsID";s:0:"";s:8:"midbegin";s:1:"2";s:11:"midinterval";s:1:"1";s:14:"related_videos";s:1:"1";s:16:"relatedVideoView";s:4:"side";s:14:"login_page_url";s:17:"http://apptha.com";}';
+$player_icons = 'a:27:{s:8:"autoplay";s:1:"1";s:17:"playlist_autoplay";s:1:"1";s:13:"playlist_open";s:1:"1";s:13:"skin_autohide";s:1:"1";s:10:"fullscreen";s:1:"1";s:4:"zoom";s:1:"1";s:5:"timer";s:1:"1";s:7:"showTag";s:1:"1";s:8:"shareurl";s:1:"1";s:11:"emailenable";s:1:"1";s:14:"login_page_url";s:17:"";s:13:"volumevisible";N;s:12:"embedVisible";s:1:"1";s:15:"progressControl";s:1:"1";s:9:"hddefault";s:1:"1";s:12:"imageDefault";s:1:"1";s:14:"enabledownload";s:1:"1";s:10:"prerollads";s:1:"1";s:11:"postrollads";s:1:"0";s:6:"imaads";s:1:"1";s:13:"volumecontrol";s:1:"1";s:7:"adsSkip";s:1:"0";s:10:"midrollads";s:1:"0";s:8:"midbegin";s:1:"2";s:9:"midrandom";s:1:"0";s:11:"midadrotate";s:1:"0";s:17:"googleana_visible";s:1:"0";}';
+$player_values = 'a:20:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"600";s:6:"height";s:3:"400";s:11:"normalscale";s:1:"2";s:15:"fullscreenscale";s:1:"2";s:6:"volume";s:2:"50";s:8:"nrelated";i:8;s:10:"ffmpegpath";s:15:"/usr/bin/ffmpeg";s:10:"stagecolor";s:8:"0x000000";s:10:"licensekey";s:31:"";s:7:"logourl";s:43:"";s:9:"logoalpha";s:3:"100";s:9:"logoalign";s:2:"BL";s:15:"adsSkipDuration";s:1:"3";s:17:"googleanalyticsID";s:0:"";s:8:"midbegin";s:1:"2";s:11:"midinterval";s:1:"1";s:14:"related_videos";s:1:"1";s:16:"relatedVideoView";s:4:"side";s:14:"login_page_url";s:17:"";}';
 $db->setQuery("INSERT INTO `#__hdflv_player_settings` (`id`, `published`, `uploadmaxsize`, `logopath`, `player_colors`, `player_icons`, `player_values`) VALUES
 (1, 1, 100, '', '$player_colors', '$player_icons', '$player_values');
 ");
@@ -541,7 +541,7 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
         $msgSQL .= "error adding 'player_icons' column to 'hdflv_player_settings' table <br />";
     } else {
         ## Get player icon options and serialize data
-                $updateplayer_icons             = array(
+                $updateplayer_icons                   = array(
                     'autoplay'                  => $playersettingstabeResult->autoplay,
                     'playlist_autoplay'         => $playersettingstabeResult->playlist_autoplay,
                     'playlist_open'             => $playersettingstabeResult->playlist_open,
@@ -549,21 +549,21 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
                     'fullscreen'                => $playersettingstabeResult->fullscreen,
                     'zoom'                      => $playersettingstabeResult->zoom,
                     'timer'                     => $playersettingstabeResult->timer,
-                    'showTag'                   => $playersettingstabeResult->showTag,
+                    'showTag'                   => 0,
                     'shareurl'                  => $playersettingstabeResult->shareurl,
                     'emailenable'               => 1,
                     'login_page_url'            => $playersettingstabeResult->login_page_url,
                     'volumevisible'             => 1,
-                    'embedVisible'              => $playersettingstabeResult->embedVisible,
+                    'embedVisible'              => 1,
                     'progressControl'           => 1,
                     'hddefault'                 => $playersettingstabeResult->hddefault,
                     'imageDefault'              => 1,
-                    'enabledownload'            => $playersettingstabeResult->enabledownload,
+                    'enabledownload'            => 0,
                     'prerollads'                => $playersettingstabeResult->prerollads,
                     'postrollads'               => $playersettingstabeResult->postrollads,
                     'imaads'                    => 0,
-                    'volumecontrol'             => $playersettingstabeResult->volumecontrol,
-                    'adsSkip'                   => $playersettingstabeResult->adsSkip,
+                    'volumecontrol'             => 1,
+                    'adsSkip'                   => 0,
                     'midrollads'                => $playersettingstabeResult->midrollads,
                     'midbegin'                  => $playersettingstabeResult->midbegin,
                     'midrandom'                 => $playersettingstabeResult->midrandom,
@@ -579,7 +579,7 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
         $msgSQL .= "error adding 'player_values' column to 'hdflv_player_settings' table <br />";
     } else {
         ## Get Player values and serialize data
-                $updateplayer_values            = array(
+                $updateplayer_values                  = array(
                     'buffer'                    => $playersettingstabeResult->buffer,
                     'width'                     => $playersettingstabeResult->width,
                     'height'                    => $playersettingstabeResult->height,
@@ -593,12 +593,12 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"1";s:19:"sidepopularvideo
                     'logourl'                   => $playersettingstabeResult->logourl,
                     'logoalpha'                 => $playersettingstabeResult->logoalpha,
                     'logoalign'                 => $playersettingstabeResult->logoalign,
-                    'adsSkipDuration'           => $playersettingstabeResult->adsSkipDuration,
+                    'adsSkipDuration'           => 5,
                     'googleanalyticsID'         => $playersettingstabeResult->googleanalyticsID,
                     'midbegin'                  => $playersettingstabeResult->midbegin,
                     'midinterval'               => $playersettingstabeResult->midinterval,
                     'related_videos'            => $playersettingstabeResult->related_videos,
-                    'relatedVideoView'          => $playersettingstabeResult->relatedVideoView,
+                    'relatedVideoView'          => 'side',
                     'login_page_url'            => $playersettingstabeResult->login_page_url
                 );
                 $arrplayer_values = serialize($updateplayer_values);

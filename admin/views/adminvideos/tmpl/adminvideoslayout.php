@@ -57,7 +57,10 @@ JHTML::_('behavior.tooltip');
             var bol_file2=(document.getElementById('filepath2').checked);
             var bol_file3=(document.getElementById('filepath3').checked);
             var bol_file4=(document.getElementById('filepath4').checked);
+            bol_file5 = false;
+            <?php if (isset($player_values['licensekey']) && $player_values['licensekey'] != '') { ?>
             var bol_file5=(document.getElementById('filepath5').checked);
+            <?php } ?>
             var streamer_name='';
             var islive = '';
             var stream_opt=document.getElementsByName('streameroption[]');
@@ -225,7 +228,6 @@ JHTML::_('behavior.tooltip');
                 var embed_code = document.getElementById('embed_code').value;
                 embed_code = (embed_code + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
                 document.getElementById('embedcode').value = embed_code;
-                alert(embed_code);
                 if(embed_code===''){
                 alert( "<?php echo JText::_( 'You must provide Embed code', true ); ?>" )
                 return;
