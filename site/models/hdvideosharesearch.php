@@ -103,7 +103,8 @@ class Modelcontushdvideosharehdvideosharesearch extends ContushdvideoshareModel
 			$pageno = JRequest::getVar('page','','post','int');
 		}
 		$limitrow=$this->getsearchrowcol();
-		$length=$limitrow[0]->searchrow * $limitrow[0]->searchcol;
+                $thumbview       = unserialize($limitrow[0]->thumbview);
+		$length=$thumbview['searchrow'] * $thumbview['searchcol'];
 		$pages = ceil($total/$length);
 		if($pageno==1)
 		$start=0;
