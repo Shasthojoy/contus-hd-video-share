@@ -378,7 +378,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                 ## Restrict playxml for vimeo videos.
                 if (!preg_match('/vimeo/', $video)) {
                     
-                    echo    '<mainvideo
+                    echo    '<mainvideo member="' . $member . '" uid="'.$uid.'" 
                                 views="' . $views . '"
                                 streamer_path="' . $streamername . '"
                                 video_isLive="' . $islive . '"
