@@ -210,7 +210,7 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
                             </div>
                         <?php } ?>
 		</div>
-		<div class="<?php if(!version_compare(JVERSION, '3.0.0', 'ge')) { ?>filter-select fltrt<?php } else { ?>btn-group pull-right hidden-phone<?php } ?>" style="float: right;">
+		<div class="<?php if(!version_compare(JVERSION, '3.0.0', 'ge')) { ?>filter-select fltrt<?php } else { ?>btn-group pull-right hidden-phone<?php } ?>" style="float: right; margin-left: 5px;">
 			<select onchange="this.form.submit()" class="<?php if(!version_compare(JVERSION, '3.0.0', 'ge')) { ?>inputbox<?php } else { ?>input-medium chzn-done<?php } ?>" name="filter_state">
 			<option selected="selected" value="">- Select Status -</option>			
 			<option value="1" <?php if (isset($videolist1['lists']['state_filter']) && $videolist1['lists']['state_filter'] == '1')echo 'selected=selected'; ?>>Published</option>

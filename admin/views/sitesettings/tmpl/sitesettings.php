@@ -93,7 +93,7 @@ function enablefbapi(val) {
 			<tr>
 				<td width="300px;"><?php echo JHTML::tooltip('Select the commenting system to be displayed in player page', 'Commenting System', 
 	            '', 'Commenting System');?></td>
-				<td colspan="4"><select name="comment" onchange="enablefbapi(this.value)">
+                                <td colspan="4"><select name="comment" onchange="enablefbapi(this.value)" style="float: left;">
 						<option value="0"
 						<?php if ($dispenable['comment'] == 0)
 						echo "selected=selected"; ?>>None</option>
@@ -124,9 +124,13 @@ function enablefbapi(val) {
                                                 <option value="5"
 						<?php if ($dispenable['comment'] == 5)
 						echo "selected=selected"; ?>>Disqus Comment</option>
-				</select> If you want to have Jom Comment or JComment as your
+				</select> 
+                                    <p style="float: left; width: 50%; margin-left: 10px;">
+                                        If you want to have Jom Comment or JComment as your
 					commenting system for videos, please install them and activate it
-					from here.</td>
+					from here.
+                                    </p>
+                                </td>
 
 			</tr>
 			<tr id="facebook_api" style="display: none;" >

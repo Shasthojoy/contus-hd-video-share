@@ -710,3 +710,10 @@ float: left;
 
 
 
+ul#upload_thread{
+    float: right;
+}
+ul#upload_thread li{ float:left; margin-bottom: 0; margin-right: 5px;}
+.allform_left .select_videotype, .allform_left .select_upload{float:none;}
+ul#upload_thread li input[type="radio"]{margin: 0;}
+.allform_left label{float: left;}

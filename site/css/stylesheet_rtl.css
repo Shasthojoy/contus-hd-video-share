@@ -615,7 +615,7 @@ a, img, a:hover{border: none;}
 .sharing_vid #embedcode{resize:vertical;}
 
 .allform_left .select_videotype,.allform_left .select_upload{float: right;margin: 0 3px;}
-.allform_left #filetype2, .allform_left #filetype1{float: right;}
+.allform_left #filetype2, .allform_left #filetype1{float: none;margin: 0;}
 
 .commentstop{padding:5px 0;}
 .commentstop .leave .comment_txt{float: right;margin-left: 3px;}
@@ -629,3 +629,76 @@ a, img, a:hover{border: none;}
 .embed {display: block;float: right;cursor: pointer;margin-right: 10px;padding: 0 5px;}
 #embedcode {float: right;margin: 10px 0px 0px 0px;}
 
+
+.player .channelpage_title #closeimgm{height: 36px;width:50px;margin-right: 10px;float: left;}
+.player .channelpage_title{margin-bottom:15px;overflow: hidden;border-bottom: 1px solid #ccc;}
+.video-item{list-style-type: none;}
+#video-grid-container ul .video-item{background:none;list-style-type: none;float: left;width: 149px;line-height:normal;padding:10px 0px 10px 0px;}
+#video-grid-container ul .video-item:last-child{padding-right: 0px;}
+#video-grid-container ul .sort-videos{padding:10px 20px 10px 0px;}
+#video-grid-container .ulvideo_thumb{margin: 0px; padding: 0px;}
+#video-grid-container ul li .show-title-container{clear: both;overflow: hidden;margin-top: 3px;font-size: 12px;height: 34px;}
+#video-grid-container .home-link{border-bottom: 1px solid #ccc;}
+#video-grid-container .playerpage_morevideos{
+float: right;
+display: block;
+clear: both;}
+#video-grid-container_pop ul .video-item{background:none;list-style-type: none;float: left;width: 149px;line-height:normal;padding:10px 0px 10px 0px;}
+#video-grid-container_pop ul .video-item:last-child{padding-right: 0px;}
+#video-grid-container_pop ul .sort-videos{padding:10px 20px 10px 0px;}
+#video-grid-container_pop .ulvideo_thumb{margin: 0px; padding: 0px;}
+#video-grid-container_pop ul li .show-title-container{clear: both;overflow: hidden;margin-top: 3px;font-size: 12px;height: 34px;}
+#video-grid-container_pop .home-link{border-bottom: 1px solid #ccc;}
+#video-grid-container_pop .playerpage_morevideos{float:right;}
+#video-grid-container_rec ul .video-item{background:none;list-style-type: none;float: left;width: 149px;line-height:normal;padding:10px 0px 10px 0px;}
+#video-grid-container_rec ul .video-item:last-child{padding-right: 0px;}
+#video-grid-container_rec ul .sort-videos{padding:10px 20px 10px 0px;}
+#video-grid-container_rec .ulvideo_thumb{margin: 0px; padding: 0px;}
+#video-grid-container_rec ul li .show-title-container{clear: both;overflow: hidden;margin-top: 3px;font-size: 12px;height: 34px;}
+#video-grid-container_rec .home-link{border-bottom: 1px solid #ccc;}
+#video-grid-container_rec .playerpage_morevideos{float:right;}
+
+ul#upload_thread{
+    float: right;
+}
+ul#upload_thread li{ float:right; margin-bottom: 0;}
+.allform_left .select_videotype, .allform_left .select_upload{float:none;}
+ul#upload_thread li input[type="radio"]{margin: 0;}
+
+@media screen and (min-width : 280px) and (max-width : 459px) {
+
+#flashplayer embed{
+width: 100% !important;
+height: 200px !important;
+float: left;
+}
+#video-grid-container_pop .ulvideo_thumb .popular_gutterwidth{margin-left: 0 !important;}
+#video-grid-container .ulvideo_thumb .featured_gutterwidth{margin-left: 0 !important; width: 100%;}
+#video-grid-container ul li .show-title-container{ height: auto;}
+#video-grid-container_pop ul .video-item{width: 100% !important; }
+.video_thread{float: left;width: 39%;margin-left: 5px;}
+#video-grid-container_rec .ulvideo_thumb .recent_gutterwidth{margin-left: 0 !important;  width: 100%;}
+.video_thread .floatright{float: right;}
+.featured_vidimg{width: 128px;float: right;}
+#video-grid-container_pop ul .video-item .yt-uix-hovercard-target{width: 115px !important;}
+#video-grid-container ul .video-item .yt-uix-hovercard-target{width: 115px !important;}
+#video-grid-container_rec ul .video-item .yt-uix-hovercard-target{width: 115px !important;}
+.clscenter{width: 100% !important;}
+#video-grid-container_pop ul li .show-title-container{height: auto;}
+#video-grid-container_rec ul li .show-title-container{height: auto;}
+.video_addedon{float:left;}
+#video-grid-container ul .video-item{margin-right: 0 !important; width: 100% !important;}
+#htmlplayer video, 
+#htmlplayer iframe, 
+#htmlplayer .html5-video-player{
+width: 100% !important;
+height: 200px !important;
+float: left;
+}
+
+.sharing_vid #share_like .fbshare, 
+.sharing_vid #share_like iframe, 
+.sharing_vid #share_like .floatleft, 
+.sharing_vid #share_like .google-plus{display: block; clear: both;}
+
+}   
