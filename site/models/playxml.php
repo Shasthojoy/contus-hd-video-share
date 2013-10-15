@@ -297,8 +297,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                         $imaad          = ' allow_ima = "true"';
                     }
                 }
-                
-                
+                                
                 ## Get download option for particular video
                 if ($rows->download == 1) {
                     $download = "true";
