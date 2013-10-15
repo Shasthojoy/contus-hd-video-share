@@ -553,7 +553,7 @@ if (isset($details1['closeadd'])) {
                     $embed_code = $this->htmlVideoDetails->embedcode;
                 } else {
                     ## For other type videos
-                    $embed_code = '<embed id="player" src="' . $playerpath . '" flashvars="id=' . $this->videodetails->id . '&amp;baserefJ=' . JURI::base() . '&amp;autoplay=false&amp;Preview=' . $video_preview . '&amp;showPlaylist=false&amp;embedplayer=true&amp;share=false" style="width:' . $player_values['width'] . 'px;height:' . $player_values['height'] . 'px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash" wmode="transparent"></embed>';
+                    $embed_code = '<embed id="player" src="' . $playerpath . '" flashvars="id=' . $this->videodetails->id . '&amp;baserefJHDV=' . JURI::base() . '&amp;playlist_auto=false&amp;Preview=' . $video_preview . '&amp;showPlaylist=false&amp;embedplayer=true&amp;shareIcon=false&amp;email=false&amp;zoomIcon=false&amp;playlist_autoplay=false" style="width:' . $player_values['width'] . 'px;height:' . $player_values['height'] . 'px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash" wmode="transparent"></embed>';
                 }
                 ?>
                 <textarea id="embedcode" name="embedcode" style="display:none;width:<?php
