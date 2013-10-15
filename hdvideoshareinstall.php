@@ -849,7 +849,6 @@ if ($id) {
         </tr>
 
 
-
         <tr class="row0">
             <td class="key" colspan="2"><?php echo 'HD Video Share Search - ' . JText::_('Module'); ?></td>
             <td style="text-align: center;">
