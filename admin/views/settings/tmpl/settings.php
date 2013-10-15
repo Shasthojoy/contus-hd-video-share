@@ -262,7 +262,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
 
                     </tr>
                     <tr>
-                    <td class="key"><?php echo JHTML::tooltip('Share button on the player can be enabled/disabled from here', 'Share URL', '', 'Share URL'); ?></td>
+                    <td class="key"><?php echo JHTML::tooltip('Share button on the player can be enabled/disabled from here', 'Share Button', '', 'Share Button'); ?></td>
                     <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?>>
                         <input type="radio" name="shareurl"
                         <?php
