@@ -23,19 +23,22 @@ class Modelcontushdvideosharemidrollxml extends ContushdvideoshareModel {
 ## function to get midroll ads 
 
     function getads() {
-        $db = JFactory::getDBO();
-        $query = "SELECT * FROM `#__hdflv_ads` WHERE published=1 AND typeofadd='mid'";
+        $db                 = JFactory::getDBO();
+        $query              = "SELECT * FROM `#__hdflv_ads` WHERE published=1 AND typeofadd='mid'";
         $db->setQuery($query);
-        $rs_modulesettings = $db->loadObjectList();
-        $qry_settings = "SELECT * FROM #__hdflv_player_settings LIMIT 1 ";
+        $rs_modulesettings  = $db->loadObjectList();
+        $qry_settings       = "SELECT player_icons FROM #__hdflv_player_settings LIMIT 1 ";
         $db->setQuery($qry_settings);
-        $rs_random = $db->loadObjectList();
-        $random = $rs_random[0]->midrandom;
-        $adrotate = $rs_random[0]->midadrotate;
-        $interval = $rs_random[0]->midinterval;
-        $begin = $rs_random[0]->midbegin;
-        ($random == 1) ? $random = "true" : $random = "false";
-        ($adrotate == 1) ? $adrotate = "true" : $adrotate = "false";
+        $rs_random          = $db->loadObject();
+        $player_icons       = unserialize($rs_random->player_icons);
+        $player_values      = unserialize($rs_random->player_values);
+        $random             = $player_icons['midrandom'];
+        $adrotate           = $player_icons['midadrotate'];
+        $interval           = $player_values['midinterval'];
+        $begin              = $player_values['midbegin'];
+                
+        if ($random == 1)   $random = 'true'; else $random = 'false';
+        if ($adrotate == 1) $adrotate = 'true'; else $adrotate = 'false';
         if ($rs_modulesettings) {
             $this->showadsxml($rs_modulesettings, $random, $begin, $interval, $adrotate);
         }

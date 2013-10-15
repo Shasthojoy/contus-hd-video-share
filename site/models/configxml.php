@@ -230,7 +230,10 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         <languageXML>' . $languagexml . '</languageXML>
         <playlistXML>' . $playlistxml . '</playlistXML>
         <adXML>' . $adsxml . '</adXML>
+        <preroll_ads>' . $prerollads . '</preroll_ads>
+        <postroll_ads>' . $postrollads . '</postroll_ads>
         <midrollXML>' . $midrollxml . '</midrollXML>
+        <midroll_ads>' . $midrollads . '</midroll_ads>
         <playlist_open>' . $playlist_open . '</playlist_open>
         <showPlaylist>' . $playlist . '</showPlaylist>
         <HD_default>' . $hddefault . '</HD_default>
