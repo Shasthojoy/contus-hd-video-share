@@ -540,14 +540,16 @@ if (isset($details1['closeadd'])) {
                     ?>
                         <a href="<?php echo $video; ?>" target="_blank" id="downloadurl"><?php echo JText::_('HDVS_DOWNLOAD'); ?></a>
                 <?php } ?>
+                        <?php if($player_icons['embedVisible']== 1) { ?>
                     <a href="javascript:void(0)" onclick="enableEmbed()" class="embed" id="allowEmbed"><?php echo JText::_('HDVS_EMBED'); ?> </a>
+                <?php } ?>
                     <div class="clear"></div>
                 </div>
                 <?php
                 $split = explode("/", $this->videodetails->videourl);
                 if (!empty($this->videodetails) && (preg_match('/vimeo/', $this->videodetails->videourl)) && ($this->videodetails->videourl != '')) {
                     ## For vimeo videos
-                    $embed_code = '<iframe src="http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0&amp;color=6fde9f" width="400" height="225" class="iframe_frameborder" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+                    $embed_code = '<iframe src="http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0&amp;color=6fde9f" width="'.$player_values['width'].'" height="'.$player_values['height'].'" class="iframe_frameborder" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
                 } else if ($this->htmlVideoDetails->filepath == 'Embed') {
                     ## For embed code videos
                     $embed_code = $this->htmlVideoDetails->embedcode;
