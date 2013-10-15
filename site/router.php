@@ -1,10 +1,7 @@
 <?php
-
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.4.1
+ * @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -14,8 +11,7 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
+## No direct access
 defined('_JEXEC') or die('Restricted access');
 function contushdvideoshareBuildRoute(&$query) {
     $segments = array();
