@@ -241,7 +241,7 @@ function submitform()
                                                     $addeddate = $this->deletevideos[$i]->addedon;
                                                     $addedon = date('F j, Y', strtotime($addeddate));
                                     ?>
-                                                    <p class="myview"> <?php echo $addedon; ?></p>
+                                                    <p class="myview"> <?php echo JText::_('HDVS_UPDATEDON').' : '.$addedon; ?></p>
                                     <?php
                                                     if ($this->deletevideos[$i]->type == 0)
                                                     {
