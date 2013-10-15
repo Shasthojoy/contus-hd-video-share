@@ -267,6 +267,11 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
             $tagname = JRequest::getVar('tagname', '', 'post', 'string');
             $tags = JRequest::getVar('tags1', '', 'post', 'string');
             $type = JRequest::getVar('type', '', 'post', 'string');
+            if($type==1){
+                $useraccess = 2;
+            } else {
+                $useraccess = 0;
+            }
             $download = JRequest::getVar('download', '', 'post');
             $db = JFactory::getDBO();
             $tagname1 = $tagname;
@@ -320,7 +325,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                     $updatestreamer .= ",streamerpath=''";
                     $updatestreamer .= ",streameroption=''";
                 }
-                $query = ' update #__hdflv_upload SET filepath="' . $ftype . '",tags= "' . $tags . '",title=' . $title . ',seotitle="' . $seoTitle . '",type="' . $type . '",download="' . $download . '",description=' . $description . $updateform . $updatestreamer . ' where id=' . JRequest::getVar('videoid', '', 'post', 'int');
+                $query = ' update #__hdflv_upload SET filepath="' . $ftype . '",tags= "' . $tags . '",title=' . $title . ',seotitle="' . $seoTitle . '",useraccess="' . $useraccess . '",type="' . $type . '",download="' . $download . '",description=' . $description . $updateform . $updatestreamer . ' where id=' . JRequest::getVar('videoid', '', 'post', 'int');
                 $db->setQuery($query);
                 $db->query();
 
@@ -353,10 +358,10 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                 $usergroup = '';
                 $usergroup = $ugp->group_id;
                 $query = 'INSERT INTO #__hdflv_upload(streamerpath,streameroption,title,seotitle,filepath,videourl,thumburl,previewurl,published,
-		                type,memberid,description,created_date,addedon,usergroupid,playlistid,hdurl,tags,download)
+		                type,memberid,description,created_date,addedon,usergroupid,playlistid,hdurl,tags,download,useraccess)
 		                VALUES ("' . $streamerpath . '","' . $streameroption . '",' . $title . ',"' . $seoTitle . '","' . $ftype . '","' . $url . '","' . $img . '","' . $previewurl . '",
-		                "0","' . $type . '","' . $memberid . '",' . $description . ',"' . $cdate . '","' . $cdate . '","' . $usergroup . '",
-		                "' . $cid . '","' . $hd . '","' . $tags . '","' . $download . '")';
+		                "0","'.$type.'","' . $memberid . '",' . $description . ',"' . $cdate . '","' . $cdate . '","' . $usergroup . '",
+		                "' . $cid . '","' . $hd . '","' . $tags . '","' . $download . '","'.$useraccess.'")';
                 $db->setQuery($query);
                 $db->query();
                 $db_insert_id = $db->insertid();
