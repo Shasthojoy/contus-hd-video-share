@@ -567,7 +567,6 @@ var resarray = JSON.parse(result);
 document.getElementById('title').value = resarray.title;
 document.getElementById('videourl').value = resarray.urlpath;
 document.getElementById('description').innerHTML = resarray.description;
-alert(resarray.tags);
 if(typeof resarray.tags === 'undefined'){
 document.getElementById('tags').value = '';
 } else {
