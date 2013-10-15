@@ -823,7 +823,7 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
                     </script>
                 <?php
             }
-        } else if ($dispenable['comment'] != 5 && $dispenable['comment'] != 1) {
+        } else if ($dispenable['comment'] != 5 && $dispenable['comment'] != 1 && $dispenable['comment'] != 0) {
             if (version_compare(JVERSION, '1.6.0', 'ge')) {
                 $login_url = "index.php?option=com_users&amp;view=login";
             } else {
