@@ -38,7 +38,7 @@ class contushdvideoshareModeleditvideos extends ContushdvideoshareModel {
 		//query to fetch pre/post roll ads
 		$query = "SELECT `id`,`adsname`
 		          FROM `#__hdflv_ads` 
-		          WHERE `published`=1 and `typeofadd` <> 'mid' ORDER BY `adsname` asc";
+		          WHERE `published`=1 and `typeofadd` <> 'mid' and `typeofadd` <> 'ima' ORDER BY `adsname` asc";
 		$db->setQuery($query);
 		$rs_ads = $db->loadObjectList();
 		//get adminvideos table object
