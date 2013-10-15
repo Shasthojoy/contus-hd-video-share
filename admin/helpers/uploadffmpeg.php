@@ -37,9 +37,10 @@ class uploadFfmpegHelper
 		/**
 		 * query for get HEIGTH,WIDTH player size and FFMPEG path from player settings		 
 		 */	
-		$query = "select height,width,ffmpegpath from  #__hdflv_player_settings limit 1";
+		$query = "select player_values from  #__hdflv_player_settings limit 1";
 		$db->setQuery($query);
-		$arrPlayerSettings = $db->loadObject();
+		$arrPlayerSettings = $db->loadResult();
+                $player_values      = unserialize($arrPlayerSettings);
 		// check valid record
 		if (count($arrPlayerSettings))
 		{
@@ -48,17 +49,17 @@ class uploadFfmpegHelper
 			 * Hence 1 is added if it is odd no.
 			 * 
 			 */ 
-			if (( $arrPlayerSettings->height % 2) == 0)
-			$previewheight = $arrPlayerSettings->height;
+			if (( $player_values['height'] % 2) == 0)
+			$previewheight = $player_values['height'];
 			else
-			$previewheight = $arrPlayerSettings->height + 1;
-			if (( $arrPlayerSettings->width % 2) == 0)
-			$previewwidth = $arrPlayerSettings->width;
+			$previewheight = $player_values['height'] + 1;
+			if (( $player_values['width'] % 2) == 0)
+			$previewwidth = $player_values['width'];
 			else
-			$previewwidth= $arrPlayerSettings->width + 1;
+			$previewwidth= $player_values['width'] + 1;
 			// To get ffmpeg path
-			if ($arrPlayerSettings->ffmpegpath) {
-				$strFfmpegPath = $arrPlayerSettings->ffmpegpath;
+			if ($player_values['ffmpegpath']) {
+				$strFfmpegPath = $player_values['ffmpegpath'];
 			}
 		}
 		
