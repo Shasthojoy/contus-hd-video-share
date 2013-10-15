@@ -22,11 +22,11 @@ function contushdvideoshareBuildRoute(&$query) {
 
     //Code for get itemid if itemid is empty. It's used to add alias name in URL link
     $db = JFactory::getDBO();
-    if (empty($query['Itemid']))
-    {
-        $db->setQuery("select id from #__menu where link='index.php?option=com_contushdvideoshare&view=player' and published=1 order by id desc Limit 1");
-        $query['Itemid'] = $db->loadResult();
-    }
+//    if (empty($query['Itemid']))
+//    {
+//        $db->setQuery("select id from #__menu where link='index.php?option=com_contushdvideoshare&view=player' and published=1 order by id desc Limit 1");
+//        $query['Itemid'] = $db->loadResult();
+//    }
      if (isset($query['view']))
      {
         $segments[] = $query['view'];
@@ -63,11 +63,11 @@ function contushdvideoshareBuildRoute(&$query) {
         $segments[] = $query['title'];
         unset($query['title']);
     }
-    if (isset($query['Itemid']))
-    {
-        $segments[] = $query['Itemid'];
-        unset($query['Itemid']);
-    }
+//    if (isset($query['Itemid']))
+//    {
+//        $segments[] = $query['Itemid'];
+//        unset($query['Itemid']);
+//    }
 
     return $segments;
 }
@@ -100,8 +100,8 @@ function contushdvideoshareParseRoute($segments) {
                 if (isset($segments[2])) {
                     $vars['category'] = $segments[1];
                     $vars['video'] = $segments[2];
-                    if (isset($segments[3]))
-                    $vars['Itemid'] = $segments[3];
+//                    if (isset($segments[3]))
+//                    $vars['Itemid'] = $segments[3];
                 } else {
                   //  $vars['video'] = $segments[1];
                 }
