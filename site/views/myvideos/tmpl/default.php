@@ -144,24 +144,24 @@ function submitform()
                 {
                     $totalrecords = count($this->deletevideos) - 4;
                 }
-                $addvideo_url=JRoute::_('index.php?option=com_contushdvideoshare&view=videoupload');
                 if ($totalrecords == -4) {
                 	?>
                <h3><?php echo JText::_('HDVS_SEARCH_RESULT')." - $searchboxval"; ?></h3>
                <?php
                 echo '<div class="hd_norecords_found"> ' . JText::_('HDVS_NO_RECORDS_FOUND_SEARCH') .'"'.$searchboxval.'"'. ' </div>';
            		 } else  {
+                         if(!empty($searchboxval)){
                          ?>
                 <h3 class="home-link hoverable"><?php echo JText::_('HDVS_SEARCH_RESULT')." - $searchboxval"; ?></h3>
+                         <?php } ?>
             <ul  class="myvideos_tab">
                 <?php
                 for ($i = 0; $i < $totalrecords; $i++)
                 {
-                        if (($i % $thumbview['myvideocol']) == 0)
+                        if ((($i) % $thumbview['myvideocol']) == 0)
                          {
-                ?>
-                       
-                   <?php } ?>
+                echo '</ul><ul  class="myvideos_tab">';
+                            } ?>
                             <li class="rightrate">
                         <?php
                         if ($this->deletevideos[$i]->filepath == "File" || $this->deletevideos[$i]->filepath == "FFmpeg" || $this->deletevideos[$i]->filepath == "Embed")

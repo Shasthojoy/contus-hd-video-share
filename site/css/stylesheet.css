@@ -242,7 +242,7 @@ a{cursor:pointer;}
 .underline{border-bottom: 1px dotted #C3C3C3;padding-bottom: 12px;}
 .toprightmenu{font-size:13px;float:right;margin: 10px 0;}
 #rateid{width:100%;}
-#clsdetail  ul li{list-style:none;}
+#clsdetail  ul li{list-style:none;float: left;}
 .clearfix{clear:both;}
 .uploadsubmitbtn{margin-left:200px;}
 #nospace{margin:0;}
