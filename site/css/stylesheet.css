@@ -53,7 +53,7 @@
 .allform .form-input textarea{width:300px;margin-bottom:5px;}
 .allform .form-input .text{float:left;}
 #clsdetail .radiobtn{float:left;padding:0px 10px 0px 0px;}
-#clsdetail .catclass {border: 1px solid #CCC;float: left;font-size: 12px;padding: 4px;width:39%;}
+#clsdetail .catclass {border: 1px solid #CCC;float: left;font-size: 12px;padding: 4px;width:40.5%;}
 #clsdetail .catclass  a{font-weight:normal;font-size: 12px;}
 .catclass a:hover{text-decoration:underline;font-weight:bold;}
 
@@ -242,7 +242,8 @@ a{cursor:pointer;}
 .underline{border-bottom: 1px dotted #C3C3C3;padding-bottom: 12px;}
 .toprightmenu{font-size:13px;float:right;margin: 10px 0;}
 #rateid{width:100%;}
-#clsdetail  ul li{list-style:none;float: left;}
+#clsdetail  ul li{list-style: none; }
+#clsdetail  ul li.rightrate{list-style:none;float: left;}
 .clearfix{clear:both;}
 .uploadsubmitbtn{margin-left:200px;}
 #nospace{margin:0;}
