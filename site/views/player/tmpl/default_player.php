@@ -499,7 +499,7 @@ if (isset($details1['closeadd'])) {
                 $row->username = isset($row->username) ? $row->username : '';
                 if ($row->username != '') {
                     ?>
-                <div class="viewsubname"><span class="uploadedby"><?php echo 'Uploaded by'; ?> :</span>  <a  href="#" title="<?php echo $row->username; ?>" class="namelink cursor_pointer" onclick="membervalue('<?php echo $mid; ?>')" ><?php echo $row->username; ?></a></div><?php
+                <div class="viewsubname"><span class="uploadedby"><?php echo JText::_('HDVS_UPLOADED_BY'); ?> :</span>  <a  href="#" title="<?php echo $row->username; ?>" class="namelink cursor_pointer" onclick="membervalue('<?php echo $mid; ?>')" ><?php echo $row->username; ?></a></div><?php
                 }
                 ?><div class="clear"></div>
             <!-- Social sharing starts here -->
