@@ -37,14 +37,14 @@ class uploadYouTubeHelper
 		{
 			$imgstr = explode("v=", $videourl);
 			$imgval = explode("&", $imgstr[1]);
-			$previewurl = "http://img.youtube.com/vi/" . $imgval[0] . "/0.jpg";
-			$img = "http://img.youtube.com/vi/" . $imgval[0] . "/1.jpg";
+			$previewurl = "http://img.youtube.com/vi/" . $imgval[0] . "/maxresdefault.jpg";
+			$img = "http://img.youtube.com/vi/" . $imgval[0] . "/mqdefault.jpg";
 		}
 		else if(strpos($videourl,'youtu.be') > 0)
 		{
 			$imgstr = explode("/", $videourl);
-			$previewurl = "http://img.youtube.com/vi/" . $imgstr[3] . "/0.jpg";
-			$img = "http://img.youtube.com/vi/" . $imgstr[3] . "/1.jpg";
+			$previewurl = "http://img.youtube.com/vi/" . $imgstr[3] . "/maxresdefault.jpg";
+			$img = "http://img.youtube.com/vi/" . $imgstr[3] . "/mqdefault.jpg";
                         $videourl="http://www.youtube.com/watch?v=".$imgstr[3];
 		}
 

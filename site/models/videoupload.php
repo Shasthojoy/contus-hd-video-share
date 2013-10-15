@@ -210,12 +210,12 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                         $ftype = "Youtube";
                         $imgstr = explode("v=", $url);
                         $imgval = explode("&", $imgstr[1]);
-                        $previewurl = "http://img.youtube.com/vi/" . $imgval[0] . "/0.jpg";
-                        $img = "http://img.youtube.com/vi/" . $imgval[0] . "/1.jpg";
+                        $previewurl = "http://img.youtube.com/vi/" . $imgval[0] . "/maxresdefault.jpg";
+                        $img = "http://img.youtube.com/vi/" . $imgval[0] . "/mqdefault.jpg";
                     } else if (strpos($url, 'youtu.be') > 0) {
                         $imgstr = explode("/", $url);
-                        $previewurl = "http://img.youtube.com/vi/" . $imgstr[3] . "/0.jpg";
-                        $img = "http://img.youtube.com/vi/" . $imgstr[3] . "/1.jpg";
+                        $previewurl = "http://img.youtube.com/vi/" . $imgstr[3] . "/maxresdefault.jpg";
+                        $img = "http://img.youtube.com/vi/" . $imgstr[3] . "/mqdefault.jpg";
                         $url = "http://www.youtube.com/watch?v=" . $imgstr[3];
                         $ftype = "Youtube";
                     } else if (strpos($url, 'vimeo') > 0) {
