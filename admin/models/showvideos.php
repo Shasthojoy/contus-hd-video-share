@@ -26,11 +26,10 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 		global $option, $mainframe,$db;
 		parent::__construct();
 		##  get global configuration
-		$mainframe = JFactory::getApplication();
-		$option = JRequest::getVar('option');
-		$db =  JFactory::getDBO();
-		$config = JFactory::getConfig();
-
+		$mainframe      = JFactory::getApplication();
+		$option         = JRequest::getVar('option');
+		$db             =  JFactory::getDBO();
+		$config         = JFactory::getConfig();
 	}
 
         function phpSlashes($string, $type='add') {
@@ -54,31 +53,31 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 	##  function to display videos grid
 	function showvideosmodel() {
 		global $option, $mainframe, $db;
-		$rs_showupload = '';
-		$strVideoCount = 0;
+		$rs_showupload      = '';
+		$strVideoCount      = 0;
 		##   To store and retrieve filter variables that are stored with the session
-		$filter_order = $mainframe->getUserStateFromRequest($option . 'filter_order_adminvideos', 'filter_order', 'ordering', 'cmd');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($option . 'filter_order_Dir_adminvideos', 'filter_order_Dir', 'asc', 'word');
-		$search = $mainframe->getUserStateFromRequest($option . 'search', 'search', '', 'string');
-                 $search1=$search;
-		$state_filter = $mainframe->getUserStateFromRequest($option . 'filter_state', 'filter_state', '', 'int');
-		$featured_filter = $mainframe->getUserStateFromRequest($option . 'filter_featured', 'filter_featured', '', 'string');
-		$category_filter = $mainframe->getUserStateFromRequest($option . 'filter_category', 'filter_category', '', '');
+		$filter_order       = $mainframe->getUserStateFromRequest($option . 'filter_order_adminvideos', 'filter_order', 'ordering', 'cmd');
+		$filter_order_Dir   = $mainframe->getUserStateFromRequest($option . 'filter_order_Dir_adminvideos', 'filter_order_Dir', 'asc', 'word');
+		$search             = $mainframe->getUserStateFromRequest($option . 'search', 'search', '', 'string');
+                 $search1           = $search;
+		$state_filter       = $mainframe->getUserStateFromRequest($option . 'filter_state', 'filter_state', '', 'int');
+		$featured_filter    = $mainframe->getUserStateFromRequest($option . 'filter_featured', 'filter_featured', '', 'string');
+		$category_filter    = $mainframe->getUserStateFromRequest($option . 'filter_category', 'filter_category', '', '');
 		##  page navigation
 		##  Default List Limit
-		$limit = $mainframe->getUserStateFromRequest($option . '.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart = $mainframe->getUserStateFromRequest($option . '.limitstart', 'limitstart', 0, 'int');
+		$limit              = $mainframe->getUserStateFromRequest($option . '.limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart         = $mainframe->getUserStateFromRequest($option . '.limitstart', 'limitstart', 0, 'int');
 
 		##  set user = admin for admin videos
-		$strAdmin = (JRequest::getVar('user', '', 'get')) ? JRequest::getVar('user', '', 'get') : '';
+		$strAdmin           = (JRequest::getVar('user', '', 'get')) ? JRequest::getVar('user', '', 'get') : '';
 		##  get logged user
-		$user = JFactory::getUser();
-		$userid = $user->get('id');
+		$user               = JFactory::getUser();
+		$userid             = $user->get('id');
 		##  get user groups  from joomla version above 1.6.0
 		if(version_compare(JVERSION,'1.6.0','ge'))
 		{
 			##  query items are returned as an associative array
-			$query = $db->getQuery(true);
+			$query      = $db->getQuery(true);
 			$query->select('g.id AS group_id')
 				  ->from('#__usergroups AS g')
 				  ->leftJoin('#__user_usergroup_map AS map ON map.group_id = g.id')
@@ -107,8 +106,8 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 		##  get user groups from joomla version below 1.6.0
 		else
 		{
-			$query ='SELECT gid from #__users
-                     WHERE id = ' . (int) $userid;
+			$query = 'SELECT gid from #__users
+                                WHERE id = ' . (int) $userid;
 			$db->setQuery($query);
 			$arrUserGroup = $db->loadObject();
 			##  for videos added by admin
@@ -169,13 +168,13 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 
 		}
 		##  assign filter variables
-		$lists['order_Dir'] = $filter_order_Dir;
-		$lists['order'] = $filter_order;
-                $search = $this->phpSlashes($search);
+		$lists['order_Dir']     = $filter_order_Dir;
+		$lists['order']         = $filter_order;
+                $search                 = $this->phpSlashes($search);
 		##  filtering based on search keyword
 		if ($search)
 		{
-			$strMainQuery .= " AND a.title LIKE '%$search%'";
+			$strMainQuery   .= " AND a.title LIKE '%$search%'";
 			$lists['search'] = $search1;
 		}
 		##  filtering based on status
@@ -187,34 +186,34 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 			}else {
 				$state_filterval = -2;
 			}
-			$strMainQuery .= " AND a.published = $state_filterval";
-			$lists['state_filter'] = $state_filter;
+			$strMainQuery               .= " AND a.published = $state_filterval";
+			$lists['state_filter']      = $state_filter;
 		} else {
-			$strMainQuery .= " AND a.published != -2";
+			$strMainQuery               .= " AND a.published != -2";
 		}
 		##  filtering based on featured status
 		if($featured_filter) {
-			$featured_filterval = ($featured_filter == '1')?'1':'0';
-			$strMainQuery .= " AND a.featured = $featured_filterval";
-			$lists['featured_filter'] = $featured_filter;
+			$featured_filterval         = ($featured_filter == '1')?'1':'0';
+			$strMainQuery               .= " AND a.featured = $featured_filterval";
+			$lists['featured_filter']   = $featured_filter;
 		}
 		if($category_filter) {
-			$strMainQuery .= " AND a.playlistid = $category_filter";
-			$lists['category_filter'] = $category_filter;
+			$strMainQuery               .= " AND a.playlistid = $category_filter";
+			$lists['category_filter']   = $category_filter;
 		}
-			$strMainQuery .= " ORDER BY $filter_order $filter_order_Dir";
+			$strMainQuery               .= " ORDER BY $filter_order $filter_order_Dir";
 
 			$db->setQuery($strMainQuery);
-			$arrVideoList = $db->loadObjectList();
-			$strTotalVideos = count($arrVideoList);
+			$arrVideoList               = $db->loadObjectList();
+			$strTotalVideos             = count($arrVideoList);
 
 			##  set pagination
 
-			$pageNav = new JPagination($strTotalVideos, $limitstart, $limit);
+			$pageNav                    = new JPagination($strTotalVideos, $limitstart, $limit);
 
-			$strMainQuery .= " LIMIT $pageNav->limitstart,$pageNav->limit";
+			$strMainQuery               .= " LIMIT $pageNav->limitstart,$pageNav->limit";
 			$db->setQuery($strMainQuery);
-			$arrVideoList = $db->loadObjectList();
+			$arrVideoList               = $db->loadObjectList();
 
 		/**
 		 * get the most recent database error code
@@ -243,9 +242,9 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 			$msg = 'Unpublished successfully';
 			$publish = 0;
 		}
-       	$objAdminVideosTable =& $this->getTable('adminvideos');
+       	$objAdminVideosTable    = &$this->getTable('adminvideos');
         $objAdminVideosTable->publish($arrVideoId['cid'], $publish);
-        $strRedirectPage = 'index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&user=' . JRequest::getVar('user');
+        $strRedirectPage        = 'index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&user=' . JRequest::getVar('user');
         $mainframe->redirect($strRedirectPage, $msg);
 
 	}
@@ -259,29 +258,34 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 	function savevideos($task)
 	{
 		global $option,$mainframe;
-		$db = & JFactory::getDBO();
-		$user = & JFactory::getUser();
-		$userTypeRedirect = (JRequest::getVar('user', '', 'get') == 'admin') ? "&user=" . JRequest::getVar('user', '', 'get') : "";
+		$db                 =  JFactory::getDBO();
+		$userTypeRedirect   = (JRequest::getVar('user', '', 'get') == 'admin') ? "&user=" . JRequest::getVar('user', '', 'get') : "";
 		##  To get an instance of the adminvideos table object
-		$rs_saveupload = & JTable::getInstance('adminvideos', 'Table');
-		$arrCatId = JRequest::getVar('cid', array(0), '', 'array');
-		$strCatId = $arrCatId[0];
+		$rs_saveupload      = JTable::getInstance('adminvideos', 'Table');
+		$arrCatId           = JRequest::getVar('cid', array(0), '', 'array');
+		$strCatId           = $arrCatId[0];
 		$rs_saveupload->load($strCatId);
-                $createddate = date("Y-m-d h:m:s");
+                $createddate        = date("Y-m-d h:m:s");
 
 		##  variable initialization
-		$arrFormData = JRequest::get('post');
-                $embedcode=JRequest::getVar('embedcode', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$arrFormData        = JRequest::get('post');
+                $embedcode          = JRequest::getVar('embedcode', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$arrFormData['embedcode']=$embedcode;
-		$fileoption = $arrFormData['fileoption'];
-		$seoTitle = $arrFormData['title'];
-                $seoTitle=stripslashes($seoTitle);
-                $seoTitle=strtolower($seoTitle);
-		$seoTitle = preg_replace('/[&:\s]+/i', '-', $seoTitle);
+		$fileoption         = $arrFormData['fileoption'];
+		$seoTitle           = $arrFormData['title'];
+                $titlequery         = "SELECT count(id) FROM #__hdflv_upload where title='$seoTitle'";
+                $db->setQuery($titlequery);
+                $total_title        = $db->loadResult();
+                if(!empty($total_title) || $total_title>0){
+                    $seoTitle       = $seoTitle.rand();
+                }
+                $seoTitle           = stripslashes($seoTitle);
+                $seoTitle           = strtolower($seoTitle);
+		$seoTitle           = preg_replace('/[&:\s]+/i', '-', $seoTitle);
 		$arrFormData['seotitle'] = preg_replace('/[#!@$%^.,:;\/&*(){}\"\'\[\]<>|?]+/i', '', $seoTitle);
 		$arrFormData['seotitle'] = preg_replace('/---|--+/i', '-', $arrFormData['seotitle']);
-		$description=JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$arrFormData['description']=$description;
+		$description        = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$arrFormData['description'] = $description;
 
 		##  object to bind to the instance
 		if (!$rs_saveupload->bind($arrFormData))
