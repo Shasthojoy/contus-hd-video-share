@@ -528,6 +528,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel {
             }
             $member             = "true";
             if (version_compare(JVERSION, '1.6.0', 'ge')) {
+                $member = "false";
                 foreach ($accessLevel as $useracess) {
                     if (in_array("$useracess", $accessid) || $useracess == 1) {
                         $member = "true";

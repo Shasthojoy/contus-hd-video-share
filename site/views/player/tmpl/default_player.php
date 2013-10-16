@@ -310,8 +310,8 @@ if (USER_LOGIN == '1') {
         }
     } else {               ## Restricted video design part 
         ?>
-                    <div id="video" style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px; background-color:#000000;" >
-                        <h3 style="color:#e65c00;vertical-align: middle;height:<?php echo $player_values['height']; ?>px;display: table-cell;width:<?php echo $player_values['width']; ?>px; ">You are not authorized to view this video</h3>
+                    <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000;" >
+                        <h3 style="color:#e65c00;vertical-align: middle;height:<?php echo $player_values['height']; ?>px;display: table-cell;">You are not authorized to view this video</h3>
                     </div>
     <?php } ?>
             </div>
