@@ -231,7 +231,7 @@ if (USER_LOGIN == '1') {
                         if ($htmlVideoDetails->filepath == "Url") {                             ## For URL Method videos
                             if ($htmlVideoDetails->streameroption == 'rtmp') {
                                 $rtmp       = str_replace('rtmp', 'http', $htmlVideoDetails->streamerpath);
-                                $video      = $rtmp . $htmlVideoDetails->videourl . '/playlist.m3u8';   ## For RTMP videos
+                                $video      = $rtmp . '_definst_/mp4:'. $htmlVideoDetails->videourl . '/playlist.m3u8';   ## For RTMP videos
                             } else {
                                 $video      = $htmlVideoDetails->videourl;
                             }
