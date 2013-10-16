@@ -209,21 +209,66 @@ if (USER_LOGIN == '1') {
     ?>
             <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
 <?php } else {
-    ?>
-            <!-- Flash player Start -->
-            <div id="flashplayer">
-                <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
-                       allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $details1['baseurl']; ?><?php echo $baseref; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px"></embed>
-            </div>
+    
+    ## Detect mobile device
+        function detect_mobile()
+        {
+            $_SERVER['ALL_HTTP'] = isset($_SERVER['ALL_HTTP']) ? $_SERVER['ALL_HTTP'] : '';
 
-            <!-- Flash player Ends and HTML5 player starts here -->
-            <div id="htmlplayer" style="display:none;">
+            $mobile_browser = '0';
+
+            $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+            if(preg_match('/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|iphone|ipad|ipod|android|xoom)/i', $agent))
+                $mobile_browser++;
+
+            if((isset($_SERVER['HTTP_ACCEPT'])) and (strpos(strtolower($_SERVER['HTTP_ACCEPT']),'application/vnd.wap.xhtml+xml') !== false))
+                $mobile_browser++;
+
+            if(isset($_SERVER['HTTP_X_WAP_PROFILE']))
+                $mobile_browser++;
+
+            if(isset($_SERVER['HTTP_PROFILE']))
+                $mobile_browser++;
+
+            $mobile_ua = substr($agent,0,4);
+            $mobile_agents = array(
+                                'w3c ','acs-','alav','alca','amoi','audi','avan','benq','bird','blac',
+                                'blaz','brew','cell','cldc','cmd-','dang','doco','eric','hipt','inno',
+                                'ipaq','java','jigs','kddi','keji','leno','lg-c','lg-d','lg-g','lge-',
+                                'maui','maxo','midp','mits','mmef','mobi','mot-','moto','mwbp','nec-',
+                                'newt','noki','oper','palm','pana','pant','phil','play','port','prox',
+                                'qwap','sage','sams','sany','sch-','sec-','send','seri','sgh-','shar',
+                                'sie-','siem','smal','smar','sony','sph-','symb','t-mo','teli','tim-',
+                                'tosh','tsm-','upg1','upsi','vk-v','voda','wap-','wapa','wapi','wapp',
+                                'wapr','webc','winw','xda','xda-'
+                                );
+
+            if(in_array($mobile_ua, $mobile_agents))
+                $mobile_browser++;
+
+            if(strpos(strtolower($_SERVER['ALL_HTTP']), 'operamini') !== false)
+                $mobile_browser++;
+
+            ## Pre-final check to reset everything if the user is on Windows
+            if(strpos($agent, 'windows') !== false)
+                $mobile_browser=0;
+
+            ## But WP7 is also Windows, with a slightly different characteristic
+            if(strpos($agent, 'windows phone') !== false)
+                $mobile_browser++;
+
+            if($mobile_browser>0)
+                return true;
+            else
+                return false;
+        }
+        $mobile = detect_mobile();
+                        if($mobile === true){
+    ?>
+             <!-- HTML5 player starts here -->
+            <div id="htmlplayer">
                 <?php
-                $windo          = '';
-                $useragent      = $_SERVER['HTTP_USER_AGENT'];
-                if (strpos($useragent, 'Windows Phone') > 0){
-                    $windo      = 'Windows Phone';                  ## Check for Windows phone
-                }
                 ## Generate details for HTML5 player
                 if ($this->homepageaccess == 'true') {
                     if ($htmlVideoDetails->filepath == "File" || $htmlVideoDetails->filepath == "FFmpeg" || $htmlVideoDetails->filepath == "Url") {
@@ -270,20 +315,18 @@ if (USER_LOGIN == '1') {
                     </div>
     <?php } ?>
             </div>
+             
+                        <?php } else { ?>
+             
+             <!-- Flash player Start -->
+            <div id="flashplayer">
+                <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
+                       allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $details1['baseurl']; ?><?php echo $baseref; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px"></embed>
+            </div>
+                        <?php } ?>
             <!--Platform check-->
             <script type="text/javascript">
                 var txt = navigator.platform;
-                var windo = "<?php echo $windo; ?>";
-                if (txt == 'iPod' || txt == 'iPad' || txt == 'iPhone' || windo == "Windows Phone" || txt == 'Linux armv7l' || txt == 'Linux armv6l')
-                {
-                    document.getElementById("htmlplayer").style.display = "block";
-                    document.getElementById("flashplayer").style.display = "none";
-                }
-                else
-                {
-                    document.getElementById("flashplayer").style.display = "block";
-                    document.getElementById("htmlplayer").style.display = "none";
-                }
                 function failed(e)
                 {
                     if (txt == 'iPod' || txt == 'iPad' || txt == 'iPhone' || windo == "Windows Phone" || txt == 'Linux armv7l' || txt == 'Linux armv6l')
@@ -296,7 +339,7 @@ if (USER_LOGIN == '1') {
     <?php
 }
 ## Display Google Adsense
-if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1') {
+if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1' && $mobile !== true) {
     ?>
             <div style="clear:both;font-size:0px; height:0px;"></div>
             <div id="lightm" style="position:absolute;bottom:25px;width:<?php echo $player_values['width']; ?>px;background:none;"  >
