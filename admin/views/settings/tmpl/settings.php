@@ -124,9 +124,9 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
             <?php } else { ?>
                 <h2>Player Settings</h2>
             <?php } ?>
-            <table <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="adminlist table table-striped"'; } else { echo 'class="admintable adminlist" width="80%"'; } ?>>
+            <table <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="adminlist table table-striped"'; } else { echo 'class="admintable adminlist" '; } ?>>
                 <tr>
-                    <td class="key" width=20%><?php echo JHTML::tooltip('Recommended value is 3', 'Buffer Time', '', 'Buffer Time'); ?></td>
+                    <td class="key" ><?php echo JHTML::tooltip('Recommended value is 3', 'Buffer Time', '', 'Buffer Time'); ?></td>
                     <td><input type="text" name="buffer" value="<?php if (isset($player_values['buffer'])){ echo $player_values['buffer']; } ?>" /> secs </td>
                     <td class="key"><?php echo JHTML::tooltip('Select Enable to auto hide skin', 'Skin Auto Hide', '', 'Skin Auto Hide'); ?></td>
                     <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?>>
@@ -144,9 +144,9 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         ?> value="0" />Disable</td>
                 </tr>
                 <tr>
-                    <td class="key" width=20%><?php echo JHTML::tooltip('Width of the video can be 300px with all the controls enabled. If you would like to have smaller than 300px then you have to disable couple of controls like Timer, Zoom.', 'Width', '', 'Width'); ?></td>
-                    <td width=400px;><input type="text" id="player_width" name="width" value="<?php if (isset($player_values['width'])){ echo $player_values['width']; } ?>" /> px </td>
-                    <td class="key" width=20%><?php echo JHTML::tooltip('Recommended value is 400', 'Height', '', 'Height'); ?></td>
+                    <td class="key" ><?php echo JHTML::tooltip('Width of the video can be 300px with all the controls enabled. If you would like to have smaller than 300px then you have to disable couple of controls like Timer, Zoom.', 'Width', '', 'Width'); ?></td>
+                    <td ><input type="text" id="player_width" name="width" value="<?php if (isset($player_values['width'])){ echo $player_values['width']; } ?>" /> px </td>
+                    <td class="key" ><?php echo JHTML::tooltip('Recommended value is 400', 'Height', '', 'Height'); ?></td>
                     <td><input type="text" name="height" value="<?php if (isset($player_values['height'])){ echo $player_values['height']; } ?>" id="player_height" /> px</td>
 
                 </tr>
@@ -252,7 +252,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                 </tr>
                 <tr>
                     <td class="key"><?php echo JHTML::tooltip('Recommended value is 50', 'Volume', '', 'Volume'); ?></td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'width="25%"'; } ?>>
+                    <td>
                         <input type="text" name="volume" value="<?php if (isset($player_values['volume'])){ echo $player_values['volume']; } ?>" /> %
                     </td>
                     <td class="key"><?php echo JHTML::tooltip('Enter Login Page URL', 'Login Page URL', '', 'Login Page URL'); ?></td>
@@ -277,10 +277,19 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
-                    <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
+                    <td class="key"><?php echo JHTML::tooltip('Option to select related videos view', 'Related Videos View', '', 'Related Videos View'); ?></td>
+                    <td><select name="relatedVideoView">
+                            <option value="side" id="side">side</option>
+                            <option value="center" id="center">center</option>
+                        </select> 
+                            <?php
+                            if (isset($player_values['relatedVideoView']) && $player_values['relatedVideoView']) {
+                                echo '<script>document.getElementById("' . $player_values['relatedVideoView'] . '").selected="selected"; </script>';
+                            }
+                            ?>
+                    </td>
                     </tr>
                     <tr>
-                    <?php } ?>
                     <td class="key"><?php echo JHTML::tooltip('Option to play all the videos from playlist continuously', 'Playlist Autoplay', '', 'Playlist Autoplay'); ?></td>
                     <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="radio_algin"'; ?>><input type="radio" name="playlist_autoplay"
                         <?php
@@ -295,10 +304,6 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
-                    <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { ?>
-                    </tr>
-                    <tr>
-                    <?php } ?>
                     <td class="key"><?php echo JHTML::tooltip('Option to set the HD videos to play by default', 'HD Default', '', 'HD Default'); ?></td>
                     <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?>>
                         <input type="radio" name="hddefault"
@@ -314,10 +319,8 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
-                    <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                     </tr>
                     <tr>
-                    <?php } ?>
                     <td class="key"><?php echo JHTML::tooltip('Set playlist to open / close always by enable / disable this option', 'Playlist Open', '', 'Playlist Open'); ?></td>
                     <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="radio_algin"'; ?>><input type="radio" name="playlist_open"
                         <?php
@@ -332,10 +335,6 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
-                    <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { ?>
-                    </tr>
-                    <tr>
-                    <?php } ?>
                     <td class="key"><?php echo JHTML::tooltip('Option to set enable/disable related videos display within player', 'Related Videos', '', 'Related Videos'); ?></td>
                     <td><select name="related_videos">
                             <option value="1" id="1">Enable</option>
@@ -346,21 +345,6 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                     </td>
-                    <td class="key"><?php echo JHTML::tooltip('Option to select related videos view', 'Related Videos View', '', 'Related Videos View'); ?></td>
-                    <td><select name="relatedVideoView">
-                            <option value="side" id="side">side</option>
-                            <option value="center" id="center">center</option>
-                        </select> 
-                            <?php
-                            if (isset($player_values['relatedVideoView']) && $player_values['relatedVideoView']) {
-                                echo '<script>document.getElementById("' . $player_values['relatedVideoView'] . '").selected="selected"; </script>';
-                            }
-                            ?>
-                    </td>
-                        <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { ?>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <?php } ?>
                 </tr>
                 <tr>
                     <td class="key"><?php echo JHTML::tooltip('Option to enable/disable default preview image when it is not available', 'Display Default Image', '', 'Display Default Image'); ?></td>
@@ -491,7 +475,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
 <?php } else { ?>
                 <h2>Player Settings</h2>
 <?php } ?>
-            <table <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="adminlist table table-striped"'; } else { echo 'class="admintable adminlist" width="80%"'; } ?>>
+            <table <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="adminlist table table-striped"'; } else { echo 'class="admintable adminlist"'; } ?>>
                 <tr>
                     <td><?php echo JHTML::tooltip('Enter the color for Share Popup Header Color', 'Share Popup Header Color', '', 'Share Popup Header Color'); ?></td>
                     <td><input name="sharepanel_up_BgColor" id="sharepanel_up_BgColor" maxlength="100" value="<?php echo $player_colors['sharepanel_up_BgColor']; ?>">
@@ -599,10 +583,10 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                  <?php } else { ?>
                 <h2>Pre/Post-Roll Ad Settings</h2>
                  <?php } ?>
-            <table class="<?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'adminlist table table-striped'; } else { echo " admintable adminlist"; } ?>" width="23%">
+            <table class="<?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'adminlist table table-striped'; } else { echo " admintable adminlist"; } ?>">
                 <tr>
-                    <td class="key" width="20%"><?php echo JHTML::tooltip('Option to enable/disable post-roll ads', 'Post-roll Ad', '', 'Post-roll Ad'); ?> </td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo 'class="radio_algin" width="80%"'; } else { echo 'width="30%"'; } ?> ><input type="radio" name="postrollads"
+                    <td class="key" ><?php echo JHTML::tooltip('Option to enable/disable post-roll ads', 'Post-roll Ad', '', 'Post-roll Ad'); ?> </td>
+                    <td  <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'colspan="3"'; } ?> <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo 'class="radio_algin" '; }?> ><input type="radio" name="postrollads"
                     <?php
                     if (isset($player_icons['postrollads']) && $player_icons['postrollads'] == 1) {
                         echo 'checked="checked" ';
@@ -615,10 +599,9 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                     }
                     ?>
                     value="0" />Disable</td>
-                    <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo "<td>&nbsp;</td>
-                        <td>&nbsp;</td></tr> <tr>"; } ?>
-                    <td class="key" width="20%"><?php echo JHTML::tooltip('Option to enable/disable pre-roll ads', 'Pre-roll Ad', '', 'Pre-roll Ad'); ?></td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo 'class="radio_algin" width="80%"'; } ?>>
+                    <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo "</tr> <tr>"; } ?>
+                    <td class="key" ><?php echo JHTML::tooltip('Option to enable/disable pre-roll ads', 'Pre-roll Ad', '', 'Pre-roll Ad'); ?></td>
+                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'colspan="3"'; } ?> <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo 'class="radio_algin" '; } ?>>
                         <input type="radio" name="prerollads"
                         <?php
                         if (isset($player_icons['prerollads']) && $player_icons['prerollads'] == 1) {
@@ -632,10 +615,9 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
-<?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo "<td>&nbsp;</td>
-                        <td>&nbsp;</td></tr> <tr>"; } ?>
-                    <td class="key" width="20%"><?php echo JHTML::tooltip('Option to enable/disable IMA ads', 'IMA Ad', '', 'IMA Ad'); ?></td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo 'class="radio_algin" width="80%"'; } ?>>
+<?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo "</tr> <tr>"; } ?>
+                    <td class="key" ><?php echo JHTML::tooltip('Option to enable/disable IMA ads', 'IMA Ad', '', 'IMA Ad'); ?></td>
+                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'colspan="3"'; } ?> <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo 'class="radio_algin" '; } ?>>
                         <input type="radio" name="imaads"
                         <?php
                         if (isset($player_icons['imaads']) && $player_icons['imaads'] == 1) {
@@ -649,12 +631,10 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
-                    <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { echo "<td>&nbsp;</td>
-                        <td>&nbsp;</td>"; } ?>
                 </tr>
                 <tr>
-                    <td class="key"  <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>width="15%" <?php } ?>><?php echo JHTML::tooltip('Option to enable/disable Ad Skip', 'Ad Skip', '', 'Ad Skip'); ?></td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?> width="20%">
+                    <td class="key"  ><?php echo JHTML::tooltip('Option to enable/disable Ad Skip', 'Ad Skip', '', 'Ad Skip'); ?></td>
+                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?> >
                         <input type="radio" name="adsSkip"
                         <?php
                         if (isset($player_icons['adsSkip']) && $player_icons['adsSkip'] == 1) {
@@ -668,20 +648,13 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
-                    <td class="key" <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?> width="20%" <?php } ?>><?php echo JHTML::tooltip('Enter the time interval for Ad Skip Duration', 'Ad Skip Duration', '', 'Ad Skip Duration'); ?></td>
-                    <td <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?> width="15%"<?php } ?>><input type="text" name="adsSkipDuration"  value="<?php if (isset($player_values['adsSkipDuration'])){ echo $player_values['adsSkipDuration']; } ?>" /> </td>
-                    <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { ?>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    <?php } else { ?>
-                        <td class="key" width="20%"></td>
-                        <td width="15%"></td>
-                    <?php } ?>
+                    <td class="key"><?php echo JHTML::tooltip('Enter the time interval for Ad Skip Duration', 'Ad Skip Duration', '', 'Ad Skip Duration'); ?></td>
+                    <td colspan="3"><input type="text" name="adsSkipDuration"  value="<?php if (isset($player_values['adsSkipDuration'])){ echo $player_values['adsSkipDuration']; } ?>" style="margin-bottom: 0;"/> </td>
                 </tr>
                 <tr>
                         <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         <td class="key"><?php echo JHTML::tooltip('Option to enable/disable Google Analytics', 'Google Analytics', '', 'Google Analytics'); ?></td>
-                        <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } else { echo 'colspan="3"'; } ?>  width="80%">
+                        <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'colspan="3"'; } ?> <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } else { echo 'colspan="5"'; } ?>  >
                         <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { echo '<div style="float: left">'; } ?>
                             <input type="radio" style="float: none;" onclick="Toggle('shows')" name="googleana_visible" id="googleana_visible" 
                                     <?php if (isset($player_icons['googleana_visible']) && $player_icons['googleana_visible'] == 1) {
@@ -693,23 +666,15 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                                     } ?>
                                    value="0" />Disable
                         <?php if (!version_compare(JVERSION, '3.0.0', 'ge')){ echo '</div>'; } ?>
-                            <div id="show" style="display: none; float: right;width: 62%;">
-                                <table style="padding: 0; width: 100%;">
-                                    <tr>
-                                        <td style="padding: 0; width: 35%;">
-                                        <?php echo JHTML::tooltip('Enter Google Analytics ID', 'Google Analytics ID', '', 'Google Analytics ID'); ?>
-                                        </td>
-                                        <td style="padding: 0;">
-                                            <input style="margin: 0;" name="googleanalyticsID" id="googleanalyticsID" maxlength="100" value="<?php if (isset($player_values['googleanalyticsID'])) echo $player_values['googleanalyticsID']; ?>">
-                                        </td>
-                                    </tr>
-                                </table>
+                            <div id="show" class="google_analytics" style="display: none;">
+                                <?php echo JHTML::tooltip('Enter Google Analytics ID', 'Google Analytics ID', '', 'Google Analytics ID'); ?>
+                                <input style="margin: 0;" name="googleanalyticsID" id="googleanalyticsID" maxlength="100" value="<?php if (isset($player_values['googleanalyticsID'])) echo $player_values['googleanalyticsID']; ?>">
                             </div>
                         </td>
                     </tr>
                         <?php } else { ?>
-                    <td class="key" width="20%"><?php echo JHTML::tooltip('Option to enable/disable Google Analytics', 'Google Analytics', '', 'Google Analytics'); ?></td>
-                    <td class="radio_algin" width="80%"><input type="radio" style="float: none;" onclick="Toggle('shows')" name="googleana_visible" id="googleana_visible" 
+                    <td class="key"><?php echo JHTML::tooltip('Option to enable/disable Google Analytics', 'Google Analytics', '', 'Google Analytics'); ?></td>
+                    <td class="radio_algin" <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'colspan="3"'; } ?> ><input type="radio" style="float: none;" onclick="Toggle('shows')" name="googleana_visible" id="googleana_visible" 
                         <?php if (isset($player_icons['googleana_visible']) && $player_icons['googleana_visible'] == 1) {
                             echo 'checked="checked" ';
                         } ?>
@@ -718,8 +683,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                                 echo 'checked="checked" ';
                             } ?>
                         value="0" />Disable</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                    
                     </tr>
                     <tr>
                         <td class="key">
@@ -730,8 +694,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                                 <input name="googleanalyticsID" id="googleanalyticsID" maxlength="100" value="<?php if (isset($player_values['googleanalyticsID'])) echo $player_values['googleanalyticsID']; ?>">
                             </div>
                         </td>
-                         <td>&nbsp;</td>
-                    <td>&nbsp;</td>
+                         
                     </tr>
                     <?php } ?>
             </table>
@@ -747,10 +710,10 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
 <?php } else { ?>
                 <h2>Mid Roll Ad Settings</h2>
 <?php } ?>
-            <table class="<?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'adminlist table table-striped'; } else { echo 'admintable adminlist'; } ?> " width="80%">
+            <table class="<?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'adminlist table table-striped'; } else { echo 'admintable adminlist'; } ?> ">
                 <tr>
-                    <td class="key"  <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>width="15%" <?php } ?>><?php echo JHTML::tooltip('Option to enable/disable Mid-roll ads', 'Mid-roll Ad', '', 'Mid-roll Ad'); ?></td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?>width="20%"><input type="radio" name="midrollads"
+                    <td  class="key"><?php echo JHTML::tooltip('Option to enable/disable Mid-roll ads', 'Mid-roll Ad', '', 'Mid-roll Ad'); ?></td>
+                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?>><input type="radio" name="midrollads"
                         <?php
                         if (isset($player_icons['midrollads']) && $player_icons['midrollads'] == 1) {
                             echo 'checked="checked" ';
@@ -763,11 +726,11 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
-                    <td class="key"  <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>width="20%" <?php } ?>><?php echo JHTML::tooltip('Enter begin time for mid roll ad', 'Begin', '', 'Begin'); ?></td>
-                    <td <?php if (!version_compare(JVERSION, '3.0.0', 'ge'))  ?> width="15%"><input type="text" name="midbegin" value="<?php if (isset($player_values['midbegin'])){ echo $player_values['midbegin']; } ?>" />
+                    <td class="key"  ><?php echo JHTML::tooltip('Enter begin time for mid roll ad', 'Begin', '', 'Begin'); ?></td>
+                    <td ><input type="text" name="midbegin" value="<?php if (isset($player_values['midbegin'])){ echo $player_values['midbegin']; } ?>" />
                     </td>
-                    <td class="key"  <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?> width="20%" <?php } ?>><?php echo JHTML::tooltip('Option to enable/disable rotation of ads', 'Ad Rotate', '', 'Ad Rotate'); ?></td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?> width="15%"><input type="radio" name="midadrotate"
+                    <td class="key" ><?php echo JHTML::tooltip('Option to enable/disable rotation of ads', 'Ad Rotate', '', 'Ad Rotate'); ?></td>
+                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?> ><input type="radio" name="midadrotate"
                     <?php
                     if (isset($player_icons['midadrotate']) && $player_icons['midadrotate'] == 1) {
                         echo 'checked="checked" ';
@@ -782,8 +745,8 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                     value="0" />Disable</td>
                 </tr>
                 <tr>
-                    <td class="key"  <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>width="15%" <?php } ?>><?php echo JHTML::tooltip('Option to enable/disable random display of ads', 'Mid-roll Ads Random', '', 'Mid-roll Ads Random'); ?></td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?> width="20%"><input type="radio" name="midrandom"
+                    <td class="key"><?php echo JHTML::tooltip('Option to enable/disable random display of ads', 'Mid-roll Ads Random', '', 'Mid-roll Ads Random'); ?></td>
+                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?> ><input type="radio" name="midrandom"
                         <?php
                         if (isset($player_icons['midrandom']) && $player_icons['midrandom'] == 1) {
                             echo 'checked="checked" ';
@@ -796,20 +759,13 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                     }
                     ?>
                     value="0" />Disable</td>
-                    <td class="key" <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?> width="20%" <?php } ?>><?php echo JHTML::tooltip('Enter the time interval between ads', 'Ad Interval', '', 'Ad Interval');
+                    <td class="key"><?php echo JHTML::tooltip('Enter the time interval between ads', 'Ad Interval', '', 'Ad Interval');
                     ?></td>
-                    <td <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?> width="15%"<?php } ?>><input type="text" name="midinterval" value="<?php if (isset($player_values['midinterval'])){ echo $player_values['midinterval']; } ?>" />
+                    <td colspan="3"><input type="text" name="midinterval" value="<?php if (isset($player_values['midinterval'])){ echo $player_values['midinterval']; } ?>" />
                     </td>
-                    <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { ?>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                    <?php } else { ?>
-                        <td class="key" width="20%"></td>
-                        <td width="15%"></td>
-                    <?php } ?>
+
                 </tr>
-                <tr>
-                </tr>
+              
             </table>
         </fieldset>
     </div>
@@ -852,8 +808,8 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                     <?php if (version_compare(JVERSION, '3.0.0', 'ge')) { ?><td>&nbsp;</td> <?php } ?>
                 </tr>
                 <tr>
-                <td class="key" width=20%><?php echo JHTML::tooltip('Edit the value	to have transparency depth of logo', 'Logo Alpha', '', 'Logo Alpha'); ?></td>
-                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'width="25%"'; } ?>><input type="text" name="logoalpha" value="<?php if (isset($player_values['logoalpha'])){ echo $player_values['logoalpha']; } ?>" /> %</td>
+                <td class="key" ><?php echo JHTML::tooltip('Edit the value to have transparency depth of logo', 'Logo Alpha', '', 'Logo Alpha'); ?></td>
+                    <td ><input type="text" name="logoalpha" value="<?php if (isset($player_values['logoalpha'])){ echo $player_values['logoalpha']; } ?>" /> %</td>
                 </tr>
                 <tr>
                     <td class="key"><?php echo JHTML::tooltip('Select the Logo Position.Disabled in Demo Version.', 'Logo Position', '', 'Logo Position'); ?></td>

@@ -296,3 +296,11 @@ control panel css end
 .videoshare_closeimage{width:15px;}
 
 #adminForm .admintable .button2-left{margin: 10px 0 0;}
+.google_analytics{
+    float: right;
+    width: 76%;
+}
+.google_analytics span{display: block;float: left;width: 205px;font-weight: bold;}
+.google_analytics input{
+    float: left;
+}
