@@ -321,7 +321,7 @@ if (USER_LOGIN == '1') {
              <!-- Flash player Start -->
             <div id="flashplayer">
                 <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
-                       allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $details1['baseurl']; ?><?php echo $baseref; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px"></embed>
+                       allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $details1['baseurl']; ?><?php echo $baseref; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px" />
             </div>
                         <?php } ?>
             <!--Platform check-->
@@ -892,7 +892,7 @@ if (JRequest::getVar('memberidvalue', '', 'post', 'int')) {
 <form name="memberidform" id="memberidform" action="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&amp;view=membercollection'); ?>" method="post">
     <input type="hidden" id="memberidvalue" name="memberidvalue" value="<?php echo $memberidvalue; ?>" />
 </form>
-<script type="text/javascript" language="javascript">
+<script type="text/javascript">
     function membervalue(memid)
     {
         document.getElementById('memberidvalue').value = memid;

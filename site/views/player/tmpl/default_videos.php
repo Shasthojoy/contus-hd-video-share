@@ -25,7 +25,7 @@ if (empty($this->videodetails)) { ## home page bottom starts here
         if ($thumbview['homefeaturedvideo'] == 1 && $thumbview['homefeaturedvideoorder'] == $coun_tmovie_post) {
     ?>
             <div  id="video-grid-container" class="clearfix">
-                <h2 class="home-link hoverable" ><a href="index.php?option=com_contushdvideoshare&view=featuredvideos" title="<?php echo JText::_('HDVS_FEATURED_VIDEOS'); ?>"> <?php echo JText::_('HDVS_FEATURED_VIDEOS'); ?></a></h2>
+                <h2 class="home-link hoverable" ><a href="index.php?option=com_contushdvideoshare&amp;view=featuredvideos" title="<?php echo JText::_('HDVS_FEATURED_VIDEOS'); ?>"> <?php echo JText::_('HDVS_FEATURED_VIDEOS'); ?></a></h2>
                 <ul class="ulvideo_thumb clearfix">
             <?php
             $totalrecords   = count($this->rs_playlist1[0]);
@@ -48,10 +48,10 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                 }
             ?>
                 <li class="video-item featured_gutterwidth">
-                    <a class=" info_hover featured_vidimg" rel="htmltooltip" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&' . $featureCategoryVal . '&' . $featureVideoVal, true); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></a>
+                    <a class=" info_hover featured_vidimg" rel="htmltooltip" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&amp;view=player&amp;' . $featureCategoryVal . '&amp;' . $featureVideoVal, true); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  width="145" height="80" title="" alt="thumb_image" /></a>
                     <div class="video_thread">
                     <div class="show-title-container">
-                        <a href = "<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&' . $featureCategoryVal . '&' . $featureVideoVal, true); ?>" class="show-title-gray info_hover"><?php
+                        <a href = "<?php echo JRoute::_('index.php?option=com_contushdvideoshare&amp;view=player&amp;' . $featureCategoryVal . '&amp;' . $featureVideoVal, true); ?>" class="show-title-gray info_hover"><?php
                 if (strlen($this->rs_playlist1[0][$i]->title) > 50) {
                     echo JHTML::_('string.truncate', ($this->rs_playlist1[0][$i]->title), 50);
                 } else {
@@ -79,7 +79,7 @@ if (empty($this->videodetails)) { ## home page bottom starts here
             <?php } ?>
             <?php
             }
-            ?>       </ul><a class="playerpage_morevideos" href="index.php?option=com_contushdvideoshare&view=featuredvideos" title="<?php echo JText::_('HDVS_MORE_VIDEOS'); ?>"><?php echo JText::_('HDVS_MORE_VIDEOS') . ' >'; ?></a>
+            ?>       </ul><a class="playerpage_morevideos" href="index.php?option=com_contushdvideoshare&amp;view=featuredvideos" title="<?php echo JText::_('HDVS_MORE_VIDEOS'); ?>"><?php echo JText::_('HDVS_MORE_VIDEOS') . ' >'; ?></a>
     </div>
     <!--Tooltip Starts Here-->
     <?php
@@ -115,7 +115,7 @@ if (empty($this->videodetails)) { ## home page bottom starts here
         if ($thumbview['homepopularvideo'] == 1 && $thumbview['homepopularvideoorder'] == $coun_tmovie_post) {
     ?>
             <div id="video-grid-container_pop" class="clearfix">
-                <h2 class="home-link hoverable"><a href="index.php?option=com_contushdvideoshare&view=popularvideos" title="<?php echo JText::_('HDVS_POPULAR_VIDEOS'); ?>"><?php echo JText::_('HDVS_POPULAR_VIDEOS'); ?></a></h2>
+                <h2 class="home-link hoverable"><a href="index.php?option=com_contushdvideoshare&amp;view=popularvideos" title="<?php echo JText::_('HDVS_POPULAR_VIDEOS'); ?>"><?php echo JText::_('HDVS_POPULAR_VIDEOS'); ?></a></h2>
                 <ul class="ulvideo_thumb clearfix">
             <?php
             $totalrecords = count($this->rs_playlist1[2]);
@@ -135,11 +135,11 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                     $src_path = $this->rs_playlist1[2][$i]->thumburl;
             ?>
                 <li class="video-item popular_gutterwidth">
-                    <a class=" info_hover featured_vidimg"  rel="htmltooltip1" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&' . $popularCategoryVal . '&' . $popularVideoVal, true); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image"/></a>
+                    <a class=" info_hover featured_vidimg"  rel="htmltooltip1" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&amp;view=player&amp;' . $popularCategoryVal . '&amp;' . $popularVideoVal, true); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  width="145" height="80" title="" alt="thumb_image"/></a>
                    <div class="video_thread">
                     
                     <div class="show-title-container" >
-                        <a href = "<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&' . $popularCategoryVal . '&' . $popularVideoVal, true); ?>" class="show-title-gray info_hover"><?php
+                        <a href = "<?php echo JRoute::_('index.php?option=com_contushdvideoshare&amp;view=player&amp;' . $popularCategoryVal . '&amp;' . $popularVideoVal, true); ?>" class="show-title-gray info_hover"><?php
                 if (strlen($this->rs_playlist1[2][$i]->title) > 50) {
                     echo JHTML::_('string.truncate', ($this->rs_playlist1[2][$i]->title), 50);
                 } else {
@@ -173,7 +173,7 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                     }
                 }
             ?>                                     </ul>
-            <a class="playerpage_morevideos" href="index.php?option=com_contushdvideoshare&view=popularvideos" title="<?php echo JText::_('HDVS_MORE_VIDEOS'); ?>"><?php echo JText::_('HDVS_MORE_VIDEOS') . ' >'; ?></a>
+            <a class="playerpage_morevideos" href="index.php?option=com_contushdvideoshare&amp;view=popularvideos" title="<?php echo JText::_('HDVS_MORE_VIDEOS'); ?>"><?php echo JText::_('HDVS_MORE_VIDEOS') . ' >'; ?></a>
         </div>
         <!--Tooltip Starts Here-->
     <?php
@@ -208,7 +208,7 @@ if (empty($this->videodetails)) { ## home page bottom starts here
     ?>
                 <!-- Code end here for Popular videos and begin for Recent videos -->
                 <div id="video-grid-container_rec" class="clearfix">
-                    <h2 class="home-link hoverable"><a href = "<?php echo jRoute::_('index.php?option=com_contushdvideoshare&view=recentvideos'); ?>" title="<?php echo JText::_('HDVS_RECENT_VIDEOS'); ?>"> <?php echo JText::_('HDVS_RECENT_VIDEOS'); ?></a></h2>
+                    <h2 class="home-link hoverable"><a href = "<?php echo jRoute::_('index.php?option=com_contushdvideoshare&amp;view=recentvideos'); ?>" title="<?php echo JText::_('HDVS_RECENT_VIDEOS'); ?>"> <?php echo JText::_('HDVS_RECENT_VIDEOS'); ?></a></h2>
                     <ul class="ulvideo_thumb clearfix">
             <?php
                 $totalrecords = count($this->rs_playlist1[1]);
@@ -228,11 +228,11 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                         $src_path = $this->rs_playlist1[1][$i]->thumburl;
             ?>
                     <li class="video-item recent_gutterwidth">
-                        <a class=" info_hover featured_vidimg" rel="htmltooltip2" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&' . $recentCategoryVal . '&' . $recentVideoVal, true); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  border="0"  width="145" height="80" title="" alt="thumb_image" /></a>
+                        <a class=" info_hover featured_vidimg" rel="htmltooltip2" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&amp;view=player&amp;' . $recentCategoryVal . '&amp;' . $recentVideoVal, true); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  width="145" height="80" title="" alt="thumb_image" /></a>
                         
                         <div class="video_thread">
                         <div class="show-title-container">
-                            <a href = "<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=player&' . $recentCategoryVal . '&' . $recentVideoVal, true); ?>" class="show-title-gray info_hover"><?php
+                            <a href = "<?php echo JRoute::_('index.php?option=com_contushdvideoshare&amp;view=player&amp;' . $recentCategoryVal . '&amp;' . $recentVideoVal, true); ?>" class="show-title-gray info_hover"><?php
                     if (strlen($this->rs_playlist1[1][$i]->title) > 50) {
                         echo JHTML::_('string.truncate', ($this->rs_playlist1[1][$i]->title), 50);
                     } else {
@@ -258,7 +258,7 @@ if (empty($this->videodetails)) { ## home page bottom starts here
             ?>
                     </ul><ul class="ulvideo_thumb clearfix">
             <?php }
-                } ?> </ul><a class="playerpage_morevideos" href = "<?php echo jRoute::_('index.php?option=com_contushdvideoshare&view=recentvideos'); ?>" title="<?php echo JText::_('HDVS_MORE_VIDEOS'); ?>"><?php echo JText::_('HDVS_MORE_VIDEOS') . ' >'; ?></a>
+                } ?> </ul><a class="playerpage_morevideos" href = "<?php echo jRoute::_('index.php?option=com_contushdvideoshare&amp;view=recentvideos'); ?>" title="<?php echo JText::_('HDVS_MORE_VIDEOS'); ?>"><?php echo JText::_('HDVS_MORE_VIDEOS') . ' >'; ?></a>
         </div>
         <!--Tooltip Starts Here-->
     <?php
