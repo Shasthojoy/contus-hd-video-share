@@ -183,7 +183,7 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         
         $adsxml                     = JURI::base() . "index.php?option=com_contushdvideoshare&view=adsxml";             ## Ad xml path
         $emailpath                  = $base . "components/com_contushdvideoshare/hdflvplayer/email.php";                ## Send email in player
-        $logopath                   = $base . "components/com_contushdvideoshare/videos/" . $player_values['logopath']; ## Logo path for purchased user
+        $logopath                   = $base . "components/com_contushdvideoshare/videos/" . $settingsrows[0]->logopath; ## Logo path for purchased user
         $languagexml                = $base . "index.php?option=com_contushdvideoshare&view=languagexml";               ## Language xml path
         $midrollxml                 = $base . "index.php?option=com_contushdvideoshare&view=midrollxml";                ## Mid roll xml path
         $baseUrl                    = JURI::base();
