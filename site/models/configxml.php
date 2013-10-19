@@ -67,8 +67,8 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
             $zoom                   = "true";
         } 
         ## Get login url for player login button
-        if (!empty($player_values['login_page_url'])) {
-            $login_page_url         = $player_values['login_page_url'];
+        if (!empty($player_icons['login_page_url'])) {
+            $login_page_url         = $player_icons['login_page_url'];
         } 
         ## Enable/Disable fullscreen option
         if ($player_icons['fullscreen'] == 1) {
@@ -228,6 +228,7 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         <skin>' . $skin . '</skin>
         <skin_autohide>' . $skin_autohide . '</skin_autohide>
         <languageXML>' . $languagexml . '</languageXML>
+        <registerpage>' . $login_page_url . '</registerpage>
         <playlistXML>' . $playlistxml . '</playlistXML>
         <adXML>' . $adsxml . '</adXML>
         <preroll_ads>' . $prerollads . '</preroll_ads>
