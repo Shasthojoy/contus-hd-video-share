@@ -67,21 +67,6 @@ $db->query();
 $db->setQuery("RENAME TABLE `#__hdflv_user` TO `#__hdflv_user_backup`");
 $db->query();
 
-$db->setQuery("DROP TABLE IF EXISTS `#__hdflv_channel_backup`");
-$db->query();
-$db->setQuery("RENAME TABLE `#__hdflv_channel` TO `#__hdflv_channel_backup`");
-$db->query();
-
-$db->setQuery("DROP TABLE IF EXISTS `#__hdflv_channelsettings_backup`");
-$db->query();
-$db->setQuery("RENAME TABLE `#__hdflv_channelsettings` TO `#__hdflv_channelsettings_backup`");
-$db->query();
-
-$db->setQuery("DROP TABLE IF EXISTS `#__hdflv_channellist_backup`");
-$db->query();
-$db->setQuery("RENAME TABLE `#__hdflv_channellist` TO `#__hdflv_channellist_backup`");
-$db->query();
-
 if (version_compare(JVERSION, '1.6.0', 'ge')) {
     $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareCategories' LIMIT 1");
 } else {

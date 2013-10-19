@@ -611,30 +611,6 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
         return $vid_location;
     }
 
-    /**
-     *  function to updating recent activity
-     */
-    function updateRecentactivity() {
-        $channelId = $this->getChannel();
-        $db = $this->getDBO();
-        $query = 'update #__hdflv_channel SET updated_date=now() where id=' . $channelId;
-        $db->setQuery($query);
-        $db->query();
-    }
-
-    /**
-     * function to get channel id
-     */
-    function getChannel() {
-        $user = JFactory::getUser();
-        $memberId = $user->get('id');
-        $db = $this->getDBO();
-        $query = "select id from #__hdflv_channel where user_id = $memberId";
-        $db->setQuery($query);
-        $channelId = $db->loadResult();
-        return $channelId;
-    }
-
 }
 
 ?>
