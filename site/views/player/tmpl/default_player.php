@@ -341,16 +341,13 @@ if (USER_LOGIN == '1') {
 ## Display Google Adsense
 if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1' && $mobile !== true) {
     ?>
-            <div style="clear:both;font-size:0px; height:0px;"></div>
-            <div id="lightm" style="position:absolute;bottom:25px;width:<?php echo $player_values['width']; ?>px;background:none;"  >
-                <div align="center">
-                    <div class="addcss" style="margin:0 auto;width:470px;">
-                        <img id="closeimgm" src="components/com_contushdvideoshare/images/close.png" class="googlead_img" onclick="googleclose();" alt="close" />
-                        <iframe height="60" scrolling="no"   align="middle" width="468" id="IFrameName" src=""     name="IFrameName" marginheight="0" marginwidth="0" class="iframe_frameborder"></iframe>
+            <div>
+            <div id="lightm"  style="top:<?php echo $player_values['height'] - 45; ?>px; height:76px;position:absolute;display:none;left:0px!important; margin:0px 150px 0px;background:none !important;">
+                <span id="divimgm" ><img alt="close" id="closeimgm"  src="components/com_contushdvideoshare/images/close.png" style="z-index: 10000000;width:48px;height:12px;cursor:pointer;top:-12px; " onclick="googleclose();"  /> </span>
+                <iframe  height="60" width="600" scrolling="no" align="middle" id="IFrameName" src="" name="IFrameName" marginheight="0" marginwidth="0" class="iframe_frameborder" ></iframe>
                     </div>
-                    <span id="divimgm" style="width:<?php echo $player_values['width']; ?>px;">
-                    </span>
-                </div></div>
+        </div>
+            
             <script src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/js/googlead.js" type="text/javascript"></script>
 <?php } ?>
     </div>

@@ -1,8 +1,6 @@
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.4.1
+ * @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -12,9 +10,6 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-
-/*
- ***********************************************************/
 
 var pagearray=new Array();
 var timerout1 ;
@@ -47,18 +42,12 @@ function googleclose()
     }
     document.getElementById('lightm').style.display="none";
     clearTimeout();
-
-    //setTimeout('bindpage(0)', ropen);
 }
 
 function onplayerloaded()
 {
     pageno=1;
-   
-    timerout1 =window.setTimeout('bindpage(0)', 1000);
-    //setTimeout(closediv(), 10000);
-   // getFlashMovie('player').playmovie();
-
+   timerout1 =window.setTimeout('bindpage(0)', 1000);
 }
 
 function findPosX(obj)
@@ -103,8 +92,6 @@ function closediv()
 
 function bindpage(pageno)
 {
-    //document.getElementById('lightm').style.display="none";
-
     if(document.all)
     {
         document.all.IFrameName.src=pagearray[0];
@@ -117,12 +104,4 @@ function bindpage(pageno)
     document.getElementById('closeimgm').style.display="block";
     document.getElementById('lightm').style.display="block";
     if(closeadd !='') setTimeout('closediv()', closeadd);
-    //setInterval('closediv()', 10000);
 }
-
-
-
-//function onEndVideo()
-//{
-//    postadd();
-//}
