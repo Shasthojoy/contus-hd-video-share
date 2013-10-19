@@ -136,10 +136,11 @@ $search1=$strMemberSearch;
 		$db->setQuery( $mainQuery );
 		$memberdetails = $db->loadObjectList();
 
-		$query = "SELECT `allowupload` FROM #__hdflv_site_settings";
+		$query = "SELECT `dispenable` FROM #__hdflv_site_settings";
 		$db->setQuery( $query );
-		$settingupload = $db->loadObjectList();
-		
+		$res_disenable = $db->loadResult();
+		$ser_disenable = unserialize($res_disenable);
+		$disenable = $ser_disenable['allowupload'];
 		/**
 		 * get the most recent database error code
 		 * display the last database error message in a standard format
@@ -150,7 +151,7 @@ $search1=$strMemberSearch;
 			JError::raiseWarning($db->getErrorNum(), $db->stderr());
 		}	
 		
-		return array('pageNav' => $pageNav,'limitstart'=>$limitstart,'memberFilter'=>$arrMemberFilter,'memberdetails'=>$memberdetails,'settingupload'=>$settingupload);
+		return array('pageNav' => $pageNav,'limitstart'=>$limitstart,'memberFilter'=>$arrMemberFilter,'memberdetails'=>$memberdetails,'settingupload'=>$disenable);
 
 	}
 

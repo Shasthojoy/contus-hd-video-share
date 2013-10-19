@@ -155,7 +155,7 @@ if(version_compare(JVERSION, '3.0.0', 'ge')) {
 			$allowUpload = $memberDetail->allowupload;
 
 			if ($allowUpload == null)
-			$allowUpload = $upload[0]->allowupload;
+			$allowUpload = $upload;
 			if ($allowUpload == '1')
 			{
 				$allowUploadImage = '<a title="Unupload User" onclick="return listItemTask(\'cb' . $i . '\',\'unallowupload\')" href="javascript:void(0);">
