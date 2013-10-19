@@ -412,7 +412,12 @@ if (isset($details1['closeadd'])) {
         <!--Display video created date-->
         <div class="video_addedon">
             <b><?php if ($dispenable['viewedconrtol'] == 1) { ?>   <?php echo JText::_('HDVS_VIEWS'); ?> :</b> <span id="viewcount"><?php if (isset($this->htmlVideoDetails->times_viewed)) echo $this->htmlVideoDetails->times_viewed; ?></span> <?php } ?>
-            <span class="addedon"><b><?php echo JText::_('HDVS_ADDED_ON'); ?> : </b></span><span id="createdate"><?php if (isset($this->htmlVideoDetails->created_date)) echo date("m-d-Y", strtotime($this->htmlVideoDetails->created_date)); ?></span>
+            <span class="addedon"><b><?php echo JText::_('HDVS_ADDED_ON'); ?> : </b></span><span id="createdate">
+                <?php if (isset($this->htmlVideoDetails->created_date)) {
+                    $created_on = date('j-M-Y', strtotime($this->htmlVideoDetails->created_date));
+                echo $created_on; 
+                }
+                ?></span>
         </div>
     </div>
     <!-- Script for rating of the video starts here -->
