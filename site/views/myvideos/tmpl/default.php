@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.4.1
+ * @version	  : 3.4.1
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,8 +11,6 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
 //No direct acesss
 defined('_JEXEC') or die('Restricted access');
 $session = JFactory::getSession();
@@ -110,9 +106,11 @@ function submitform()
                     $searchboxval =  $hidsearchtxtbox;
                  }?>
                 <form name="hsearch" id="hsearch" method="post" action='<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=myvideos',true); ?>' onsubmit="return searchValidation();">
+                    <div id="searcherrormessage" style="color: red;float: left;"></div>
                     <input type="text" value="<?php
        echo $searchboxval;
 ?>" name="searchtxtboxmember" id="searchtxtboxmember" class="clstextfield clscolor"  onkeypress="validateenterkey(event,'hsearch');"/>
+                    
                     <input type="submit" name="search_btn" id="search_btn" class="button myvideos_search" value="<?php echo JText::_('HDVS_SEARCH'); ?>"/>
                     <input type="hidden" name="searchval" id="searchval" value=" <?php
        echo $searchboxval;
@@ -128,7 +126,7 @@ function submitform()
                 <script type="text/javascript">
                 function searchValidation() {
                     if(document.getElementById('searchtxtboxmember').value == '') {
-                        alert('Enter Keyword to search videos');
+                        document.getElementById('searcherrormessage').innerHTML = 'Enter Keyword to search videos';         
                         return false;
                     }
                 }
