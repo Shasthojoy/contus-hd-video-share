@@ -585,9 +585,9 @@ function generate12(str1)
 {
    var theurl=str1;
    var theurl=document.getElementById("videourl").value;
-   var regExp = /^.*(youtu.be\/|v\/|embed\/|watch\?|youtube.com\/user\/[^#]*#([^\/]*?\/)*)\??v?=?([^#\&\?]*).*/;
-   var match = theurl.match(regExp);
-   if (match){
+   var youtubeoccr1=theurl.indexOf("youtube");
+   var youtubeoccr2=theurl.indexOf("youtu.be");
+   if (youtubeoccr1!==-1 || youtubeoccr2!==-1){
         document.getElementById('generate').style.visibility = "visible";
    }
     else document.getElementById('generate').style.visibility  = "hidden";
