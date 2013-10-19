@@ -178,38 +178,6 @@ if (USER_LOGIN == '1') {
         <?php
     }
 }
-?>
-<div class="fluid bg playerbg clearfix" id="player_page" >
-    <div id="HDVideoshare1" style="position:relative;   " class="clearfix">
-        <h1 id="viewtitle" class="floatleft" style="" ><?php if (isset($this->htmlVideoDetails->title)) echo $this->htmlVideoDetails->title; ?></h1>
-        <div class="clear"></div>
-        
-        <?php
-        if (!empty($this->videodetails) && ($this->videodetails->id) && ($this->videodetails->playlistid)) {
-            $baseref    = '&amp;id=' . $this->videodetails->id . '&amp;catid=' . $this->videodetails->playlistid;
-        } else if (!empty($this->videodetails) && $this->videodetails->id) {
-            $baseref    = '&amp;id=' . $this->videodetails->id;
-        } else {
-            $baseref    = '&amp;featured=true';
-        }
-        $adminview = JRequest::getString('adminview');              ## For Admin preview popup
-        if ($adminview == true) {
-            $baseref    .= '&amp;adminview=true';
-        }
-        ?>
-        <?php
-        if ($htmlVideoDetails->filepath == 'Embed') {
-            echo $htmlVideoDetails->embedcode;                      ## For embed code videos
-        } else if (!empty($htmlVideoDetails) && (preg_match('/vimeo/', $htmlVideoDetails->videourl)) && ($htmlVideoDetails->videourl != '')) {
-            $split = explode("/", $htmlVideoDetails->videourl);     ## For vimeo videos
-            ?>
-            <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
-<?php } else if (!empty($this->videodetails) && (preg_match('/vimeo/', $this->videodetails->videourl)) && ($this->videodetails->videourl != '')) {
-            $split = explode("/", $this->videodetails->videourl);   ## For vimeo videos
-    ?>
-            <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
-<?php } else {
-    
     ## Detect mobile device
         function detect_mobile()
         {
@@ -263,7 +231,38 @@ if (USER_LOGIN == '1') {
             else
                 return false;
         }
+?>
+<div class="fluid bg playerbg clearfix" id="player_page" >
+    <div id="HDVideoshare1" style="position:relative;   " class="clearfix">
+        <h1 id="viewtitle" class="floatleft" style="" ><?php if (isset($this->htmlVideoDetails->title)) echo $this->htmlVideoDetails->title; ?></h1>
+        <div class="clear"></div>
+        
+        <?php
         $mobile = detect_mobile();
+        if (!empty($this->videodetails) && ($this->videodetails->id) && ($this->videodetails->playlistid)) {
+            $baseref    = '&amp;id=' . $this->videodetails->id . '&amp;catid=' . $this->videodetails->playlistid;
+        } else if (!empty($this->videodetails) && $this->videodetails->id) {
+            $baseref    = '&amp;id=' . $this->videodetails->id;
+        } else {
+            $baseref    = '&amp;featured=true';
+        }
+        $adminview = JRequest::getString('adminview');              ## For Admin preview popup
+        if ($adminview == true) {
+            $baseref    .= '&amp;adminview=true';
+        }
+        ?>
+        <?php
+        if ($htmlVideoDetails->filepath == 'Embed') {
+            echo $htmlVideoDetails->embedcode;                      ## For embed code videos
+        } else if (!empty($htmlVideoDetails) && (preg_match('/vimeo/', $htmlVideoDetails->videourl)) && ($htmlVideoDetails->videourl != '')) {
+            $split = explode("/", $htmlVideoDetails->videourl);     ## For vimeo videos
+            ?>
+            <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
+<?php } else if (!empty($this->videodetails) && (preg_match('/vimeo/', $this->videodetails->videourl)) && ($this->videodetails->videourl != '')) {
+            $split = explode("/", $this->videodetails->videourl);   ## For vimeo videos
+    ?>
+            <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
+<?php } else {
                         if($mobile === true){
     ?>
              <!-- HTML5 player starts here -->
