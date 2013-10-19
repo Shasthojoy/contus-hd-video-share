@@ -69,7 +69,7 @@ class contushdvideoshareModeluploadvideo extends ContushdvideoshareModel {
 			$allowedExtensions = array("mp3","MP3","flv", "FLV", "mp4", "MP4" , "m4v", "M4V", "M4A", "m4a", "MOV", 
 			"mov", "mp4v", "Mp4v", "F4V", "f4v");
 			else if ($exttype == 'image')
-			$allowedExtensions = array("jpg", "JPG", "png", "PNG");
+			$allowedExtensions = array("jpg", "JPG","jpeg", "JPEG", "png", "PNG");
 			else if ($exttype == 'srt')
 			$allowedExtensions = array("srt", "SRT");
 			else if ($exttype == 'video_ffmpeg')
