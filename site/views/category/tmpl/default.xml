@@ -14,17 +14,15 @@
 		<params>
 		</params>
 	</state>
-
-	<fields name="request">
-		<fieldset name="request"
-			addfieldpath="/administrator/components/com_contushdvideoshare/models/fields">
-
-			<field name="catid" type="modal_category"
-				label="Select Category"
-				required="true"
-				description="Please select a category from a list"
-			/>
-		</fieldset>
-	</fields>
-
+	<fields name="request" addfieldpath="administrator/components/com_contushdvideoshare/elements">
+	<fieldset name="request">
+		<field 
+			name="catid" 
+			type="category" 
+			label="Select Category" 
+			description="Please select a category from a list"
+			required="true"
+		/>
+	</fieldset>
+</fields>
 </metadata>
