@@ -58,6 +58,10 @@ class Tableadminvideos extends JTable {
     var $useraccess = null;
     var $islive = null;
     var $embedcode = null;
+    var $subtitle1 = null;
+    var $subtitle2 = null;
+    var $subtile_lang1 = null;
+    var $subtile_lang2 = null;
     function Tableadminvideos(&$db) {
         parent::__construct('#__hdflv_upload', 'id', $db);
     }

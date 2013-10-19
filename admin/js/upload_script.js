@@ -51,8 +51,15 @@ function holdQueue() {
 function updateQueue(statuscode, statusmessage, outfile) {
 	uploadmessage = statusmessage;
 	form_handler = uploadqueue[0];
-	if (statuscode == 0)
+	if (statuscode == 0){
 		document.getElementById(form_handler + "-value").value = outfile;
+                if(form_handler === 'subtitle_video_srt1form'){
+                    getsubtitle1name();
+                }
+                if(form_handler === 'subtitle_video_srt2form'){
+                    getsubtitle2name();
+                }
+        }
 	setStatus(form_handler, statuscode);
 	uploadqueue.shift();
 	processQueue();
@@ -103,6 +110,12 @@ function setStatus(form_handle, status) {
 		break;
 	case "rollform":
 		divprefix = 'f6';
+		break;
+	case "subtitle_video_srt1form":
+		divprefix = 'f7';
+		break;
+	case "subtitle_video_srt2form":
+		divprefix = 'f8';
 		break;
 	}
 	//displayed uploading form and process message based on status

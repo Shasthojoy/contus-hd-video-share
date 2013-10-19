@@ -314,6 +314,10 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideo
   `islive` tinyint(1) NOT NULL DEFAULT '0',
   `imaads` int(11) NOT NULL DEFAULT '0',
   `embedcode` longtext NOT NULL,
+  `subtitle1` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `subtitle2` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `subtile_lang2` text CHARACTER SET utf8 NOT NULL,
+  `subtile_lang1` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;");
     $db->query();
@@ -392,6 +396,10 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideo
     $isliveupdateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "islive", "TINYINT( 1 ) NOT NULL DEFAULT '0'");
     $imaadsupdateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "imaads", "TINYINT( 1 ) NOT NULL DEFAULT '0'");
     $embedcodeupdateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "embedcode", "longtext NOT NULL");
+    $subtitle1updateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "subtitle1", "varchar(255) NOT NULL");
+    $subtitle2updateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "subtitle2", "varchar(255) NOT NULL");
+    $subtitlelang2updateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "subtile_lang2", "text NOT NULL");
+    $subtitlelang1updateLive = AddColumnIfNotExists($errorMsg, "#__hdflv_upload", "subtile_lang1", "text NOT NULL");
 
     ## Alter site settings table
     $updatethumbview = AddColumnIfNotExists($errorMsg, "#__hdflv_site_settings", "thumbview", "longtext NOT NULL");
@@ -417,8 +425,8 @@ $sidethumbview = 'a:8:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideo
     
     AddMebercolumn();       ## Add fields to user table
 
-    if (!$updateDid || !$isliveupdateLive || !$imaadsupdateLive || !$embedcodeupdateLive) {
-        $msgSQL .= "error adding 'useraccess' column to 'hdflvupload' table <br />";
+    if (!$updateDid || !$isliveupdateLive || !$imaadsupdateLive || !$subtitlelang1updateLive || !$subtitlelang2updateLive || !$embedcodeupdateLive || !$subtitle2updateLive || !$subtitle1updateLive) {
+        $msgSQL .= "error adding columns to 'hdflvupload' table <br />";
     }
     
     ## Update site settings table

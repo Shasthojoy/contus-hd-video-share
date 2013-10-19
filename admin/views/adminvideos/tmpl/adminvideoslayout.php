@@ -265,8 +265,34 @@ JHTML::_('behavior.tooltip');
 
                 if (document.getElementById('title').value == "")
                 {
-                    alert( "<?php echo JText::_( 'You must provide a Title', true ); ?>" )
+                    alert( "<?php echo JText::_( 'You must provide a Title', true ); ?>" );
                     return;
+                }
+				/**
+				* validation for Video subtitle
+				*/
+
+                if (document.getElementById('subtitle_video_srt1form-value').value !== "")
+                {
+                if (document.getElementById('subtitle_lang1').value === "")
+                {
+                    alert( "<?php echo JText::_( 'You must provide SubTitle1', true ); ?>" );
+                    document.getElementById('subtitle_lang1').focus();
+                    return;
+                    } else {
+                        document.getElementById('subtile_lang1').value = document.getElementById('subtitle_lang1').value;
+                    }
+                }
+                if (document.getElementById('subtitle_video_srt2form-value').value !== "")
+                {
+                if (document.getElementById('subtitle_lang2').value === "")
+                {
+                    alert( "<?php echo JText::_( 'You must provide SubTitle2', true ); ?>" );
+                    document.getElementById('subtitle_lang2').focus();
+                    return;
+                    } else {
+                     document.getElementById('subtile_lang2').value = document.getElementById('subtitle_lang2').value;   
+                    }
                 }
 
 				/**
@@ -541,6 +567,80 @@ JHTML::_('behavior.tooltip');
 				</table>
 				</div>
         </td></tr>
+        <tr id="subtitle_video_srt1" name="subtitle_video_srt1"><td><?php echo JHTML::tooltip('Select srt file to upload', 'Upload Video Subtitle1',
+	            '', 'Upload Video Subtitle1');?></td><td>
+                <div id="f7-upload-form" >
+                    <form name="subtitle_video_srt1form" method="post" enctype="multipart/form-data" >
+
+                        <input type="file" name="myfile" id="myfile7"  onchange="enableUpload(this.form.name);" />
+                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Video Subtitle1" style="margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
+                        <label><?php if($editVideo['rs_editupload']->filepath != 'Embed') echo $editVideo['rs_editupload']->subtitle1;?></label>
+                        <input type="hidden" name="mode" value="srt" />
+                    </form>
+                </div>
+				<div id="f7-upload-progress" style="display: none">
+				<table <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="adminlist table table-striped"'; ?>>
+				<tr>
+					<td>
+						<img id="f7-upload-image" style="float: left;"
+						src="components/com_contushdvideoshare/images/empty.gif"
+						alt="Uploading" />
+					</td>
+					<td><span style="float: left; clear:none;font-weight: bold;" id="f7-upload-filename">&nbsp;</span></td>
+					<td>
+						<span id="f7-upload-message" style="float: left;">
+						</span>
+						<label id="f7-upload-status" style="float: left;"> &nbsp; </label>
+					</td>
+					<td>
+					<span id="f7-upload-cancel">
+					<a style="float: left;font-weight: bold" href="javascript:cancelUpload('subtitle_video_srt1form');"
+					   name="submitcancel">Cancel</a> </span>
+					</td>
+				</tr>
+				</table>
+				</div>
+        </td>
+        </tr>
+        <tr id="subtilelang1" style="display:none;"><td width="17%"><?php echo JHTML::tooltip('Enter subtile1 language', 'Subtile language','', 'Subtile1 language');?></td>
+            <td width="83%"><input type="text" name="subtitle_lang1"  id="subtitle_lang1" style="width:300px" maxlength="250" value="<?php echo htmlentities($editVideo['rs_editupload']->subtile_lang1); ?>" /></td></tr>
+        <tr id="subtitle_video_srt2" name="subtitle_video_srt2"><td><?php echo JHTML::tooltip('Select srt file to upload', 'Upload Video Subtitle2',
+	            '', 'Upload Video Subtitle2');?></td><td>
+                <div id="f8-upload-form" >
+                    <form name="subtitle_video_srt2form" method="post" enctype="multipart/form-data" >
+
+                        <input type="file" name="myfile" id="myfile8"  onchange="enableUpload(this.form.name);" />
+                        <input type="button" name="uploadBtn" <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="modal btn"'; ?> value="Upload Video Subtitle2" style="margin: 2px 0 0 5px;" disabled="disabled" onclick="addQueue(this.form.name);" />
+                        <label><?php if($editVideo['rs_editupload']->filepath != 'Embed') echo $editVideo['rs_editupload']->subtitle2;?></label>
+                        <input type="hidden" name="mode" value="srt" />
+                    </form>
+                </div>
+				<div id="f8-upload-progress" style="display: none">
+				<table <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="adminlist table table-striped"'; ?>>
+				<tr>
+					<td>
+						<img id="f8-upload-image" style="float: left;"
+						src="components/com_contushdvideoshare/images/empty.gif"
+						alt="Uploading" />
+					</td>
+					<td><span style="float: left; clear:none;font-weight: bold;" id="f8-upload-filename">&nbsp;</span></td>
+					<td>
+						<span id="f8-upload-message" style="float: left;">
+						</span>
+						<label id="f8-upload-status" style="float: left;"> &nbsp; </label>
+					</td>
+					<td>
+					<span id="f8-upload-cancel">
+					<a style="float: left;font-weight: bold" href="javascript:cancelUpload('subtitle_video_srt2form');"
+					   name="submitcancel">Cancel</a> </span>
+					</td>
+				</tr>
+				</table>
+				</div>
+        </td>
+        </tr>
+        <tr id="subtilelang2" style="display:none;"><td width="17%"><?php echo JHTML::tooltip('Enter subtile2 language', 'Subtile2 language','', 'Subtile2 language');?></td>
+            <td width="83%"><input type="text" name="subtitle_lang2"  id="subtitle_lang2" style="width:300px" maxlength="250" value="<?php echo htmlentities($editVideo['rs_editupload']->subtile_lang2); ?>" /></td></tr>
     </table>
 </fieldset>
 </div>
@@ -589,8 +689,17 @@ function generate12(str1)
    var youtubeoccr2=theurl.indexOf("youtu.be");
    if (youtubeoccr1!==-1 || youtubeoccr2!==-1){
         document.getElementById('generate').style.visibility = "visible";
+   } else {
+       document.getElementById('generate').style.visibility  = "hidden";
    }
-    else document.getElementById('generate').style.visibility  = "hidden";
+   var vimeooccr=theurl.indexOf("vimeo");
+   if (vimeooccr!==-1){
+        document.getElementById('subtitle_video_srt1').style.display = 'none';
+        document.getElementById('subtitle_video_srt2').style.display = 'none';
+   } else {
+       document.getElementById('subtitle_video_srt1').style.display = '';
+       document.getElementById('subtitle_video_srt2').style.display = '';
+   }
 }
 </script>
 <!-- video fields end -->
@@ -885,8 +994,12 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
     <input type="hidden" name="fileoption" id="fileoption" value="<?php echo $editVideo['rs_editupload']->filepath ; ?>" />
     <input type="hidden" name="normalvideoform-value" id="normalvideoform-value" value="" />
     <input type="hidden" name="hdvideoform-value" id="hdvideoform-value" value="" />
+    <input type="hidden" name="subtile_lang1" id="subtile_lang1" value="" />
+    <input type="hidden" name="subtile_lang2" id="subtile_lang2" value="" />
     <input type="hidden" name="thumbimageform-value" id="thumbimageform-value" value="" />
     <input type="hidden" name="previewimageform-value" id="previewimageform-value" value="" />
+    <input type="hidden" name="subtitle_video_srt1form-value" id="subtitle_video_srt1form-value" value="<?php echo $editVideo['rs_editupload']->subtitle1 ; ?>" />
+    <input type="hidden" name="subtitle_video_srt2form-value" id="subtitle_video_srt2form-value" value="<?php echo $editVideo['rs_editupload']->subtitle2 ; ?>" />
     <input type="hidden" name="ffmpegform-value" id="ffmpegform-value" value="<?php echo $editVideo['rs_editupload']->videourl ; ?>" />
     <input type="hidden" name="videourl-value" id="videourl-value" value="" />
     <input type="hidden" name="embedcode" id="embedcode" value="" />
@@ -906,6 +1019,16 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
 <script type="text/javascript" src="<?php echo JURI::base().'components/com_contushdvideoshare/js/adminvideos.js';?>"></script>
 <script type="text/javascript">
         <?php
+        if(!empty($editVideo['rs_editupload']->subtitle1)){
+        ?>
+                    getsubtitle1name();
+        <?php
+        }
+        if(!empty($editVideo['rs_editupload']->subtitle2)){
+        ?>
+                    getsubtitle2name();
+        <?php
+        }
         if($editVideo['rs_editupload']->streameroption == 'None' ||$editVideo['rs_editupload']->streameroption == '') { ?>
           document.getElementById("streameroption1").checked = true;
       <?php

@@ -308,6 +308,18 @@ class com_contushdvideoshareInstallerScript {
             if ($valueColumn->Field == 'embedcode') {
                 $embedcodecolumnExists = 'true';
             }
+            if ($valueColumn->Field == 'subtitle1') {
+                $subtitle1codecolumnExists = 'true';
+            }
+            if ($valueColumn->Field == 'subtitle2') {
+                $subtitle2codecolumnExists = 'true';
+            }
+            if ($valueColumn->Field == 'subtile_lang2') {
+                $subtile_lang2codecolumnExists = 'true';
+            }
+            if ($valueColumn->Field == 'subtile_lang1') {
+                $subtile_lang1codecolumnExists = 'true';
+            }
          }
 
         if ($imaadscolumnExists == 'false') {
@@ -316,6 +328,22 @@ class com_contushdvideoshareInstallerScript {
         }
         if ($embedcodecolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `embedcode` longtext NOT NULL ");
+            $db->query();
+        }
+        if ($subtitle1codecolumnExists == 'false') {
+            $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `subtitle1` varchar(255) CHARACTER SET utf8 NOT NULL ");
+            $db->query();
+        }
+        if ($subtitle2codecolumnExists == 'false') {
+            $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `subtitle2` varchar(255) CHARACTER SET utf8 NOT NULL ");
+            $db->query();
+        }
+        if ($subtile_lang2codecolumnExists == 'false') {
+            $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `subtile_lang2` text CHARACTER SET utf8 NOT NULL");
+            $db->query();
+        }
+        if ($subtile_lang1codecolumnExists == 'false') {
+            $db->setQuery("ALTER TABLE  `#__hdflv_upload` ADD  `subtile_lang1` text CHARACTER SET utf8 NOT NULL");
             $db->query();
         }
         } 

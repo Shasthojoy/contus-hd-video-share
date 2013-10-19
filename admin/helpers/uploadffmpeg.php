@@ -133,6 +133,28 @@ class uploadFfmpegHelper
 				  WHERE id = $idval";
 		$db->setQuery($query);
 		$db->query();
+                ##  get and set subtitle1 of the video
+		$strSrtFile1 = $arrFormData['subtitle_video_srt1form-value'];
+		$arrSrtFile1 = explode('uploads/', $strSrtFile1);
+		if (isset($arrSrtFile1[1]))
+		$strSrtFile1 = $arrSrtFile1[1];	
+                
+		##  get and set subtitle2 of the video
+		$strSrtFile2 = $arrFormData['subtitle_video_srt2form-value'];
+		$arrSrtFile2 = explode('uploads/', $strSrtFile2);
+		if (isset($arrSrtFile2[1]))
+		$strSrtFile2 = $arrSrtFile2[1];	
+			
+                $subtile_lang1 = $arrFormData['subtile_lang1'];
+                $subtile_lang2 = $arrFormData['subtile_lang2'];
+                ## Get upload helper file to upload thumb
+                require_once(FVPATH.DS.'helpers'.DS.'uploadfile.php');
+                uploadFileHelper::uploadVideoProcessing($subtile_lang1,$subtile_lang2,$idval, '', '', '',$strSrtFile1, $strSrtFile2, '', $arrFormData['newupload'], $fileoption);
+                ## Delete temp file
+                if ($strSrtFile1 != '')
+		uploadFileHelper::unlinkUploadedTmpFiles($strSrtFile1);				
+		if ($strSrtFile2 != '')
+		uploadFileHelper::unlinkUploadedTmpFiles($strSrtFile2);
 	}
 	
 	/**

@@ -70,6 +70,8 @@ class contushdvideoshareModeluploadvideo extends ContushdvideoshareModel {
 			"mov", "mp4v", "Mp4v", "F4V", "f4v");
 			else if ($exttype == 'image')
 			$allowedExtensions = array("jpg", "JPG", "png", "PNG");
+			else if ($exttype == 'srt')
+			$allowedExtensions = array("srt", "SRT");
 			else if ($exttype == 'video_ffmpeg')
 			$allowedExtensions = array("avi","AVI","dv","DV","3gp","3GP","3g2","3G2","mpeg","MPEG","wav","WAV","rm",
 			"RM","mp3","MP3","flv", "FLV", "mp4", "MP4" , "m4v", "M4V", "M4A", "m4a", "MOV", "mov", "mp4v", "Mp4v", 
@@ -189,7 +191,7 @@ class contushdvideoshareModeluploadvideo extends ContushdvideoshareModel {
 			$destination_path=str_replace('\\', '/', $destination)."/";
 		}
 		$filename = JFile::makeSafe($file['name']);
-		$target_path = $destination_path . rand(0,5) . "." . end(explode(".", $filename));
+		$target_path = $destination_path . rand() . "." . end(explode(".", $filename));
 		## Clean up filename to get rid of strange characters like spaces etc
 		$sourceImage = $file['tmp_name'];
 			

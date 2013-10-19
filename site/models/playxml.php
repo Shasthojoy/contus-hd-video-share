@@ -129,7 +129,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
     function showxml($rs_video) {
         $user           = JFactory::getUser();
         $db             = JFactory::getDBO();
-        $rows           = $uid = $hdvideo = $timage = $streamername = $targeturl = '';
+        $rows           = $uid = $hdvideo = $timage = $streamername = $targeturl = $subtitle = '';
         $postrollid     = $prerollid = 0;
         $download = $playlistautoplay = $islive ="false";
         $member         = "true";
@@ -250,6 +250,18 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                 if ($rows->streameroption == "rtmp") {
                     $streamername = $rows->streamerpath;
                 }
+                ## Get subtitles
+                $subtitle1 = $rows->subtitle1;
+                $subtitle2 = $rows->subtitle2;
+                $subtitle_path = JURI::base() . $current_path;
+                if(!empty($subtitle1) && !empty($subtitle2)){
+                    $subtitle = $subtitle_path.$subtitle1.','.$subtitle_path.$subtitle2;
+                } else if(!empty($subtitle1)){
+                    $subtitle = $subtitle_path.$subtitle1;
+                } else if(!empty($subtitle2)){
+                    $subtitle = $subtitle_path.$subtitle2;
+                }
+                
                 ## Get post roll ad id for video
                 $query_postads          = "SELECT * FROM #__hdflv_ads WHERE published=1 AND id=$rows->postrollid"; 
                 $db->setQuery($query_postads);
@@ -377,7 +389,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                 ## Restrict playxml for vimeo videos.
                 if (!preg_match('/vimeo/', $video)) {
                     
-                    echo    '<mainvideo member="' . $member . '" uid="'.$uid.'" 
+                    echo    '<mainvideo member="' . $member . '" uid="'.$uid.'" subtitle ="'.$subtitle.'"
                                 views="' . $views . '"
                                 streamer_path="' . $streamername . '"
                                 video_isLive="' . $islive . '"

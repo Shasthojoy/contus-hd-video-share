@@ -140,6 +140,10 @@ CREATE TABLE IF NOT EXISTS `#__hdflv_upload` (
   `islive` tinyint(1) NOT NULL DEFAULT '0',
   `imaads` int(11) NOT NULL DEFAULT '0',
   `embedcode` longtext NOT NULL,
+  `subtitle1` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `subtitle2` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `subtile_lang2` text CHARACTER SET utf8 NOT NULL,
+  `subtile_lang1` text CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 

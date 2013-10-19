@@ -108,21 +108,33 @@ function withoutflashvisible() {
         document.getElementById('ffmpeg_disable_new9').style.display = "none";
 }
 
+function subtitle_enable(){
+    document.getElementById('subtitle_video_srt1').style.display = '';
+    document.getElementById('subtitle_video_srt2').style.display = '';
+}
+function subtitle_disable(){
+    document.getElementById('subtitle_video_srt1').style.display = 'none';
+    document.getElementById('subtitle_video_srt2').style.display = 'none';
+}
+
 //function to select file path from (file,url,you tube,vimeo and ffmpeg)
 function fileedit(file_var) { 
 	if (file_var == 'File') {
 		withoutflashvisible();
 		urlhide();
+                subtitle_enable();
 		document.getElementById('fvideos').style.display = "none";
 		document.getElementById('fileoption').value = 'File';
 	} else if (file_var == 'Url') {
 		withoutflashhide();
 		urlvisible();
+                subtitle_enable();
 		document.getElementById('fvideos').style.display = "none";
 		document.getElementById('fileoption').value = 'Url';
 	} else if (file_var == 'Youtube') {
 		withoutflashhide();
 		urlvisible();
+                subtitle_enable();
 		document.getElementById('ffmpeg_disable_new6').style.display = "none";
 		document.getElementById('ffmpeg_disable_new7').style.display = "none";
 		document.getElementById('ffmpeg_disable_new8').style.display = "none";
@@ -148,11 +160,13 @@ function fileedit(file_var) {
 	} else if (file_var == 'FFmpeg') {
 		withoutflashhide();
 		urlhide();
+                subtitle_enable();
 		document.getElementById('fvideos').style.display = "";
 		document.getElementById('fileoption').value = 'FFmpeg';
 	} else if (file_var == 'Embed') {
 		withoutflashhide();
 		urlhide();
+                subtitle_disable();
 		document.getElementById('fvideos').style.display = "none";
 		document.getElementById('ffmpeg_disable_new9').style.display = "";
                 document.getElementById('ffmpeg_disable_new3').style.display = "";
@@ -203,11 +217,17 @@ function streamer1(streamername) {
 	}
 }
 
+function getsubtitle1name() {
+	document.getElementById('subtilelang1').style.display = "";
+}
+function getsubtitle2name() {
+	document.getElementById('subtilelang2').style.display = "";
+}
+
 function getValue1() {
 	var var_up1;
 	var_up1 = '<input type="file" name="myfile" id="myfile" onchange="enableUpload(this.form.name);" /><input type="button" name="uploadBtn" value="Upload Video" disabled="disabled" onclick="addQueue(this.form.name);" />';
 	document.getElementById('var_up1').innerHTML = var_up1;
-
 }
 function getValue2() {
 	var var_up2;

@@ -25,7 +25,6 @@ $thumbview          = unserialize($this->homepagebottomsettings[0]->homethumbvie
 $dispenable         = unserialize($this->homepagebottomsettings[0]->dispenable);
 $facebookapi        = $dispenable['facebookapi'];
 $htmlVideoDetails   = $this->htmlVideoDetails;
-
 ## Get detail for Meta Information
 if (isset($this->htmlVideoDetails) && $this->htmlVideoDetails != '') {
     if ($this->htmlVideoDetails->filepath == "File" || $this->htmlVideoDetails->filepath == "FFmpeg" || $this->htmlVideoDetails->filepath == "Embed") {
@@ -34,12 +33,12 @@ if (isset($this->htmlVideoDetails) && $this->htmlVideoDetails != '') {
         $video_thumb        = JURI::base() . $current_path . $this->htmlVideoDetails->thumburl;
         $video_preview      = JURI::base() . $current_path . $this->htmlVideoDetails->previewurl;
     } elseif ($this->htmlVideoDetails->filepath == "Youtube") {
-        if (preg_match('/www\.youtube\.com\/watch\?v=[^&]+/', $this->htmlVideoDetails->videourl, $vresult)) {
-            $urlArray       = explode("=", $vresult[0]);
-            $videoid1       = trim($urlArray[1]);
-            $video_thumb    = "http://i3.ytimg.com/vi/$videoid1/mqdefault.jpg";
+        if(strpos($this->htmlVideoDetails->videourl,'youtube') > 0) { 
+            $imgstr         = explode("v=", $this->htmlVideoDetails->videourl);
+            $imgval         = explode("&", $imgstr[1]);
+            $video_thumb    = "http://i3.ytimg.com/vi/$imgval[0]/mqdefault.jpg";
             $video_url      = $this->htmlVideoDetails->videourl;
-            $video_preview  = $this->htmlVideoDetails->previewurl;
+            $video_preview  = "http://i3.ytimg.com/vi/$imgval[0]/maxresdefault.jpg";
         } else if (strpos($this->htmlVideoDetails->videourl, 'dailymotion') > 0 || strpos($this->htmlVideoDetails->videourl, 'viddler') > 0) {
             $video_url      = $this->htmlVideoDetails->videourl;
             $video_thumb    = $this->htmlVideoDetails->thumburl;

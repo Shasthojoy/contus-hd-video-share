@@ -23,7 +23,7 @@ class uploadFileHelper
 	##  function to upload normal video
 	function uploadFile($arrFormData,$idval)
 	{		
-		$strVideoName = $strHdVideoName = $strThumbImg = $strPreviewImg = '';		
+		$strVideoName = $strHdVideoName = $strThumbImg = $strPreviewImg = $subtile_lang1 = $subtile_lang2 = '';		
 		##  get video and set video name
 		$strVideoName = $arrFormData['normalvideoform-value'];
 		$arrVideoName = explode('uploads/', $strVideoName);
@@ -48,8 +48,22 @@ class uploadFileHelper
 		if (isset($arrPreviewImg[1]))
 		$strPreviewImg = $arrPreviewImg[1];		
 			
+		##  get and set subtitle1 of the video
+		$strSrtFile1 = $arrFormData['subtitle_video_srt1form-value'];
+		$arrSrtFile1 = explode('uploads/', $strSrtFile1);
+		if (isset($arrSrtFile1[1]))
+		$strSrtFile1 = $arrSrtFile1[1];	
+                
+		##  get and set subtitle2 of the video
+		$strSrtFile2 = $arrFormData['subtitle_video_srt2form-value'];
+		$arrSrtFile2 = explode('uploads/', $strSrtFile2);
+		if (isset($arrSrtFile2[1]))
+		$strSrtFile2 = $arrSrtFile2[1];	
+			
+                $subtile_lang1 = $arrFormData['subtile_lang1'];
+                $subtile_lang2 = $arrFormData['subtile_lang2'];
 		##  function to upload video
-		uploadFileHelper::uploadVideoProcessing($idval, $strVideoName, $strThumbImg, $strPreviewImg, $strHdVideoName, $arrFormData['newupload'], $arrFormData['fileoption']);
+		uploadFileHelper::uploadVideoProcessing($subtile_lang1, $subtile_lang2, $idval, $strVideoName, $strThumbImg, $strPreviewImg, $strSrtFile1, $strSrtFile2, $strHdVideoName, $arrFormData['newupload'], $arrFormData['fileoption']);
 		
 		/**
 		 * DELETE TEMPORARY FILES
@@ -66,10 +80,14 @@ class uploadFileHelper
 		uploadFileHelper::unlinkUploadedTmpFiles($strThumbImg);
 		if ($strPreviewImg != '')
 		uploadFileHelper::unlinkUploadedTmpFiles($strPreviewImg);				
+		if ($strSrtFile1 != '')
+		uploadFileHelper::unlinkUploadedTmpFiles($strSrtFile1);				
+		if ($strSrtFile2 != '')
+		uploadFileHelper::unlinkUploadedTmpFiles($strSrtFile2);				
 	}
 	
 	## function to upload file from temporary path
-	function uploadVideoProcessing($idval, $file_video, $file_timage, $file_pimage, $file_hvideo, $newupload, $filepath)
+	function uploadVideoProcessing($subtile_lang1, $subtile_lang2,$idval, $file_video, $file_timage, $file_pimage, $file_str1, $file_str2, $file_hvideo, $newupload, $filepath)
 	{
 		$strTargetPath = VPATH . "/";
 		##  for videos
@@ -102,6 +120,26 @@ class uploadFileHelper
 			$fp = $idval . "_preview" . "." . $exts;
 			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
 			uploadFileHelper::copytovideos($strPreImgTempPath, $strPreImgTargetPath, $fp, $idval, 'previewurl', $newupload, $filepath);
+		}
+		##  for Subtitle1
+		if ($file_str1 <> '')
+		{
+			$exts = uploadFileHelper::getFileExtension($file_str1);
+			$strstr1TempPath = FVPATH . "/images/uploads/" . $file_str1;
+			$strstr1TargetPath = $strTargetPath . $idval . "_".$subtile_lang1 . "." . $exts;
+			$fp = $idval . "_".$subtile_lang1 . "." . $exts;
+			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
+			uploadFileHelper::copytovideos($strstr1TempPath, $strstr1TargetPath, $fp, $idval, 'subtitle1', $newupload, $filepath);
+		}
+		##  for Subtitle2
+		if ($file_str2 <> '')
+		{
+			$exts = uploadFileHelper::getFileExtension($file_str2);
+			$strstr2TempPath = FVPATH . "/images/uploads/" . $file_str2;
+			$strstr2TargetPath = $strTargetPath . $idval . "_" .$subtile_lang2. "." . $exts;
+			$fp = $idval . "_" .$subtile_lang2. "." . $exts;
+			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
+			uploadFileHelper::copytovideos($strstr2TempPath, $strstr2TargetPath, $fp, $idval, 'subtitle2', $newupload, $filepath);
 		}
 		##  for hdvideo
 		if ($file_hvideo <> '')
