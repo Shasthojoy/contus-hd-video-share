@@ -340,7 +340,7 @@ if (USER_LOGIN == '1') {
 if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1' && $mobile !== true) {
     ?>
             <div>
-            <div id="lightm"  style="top:<?php echo $player_values['height'] - 45; ?>px; height:76px;position:absolute;display:none;left:0px!important; margin:0px 150px 0px;background:none !important;">
+            <div id="lightm"  style="height:76px;position:absolute;display:none;background:none !important;background-position: initial initial !important;background-repeat: initial initial !important;bottom: 50px;margin-left: -234px;left: 50%;">
                 <span id="divimgm" ><img alt="close" id="closeimgm"  src="components/com_contushdvideoshare/images/close.png" style="z-index: 10000000;width:48px;height:12px;cursor:pointer;top:-12px; " onclick="googleclose();"  /> </span>
                 <iframe  height="60" width="600" scrolling="no" align="middle" id="IFrameName" src="" name="IFrameName" marginheight="0" marginwidth="0" class="iframe_frameborder" ></iframe>
                     </div>

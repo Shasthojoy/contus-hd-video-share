@@ -134,7 +134,7 @@ ul.ratethis li.five a:hover {background-position:0 -200px;background: none !impo
 .allform .form-inputnew input.text{display:block;float:left;width:296px;margin-bottom:5px;padding:2px;}
 
 /*google add css*/
-#lightm{width:468px;height:60px;position:absolute;background-color:#FFFFFF;display:none;}
+#lightm{width:468px;position:absolute;display:none;}
 .googlead_img{float:right;cursor: pointer;}
 /*video css*/
 #HDVideoshare1{width:100%;}
