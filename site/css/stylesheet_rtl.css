@@ -24,7 +24,7 @@
 .video-info {display:block;font-size:11px;line-height:1.4;width:145px;}
 .video-info a {font-size:11px;font-weight:normal;text-decoration: none;}
 .video-info a:hover {font-size:11px;font-weight:normal;text-decoration:underline;}
-
+.myvideos_tab li{float: right;}
 
 /*my videos page css*/
 .lodinpad{width:100%;margin:0 auto;margin-top:5px;}
@@ -443,11 +443,11 @@ a, img, a:hover{border: none;}
 /* Tooltip start*/
 .htmltooltip{position: absolute; /*leave this and next 3 values alone*/z-index:9999;top: -1000px;background:#fff !important;padding: 8px 10px; /*width of tooltip*/ border:1px solid #999 !important;line-height:1.3em;width:300px;-moz-border-radius:4px;-webkit-border-radius:4px;-moz-box-shadow:0 0 5px #888888;-webkit-box-shadow:0 0 5px #888888;}
 .htmltooltip .tooltip_discrip{color:#000;font-size:12px;text-align:right;border-bottom: 1px solid #ccc;padding-bottom: 5px;word-wrap: break-word;}
-.htmltooltip .tooltip_views_right{float: left;}
-.htmltooltip .tooltip_views_right .view_txt{color:#888;font-size: 12px;float: right;}
+.htmltooltip .tooltip_views_right{float: none;clear: both;}
+.htmltooltip .tooltip_views_right .view_txt{color:#888;font-size: 12px;float: right;line-height: 16px;padding-left: 5px;}
 .htmltooltip .tooltip_views_right .view_count{color:#333;font-size:12px;}
 .htmltooltip .tooltip_category_left{float:right}
-.htmltooltip .tooltip_category_left .title_category{color:#888;font-size: 12px;float: right;}
+.htmltooltip .tooltip_category_left .title_category{color:#888;font-size: 12px;float: right;line-height: 18px;padding-left: 5px;}
 .htmltooltip .tooltip_category_left .show_category{color:#333;font-size:12px;}
 .htmltooltip .chat-bubble-arrow-border {border-color:transparent transparent  #999 transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;top:-21px;right:30px;}
 .htmltooltip .chat-bubble-arrow {border-color:transparent transparent #fff transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;top:-18px;right:30px;}
@@ -459,11 +459,11 @@ a, img, a:hover{border: none;}
 /* Tooltip start*/
 .htmltooltip1{position: absolute; /*leave this and next 3 values alone*/z-index:9999;top: -1000px;background:#fff !important;padding: 8px 10px; /*width of tooltip*/ border:1px solid #999 !important;line-height:1.3em;width:300px;-moz-border-radius:4px;-webkit-border-radius:4px;-moz-box-shadow:0 0 5px #888888;-webkit-box-shadow:0 0 5px #888888;}
 .htmltooltip1 .tooltip_discrip{color:#000;font-size:12px;text-align:right;border-bottom: 1px solid #ccc;padding-bottom: 5px;word-wrap: break-word;}
-.htmltooltip1 .tooltip_views_right{float: left;}
-.htmltooltip1 .tooltip_views_right .view_txt{color:#888;font-size: 12px;float: right;}
+.htmltooltip1 .tooltip_views_right{float: none;clear: both;}
+.htmltooltip1 .tooltip_views_right .view_txt{color:#888;font-size: 12px;float: right;line-height: 16px;padding-left: 5px;}
 .htmltooltip1 .tooltip_views_right .view_count{color:#333;font-size:12px;}
 .htmltooltip1 .tooltip_category_left{float:right}
-.htmltooltip1 .tooltip_category_left .title_category{color:#888;font-size: 12px;float: right;}
+.htmltooltip1 .tooltip_category_left .title_category{color:#888;font-size: 12px;float: right;line-height: 16px;  padding-left: 5px;}
 .htmltooltip1 .tooltip_category_left .show_category{color:#333;font-size:12px;}
 .htmltooltip1 .chat-bubble-arrow-border {border-color:transparent transparent  #999 transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;top:-21px;right:30px;}
 .htmltooltip1 .chat-bubble-arrow {border-color:transparent transparent #fff transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;top:-18px;right:30px;}
@@ -475,11 +475,11 @@ a, img, a:hover{border: none;}
 /* Tooltip start*/
 .htmltooltip2{position: absolute; /*leave this and next 3 values alone*/z-index:9999;top: -1000px;background:#fff !important;padding: 8px 10px; /*width of tooltip*/ border:1px solid #999 !important;line-height:1.3em;width:300px;-moz-border-radius:4px;-webkit-border-radius:4px;-moz-box-shadow:0 0 5px #888888;-webkit-box-shadow:0 0 5px #888888;}
 .htmltooltip2 .tooltip_discrip{color:#000;font-size:12px;text-align:right;border-bottom: 1px solid #ccc;padding-bottom: 5px;word-wrap: break-word;}
-.htmltooltip2 .tooltip_views_right{float: left;}
-.htmltooltip2 .tooltip_views_right .view_txt{color:#888;font-size: 12px;float: right;}
+.htmltooltip2 .tooltip_views_right{float: none;clear: both;}
+.htmltooltip2 .tooltip_views_right .view_txt{color:#888;font-size: 12px;float: right;line-height: 16px;  padding-left: 5px;}
 .htmltooltip2 .tooltip_views_right .view_count{color:#333;font-size:12px;}
 .htmltooltip2 .tooltip_category_left{float:right}
-.htmltooltip2 .tooltip_category_left .title_category{color:#888;font-size: 12px;float: right;}
+.htmltooltip2 .tooltip_category_left .title_category{color:#888;font-size: 12px;float: right;line-height: 16px;  padding-left: 5px;}
 .htmltooltip2 .tooltip_category_left .show_category{color:#333;font-size:12px;}
 .htmltooltip2 .chat-bubble-arrow-border {border-color:transparent transparent  #999 transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;top:-21px;right:30px;}
 .htmltooltip2 .chat-bubble-arrow {border-color:transparent transparent #fff transparent;border-style: solid;border-width: 10px;height:0;width:0;position:absolute;top:-18px;right:30px;}
@@ -702,3 +702,5 @@ float: left;
 .sharing_vid #share_like .google-plus{display: block; clear: both;}
 
 }   
+
+#HDVideoshare1 h1{text-align: right;}
