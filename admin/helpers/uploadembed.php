@@ -37,7 +37,7 @@ class uploadEmbedHelper
                 }
                 ## Get upload helper file to upload thumb
                 require_once(FVPATH.DS.'helpers'.DS.'uploadfile.php');
-                uploadFileHelper::uploadVideoProcessing($idval, '', $strThumbImg, '', '', $arrFormData['newupload'], $fileoption);
+                uploadFileHelper::uploadVideoProcessing('','',$idval, '', $strThumbImg, '', '','','', $arrFormData['newupload'], $fileoption);
                 ## Delete temp file
                 if ($strThumbImg != ''){
 		uploadFileHelper::unlinkUploadedTmpFiles($strThumbImg);

@@ -226,6 +226,7 @@ JHTML::_('behavior.tooltip');
                 if(bol_file5==true)
                 {
                 var embed_code = document.getElementById('embed_code').value;
+                document.getElementById('fileoption').value='Embed';
                 embed_code = (embed_code + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
                 document.getElementById('embedcode').value = embed_code;
                 if(embed_code===''){
@@ -235,11 +236,14 @@ JHTML::_('behavior.tooltip');
                 alert( "<?php echo JText::_( 'Enter Valid Embed Code', true ); ?>" )            
                 return;
                 }
+                if(document.getElementById('id').value=="")
+                       {
                 if(document.getElementById('thumbimageform-value').value=="")
                         {
                         alert("<?php echo JText::_('You must Upload a Thumb Image',true);?>");
                         return;
                         }
+                 }
                  }
 
                 if(bol_file3==true)
