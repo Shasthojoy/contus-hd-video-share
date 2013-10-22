@@ -54,7 +54,7 @@ class com_contushdvideoshareInstallerScript {
     function postflight($type, $parent) {
 
         $db = JFactory::getDBO();
-        $player_colorscolumnExists = $player_valuescolumnExists = $imaadscolumnExists = $embedcodecolumnExists = $imaaddetcolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = 'false';
+        $player_colorscolumnExists = $player_valuescolumnExists = $imaadscolumnExists = $embedcodecolumnExists = $subtitle1codecolumnExists = $subtitle2codecolumnExists = $subtile_lang2codecolumnExists = $subtile_lang1codecolumnExists = $imaaddetcolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = 'false';
         $query = 'SELECT id FROM #__hdflv_player_settings LIMIT 1;';
         $db->setQuery($query);
         $result = $db->loadResult();
