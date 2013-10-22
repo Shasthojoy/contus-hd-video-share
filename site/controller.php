@@ -143,5 +143,38 @@ class contushdvideoshareController extends ContusvideoshareController {
         $model = $this->getModel('uploadvideo');
         $model->fileupload();
     }
+    function downloadfile() {
+        $url = JRequest::getInt('f');
+        $db = JFactory::getDBO();
+        $query = "select filepath,videourl from #__hdflv_upload where id=$url";
+        $db->setQuery($query);
+        $video_details = $db->loadObject();
+        $filename = JPATH_COMPONENT . "/videos/" . $video_details->videourl;
+            if(file_exists($filename)){
+            header('Content-disposition: attachment; filename=' . basename($filename));
+            readfile($filename);
+}
+    }
+
+    function emailuser() {
+
+        $to = JRequest::getVar('to');
+        $from = JRequest::getVar('from');
+        $url = JRequest::getVar('url');
+        $subject = JRequest::getVar('Note');
+        $title = JRequest::getVar('title');
+
+        $headers = "From: " . "<" . $from . ">\r\n";
+        $headers .= "Reply-To: " . $from . "\r\n";
+        $headers .= "Return-path: " . $from;
+        $message = $subject . "\n\n";
+        $message .= "Video URL: " . $url;
+        if (mail($to, $title, $message, $headers)) {
+            $a= "sent";
+        } else {
+            $a= "error";
+        }
+          echo $a;exit;
+    }
 }
 ?>

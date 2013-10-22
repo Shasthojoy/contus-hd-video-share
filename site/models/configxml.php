@@ -164,8 +164,6 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
             $IMAAds_path            = JURI::base() . "index.php?option=com_contushdvideoshare&view=imaadxml";
         }
 
-        ## Video download file path
-        $downloadUrl                = $base . "components/com_contushdvideoshare/hdflvplayer/download.php";
         ## Playlist xml path
         if (JRequest::getVar('catid', '', 'get', 'int')) {
             $playlistxml            = $base . "index.php?option=com_contushdvideoshare&view=playxml&id=" . JRequest::getVar('id', '', 'get', 'int') . "&catid=" . JRequest::getVar('catid', '', 'get', 'int');
@@ -189,7 +187,8 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         $baseUrl                    = JURI::base();
         $baseUrl1                   = parse_url($baseUrl);
         $baseUrl1                   = $baseUrl1['scheme'] . '://' . $baseUrl1['host'];          ## Generate base url
-
+        ## Video download file path
+        $downloadpath               = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=downloadfile&f=FILE');
         ## Generate config xml here
         ob_clean();
         
@@ -241,7 +240,7 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         <shareURL>' . $emailpath . '</shareURL>
         <embed_visible>' . $embedVisible . '</embed_visible>
         <Download>' . $enabledownload . '</Download>
-        <downloadUrl>' . $downloadUrl . '</downloadUrl>
+        <downloadUrl>' . $downloadpath . '</downloadUrl>
         <adsSkip>' . $adsSkip . '</adsSkip>
         <adsSkipDuration>' . $player_values['adsSkipDuration'] . '</adsSkipDuration>
         <relatedVideoView>' . $player_values['relatedVideoView'] . '</relatedVideoView>
