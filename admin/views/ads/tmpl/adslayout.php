@@ -71,9 +71,54 @@ $document->addScript(JURI::base() . 'components/com_contushdvideoshare/js/upload
                     }
             }
 
+            // For IMA ad validation
+
+if(document.getElementById('selectadd03').checked==true){
+    if(document.getElementById('textad').checked==true && document.getElementById('publisherId').value == '')
+    {
+        alert("<?php echo JText::_('Enter IMA Ad Publisher ID', true); ?>");
+        document.getElementById('publisherId').focus();
+        return false;
+
+    } else if(document.getElementById('textad').checked==true && document.getElementById('contentId').value == '')
+    {
+        alert("<?php echo JText::_('Enter IMA Ad Content ID', true); ?>");
+        document.getElementById('contentId').focus();
+        return false;
+
+    }else if(document.getElementById('textad').checked==true && document.getElementById('channels').value == '')
+    {
+        alert("<?php echo JText::_('Enter IMA Ad Channel', true); ?>");
+        document.getElementById('channels').focus();
+        return false;
+
+    }else {
+        if(document.getElementById('videoad').checked==true)
+    {
+        if(document.getElementById('imaadpath').value == ''){
+         alert("<?php echo JText::_('Enter IMA Ad Path', true); ?>");
+        document.getElementById('imaadpath').focus();
+        return false;
+        } else{
+                var thevideoadurl=document.getElementById("imaadpath").value;
+                var tomatch= /(http:\/\/|https:\/\/)[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}|(http:\/\/|https:\/\/)/
+                if (!tomatch.test(thevideoadurl))
+                {
+                    alert("<?php echo JText::_('Enter Valid IMA Ad URL', true); ?>");
+                    document.getElementById("imaadpath").focus();
+                    return false;
+    }
+            }
+
+    }
+    }
+    
+}
+ 
+
 // for Ads name validation
     if (document.getElementById('adsname').value == ''){
-    alert("<?php echo JText::_('You must provide a Ad name', true); ?>")
+    alert("<?php echo JText::_('You must provide a Ad name', true); ?>");
     return false;
     }
     if (document.getElementById('targeturl').value != "") {
