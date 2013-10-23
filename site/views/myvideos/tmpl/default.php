@@ -105,11 +105,18 @@ function submitform()
                  }else{
                     $searchboxval =  $hidsearchtxtbox;
                  }?>
+                    <style type="text/css">
+                        .search_snipt{float: left; position:relative;height: 50px;}
+                        .search_snipt #searcherrormessage{color: red; clear: both; position: absolute; bottom: 0;}
+                    </style>
                 <form name="hsearch" id="hsearch" method="post" action='<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=myvideos',true); ?>' onsubmit="return searchValidation();">
-                    <div id="searcherrormessage" style="color: red;float: left;"></div>
+                    
+                    <div class="search_snipt">
                     <input type="text" value="<?php
        echo $searchboxval;
 ?>" name="searchtxtboxmember" id="searchtxtboxmember" class="clstextfield clscolor"  onkeypress="validateenterkey(event,'hsearch');"/>
+                    <div id="searcherrormessage"></div>
+                    </div>
                     
                     <input type="submit" name="search_btn" id="search_btn" class="button myvideos_search" value="<?php echo JText::_('HDVS_SEARCH'); ?>"/>
                     <input type="hidden" name="searchval" id="searchval" value=" <?php
