@@ -308,8 +308,16 @@ if (USER_LOGIN == '1') {
         }
     } else {               ## Restricted video design part 
         ?>
-                    <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000;" >
-                        <h3 style="color:#e65c00;vertical-align: middle;height:<?php echo $player_values['height']; ?>px;display: table-cell;">Please login to watch this video</h3>
+                            <style type="text/css">
+                                .login_msg{vertical-align: middle;height:<?php echo $player_values['height']; ?>px;display: table-cell; color: #fff;}
+                                .login_msg a{background: #999; color:#fff; padding: 5px;}
+                            </style>
+                            
+                    <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
+                        <div class="login_msg">
+                        <h3>Please login to watch this video</h3>
+                        <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
+                    </div>
                     </div>
     <?php } ?>
             </div>
