@@ -27,9 +27,21 @@ JHTML::_('behavior.tooltip');
     fieldset input, fieldset textarea, fieldset select, fieldset img, fieldset button {float:none;}
     form {float:left;}
     fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button	{float: none;}
-    table.admintable td.key {}
     table.adminlist .radio_algin input[type="radio"]{margin:0 5px 0 0;}
     fieldset label,fieldset span.faux-label {float: none;clear: left;display: block;margin: 5px 0;}
+#video_det_id td.radio_algin input[type="radio"],
+#video_upload_part td.radio_algin input[type="radio"]{
+    margin: 0 4px 0 0; 
+}
+
+#video_det_id .table-striped td.radio_algin span,
+#video_upload_part .table-striped td.radio_algin span{
+    line-height: 14px;
+    display: block;
+    float: left;
+    margin-right: 13px;
+}
+
 </style>
 <script language="JavaScript" type="text/javascript">
  <?php if(version_compare(JVERSION,'1.6.0','ge'))
@@ -324,7 +336,7 @@ JHTML::_('behavior.tooltip');
     <?php }else { ?>
        <h2>Video </h2>
     <?php } ?>
-    <table class="admintable <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'table table-striped'; ?>">
+    <table id="video_upload_part" class="admintable <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'table table-striped'; ?>">
 <?php
    $youtubefilepathchk = $isfilepathchk = $ffmpegchk = $embedchk = $filePathembed = '';
     
@@ -339,9 +351,9 @@ JHTML::_('behavior.tooltip');
 	            '', 'Streamer Option');?></td>
             <td <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="radio_algin"'; ?>>
 
-                <input type="radio" name="streameroption[]" id="streameroption1" value="None"  checked="checked" onclick="streamer1('None');" />None
-                <input type="radio" name="streameroption[]" id="streameroption2" value="lighttpd"  onclick="streamer1('lighttpd');" />Lighttpd
-                <input type="radio" name="streameroption[]" id="streameroption3" value="rtmp"  onclick="streamer1('rtmp');" />RTMP
+                <input type="radio" name="streameroption[]" id="streameroption1" value="None"  checked="checked" onclick="streamer1('None');" /><span>None</span>
+                <input type="radio" name="streameroption[]" id="streameroption2" value="lighttpd"  onclick="streamer1('lighttpd');" /><span>Lighttpd</span>
+                <input type="radio" name="streameroption[]" id="streameroption3" value="rtmp"  onclick="streamer1('rtmp');" /><span>RTMP</span>
             </td>
         </tr>
 
@@ -369,12 +381,12 @@ JHTML::_('behavior.tooltip');
         <tr><td width="200px;"><?php echo JHTML::tooltip('Select file path', 'File Option',
 	            '', 'File Option');?></td>
             <td <?php if(version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="radio_algin"'; ?>>
-                <input type="radio" name="filepath" id="filepath1" <?php echo $isfilepathchk;?> value="File" onclick="fileedit('File');" />File
-                <input type="radio" name="filepath" id="filepath2" value="Url" onclick="fileedit('Url');"/>URL
-                <input type="radio" name="filepath" id="filepath4" <?php echo $youtubefilepathchk;?> value="Youtube" onclick="fileedit('Youtube');" />YouTube / Vimeo / DailyMotion / Viddler
-                <input type="radio" name="filepath" id="filepath3" <?php echo $ffmpegchk;?> value="FFmpeg" onclick="fileedit('FFmpeg');" />FFmpeg
+                <input type="radio" name="filepath" id="filepath1" <?php echo $isfilepathchk;?> value="File" onclick="fileedit('File');" /><span>File</span>
+                <input type="radio" name="filepath" id="filepath2" value="Url" onclick="fileedit('Url');"/><span>URL</span>
+                <input type="radio" name="filepath" id="filepath4" <?php echo $youtubefilepathchk;?> value="Youtube" onclick="fileedit('Youtube');" /><span>YouTube / Vimeo / DailyMotion / Viddler</span>
+                <input type="radio" name="filepath" id="filepath3" <?php echo $ffmpegchk;?> value="FFmpeg" onclick="fileedit('FFmpeg');" /><span>FFmpeg</span>
                 <?php if (isset($player_values['licensekey']) && $player_values['licensekey'] != '') { ?>
-                <input type="radio" name="filepath" id="filepath5" <?php echo $embedchk;?> value="Embed" onclick="fileedit('Embed');" />Embed Video
+                <input type="radio" name="filepath" id="filepath5" <?php echo $embedchk;?> value="Embed" onclick="fileedit('Embed');" /><span>Embed Video</span>
                 <?php } ?>
         </td></tr>
 
@@ -697,7 +709,9 @@ function generate12(str1)
        document.getElementById('generate').style.visibility  = "hidden";
    }
    var vimeooccr=theurl.indexOf("vimeo");
-   if (vimeooccr!==-1){
+   var viddleroccr=theurl.indexOf("viddler");
+   var dailymotionoccr=theurl.indexOf("dailymotion");
+   if (vimeooccr!==-1 || viddleroccr!=-1 || dailymotionoccr!=-1){
         document.getElementById('subtitle_video_srt1').style.display = 'none';
         document.getElementById('subtitle_video_srt2').style.display = 'none';
    } else {
@@ -716,7 +730,7 @@ function generate12(str1)
         <?php }else{ ?>
          <h2>Video Info</h2>
          <?php } ?>
-        <table  <?php if(!version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="admintable"'; else echo 'class="adminlist table table-striped"'; ?>  width="100%">
+        <table id="video_det_id" <?php if(!version_compare(JVERSION, '3.0.0', 'ge')) echo 'class="admintable"'; else echo 'class="adminlist table table-striped"'; ?>  width="100%">
 
             <tr><td width="17%"><?php echo JHTML::tooltip('Enter title for the video', 'Title',
 	            '', 'Title');?></td><td width="83%"><input type="text" name="title"  id="title" style="width:300px" maxlength="250" value="<?php echo htmlentities($editVideo['rs_editupload']->title); ?>" /></td></tr>
@@ -1049,6 +1063,7 @@ for ($i=0; $i<count($editVideo['rs_play']); $i++)
           document.getElementById("filepath2").checked = true;
       <?php  } else if($editVideo['rs_editupload']->filepath == 'Youtube') { ?>
           fileedit('Youtube');
+          generate12(document.getElementById("videourl").value);
           document.getElementById("filepath4").checked = true;
       <?php } else if($editVideo['rs_editupload']->filepath == 'FFmpeg') { ?>
           fileedit('FFmpeg');

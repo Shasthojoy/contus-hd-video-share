@@ -125,11 +125,13 @@ function fileedit(file_var) {
                 subtitle_enable();
 		document.getElementById('fvideos').style.display = "none";
 		document.getElementById('fileoption').value = 'File';
+                document.getElementById('download').style.display = "";
 	} else if (file_var == 'Url') {
 		withoutflashhide();
 		urlvisible();
                 subtitle_enable();
 		document.getElementById('fvideos').style.display = "none";
+                document.getElementById('download').style.display = "none";
 		document.getElementById('fileoption').value = 'Url';
 	} else if (file_var == 'Youtube') {
 		withoutflashhide();
@@ -142,7 +144,7 @@ function fileedit(file_var) {
 		document.getElementById('fileoption').value = 'Youtube';
 		document.getElementById('preroll-ad').style.display = "";
 		document.getElementById('postroll-ad').style.display = "";
-		document.getElementById('download').style.display = "";
+		document.getElementById('download').style.display = "none";
 		document.getElementById('target').style.display = "";
 
 	} else if (file_var == 'Vimeo') {
@@ -163,6 +165,7 @@ function fileedit(file_var) {
                 subtitle_enable();
 		document.getElementById('fvideos').style.display = "";
 		document.getElementById('fileoption').value = 'FFmpeg';
+                document.getElementById('download').style.display = "";
 	} else if (file_var == 'Embed') {
 		withoutflashhide();
 		urlhide();
@@ -171,6 +174,7 @@ function fileedit(file_var) {
 		document.getElementById('ffmpeg_disable_new9').style.display = "";
                 document.getElementById('ffmpeg_disable_new3').style.display = "";
 		document.getElementById('fileoption').value = 'Embed';
+                document.getElementById('download').style.display = "none";
 	}
 }
 
