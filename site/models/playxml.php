@@ -376,7 +376,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                 $playlist_id    = $rows->playlistid;                                ## Get playlist ID
                 $description    = $rows->description;                               ## Get video Description
                 
-                if ($rows->filepath == "Youtube") {
+                if ($rows->filepath == "Youtube" || $rows->filepath == "Url") {
                     $download   = "false";                                          ## Display download option for youtube videos
                 }
                 
