@@ -46,7 +46,7 @@
 #clsdetail a{outline-style: none;text-decoration: none;text-decoration: none;}
 #clsdetail a:hover{outline-style: none;text-decoration: none;text-decoration: none;}
 .featured_vidimg{display: block;background: none !important;}
-.featured_vidimg .yt-uix-hovercard-target{outline: none;border: 1px solid #ccc;padding: 1px;}
+.featured_vidimg .yt-uix-hovercard-target{outline: none;border: 1px solid #ccc;padding: 1px; height: 80px;}
 .featured_vidimg .yt-uix-hovercard-target:hover{outline: none;border: 1px solid #3784CC;padding: 1px;background: none;}
 
 .allform .form-label label{display:block;float:left;width:120px;margin-bottom:5px;}
