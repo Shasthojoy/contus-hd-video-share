@@ -252,15 +252,34 @@ if (USER_LOGIN == '1') {
         ?>
         <?php
         if ($htmlVideoDetails->filepath == 'Embed') {
-            echo $htmlVideoDetails->embedcode;                      ## For embed code videos
+               $playerembedcode = $htmlVideoDetails->embedcode;
+               $playeriframewidth =  str_replace('width=', 'width="'.$player_values['width'].'"', $playerembedcode);
+               if($mobile === true){
+                   echo $playerembedcode;
+               } else {   
+               ?>
+        <div id="flashplayer">
+                 <?php  echo str_replace('height=', 'height="'.$player_values['height'].'"', $playeriframewidth); ?>
+                   </div>
+                    <?php 
+               }## For embed code videos
         } else if (!empty($htmlVideoDetails) && (preg_match('/vimeo/', $htmlVideoDetails->videourl)) && ($htmlVideoDetails->videourl != '')) {
             $split = explode("/", $htmlVideoDetails->videourl);     ## For vimeo videos
+            if($mobile === true){
+                   $widthheight = '';
+               } else {
+                   $widthheight = 'width="'.$player_values['width'].'" height="'.$player_values['height'].'"';
+               }
             ?>
-            <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
+        <div id="flashplayer">
+            <iframe <?php echo $widthheight; ?> src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>"  class="iframe_frameborder"></iframe>
+        </div>
 <?php } else if (!empty($this->videodetails) && (preg_match('/vimeo/', $this->videodetails->videourl)) && ($this->videodetails->videourl != '')) {
             $split = explode("/", $this->videodetails->videourl);   ## For vimeo videos
     ?>
+        <div id="flashplayer">
             <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
+        </div>
 <?php } else {
                         if($mobile === true){
     ?>
@@ -345,12 +364,20 @@ if (USER_LOGIN == '1') {
     <?php
 }
 ## Display Google Adsense
-if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1' && $mobile !== true) {
+if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1' && $mobile !== true && $htmlVideoDetails->filepath != 'Embed') {
     ?>
             <div>
-            <div id="lightm"  style="height:76px;position:absolute;display:none;background:none !important;background-position: initial initial !important;background-repeat: initial initial !important;bottom: 50px;margin-left: -234px;left: 50%;">
-                <span id="divimgm" ><img alt="close" id="closeimgm"  src="components/com_contushdvideoshare/images/close.png" style="z-index: 10000000;width:48px;height:12px;cursor:pointer;top:-12px; " onclick="googleclose();"  /> </span>
-                <iframe  height="60" width="600" scrolling="no" align="middle" id="IFrameName" src="" name="IFrameName" marginheight="0" marginwidth="0" class="iframe_frameborder" ></iframe>
+                <?php if($player_values['width']>468){
+                    $adstyle = "margin-left: -234px;";
+                } else { 
+                    $margin_left = ($player_values['width']-100)/2;
+                    $adwidth = $player_values['width']-100;
+                    $adstyle = "width:".$adwidth."px;margin-left: -".$margin_left."px;";
+                }
+?>
+            <div id="lightm"  style="<?php echo $adstyle; ?>height:76px;position:absolute;display:none;background:none !important;background-position: initial initial !important;background-repeat: initial initial !important;bottom: 50px;left: 50%;">
+                <span id="divimgm" ><img alt="close" id="closeimgm"  src="components/com_contushdvideoshare/images/close.png" style="z-index: 10000000;width:48px;height:12px;cursor:pointer;top:-12px;" onclick="googleclose();"  /> </span>
+                <iframe  height="60" width="<?php echo $player_values['width']-100; ?>" scrolling="no" align="middle" id="IFrameName" src="" name="IFrameName" marginheight="0" marginwidth="0" class="iframe_frameborder" ></iframe>
                     </div>
         </div>
             
