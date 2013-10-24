@@ -272,13 +272,14 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
                 $embedcode          = JRequest::getVar('embedcode', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$arrFormData['embedcode']=$embedcode;
 		$fileoption         = $arrFormData['fileoption'];
-		$seoTitle           = $arrFormData['title'];
+		$seoTitle           = trim($arrFormData['title']);
                 $titlequery         = "SELECT count(id) FROM #__hdflv_upload where title='$seoTitle'";
                 $db->setQuery($titlequery);
                 $total_title        = $db->loadResult();
                 if(!empty($total_title) || $total_title>0){
                     $seoTitle       = $seoTitle.rand();
                 }
+                $seoTitle = str_replace("+","",$seoTitle);
                 $seoTitle           = stripslashes($seoTitle);
                 $seoTitle           = strtolower($seoTitle);
 		$seoTitle           = preg_replace('/[&:\s]+/i', '-', $seoTitle);
