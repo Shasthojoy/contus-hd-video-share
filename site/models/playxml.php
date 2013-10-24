@@ -409,7 +409,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                                 video_hdpath = "' . $hdvideo . '"
                                 copylink = "">
                                 <title><![CDATA[' . htmlspecialchars($title) . ']]></title>
-                                <tagline targeturl="' . $targeturl . '"><![CDATA[' . htmlspecialchars($description) . ']]></tagline>
+                                <tagline targeturl="' . $targeturl . '"><![CDATA[' . strip_tags($description) . ']]></tagline>
                             </mainvideo>';
                 }
             }
