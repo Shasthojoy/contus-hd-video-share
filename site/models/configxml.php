@@ -165,7 +165,9 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         }
 
         ## Playlist xml path
-        if (JRequest::getVar('catid', '', 'get', 'int')) {
+         if (JRequest::getString('mid')=='playerModule') {
+            $playlistxml            = $base . "index.php?option=com_contushdvideoshare&view=playxml&mid=playerModule&id=" . JRequest::getVar('id', '', 'get', 'int') . "&catid=" . JRequest::getVar('catid', '', 'get', 'int');
+        } else if (JRequest::getVar('catid', '', 'get', 'int')) {
             $playlistxml            = $base . "index.php?option=com_contushdvideoshare&view=playxml&id=" . JRequest::getVar('id', '', 'get', 'int') . "&catid=" . JRequest::getVar('catid', '', 'get', 'int');
         } elseif (JRequest::getVar('id', '', 'get', 'int')) {
             $adminview = JRequest::getString('adminview');

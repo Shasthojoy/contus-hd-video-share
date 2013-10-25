@@ -26,28 +26,63 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
         $videoid            = 0;
         $vid                = JRequest::getvar('id');
         $categ_id           = JRequest::getvar('catid');
+        $mid                = JRequest::getString('mid');
         $adminview          = JRequest::getString('adminview');
-        if($adminview==true){
+        if($adminview == true){
             $publish = '';
         } else {
             $publish = 'a.published=1 AND';
         }
-        if ($vid) {
-            $videoid        = $vid;
-            if ($videoid != 0) {
-                $query      = "UPDATE #__hdflv_upload SET times_viewed=1+times_viewed WHERE id=" . $videoid;
+        if ($vid != 0) {
+                $query      = "UPDATE #__hdflv_upload SET times_viewed=1+times_viewed WHERE id=" . $vid;
                 $db->setQuery($query);
                 $db->query();
-            }
-
-            if ($videoid != "") {
                 $query      = "SELECT distinct a.*,b.category
                             FROM #__hdflv_upload a 
                             LEFT JOIN #__hdflv_category b on a.playlistid=b.id 
-                            WHERE $publish b.published='1' AND a.id=$videoid AND a.filepath!='Embed'";
+                            WHERE $publish b.published='1' AND a.id=$vid AND a.filepath!='Embed'";
                 $db->setQuery($query);
                 $rows       = $db->loadObjectList();
             }
+            
+        if($mid == 'playerModule'){
+            if (count($rows) > 0) {
+                $query          = "SELECT distinct a.*,b.category
+                                FROM #__hdflv_upload a 
+                                LEFT JOIN #__hdflv_category b on a.playlistid=b.id or a.playlistid=b.parent_id 
+                                WHERE $publish b.published='1' AND a.featured='1' AND a.id != $vid AND a.filepath!='Embed' 
+                                    ORDER BY a.id DESC LIMIT 3";
+                $db->setQuery($query);
+                $playlist_loop  = $db->loadObjectList();
+                
+                ## Array rotation to autoplay the videos correctly
+                $arr1           = array();
+                $arr2           = array();
+                if (count($playlist_loop) > 0) {
+                    foreach ($playlist_loop as $r):
+                        if ($r->id > $rows[0]->id) {      ##Storing greater values in an array
+                            $query      = "SELECT DISTINCT a.*,b.category
+                                        FROM #__hdflv_upload a 
+                                        LEFT JOIN #__hdflv_category b ON a.playlistid=b.id 
+                                        WHERE $publish b.published='1' AND a.id=$r->id  AND a.filepath!='Embed'";
+                            $db->setQuery($query);
+                            $arrGreat   = $db->loadObject();
+                            $arr1[]     = $arrGreat;
+                        } else {                          ##Storing lesser values in an array
+                            $query      = "SELECT DISTINCT a.*,b.category
+                                        FROM #__hdflv_upload a 
+                                        LEFT JOIN #__hdflv_category b ON a.playlistid=b.id 
+                                        WHERE $publish b.published='1' AND a.id=$r->id  AND a.filepath!='Embed'";
+                            $db->setQuery($query);
+                            $arrLess    = $db->loadObject();
+                            $arr2[]     = $arrLess;
+                        }
+                    endforeach;
+                }
+                $playlist               = array_merge($arr2, $arr1);
+            }
+        } else if ($vid) {
+            $videoid        = $vid;
             if ($categ_id) {
                 $videocategory = $categ_id;
             } else {
