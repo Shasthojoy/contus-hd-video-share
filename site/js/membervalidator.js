@@ -144,7 +144,7 @@ function videoupload() {
 			return false;
 		} else {
 			var theurl = document.getElementById("Youtubeurl").value;
-                         if (theurl.contains("youtube.com") || theurl.contains("vimeo.com") || theurl.contains("youtu.be")){
+                         if (theurl.contains("youtube.com") || theurl.contains("vimeo.com") || theurl.contains("viddler.com") || theurl.contains("dailymotion.com") || theurl.contains("youtu.be")){
 			}else{
                             alert("URL invalid. Try again.");
 				document.getElementById("Youtubeurl").focus();
