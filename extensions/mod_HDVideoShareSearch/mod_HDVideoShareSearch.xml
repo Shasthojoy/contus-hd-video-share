@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install type="module" version="1.5" method="upgrade" client="site">
     <name>Search Videos</name>
-    <version>3.4.1</version>
+    <version>3.4.1.0.1</version>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <copyright>Copyright (C) 2011 Powered by Apptha</copyright>
     <description>Search Videos Module for Contus HD Video Share</description>
