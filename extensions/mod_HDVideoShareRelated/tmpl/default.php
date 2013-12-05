@@ -134,10 +134,10 @@ if(isset($videoid)){
              <!--Tooltip end Here-->
 <?php
 $t = count($result);
-if(JRequest::getVar('id', '', 'get', 'int')) {
-    $video = 'id='.JRequest::getVar('id', '', 'get', 'int');
+if(JRequest::getVar('id')) {
+    $video = 'id='.JRequest::getVar('id');
 } else {
-    $video = 'video='.JRequest::getVar('video', '', 'get', 'string');
+    $video = 'video='.JRequest::getVar('video');
 }
 if ($t > 1) { ?>
 <div class="clear"></div>
