@@ -190,7 +190,7 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         $baseUrl1                   = parse_url($baseUrl);
         $baseUrl1                   = $baseUrl1['scheme'] . '://' . $baseUrl1['host'];          ## Generate base url
         ## Video download file path
-        $downloadpath               = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=downloadfile&f=FILE');
+        $downloadpath               = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=downloadfile');
         ## Generate config xml here
         ob_clean();
         

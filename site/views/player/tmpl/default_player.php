@@ -614,9 +614,9 @@ if (isset($details1['closeadd'])) {
                 <?php } ?>
                 <!--Embed code section starts here-->
                 <div class="vinfo_right_embed">
-                <?php if ($this->htmlVideoDetails->download == 1 && $this->htmlVideoDetails->filepath != "Youtube" && $this->htmlVideoDetails->filepath != "Embed" && $this->htmlVideoDetails->streameroption != "rtmp") {
+                <?php if ($player_icons['enabledownload'] == 1 && $this->htmlVideoDetails->filepath != "Youtube" && $this->htmlVideoDetails->filepath != "Embed" && $this->htmlVideoDetails->streameroption != "rtmp") {
                     ?>
-                        <a href="<?php echo $video; ?>" target="_blank" id="downloadurl"><?php echo JText::_('HDVS_DOWNLOAD'); ?></a>
+                        <a href="<?php echo $video_url; ?>" target="_blank" id="downloadurl"><?php echo JText::_('HDVS_DOWNLOAD'); ?></a>
                 <?php } ?>
                         <?php if($player_icons['embedVisible']== 1) { ?>
                     <a href="javascript:void(0)" onclick="enableEmbed()" class="embed" id="allowEmbed"><?php echo JText::_('HDVS_EMBED'); ?> </a>
@@ -800,7 +800,7 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
                         function insert()
                         {
                             var name = encodeURI(document.getElementById('username').value);
-                            var message = encodeURI(document.getElementById('comment_message').value);
+                                       var message = encodeURI(document.getElementById('message').value);
                             var id = encodeURI(document.getElementById('id').value);
 
                             var category = encodeURI(document.getElementById('category').value);
@@ -826,14 +826,14 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
                             {
                                 document.getElementById('prcimg').style.display = "none";
                                 var name = document.getElementById('username').value;
-                                var message = document.getElementById('comment_message').value;
+                                var message = document.getElementById('message').value;
                                 var id = encodeURI(document.getElementById('videoid').value);
                                 var boxid = encodeURI(document.getElementById('id').value);
                                 var category = encodeURI(document.getElementById('category').value);
                                 var parentid = encodeURI(document.getElementById('parentvalue').value);
                                 var commentcountval = document.getElementById('commentcount').innerHTML;
                                 document.getElementById('username').disabled = true;
-                                document.getElementById('comment_message').disabled = true;
+                                document.getElementById('message').disabled = true;
                                 if (parentid == 0)
                                 {
                                     document.getElementById("al").innerHTML = "<div class='underline'></div><div class='clearfix'><div class='subhead changecomment'><span class='video_user_info'><strong>" + name + "</strong><span class='user_says'> says </span></span><span class='video_user_comment'>" + message + "</span></div></div>" + document.getElementById("al").innerHTML;
@@ -885,11 +885,11 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
                                 document.getElementById('username').focus();
                                 return false;
                             }
-                            var comments = form.comment_message.value;
+                            var comments = form.message.value;
                             if (comments.length == 0)
                             {
                                 alert("Enter Your Message");
-                                form.comment_message.focus();
+                                           form.message.focus();
                                 return false;
                             }
                             return true;
@@ -898,7 +898,7 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
                         {
 
                             document.getElementById('parentvalue').value = parentid;
-                            document.getElementById('name').focus();
+                                       document.getElementById('username').focus();
                         }
                     </script>
                 <?php
