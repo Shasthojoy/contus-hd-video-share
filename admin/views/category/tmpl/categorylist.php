@@ -1,7 +1,7 @@
 <?php
 /**
  * @name          : Joomla HD Video Share
- ****@version	  : 3.4.1.0.1
+ ****@version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
