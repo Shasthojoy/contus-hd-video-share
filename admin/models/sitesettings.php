@@ -153,6 +153,7 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
                 ## Get thumbview details and serialize data
                 $dispenable               = array(
                     'allowupload'         => $arrFormData['allowupload'],
+                    'adminapprove'        => $arrFormData['adminapprove'],
                     'user_login'          => $arrFormData['user_login'],
                     'ratingscontrol'      => $arrFormData['ratingscontrol'],
                     'viewedconrtol'       => $arrFormData['viewedconrtol'],

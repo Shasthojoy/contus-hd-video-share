@@ -483,6 +483,21 @@ function enablefbapi(val) {
 					value="0" />No</td>
 			</tr>
 			<tr>
+				<td><?php echo JHTML::tooltip('Option to enable/disable admin approval from member videos', 'Admin approval for Member videos', 
+	            '', 'Admin approval for Member videos');?></td>
+				<td><input type="radio" name="adminapprove" id="adminapprove"
+				<?php if (isset($dispenable['adminapprove']) && ($dispenable['adminapprove'] == '0' || $dispenable['adminapprove'] == '')) {
+					echo 'checked="checked" ';
+				} ?>
+					value="0" />Yes</td>
+				<td colspan="3"><input type="radio" name="adminapprove"
+					id="adminapprove"
+					<?php if (isset($dispenable['adminapprove']) && $dispenable['adminapprove'] == '1') {
+						echo 'checked="checked" ';
+					} ?>
+					value="1" />No</td>
+			</tr>
+			<tr>
 				<td><?php echo JHTML::tooltip('Option to enable/disable member Login/Register', 'Members Login/Register', 
 	            '', 'Members Login/Register');?></td>
 				<td><input type="radio" name="user_login" id="allowupload"

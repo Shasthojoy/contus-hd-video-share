@@ -357,10 +357,21 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
 
                 $usergroup = '';
                 $usergroup = $ugp->group_id;
+                
+                $query = 'SELECT `dispenable` FROM #__hdflv_site_settings  WHERE `id` = 1';
+		$db->setQuery($query);
+		$setting_res = $db->loadResult();
+                $dispenable = unserialize($setting_res);
+                
+                if(isset($dispenable['adminapprove']) && $dispenable['adminapprove'] === 1) {
+                    $adminapprove = 0;
+                } else {
+                    $adminapprove = 1;
+                }
                 $query = 'INSERT INTO #__hdflv_upload(streamerpath,streameroption,title,seotitle,filepath,videourl,thumburl,previewurl,published,
 		                type,memberid,description,created_date,addedon,usergroupid,playlistid,hdurl,tags,download,useraccess)
 		                VALUES ("' . $streamerpath . '","' . $streameroption . '",' . $title . ',"' . $seoTitle . '","' . $ftype . '","' . $url . '","' . $img . '","' . $previewurl . '",
-		                "0","'.$type.'","' . $memberid . '",' . $description . ',"' . $cdate . '","' . $cdate . '","' . $usergroup . '",
+		                "'.$adminapprove.'","'.$type.'","' . $memberid . '",' . $description . ',"' . $cdate . '","' . $cdate . '","' . $usergroup . '",
 		                "' . $cid . '","' . $hd . '","' . $tags . '","' . $download . '","'.$useraccess.'")';
                 $db->setQuery($query);
                 $db->query();
