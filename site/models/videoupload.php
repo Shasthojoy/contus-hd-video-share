@@ -282,6 +282,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
             $result = $db->LoadObjectList();
             foreach ($result as $category) {
                 $cid = $category->id;
+                $seo_category = $category->seo_category;
             }
             $cdate = date("Y-m-d h:m:s");
             $value = '';
@@ -378,25 +379,44 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                 $db_insert_id = $db->insertid();
                 $value = $db_insert_id;
             }
-            $categoryquery = "SELECT id
-				            FROM #__hdflv_category
-				            WHERE category in('$tagname')";
-            $db->setQuery($categoryquery);
-            $result = $db->LoadObjectList();
-            foreach ($result as $category) {
                 $cid = $category->id;
                 $insertquery = "INSERT INTO #__hdflv_video_category(vid,catid) VALUES ('$value','$cid')";
                 $db->setQuery($insertquery);
                 $db->query();
-            }
             if (count($result) > 0) {
                 if ($videotype == 'edit') {
-                    $insertquery = "UPDATE #__hdflv_upload SET playlistid='" . $result[0]->id . "'
+                    $insertquery = "UPDATE #__hdflv_upload SET playlistid='" . $cid . "'
                 			  WHERE id='" . JRequest::getVar('videoid', '', 'post', 'int') . "'";
                     $db->setQuery($insertquery);
                     $db->query();
                 }
             }
+            
+            ## Alert admin regarding new video upload
+            $mailer = JFactory::getMailer(); ## define joomla mailer
+            $config = JFactory::getConfig();
+            $query  = "SELECT d.email,d.username
+                    FROM #__users d 
+                    WHERE d.id = ".$memberid; ##  Query is to display recent videos in home page
+            $db->setQuery($query);
+            $user_details   = $db->loadObject();
+            $sender = $config->get('mailfrom');
+            $mailer->setSender($user_details->email);
+            $featureVideoVal        = "id=" . $value;
+            $mailer->addRecipient($sender);
+            $subject = 'New video added by '.$user_details->username .' on your site.';
+            $baseurl = JURI::base();
+            $video_url = $baseurl.'index.php?option=com_contushdvideoshare&view=player&'. $featureVideoVal.'&adminview=true';
+            $message = file_get_contents($baseurl . '/components/com_contushdvideoshare/emailtemplate/membervideoupload.html');
+            $message = str_replace("{baseurl}", $baseurl, $message);
+            $message = str_replace("{username}", $user_details->username, $message);
+            $message = str_replace("{video_url}", $video_url, $message);
+            $mailer->isHTML(true);
+            $mailer->setSubject($subject);
+            $mailer->Encoding = 'base64';
+            $mailer->setBody($message);
+            $send = $mailer->Send();
+            
             $success = "Your video Uploaded Successfully";
             $url = JRoute::_($baseurl . 'index.php?option=com_contushdvideoshare&view=myvideos');
             header("Location: $url");

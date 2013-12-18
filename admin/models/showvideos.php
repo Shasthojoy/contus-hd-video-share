@@ -234,6 +234,56 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 		global $mainframe;
 		if ($arrVideoId['task'] == "publish"){
 			$msg = 'Published successfully';
+                        
+                        $mailer = JFactory::getMailer(); //define joomla mailer
+                        $config = JFactory::getConfig();
+                        $sender = $config->get('mailfrom');
+                        $site_name = $config->get('sitename');
+                        $mailer->setSender($sender);
+                        
+                        $db = JFactory::getDBO();
+                        $query = 'SELECT `dispenable` FROM #__hdflv_site_settings  WHERE `id` = 1';
+                        $db->setQuery($query);
+                        $setting_res = $db->loadResult();
+                        $dispenable = unserialize($setting_res);
+                        foreach ($arrVideoId['cid'] as $videoid) {
+                        
+                        $query      = "SELECT d.email,b.seo_category,a.seotitle,e.catid,a.id,d.username
+                        FROM  #__hdflv_upload a 
+                        LEFT JOIN #__users d ON a.memberid=d.id 
+                        LEFT JOIN #__hdflv_video_category e ON e.vid=a.id 
+                        LEFT JOIN #__hdflv_category b ON e.catid=b.id 
+                        WHERE a.id = ".$videoid."
+                        GROUP BY e.vid"; ##  Query is to display recent videos in home page
+                        $db->setQuery($query);
+                        $user_details   = $db->loadObject();
+
+                        ## For SEO settings
+                        $seoOption  = $dispenable['seo_option'];
+                        if ($seoOption == 1) {
+                            $featureCategoryVal     = "category=" . $user_details->seo_category;
+                            $featureVideoVal        = "video=" . $user_details->seotitle;
+                        } else {
+                            $featureCategoryVal     = "catid=" . $user_details->catid;
+                            $featureVideoVal        = "id=" . $user_details->id;
+                        }
+                        $mailer->addRecipient($user_details->email);
+                        $subject = JText::_('HDVS_VIDEO_APPROVED_BY_ADMIN');
+                        $baseurl = str_replace('administrator/', '', JURI::base());
+                        $video_url = JRoute::_('index.php?option=com_contushdvideoshare&view=player&' . $featureCategoryVal . '&' . $featureVideoVal, true);
+                        $video_url = str_replace('administrator/', '', $video_url);
+                        $message = file_get_contents($baseurl . '/components/com_contushdvideoshare/emailtemplate/approveadmin.html');
+                        $message = str_replace("{baseurl}", $baseurl, $message);
+                        $message = str_replace("{site_name}", $site_name, $message);
+                        $message = str_replace("{username}", $user_details->username, $message);
+                        $message = str_replace("{approved}", $subject, $message);
+                        $message = str_replace("{video_url}", $video_url, $message);
+                        $mailer->isHTML(true);
+                        $mailer->setSubject($subject);
+                        $mailer->Encoding = 'base64';
+                        $mailer->setBody($message);
+                        $send = $mailer->Send();
+                        }
 			$publish = 1;
 		} elseif($arrVideoId['task'] == 'trash') {
 			$publish = -2;
