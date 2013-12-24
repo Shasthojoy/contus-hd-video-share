@@ -67,13 +67,13 @@ if (JRequest::getVar('url', '', 'post', 'string')) {
         document.myform.submit();
     }
 </script>
-<form name="myform" action="" method="post" id="login-form">
+<form name="myform" action="<?php echo JURI::root();?>" method="post" id="login-form">
 
     <div class="logout-button">
 
         <input type="hidden" name="option" value="com_users" />
         <input type="hidden" name="task" value="user.logout" />
-<!--        <input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />-->
+        <!--<input type="hidden" name="return" value="<?php // echo base64_encode(JURI::root());?>" />-->
 <?php echo JHtml::_('form.token'); ?>
     </div>
 </form>

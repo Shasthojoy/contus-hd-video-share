@@ -35,7 +35,7 @@ function submitform()
   document.myform.submit();
 }
 </script>
-<form name="myform" action="" method="post" id="login_form">
+<form name="myform" action="<?php echo JURI::root();?>" method="post" id="login_form">
 
 	<div class="logout-button">
 

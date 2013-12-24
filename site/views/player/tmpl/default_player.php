@@ -95,6 +95,25 @@ $style = '#face-comments iframe{width:  ' . $player_values['width'] . 'px !impor
 #video-grid-container_rec .ulvideo_thumb .recent_gutterwidth{margin-left:' . $thumbview['homerecentvideowidth'] . 'px; }';
 $document->addStyleDeclaration($style);
 ?>
+<!--Rich snippet starts here -->
+<div id="video-container" class="" itemscope itemid="" itemtype="http://schema.org/VideoObject" >
+    <link itemprop="url" href="<?php echo $video_url; ?>">
+    <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+        <meta itemprop="ratingValue" content="<?php echo round($this->commentview[0]->rate / $this->commentview[0]->ratecount); ?>"/>
+        <meta itemprop="ratingCount" content="<?php echo $this->commentview[0]->ratecount; ?>"/>
+    </div>
+
+    <div itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+        <meta itemprop="name" content="<?php echo $video_title; ?>" />
+        <meta itemprop="thumbnail" content="<?php echo $video_thumb; ?>" />
+        <meta itemprop="description" content="<?php if(!empty($video_desc)) { echo strip_tags($video_desc); } else { echo 'No description'; } ?>" />
+    </div>
+    <meta itemprop="image" content="<?php echo $video_thumb; ?>" />
+    <meta itemprop="thumbnailUrl" content="<?php echo $video_thumb; ?>" />
+    <meta itemprop="embedURL" content="<?php echo $playerpath.'?id='.$this->videodetails->id; ?>" />
+</div>
+<!--Rich snippet ends here -->
+
 <script src="http://connect.facebook.net/en_US/all.js#xfbml=1" type="text/javascript"></script>
 <input type="hidden" name="category" value="<?php if (isset($this->videodetails->playlistid)) { echo $this->videodetails->playlistid; } ?>" id="category"/>
 <input type="hidden" value="<?php if (isset($this->videodetails->id)) { echo $this->videodetails->id; } ?>" name="videoid" id="videoid"/>
@@ -105,7 +124,7 @@ $document->addStyleDeclaration($style);
     }
 </script>
 <!--Login and Registration form-->
-<form name="myform" action="" method="post" id="login-form1">
+<form name="myform" action="<?php echo JURI::root();?>" method="post" id="login-form1">
     <div class="logout-button">
         <input type="hidden" name="option" value="com_users" />
         <input type="hidden" name="task" value="user.logout" />
