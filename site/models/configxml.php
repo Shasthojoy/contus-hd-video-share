@@ -36,7 +36,7 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
     function configxml($settingsrows, $base) {
         $googleanalyticsID = $IMAAds_path = $login_page_url = $player_colors = $player_icons = $player_values = $license = $playlistxml = '';
         $playlist_open = $postrollads = $prerollads = $IMAAds = $zoom = $volumecontrol = $imageDefault = $progressControl = $showTag = 
-        $adsSkip = $emailenable = $enabledownload = $autoplay = $embedVisible = $midrollads = $googleana_visible = $hddefault = 
+        $adsSkip = $emailenable = $enabledownload = $autoplay = $skinVisible = $embedVisible = $midrollads = $googleana_visible = $hddefault = 
         $playlist_autoplay = $timer = $share = $playlist = $fullscreen = $skin_autohide = "false";
         
         ## Get player settings and unserialize data
@@ -49,11 +49,40 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         $fullscreenscale            = $player_values['fullscreenscale'];            ## Get full screen scale ratio
         $volume                     = $player_values['volume'];                     ## Get player volume
         $logoalpha                  = $player_values['logoalpha'];                  ## Get logo alpha
+         if(isset($player_values['skin_opacity'])) { 
+            $skin_opacity     = $player_values['skin_opacity']; 
+        } else { 
+            $skin_opacity     = ''; 
+        }
+         if(isset($player_values['subTitleColor'])) { 
+            $subTitleColor     = $player_values['subTitleColor']; 
+        } else { 
+            $subTitleColor     = ''; 
+        }
+        if(isset($player_values['subTitleBgColor'])) { 
+            $subTitleBgColor     = $player_values['subTitleBgColor']; 
+        } else { 
+            $subTitleBgColor     = ''; 
+        }
+        if(isset($player_values['subTitleFontFamily'])) { 
+            $subTitleFontFamily     = $player_values['subTitleFontFamily']; 
+        } else { 
+            $subTitleFontFamily     = ''; 
+        }
+        if(isset($player_values['subTitleFontSize'])) { 
+            $subTitleFontSize     = $player_values['subTitleFontSize']; 
+        } else { 
+            $subTitleFontSize     = ''; 
+        }
 
         ## Get skin path
         $skin                       = $base . "components/com_contushdvideoshare/hdflvplayer/skin/skin_hdflv_white.swf";
         $stagecolor                 = "0x" . $player_values['stagecolor'];          ## Get stage color
         
+        ## Enable/Disable skin
+        if ($player_icons['skinVisible'] == 0) {
+            $skinVisible            = "true";
+        } 
         ## Enable/Disable video autoplay
         if ($player_icons['autoplay'] == 1) {
             $autoplay               = "true";
@@ -259,6 +288,12 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         <playlist_auto>' . $playlist_autoplay . '</playlist_auto>
         <progressControl>' . $progressControl . '</progressControl>
         <imageDefault>' . $imageDefault . '</imageDefault>
+        <skinVisible>'.$skinVisible.'</skinVisible>
+        <skin_opacity>'.$skin_opacity.'</skin_opacity>
+        <subTitleColor>'.$subTitleColor.'</subTitleColor>
+        <subTitleBgColor>'.$subTitleBgColor.'</subTitleBgColor>
+        <subTitleFontFamily>'.$subTitleFontFamily.'</subTitleFontFamily>
+        <subTitleFontSize>'.$subTitleFontSize.'</subTitleFontSize>
         </config>';
         exit();
     }

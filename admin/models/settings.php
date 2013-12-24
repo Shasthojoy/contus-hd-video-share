@@ -79,6 +79,11 @@ class contushdvideoshareModelsettings extends ContushdvideoshareModel
                     'volume'                    => $arrFormData['volume'],
                     'nrelated'                  => 8,
                     'ffmpegpath'                => $arrFormData['ffmpegpath'],
+                    'skin_opacity'              => $arrFormData['skin_opacity'],
+                    'subTitleColor'             => $arrFormData['subTitleColor'],
+                    'subTitleBgColor'           => $arrFormData['subTitleBgColor'],
+                    'subTitleFontFamily'        => $arrFormData['subTitleFontFamily'],
+                    'subTitleFontSize'          => $arrFormData['subTitleFontSize'],
                     'stagecolor'                => $arrFormData['stagecolor'],
                     'licensekey'                => $arrFormData['licensekey'],
                     'logourl'                   => $arrFormData['logourl'],
@@ -110,6 +115,7 @@ class contushdvideoshareModelsettings extends ContushdvideoshareModel
                     'volumevisible'             => $arrFormData['volumevisible'],
                     'embedVisible'              => $arrFormData['embedVisible'],
                     'progressControl'           => $arrFormData['progressControl'],
+                    'skinvisible'               => $arrFormData['skinvisible'],
                     'hddefault'                 => $arrFormData['hddefault'],
                     'imageDefault'              => $arrFormData['imageDefault'],
                     'enabledownload'            => $arrFormData['enabledownload'],
@@ -155,7 +161,7 @@ class contushdvideoshareModelsettings extends ContushdvideoshareModel
 
 		##  set to page redirect
 		$link = 'index.php?option=' . $option.'&layout=settings';
-		$mainframe->redirect($link, 'Saved Successfully');
+		$mainframe->redirect($link, 'Saved Successfully','message');
 	}
 
 	## function to check image type

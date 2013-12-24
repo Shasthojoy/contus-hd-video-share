@@ -183,7 +183,7 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
 		}		
 		// page redirect
 		$link = 'index.php?option=' . $option.'&layout=sitesettings';
-		$mainframe->redirect($link, 'Saved Successfully');		
+		$mainframe->redirect($link, 'Saved Successfully','message');		
 	}
 }
 ?>

@@ -459,6 +459,37 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         }
                         ?>
                         value="0" />Disable</td>
+                    <td class="key"><?php echo JHTML::tooltip('Option to enable/disable Skin to be displayed on player', 'Display Skin', '', 'Display Skin'); ?></td>
+                    <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?>>
+                        <input type="radio" name="skinvisible"
+                        <?php
+                        if (isset($player_icons['skinvisible']) && $player_icons['skinvisible'] == 0) {
+                            echo 'checked="checked" ';
+                        }
+                        ?>
+                        value="0" />Enable <input type="radio" name="skinvisible"
+                        <?php
+                        if (isset($player_icons['skinvisible']) && $player_icons['skinvisible'] == 1) {
+                            echo 'checked="checked" ';
+                        }
+                        ?>
+                        value="1" />Disable</td>
+                </tr>
+                <tr>
+                    <td class="key" ><?php echo JHTML::tooltip('Option to set Skin Opacity', 'Skin Opacity', '', 'Skin Opacity'); ?></td>
+                    <td ><input type="text" id="skin_opacity" name="skin_opacity" value="<?php if (isset($player_values['skin_opacity'])){ echo $player_values['skin_opacity']; } ?>" /> ( Range from 0 to 1 )</td>
+                    <td class="key" ><?php echo JHTML::tooltip('Option to set Subtitle Text Color', 'Subtitle Text Color', '', 'Subtitle Text Color'); ?></td>
+                    <td><input type="text" name="subTitleColor" value="<?php if (isset($player_values['subTitleColor'])){ echo $player_values['subTitleColor']; } ?>" id="subTitleColor" /> </td>
+                </tr>
+                <tr>
+                    <td class="key" ><?php echo JHTML::tooltip('Option to set Subtitle Background Color', 'Subtitle Background Color', '', 'Subtitle Background Color'); ?></td>
+                    <td ><input type="text" id="subTitleBgColor" name="subTitleBgColor" value="<?php if (isset($player_values['subTitleBgColor'])){ echo $player_values['subTitleBgColor']; } ?>" /></td>
+                    <td class="key" ><?php echo JHTML::tooltip('Option to set Subtitle Font Family', 'Subtitle Font Family', '', 'Subtitle Font Family'); ?></td>
+                    <td><input type="text" name="subTitleFontFamily" value="<?php if (isset($player_values['subTitleFontFamily'])){ echo $player_values['subTitleFontFamily']; } ?>" id="subTitleFontFamily" /> </td>
+                </tr>
+                <tr>
+                    <td class="key" ><?php echo JHTML::tooltip('Option to set Subtitle Font Size', 'Subtitle Font Size', '', 'Subtitle Font Size'); ?></td>
+                    <td ><input type="text" id="subTitleFontSize" name="subTitleFontSize" value="<?php if (isset($player_values['subTitleFontSize'])){ echo $player_values['subTitleFontSize']; } ?>" /></td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                 </tr>
