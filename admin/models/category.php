@@ -230,12 +230,12 @@ $search1=$search;
             } else {
                 $msg = 'Category already exist';
                 $link = 'index.php?option=com_contushdvideoshare&layout=category';
-                $mainframe->redirect($link, $msg);
+                $mainframe->redirect($link, $msg,'message');
             }
         } else if ($category[0]->published == -2) {
             $msg = 'Category already exist. Please check in your trash.';
             $link = 'index.php?option=com_contushdvideoshare&layout=category';
-            $mainframe->redirect($link, $msg);
+            $mainframe->redirect($link, $msg,'message');
         } else {
             $parent_id = $arrFormData['parent_id'];
             $query = 'SELECT `ordering` FROM `#__hdflv_category` WHERE `parent_id` = "' . $parent_id . '"';
@@ -356,7 +356,7 @@ $search1=$search;
             if($published==0){
                 $msg = 'Cannot change the published state when the parent category is of a lesser state.';
                 $link = 'index.php?option=com_contushdvideoshare&layout=category';
-        $mainframe->redirect($link, $msg);
+        $mainframe->redirect($link, $msg,'message');
             }
             }
         $categoryTable->publish($cids1, $publish);
@@ -365,7 +365,7 @@ $search1=$search;
         $db->setQuery($query);
         $db->query();
         $link = 'index.php?option=com_contushdvideoshare&layout=category';
-        $mainframe->redirect($link, $msg);
+        $mainframe->redirect($link, $msg,'message');
     }
 
 }

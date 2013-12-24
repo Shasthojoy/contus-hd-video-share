@@ -245,7 +245,7 @@ class contushdvideoshareModelshowads extends ContushdvideoshareModel {
         $msg = 'Saved Successfully';
 
         ##  set to redirect
-        $mainframe->redirect($link, $msg);
+        $mainframe->redirect($link, $msg,'message');
     }
 
     ## function to get file extension
@@ -271,7 +271,7 @@ class contushdvideoshareModelshowads extends ContushdvideoshareModel {
         $adsTable       = JTable::getInstance('ads', 'Table');
         $adsTable->publish($cids, $publish);
         $link           = 'index.php?option=com_contushdvideoshare&layout=ads';
-        $mainframe->redirect($link, $msg);
+        $mainframe->redirect($link, $msg,'message');
     }
 }
 ?>

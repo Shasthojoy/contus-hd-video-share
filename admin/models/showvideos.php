@@ -295,7 +295,7 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
        	$objAdminVideosTable    = &$this->getTable('adminvideos');
         $objAdminVideosTable->publish($arrVideoId['cid'], $publish);
         $strRedirectPage        = 'index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&user=' . JRequest::getVar('user');
-        $mainframe->redirect($strRedirectPage, $msg);
+        $mainframe->redirect($strRedirectPage, $msg,'message');
 
 	}
 
@@ -423,7 +423,7 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
         }
         $msg = 'Saved Successfully';
         ##  set to redirect
-        $mainframe->redirect($link, $msg);
+        $mainframe->redirect($link, $msg,'message');
 	}
 
 	##  function to make video as featured/unfeatured
@@ -443,7 +443,7 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 		$db->setQuery($query);
 		$db->query();
 		$strRedirectPage = 'index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&user=' . JRequest::getVar('user');
-        $mainframe->redirect($strRedirectPage, $msg);
+        $mainframe->redirect($strRedirectPage, $msg,'message');
 	}
 
 	/**

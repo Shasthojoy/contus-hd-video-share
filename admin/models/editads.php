@@ -95,7 +95,7 @@ class contushdvideoshareModeleditads extends ContushdvideoshareModel {
 			$msg = 'Ad Deleted Successfully';
 		}
 		// set to redirect
-		$mainframe->redirect( 'index.php?option=com_contushdvideoshare&layout=ads',$msg );
+		$mainframe->redirect( 'index.php?option=com_contushdvideoshare&layout=ads',$msg,'message' );
 	}
 }
 ?>

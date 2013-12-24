@@ -185,7 +185,7 @@ $search1=$strMemberSearch;
 		$db->setQuery($query);
 		$db->query();
 		$link = 'index.php?option=com_contushdvideoshare&layout=memberdetails';
-		$mainframe->redirect($link, $msg);
+		$mainframe->redirect($link, $msg,'message');
 	}
 
 	/**
@@ -219,7 +219,7 @@ $search1=$strMemberSearch;
 			$db->query();
 		}
 		$link = 'index.php?option=com_contushdvideoshare&layout=memberdetails';
-		$mainframe->redirect($link, $msg);	
+		$mainframe->redirect($link, $msg,'message');	
 	}
 }
 ?>

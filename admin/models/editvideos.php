@@ -140,7 +140,7 @@ class contushdvideoshareModeleditvideos extends ContushdvideoshareModel {
 			$msg = JText::_('Video Deleted Successfully');
 		}
 		// set redirect to videos list page
-		$mainframe->redirect( 'index.php?option=' . $option.'&layout=adminvideos&user='.JRequest::getVar('user'),$msg);
+		$mainframe->redirect( 'index.php?option=' . $option.'&layout=adminvideos&user='.JRequest::getVar('user'),$msg,'message');
 	}
 }
 ?>

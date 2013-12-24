@@ -74,7 +74,7 @@ class contushdvideoshareModelgooglead extends ContushdvideoshareModel {
 		}
 		// page redirect
 		$link = 'index.php?option=' . $option.'&layout=googlead';
-		$mainframe->redirect($link, 'Saved Successfully');
+		$mainframe->redirect($link, 'Saved Successfully','message');
 	}
 }
 ?>
