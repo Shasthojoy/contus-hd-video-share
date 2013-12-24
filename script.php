@@ -269,6 +269,7 @@ class com_contushdvideoshareInstallerScript {
                     'ratingscontrol'      => $settingstabeResult->ratingscontrol,
                     'viewedconrtol'       => $settingstabeResult->viewedconrtol,
                     'seo_option'          => $settingstabeResult->seo_option,
+                    'adminapprove'        => 0,
                     'language_settings'   => 'English.php',
                     'disqusapi'           => '',
                     'facebookapi'         => $settingstabeResult->facebookapi,
