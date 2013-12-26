@@ -308,21 +308,24 @@ class plgContenthvsarticle extends JPlugin {
 
         ## Checks for Youtube, Viddle and Dailymotion videos
         elseif ($filepath == "Youtube") {
-            if (preg_match('/www\.youtube\.com\/watch\?v=[^&]+/', $videos, $vresult)) {
-                $urlArray   = explode("=", $vresult[0]);
-                $videoid    = trim($urlArray[1]);
-                $video      = "http://www.youtube.com/embed/$videoid";
-                $replace    .='<iframe src="'.$video.'" class="iframe_frameborder" ></iframe>';
+            if( strpos($videos,'youtube.com') > 0 ) {
+                $url            = $videos;
+                $query_string   = array();
+                parse_str(parse_url($url, PHP_URL_QUERY), $query_string);
+                $id             = $query_string["v"];
+                $videoid        = trim($id);
+                $video          = "http://www.youtube.com/embed/$videoid";
+                $replace        .='<iframe src="'.$video.'" class="iframe_frameborder" ></iframe>';
             } else if(strpos($videos,'dailymotion') > 0)
             {
-                $video      = $videos;
-                $replace   .='<iframe src="'.$video.'" class="iframe_frameborder" ></iframe>';
+                $video          = $videos;
+                $replace    .='<iframe src="'.$video.'" class="iframe_frameborder" ></iframe>';
             } else if(strpos($videos,'viddler') > 0){
-                 $imgstr    = explode("/", $videos);
-                 $replace  .='<iframe id="viddler-'.$imgstr.'" src="//www.viddler.com/embed/'.$imgstr.'/?f=1&autoplay=0&player=full&secret=26392356&loop=false&nologo=false&hd=false" frameborder="0" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>';
+                 $imgstr        = explode("/", $videos);
+                 $replace       .='<iframe id="viddler-'.$imgstr.'" src="//www.viddler.com/embed/'.$imgstr.'/?f=1&autoplay=0&player=full&secret=26392356&loop=false&nologo=false&hd=false" frameborder="0" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>';
             }
         }
-        $replace .='</div><script>
+        $replace                .= '</div><script>
             var txt     =  navigator.platform ;
             var windo   = "'.$windo.'";
             if(txt =="iPod" || txt =="iPad" || txt =="iPhone" || windo=="Windows Phone"  || txt =="Linux armv7l" || txt =="Linux armv6l" )

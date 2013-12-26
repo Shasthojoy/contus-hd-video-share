@@ -33,12 +33,15 @@ if (isset($this->htmlVideoDetails) && $this->htmlVideoDetails != '') {
         $video_thumb        = JURI::base() . $current_path . $this->htmlVideoDetails->thumburl;
         $video_preview      = JURI::base() . $current_path . $this->htmlVideoDetails->previewurl;
     } elseif ($this->htmlVideoDetails->filepath == "Youtube") {
-        if(strpos($this->htmlVideoDetails->videourl,'youtube') > 0) { 
-            $imgstr         = explode("v=", $this->htmlVideoDetails->videourl);
-            $imgval         = explode("&", $imgstr[1]);
-            $video_thumb    = "http://i3.ytimg.com/vi/$imgval[0]/mqdefault.jpg";
+        if( strpos($htmlVideoDetails->videourl,'youtube.com') > 0 ) {
+            $url            = $htmlVideoDetails->videourl;
+            $query_string   = array();
+            parse_str(parse_url($url, PHP_URL_QUERY), $query_string);
+            $id             = $query_string["v"];
+            $videoid        = trim($id);
+            $video_thumb    = "http://i3.ytimg.com/vi/$videoid/mqdefault.jpg";
             $video_url      = $this->htmlVideoDetails->videourl;
-            $video_preview  = "http://i3.ytimg.com/vi/$imgval[0]/maxresdefault.jpg";
+            $video_preview  = "http://i3.ytimg.com/vi/$videoid/maxresdefault.jpg";
         } else if (strpos($this->htmlVideoDetails->videourl, 'dailymotion') > 0 || strpos($this->htmlVideoDetails->videourl, 'viddler') > 0) {
             $video_url      = $this->htmlVideoDetails->videourl;
             $video_thumb    = $this->htmlVideoDetails->thumburl;
@@ -102,7 +105,6 @@ $document->addStyleDeclaration($style);
         <meta itemprop="ratingValue" content="<?php echo round($this->commentview[0]->rate / $this->commentview[0]->ratecount); ?>"/>
         <meta itemprop="ratingCount" content="<?php echo $this->commentview[0]->ratecount; ?>"/>
     </div>
-
     <div itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
         <meta itemprop="name" content="<?php echo $video_title; ?>" />
         <meta itemprop="thumbnail" content="<?php echo $video_thumb; ?>" />
@@ -325,9 +327,7 @@ if (USER_LOGIN == '1') {
                         </video>
                             <?php
                         } elseif ($htmlVideoDetails->filepath == "Youtube") {                   ## For youtube videos
-                            if (preg_match('/www\.youtube\.com\/watch\?v=[^&]+/', $htmlVideoDetails->videourl, $vresult)) {
-                                $urlArray = explode("=", $vresult[0]);
-                                $videoid = trim($urlArray[1]);
+                            if( strpos($htmlVideoDetails->videourl,'youtube.com') > 0 ) {
                                 $video = "http://www.youtube.com/embed/$videoid";
                             ?>
                             <iframe width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" src="<?php echo $video; ?>" class="iframe_frameborder" ></iframe>
