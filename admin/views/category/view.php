@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- ****@version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,19 +11,15 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-
-/*
- ***********************************************************/
-// No direct access to this file
+## No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-// import Joomla view library
+## import Joomla view library
 jimport('joomla.application.component.view');
-/**
- * hdvideoshare component category administrator view
- */
+## hdvideoshare component category administrator view
 class contushdvideoshareViewcategory extends ContushdvideoshareView {
 
-	// view for manage categories
+        protected $canDo;
+	## view for manage categories
 	function display($cachable = false, $urlparams = false) {
 		JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );
 		if (JRequest::getVar('task') == 'edit') {
@@ -40,7 +34,7 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
 			$this->assignRef('categorylist', $category[1]);
 			parent::display();
 		}
-		if (JRequest::getVar('task') == 'add') { {
+		if (JRequest::getVar('task') == 'add') { 
 			JToolBarHelper::title('Category' . ': [<small>Add</small>]','category');
 			JToolBarHelper::save();
 			JToolBarHelper::cancel();
@@ -50,28 +44,52 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
 			$this->assignRef('categorylist', $category[1]);
 			parent::display();
 		}
-		}
 		if (JRequest::getVar('task') == '') {
-			JToolBarHelper::title('Category', 'category');
-                         if(version_compare(JVERSION, '3.0.0', 'ge')) {
-                             JToolbarHelper::addNew();
-                             JToolBarHelper::editList();
-                         }else {
-                             JToolBarHelper::addNewX();
-                             JToolBarHelper::editListX();
-                         }
-			JToolBarHelper::publishList();
-			JToolBarHelper::unpublishList();
-			if(JRequest::getVar('category_status') == 3) {        	
-        	JToolBarHelper::deleteList('', 'remove', 'JTOOLBAR_EMPTY_TRASH');
-        	}else {			
-			JToolBarHelper::trash('trash');	
-        	}		
+                        $this->addToolbar();
 			$model = $this->getModel('category');
 			$category = $model->getcategory();
 			$this->assignRef('category', $category);
 			parent::display();
 		}
 	}
+        ## Setting the toolbar
+        protected function addToolBar()
+        {
+            require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+            ## What Access Permissions does this user have? What can (s)he do?
+                $this->canDo = ContushdvideoshareHelper::getActions();
+                JToolBarHelper::title('Category', 'category');
+                if ($this->canDo->get('core.create')) {
+                    if(version_compare(JVERSION, '3.0.0', 'ge')) {
+                        JToolbarHelper::addNew();
+                    } else {
+                        JToolBarHelper::addNewX();
+                    }
+                }
+                    
+                if ($this->canDo->get('core.edit')) {
+                    if(version_compare(JVERSION, '3.0.0', 'ge')) {
+                        JToolBarHelper::editList();
+                    } else {
+                        JToolBarHelper::editListX();
+                    }
+                }
+                if ($this->canDo->get('core.delete')) {
+                    if(JRequest::getVar('category_status') == 3) {        	
+                        JToolBarHelper::deleteList('', 'remove', 'JTOOLBAR_EMPTY_TRASH');
+                    }else {			
+                            JToolBarHelper::trash('trash');	
+                    }
+                }
+                if ($this->canDo->get('core.edit.state')) {   
+                    JToolBarHelper::publishList();
+                    JToolBarHelper::unpublishList();
+                }
+                if ($this->canDo->get('core.admin'))
+                {
+                    JToolBarHelper::divider();
+                    JToolBarHelper::preferences('com_contushdvideoshare');
+                }
+        }
 }
 ?>

@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- ****@version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,28 +11,39 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
-// No direct access to this file
+## No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-// import Joomla view library
+## import Joomla view library
 jimport('joomla.application.component.view');
 
 class contushdvideoshareViewmemberdetails extends ContushdvideoshareView {
-//Function to manage member details
+    
+    protected $canDo;
+    ## Function to manage member details
     function display($cachable = false, $urlparams = false) {
     	JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );
-        JToolBarHelper::title('Member Details', 'memberdetails');
-        JToolBarHelper::custom($task = 'allowupload', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable User upload', $listSelect = true);
-        JToolBarHelper::custom($task = 'unallowupload', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable User upload', $listSelect = true);
-        JToolBarHelper::publishList('publish', 'Active');
-        JToolBarHelper::unpublishList('unpublish', 'Deactive');
+        $this->addToolbar();
         $model = $this->getModel('memberdetails');
         $memberdetails = $model->getmemberdetails();
         $this->assignRef('memberdetails', $memberdetails);
         parent::display();
     }
-
+    ## Setting the toolbar
+    protected function addToolBar()
+    {
+        require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+        ## What Access Permissions does this user have? What can (s)he do?
+            $this->canDo = ContushdvideoshareHelper::getActions();
+            JToolBarHelper::title('Member Details', 'memberdetails');
+            if ($this->canDo->get('core.admin'))
+            {
+                JToolBarHelper::custom($task = 'allowupload', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable User upload', $listSelect = true);
+                JToolBarHelper::custom($task = 'unallowupload', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable User upload', $listSelect = true);
+                JToolBarHelper::publishList('publish', 'Active');
+                JToolBarHelper::unpublishList('unpublish', 'Deactive');
+                JToolBarHelper::divider();
+                JToolBarHelper::preferences('com_contushdvideoshare');
+            }
+    }
 }
-
 ?>

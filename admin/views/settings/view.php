@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- ****@version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,36 +11,39 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
-// No direct access to this file
+## No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-// import Joomla view library
+## import Joomla view library
 jimport('joomla.application.component.view');
 
-/**
- *  view class for the hdvideoshare component (Playersettings tab)
- */
+##  view class for the hdvideoshare component (Playersettings tab)
 
 class contushdvideoshareViewsettings extends ContushdvideoshareView {
 
-	/**
-	 *  function to display settings
-	 */
-
+        protected $canDo;
+	##  function to display settings
 	function display($cachable = false, $urlparams = false) {
-			JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );
-			JToolBarHelper::title(JText::_('Player Settings'), 'settings');			
-			JToolBarHelper::apply();
-			$model = $this->getModel();
-
-			/**
-			 *  Function to get player settings
-			 */
-
-			$playersettings = $model->showplayersettings();
-			$this->assignRef('playersettings', $playersettings);
-			parent::display();
+            JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );
+            $this->addToolbar();
+            $model = $this->getModel();
+            ## Function to get player settings
+            $playersettings = $model->showplayersettings();
+            $this->assignRef('playersettings', $playersettings);
+            parent::display();
 	}
+        ## Setting the toolbar
+        protected function addToolBar()
+        {
+            require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+            ## What Access Permissions does this user have? What can (s)he do?
+                $this->canDo = ContushdvideoshareHelper::getActions();
+                JToolBarHelper::title(JText::_('Player Settings'), 'settings');
+                if ($this->canDo->get('core.admin'))
+                {
+                        JToolBarHelper::apply();
+                        JToolBarHelper::divider();
+                        JToolBarHelper::preferences('com_contushdvideoshare');
+                }
+        }
 }
 ?>

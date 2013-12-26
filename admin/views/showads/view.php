@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- ****@version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,35 +11,60 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
-
-// no direct access
+## No direct access
 defined('_JEXEC') or die('Restricted access');
-// import joomla view library
+## import joomla view library
 jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
 class contushdvideoshareViewshowads extends ContushdvideoshareView {
 
-	//Function to manage ads
+    protected $canDo;    
+    ##Function to manage ads
     function showads() {
     	JHTML::stylesheet( 'styles.css', 'administrator/components/com_contushdvideoshare/css/' );
-        JToolBarHelper::title(JText::_('Video Ads'), 'ads');
-        JToolBarHelper::addNew('addads', 'New Ad');
-        JToolBarHelper::editList('editads', 'Edit');
-        JToolBarHelper::publishList();
-        JToolBarHelper::unpublishList();
-        if(JRequest::getVar('ads_status') == 3) {        	
-        	JToolBarHelper::deleteList('', 'removeads', 'JTOOLBAR_EMPTY_TRASH');
-        }else {
-        JToolBarHelper::trash('trash');
-        }
+        $this->addToolbar();
         $model = $this->getModel();
         $showads = $model->showadsmodel();
         $this->assignRef('showads', $showads);
         parent::display();
     }
+    
+    ## Setting the toolbar
+    protected function addToolBar()
+    {
+        require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+        ## What Access Permissions does this user have? What can (s)he do?
+            $this->canDo = ContushdvideoshareHelper::getActions();
+            
+            JToolBarHelper::title(JText::_('Video Ads'), 'ads');
 
+            if ($this->canDo->get('core.create'))
+            {
+                    JToolBarHelper::addNew('addads', 'New Ad');
+            }
+            if ($this->canDo->get('core.edit'))
+            {
+                   JToolBarHelper::editList('editads', 'Edit');
+            }
+            if ($this->canDo->get('core.delete'))
+            {
+                    if(JRequest::getVar('ads_status') == 3) {        	
+                        JToolBarHelper::deleteList('', 'removeads', 'JTOOLBAR_EMPTY_TRASH');
+                    } else {
+                        JToolBarHelper::trash('trash');
+                    }
+            }
+            if ($this->canDo->get('core.edit.state'))
+            {
+                    JToolBarHelper::publishList();
+                    JToolBarHelper::unpublishList();
+            }
+            if ($this->canDo->get('core.admin'))
+            {
+                    JToolBarHelper::divider();
+                    JToolBarHelper::preferences('com_contushdvideoshare');
+            }
+    }
 }
 ?>   
