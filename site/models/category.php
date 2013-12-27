@@ -121,8 +121,17 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
 		$rows = $db->LoadObjectList();
 		return $rows;
 	}
+	## function to get category view settings */
+	function getplayersettings()
+	{
+		$db = $this->getDBO();
+		$query          = "SELECT player_values FROM #__hdflv_player_settings";
+                $db->setQuery($query);
+                $settingsrows   = $db->loadResult();
+		return $settingsrows;
+	}
 
-	function getcategoryList()
+	function getcategoryid()
 	{
 		$db = $this->getDBO();
 		$flatCatid = is_numeric(JRequest::getString('category'));
@@ -145,8 +154,15 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
 			//print_r($searchtotal1);
 			$catid = $searchtotal1[0]->id;
 		}
-                if(!version_compare(JVERSION, '3.0.0', 'ge'))
+		return $catid;
+	}
+	function getcategoryList()
+	{
+		$db = $this->getDBO();
+                $catid = $this -> getcategoryid();
+                if(!version_compare(JVERSION, '3.0.0', 'ge')) {
 		$catid = $db->getEscaped($catid);
+                }
 		$categoryquery = "select * from #__hdflv_category where id=$catid or parent_id=$catid order by ordering"; //Query is to select the popular videos row
 		$db->setQuery($categoryquery);
 		$rows = $db->LoadObjectList();

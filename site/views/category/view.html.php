@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,26 +11,26 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
-//No direct acesss
+## No direct acesss
 defined( '_JEXEC' ) or die( 'Restricted access' );
-// import Joomla view library
+## import Joomla view library
 jimport('joomla.application.component.view');
-/**
- * Contushdvideoshare Component Category View
- */
-class contushdvideoshareViewcategory extends ContushdvideoshareView
-{
-function display($cachable = false, $urlparams = false)
-	{
-	    	$model = $this->getModel();
-            $getcategoryview = $model->getcategory();// calling the function in models categoryview.php
-            $this->assignRef('categoryview', $getcategoryview); // assigning reference for the results
-            $categorrowcol = $model->getcategoryrowcol();
+## Contushdvideoshare Component Category View
+class contushdvideoshareViewcategory extends ContushdvideoshareView {
+    
+function display($cachable = false, $urlparams = false) {
+    
+	    $model              = $this->getModel();
+            $getcategoryview    = $model->getcategory();               ##  calling the function in models categoryview.php
+            $this->assignRef('categoryview', $getcategoryview);     ##  assigning reference for the results
+            $categorrowcol      = $model->getcategoryrowcol();
             $this->assignRef('categoryrowcol', $categorrowcol);
             $getcategoryListVal = $model->getcategoryList();
             $this->assignRef('categoryList', $getcategoryListVal);            
+            $getplayersettings  = $model->getplayersettings();
+            $this->assignRef('player_values', $getplayersettings);            
+            $getcategoryid      = $model->getcategoryid();
+            $this->assignRef('getcategoryid', $getcategoryid);            
             parent::display();
 	}
 }

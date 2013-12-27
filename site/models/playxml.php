@@ -91,8 +91,8 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
             if (count($rows) > 0) {
                 $query          = "SELECT distinct a.*,b.category
                                 FROM #__hdflv_upload a 
-                                LEFT JOIN #__hdflv_category b on a.playlistid=b.id or a.playlistid=b.parent_id 
-                                WHERE $publish b.published='1' AND b.id=" . $videocategory . " AND a.id != $videoid AND a.filepath!='Embed'";
+                                LEFT JOIN #__hdflv_category b on (a.playlistid=b.id)
+                                WHERE $publish b.published='1' AND (b.id=" . $videocategory . " or b.parent_id=$videocategory) AND a.id != $videoid AND a.filepath!='Embed'";
                 $db->setQuery($query);
                 $playlist_loop  = $db->loadObjectList();
                 

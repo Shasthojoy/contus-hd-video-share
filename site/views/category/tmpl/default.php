@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,14 +11,18 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
-//No direct acesss
+## No direct acesss
 defined('_JEXEC') or die('Restricted access');
-$ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
-$user = JFactory::getUser();
-$thumbview       = unserialize($this->categoryrowcol[0]->thumbview);
-$dispenable      = unserialize($this->categoryrowcol[0]->dispenable);
+$ratearray          = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
+$user               = JFactory::getUser();
+$thumbview          = unserialize($this->categoryrowcol[0]->thumbview);
+$dispenable         = unserialize($this->categoryrowcol[0]->dispenable);
+$player_values      = unserialize($this->player_values);
+$playerpath         = JURI::base() . "components/com_contushdvideoshare/hdflvplayer/hdplayer.swf";
+$base_url           = str_replace(':', '%3A', JURI::base());
+$url_base           = substr_replace($base_url, "", -1);
+$baseurl            = str_replace('/', '%2F', $url_base);
+        
 $document = JFactory::getDocument();
 $style = '#video-grid-container .ulvideo_thumb .video-item{margin-right:'.$thumbview['categorywidth'] . 'px; }';
 $document->addStyleDeclaration($style);
@@ -81,7 +83,7 @@ $totalrecords = $thumbview['categorycol'] * $thumbview['categoryrow'];
 if (count($this->categoryview) - 5 < $totalrecords) {
     $totalrecords = count($this->categoryview) - 5;
 }
-if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
+if ($totalrecords <= 0) { ##  If the count is 0 then this part will be executed
  ?>
     <h1 class="home-link hoverable"><?php echo $this->categoryview[0]->category; ?></h1>
           <?php
@@ -90,7 +92,20 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
             ?>
                                  <div id="video-grid-container" class="clearfix">
                                     <?php
-                                    $no_of_columns = $thumbview['categorycol']; // specifying the no of columns
+if(isset($dispenable['categoryplayer']) && $dispenable['categoryplayer'] == 1) {
+?>
+            <!-- Flash player Start -->
+            <div id="flashplayer">
+                <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
+                       allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $baseurl; ?><?php echo '&amp;id=' . $this->categoryview[0]->id . '&amp;catid=' . $this->getcategoryid; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px" />
+            </div>
+              <?php
+}
+?>                       
+                                     
+                                     
+                                    <?php
+                                    $no_of_columns = $thumbview['categorycol']; ##  specifying the no of columns
                                     foreach($this->categoryList as $val){
                                     $current_column = 1;
                                     $l=0;
@@ -106,7 +121,7 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                                    $l++;
                                             }
 
-//For SEO settings
+## For SEO settings
 
                 $seoOption = $dispenable['seo_option'];
 
@@ -137,15 +152,12 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                               
                                                 <div class="show-title-container">
                                                     <a href="index.php?option=com_contushdvideoshare&view=player&<?php echo $categoryCategoryVal; ?>&<?php echo $categoryVideoVal; ?>" class="show-title-gray info_hover"><?php if (strlen($this->categoryview[$i]->title) > 50) {
-                                               // echo (substr($this->categoryview[$i]->title, 0, 18)) . "...";
                                                         echo JHTML::_('string.truncate', ($this->categoryview[$i]->title), 50);
                                             } else {
                                                 echo $this->categoryview[$i]->title;
                                             } ?></a>
                                                 </div>
-<!--                                                <span class="video-info">
-                                               <a href="index.php?option=com_contushdvideoshare&view=category&<?php echo $categoryCategoryVal; ?>"><?php echo $this->categoryview[$i]->category; ?></a>
-                                                </span>-->
+
                                         <?php if ($dispenable['ratingscontrol'] == 1)
                                                { ?> <?php
                                                     if (isset($this->categoryview[$i]->ratecount) && $this->categoryview[$i]->ratecount != 0)
@@ -229,7 +241,6 @@ if ($totalrecords <= 0) { // If the count is 0 then this part will be executed
                                                             echo("<li><a onclick='changepage(1)'>1</a></li>");
                                                             echo ("<li>...</li>");
                                                          echo("<li><a onclick='changepage(".$next_page.")'>$next_page</a></li>");
-//                                                            echo("<li><a onclick='changepage(".$next_page1.")'>$next_page1</a></li>");
                                                              echo ("<li>...</li>");
                                                             }else{
                                                             echo("<li><a onclick='changepage(1)'>1</a></li>");
