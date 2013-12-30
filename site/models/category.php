@@ -72,7 +72,7 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
 		else
 		$start= ( $pageno - 1) * $length;
 		// This query for displaying category's full view display
-		$categoryquery = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+		$categoryquery = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,a.streameroption,a.streamerpath,a.videourl,
 							  a.times_viewed,a.seotitle,b.category,b.seo_category,b.parent_id,d.username,e.catid,e.vid 
             				  FROM #__hdflv_upload a 
             				  LEFT JOIN #__users d on a.memberid=d.id 
@@ -168,7 +168,93 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
 		$rows = $db->LoadObjectList();
 		return $rows;
 	}
+	## function to get html video access level 
+    function getHTMLVideoAccessLevel() {
+        $db             = JFactory::getDBO();
+        $user           = JFactory::getUser();
+        if (version_compare(JVERSION, '1.6.0', 'ge')) {
+            $uid        = $user->get('id');
+            if ($uid) {
+                $db     = JFactory::getDBO();
+                $query  = $db->getQuery(true);
+                $query->select('g.id AS group_id')
+                        ->from('#__usergroups AS g')
+                        ->leftJoin('#__user_usergroup_map AS map ON map.group_id = g.id')
+                        ->where('map.user_id = ' . (int) $uid);
+                $db->setQuery($query);
+                $message = $db->loadObjectList();
+                foreach ($message as $mess) {
+                    $accessid[] = $mess->group_id;
+                }
+            } else {
+                $accessid[] = 1;
+            }
+        } else {
+            $accessid = $user->get('aid');
+        }
 	
+        ## CODE FOR SEO OPTION OR NOT - START 
+        $flatCatid = is_numeric(JRequest::getString('category'));
+		if (JRequest::getString('category') && $flatCatid != 1) {
+			$catvalue = str_replace(':', '-', JRequest::getString('category'));
+			$query = 'SELECT id FROM #__hdflv_category WHERE seo_category="' . $catvalue . '"';
+			$db->setQuery($query);
+			$catid = $db->loadResult();
+		} else if ($flatCatid == 1) {
+			$catid = JRequest::getString('category');
+		} else if (JRequest::getInt('catid')) {
+			$catid = JRequest::getInt('catid');
+		} else {
+			$query_catid = "SELECT id FROM #__hdflv_category WHERE published=1 ORDER BY category asc"; // this query is for category view pagination
+			$db->setQuery($query_catid);
+			$searchtotal1 = $db->loadObjectList();
+			//     print_r($searchtotal1);
+			$catid = $searchtotal1[0]->id;
+		} //Category id is stored in this catid variable
+		if(!version_compare(JVERSION, '3.0.0', 'ge'))
+		$catid = $db->getEscaped($catid);
+		//query to calculate total number of videos in paricular category
+		$totalquery = "SELECT a.*,b.id as cid,b.category,b.seo_category,b.parent_id,c.*
+        			   FROM #__hdflv_upload a
+                                   LEFT JOIN #__users d on a.memberid=d.id 
+        			   LEFT JOIN #__hdflv_video_category c on a.id=c.vid 
+        			   LEFT JOIN #__hdflv_category b on c.catid=b.id 
+        			   WHERE (c.catid=$catid OR b.parent_id = $catid OR a.playlistid=$catid) 
+        			   AND a.published=1 AND b.published=1 AND d.block=0 order by b.id asc";
+		$db->setQuery($totalquery);
+		$rowsVal = $db->loadAssoc();
+        if (count($rowsVal) > 0) {
+            if (version_compare(JVERSION, '1.6.0', 'ge')) {
+                $query          = $db->getQuery(true);
+                if ($rowsVal['useraccess'] == 0) {
+                    $rowsVal['useraccess'] = 1;
+                }
+                $query->select('rules as rule')
+                        ->from('#__viewlevels AS view')
+                        ->where('id = ' . (int) $rowsVal['useraccess']);
+                $db->setQuery($query);
+                $message        = $db->loadResult();
+                $accessLevel    = json_decode($message);
+            }
+            $member             = "true";
+            if (version_compare(JVERSION, '1.6.0', 'ge')) {
+                $member = "false";
+                foreach ($accessLevel as $useracess) {
+                    if (in_array("$useracess", $accessid) || $useracess == 1) {
+                        $member = "true";
+                        break;
+                    }
+                }
+            } else {
+                if ($rowsVal['useraccess'] != 0) {
+                    if ($accessid != $rowsVal['useraccess'] && $accessid != 2) {
+                        $member = "false";
+                    }
+                }
+            }
+            return $member;
+        }
+    }
 	
 }
 ?>

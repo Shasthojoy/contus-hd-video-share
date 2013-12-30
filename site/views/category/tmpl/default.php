@@ -94,12 +94,164 @@ if ($totalrecords <= 0) { ##  If the count is 0 then this part will be executed
                                     <?php
 if(isset($dispenable['categoryplayer']) && $dispenable['categoryplayer'] == 1) {
 ?>
+                                     
+<?php
+ ## Detect mobile device
+        function category_detect_mobile()
+        {
+            $_SERVER['ALL_HTTP'] = isset($_SERVER['ALL_HTTP']) ? $_SERVER['ALL_HTTP'] : '';
+
+            $mobile_browser = '0';
+
+            $agent = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+            if(preg_match('/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|iphone|ipad|ipod|android|xoom)/i', $agent))
+                $mobile_browser++;
+
+            if((isset($_SERVER['HTTP_ACCEPT'])) and (strpos(strtolower($_SERVER['HTTP_ACCEPT']),'application/vnd.wap.xhtml+xml') !== false))
+                $mobile_browser++;
+
+            if(isset($_SERVER['HTTP_X_WAP_PROFILE']))
+                $mobile_browser++;
+
+            if(isset($_SERVER['HTTP_PROFILE']))
+                $mobile_browser++;
+
+            $mobile_ua = substr($agent,0,4);
+            $mobile_agents = array(
+                                'w3c ','acs-','alav','alca','amoi','audi','avan','benq','bird','blac',
+                                'blaz','brew','cell','cldc','cmd-','dang','doco','eric','hipt','inno',
+                                'ipaq','java','jigs','kddi','keji','leno','lg-c','lg-d','lg-g','lge-',
+                                'maui','maxo','midp','mits','mmef','mobi','mot-','moto','mwbp','nec-',
+                                'newt','noki','oper','palm','pana','pant','phil','play','port','prox',
+                                'qwap','sage','sams','sany','sch-','sec-','send','seri','sgh-','shar',
+                                'sie-','siem','smal','smar','sony','sph-','symb','t-mo','teli','tim-',
+                                'tosh','tsm-','upg1','upsi','vk-v','voda','wap-','wapa','wapi','wapp',
+                                'wapr','webc','winw','xda','xda-'
+                                );
+
+            if(in_array($mobile_ua, $mobile_agents))
+                $mobile_browser++;
+
+            if(strpos(strtolower($_SERVER['ALL_HTTP']), 'operamini') !== false)
+                $mobile_browser++;
+
+            ## Pre-final check to reset everything if the user is on Windows
+            if(strpos($agent, 'windows') !== false)
+                $mobile_browser=0;
+
+            ## But WP7 is also Windows, with a slightly different characteristic
+            if(strpos($agent, 'windows phone') !== false)
+                $mobile_browser++;
+
+            if($mobile_browser>0)
+                return true;
+            else
+                return false;
+        }
+$mobile = category_detect_mobile();
+        if ($this->categoryview[0]->filepath == 'Embed') {
+               $playerembedcode = $this->categoryview[0]->embedcode;
+               $playeriframewidth =  str_replace('width=', 'width="'.$player_values['width'].'"', $playerembedcode);
+               if($mobile === true){
+                   echo $playerembedcode;
+               } else {   
+               ?>
+        <div id="flashplayer">
+                 <?php  echo str_replace('height=', 'height="'.$player_values['height'].'"', $playeriframewidth); ?>
+                   </div>
+                    <?php 
+               }## For embed code videos
+        } else if (!empty($this->categoryview[0]) && (preg_match('/vimeo/', $this->categoryview[0]->videourl)) && ($this->categoryview[0]->videourl != '')) {
+            $split = explode("/", $this->categoryview[0]->videourl);     ## For vimeo videos
+            if($mobile === true){
+                   $widthheight = '';
+               } else {
+                   $widthheight = 'width="'.$player_values['width'].'" height="'.$player_values['height'].'"';
+               }
+            ?>
+        <div id="flashplayer">
+            <iframe <?php echo $widthheight; ?> src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>"  class="iframe_frameborder"></iframe>
+        </div>
+<?php } else if (!empty($this->categoryview[0]) && (preg_match('/vimeo/', $this->categoryview[0]->videourl)) && ($this->categoryview[0]->videourl != '')) {
+            $split = explode("/", $this->categoryview[0]->videourl);   ## For vimeo videos
+    ?>
+        <div id="flashplayer">
+            <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
+        </div>
+<?php } else {
+                        if($mobile === true){
+    ?>                                     
+        <!-- HTML5 player starts here -->
+            <div id="htmlplayer">
+                <?php
+                ## Generate details for HTML5 player
+                if ($this->homepageaccess == 'true') {
+                    if ($this->categoryview[0]->filepath == "File" || $this->categoryview[0]->filepath == "FFmpeg" || $this->categoryview[0]->filepath == "Url") {
+                        $current_path       = "components/com_contushdvideoshare/videos/";
+                        if ($this->categoryview[0]->filepath == "Url") {                             ## For URL Method videos
+                            if ($this->categoryview[0]->streameroption == 'rtmp') {
+                                $rtmp       = str_replace('rtmp', 'http', $this->categoryview[0]->streamerpath);
+                                $video      = $rtmp . '_definst_/mp4:'. $this->categoryview[0]->videourl . '/playlist.m3u8';   ## For RTMP videos
+                            } else {
+                                $video      = $this->categoryview[0]->videourl;
+                            }
+                        } else {
+                            $video          = JURI::base() . $current_path . $this->categoryview[0]->videourl;   ## For upload Method videos
+                        }
+                        ?>
+                        <video id="video" src="<?php echo $video; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" autobuffer controls onerror="failed(event)">
+                            Html5 Not support This video Format.
+                        </video>
+                            <?php
+                        } elseif ($this->categoryview[0]->filepath == "Youtube") {                   ## For youtube videos
+                            if( strpos($this->categoryview[0]->videourl,'youtube.com') > 0 ) {
+                                $url            = $this->categoryview[0]->videourl;
+                                $query_string   = array();
+                                parse_str(parse_url($url, PHP_URL_QUERY), $query_string);
+                                $id             = $query_string["v"];
+                                $videoid        = trim($id);
+                                $video          = "http://www.youtube.com/embed/$videoid";
+                            ?>
+                            <iframe width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" src="<?php echo $video; ?>" class="iframe_frameborder" ></iframe>
+                            <?php
+                        } else if (strpos($this->categoryview[0]->videourl, 'dailymotion') > 0) {    ## For dailymotion videos
+                            $video = $this->categoryview[0]->videourl;
+                            ?>
+                            <iframe width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" src="<?php echo $video; ?>" class="iframe_frameborder" ></iframe>
+                            <?php
+                        } else if (strpos($this->categoryview[0]->videourl, 'viddler') > 0) {        ## For viddler videos
+                            $imgstr = explode("/", $this->categoryview[0]->videourl);
+                            ?>
+                            <iframe id="viddler-<?php echo $imgstr; ?>" src="//www.viddler.com/embed/<?php echo $imgstr; ?>/?f=1&autoplay=0&player=full&secret=26392356&loop=false&nologo=false&hd=false" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" frameborder="0" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                <?php
+            }
+        }
+    } else {               ## Restricted video design part 
+        ?>
+                            <style type="text/css">
+                                .login_msg{vertical-align: middle;height:<?php echo $player_values['height']; ?>px;display: table-cell; color: #fff;}
+                                .login_msg a{background: #999; color:#fff; padding: 5px;}
+                            </style>
+                            
+                    <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
+                        <div class="login_msg">
+                        <h3>Please login to watch this video</h3>
+                        <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
+                    </div>
+                    </div>
+    <?php } ?>
+            </div>
+             
+                        <?php } else { ?>                             
+                                     
             <!-- Flash player Start -->
             <div id="flashplayer">
                 <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
                        allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $baseurl; ?><?php echo '&amp;id=' . $this->categoryview[0]->id . '&amp;catid=' . $this->getcategoryid; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px" />
             </div>
-              <?php
+             <?php }
+}
 }
 ?>                       
                                      

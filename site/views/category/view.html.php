@@ -31,6 +31,8 @@ function display($cachable = false, $urlparams = false) {
             $this->assignRef('player_values', $getplayersettings);            
             $getcategoryid      = $model->getcategoryid();
             $this->assignRef('getcategoryid', $getcategoryid);            
+            $homeAccessLevel    = $model->getHTMLVideoAccessLevel();
+            $this->assignRef('homepageaccess', $homeAccessLevel);
             parent::display();
 	}
 }
