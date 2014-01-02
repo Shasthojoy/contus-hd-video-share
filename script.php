@@ -274,6 +274,7 @@ class com_contushdvideoshareInstallerScript {
                     'user_login'          => $settingstabeResult->user_login,
                     'ratingscontrol'      => $settingstabeResult->ratingscontrol,
                     'viewedconrtol'       => $settingstabeResult->viewedconrtol,
+                    'reportvideo'         => 0,
                     'seo_option'          => $settingstabeResult->seo_option,
                     'adminapprove'        => 0,
                     'categoryplayer'      => 0,

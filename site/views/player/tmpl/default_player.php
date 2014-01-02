@@ -539,6 +539,26 @@ if (isset($details1['closeadd'])) {
                 http.send(null);
                 document.getElementById('rate').style.visibility = 'disable';
             }
+            
+            function submitreport()
+            {
+                var reptitle = document.getElementById('rep_title').value;
+                var repmsg = document.getElementById('rep_msg').value;
+                <?php if ($user->get('id') == '') {
+                  ?>  location.href='<?php echo JRoute::_("index.php?option=com_users&view=login&return=".base64_encode(JURI::getInstance()->toString())); ?>'; <?php
+                } else { ?>
+                http.open('get', '<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport&amp;tmpl=component&amp;reporttitle='+reptitle+'&amp;reportmsg='+ repmsg+'&amp;videoid=<?php echo $this->videodetails->id; ?>', true);
+                http.onreadystatechange = getReport;
+                http.send(null);
+                <?php } ?>
+                document.getElementById('reportadmin').style.visibility = 'none';
+            }
+            
+            function getReport()
+            {
+                document.getElementById('reportadmin').style.display = "none";
+                document.getElementById('reportmessage').innerHTML = http.responseText;
+            }
             function insertReply()
             {
                 if (http.readyState == 4)
@@ -629,17 +649,29 @@ if (isset($details1['closeadd'])) {
                         <!--Facebook like button-->
                         <script src="http://connect.facebook.net/en_US/all.js"></script>
                         <iframe class="facebook_hdlike" src="http://www.facebook.com/plugins/like.php?href=<?php echo $pageURL; ?>&amp;layout=button_count&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" class="iframe_frameborder"  allowTransparency="true"> </iframe>
+                         
                     </div>
                 <?php } ?>
                 <!--Embed code section starts here-->
-                <div class="vinfo_right_embed">
+                <div class="commentpost vinfo_right_embed">
                 <?php if ($player_icons['enabledownload'] == 1 && $this->htmlVideoDetails->filepath != "Youtube" && $this->htmlVideoDetails->filepath != "Embed" && $this->htmlVideoDetails->streameroption != "rtmp") {
                     ?>
-                        <a href="<?php echo $video_url; ?>" target="_blank" id="downloadurl"><?php echo JText::_('HDVS_DOWNLOAD'); ?></a>
+                        <a class="utility-link" href="<?php echo $video_url; ?>" target="_blank"><?php echo JText::_('HDVS_DOWNLOAD'); ?></a>
                 <?php } ?>
                         <?php if($player_icons['embedVisible']== 1) { ?>
-                    <a href="javascript:void(0)" onclick="enableEmbed()" class="embed" id="allowEmbed"><?php echo JText::_('HDVS_EMBED'); ?> </a>
+                    <a class="utility-link" href="javascript:void(0)" onclick="enableEmbed()" class="embed"><?php echo JText::_('HDVS_EMBED'); ?> </a>
                 <?php } ?>
+                    <?php if(isset($dispenable['reportvideo']) && $dispenable['reportvideo'] == 1) { ?>
+  
+                        <a class="utility-link" onclick="showreport();">Report</a>
+                    <div class="clear"></div>
+                        <div id="reportmessage" style="color: red;"></div>
+                            <div id="reportadmin" style="display:none;">
+                            <label style="width: 25%;float: left;">Title : </label><input type="text" id="rep_title" style="margin: 0 0 10px;" name="rep_title" /> <br/>
+                            <label style="width: 25%;float: left;">Message : </label><textarea id="rep_msg" name="rep_msg" rows="5" cols="25"> </textarea><br />
+                            <button type="submit" onclick="submitreport()">Send</button>
+                </div>
+                     <?php } ?>
                     <div class="clear"></div>
                 </div>
                 <?php
@@ -997,4 +1029,11 @@ if ($langDirection == 1) {
         htmltooltipCallback("htmltooltip1", "1",<?php echo $rtlLang; ?>);
         htmltooltipCallback("htmltooltip2", "2",<?php echo $rtlLang; ?>);
     })
+</script>
+
+<script>
+   function showreport() 
+   {
+       document.getElementById('reportadmin').style.display = 'block';
+   }
 </script>

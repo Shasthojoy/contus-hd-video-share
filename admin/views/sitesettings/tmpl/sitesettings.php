@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- ****@version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,10 +11,7 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
-
-// no direct access
+##  no direct access
 defined('_JEXEC') or die('Restricted access');
 $editsitesettings = $showsitesettings = $this->sitesettings;
 $thumbview        = unserialize($editsitesettings->thumbview);
@@ -538,6 +533,21 @@ function enablefbapi(val) {
 				<td colspan="3"><input type="radio" name="viewedconrtol"
 					id="viewedconrtol"
 					<?php if ($dispenable['viewedconrtol'] == '0') {
+						echo 'checked="checked" ';
+					} ?>
+					value="0" />No</td>
+			</tr>
+			<tr>
+				<td><?php echo JHTML::tooltip('Option to enable/disable Report video', 'Report Video', 
+	            '', 'Report Video');?></td>
+				<td><input type="radio" name="reportvideo" id="reportvideo"
+				<?php if (isset($dispenable['reportvideo']) && $dispenable['reportvideo'] == '1') {
+					echo 'checked="checked" ';
+				} ?>
+					value="1" />Yes</td>
+				<td colspan="3"><input type="radio" name="reportvideo"
+					id="reportvideo"
+					<?php if (isset($dispenable['reportvideo']) &&  $dispenable['reportvideo'] == '0') {
 						echo 'checked="checked" ';
 					} ?>
 					value="0" />No</td>

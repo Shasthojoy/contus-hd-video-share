@@ -155,6 +155,7 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
                     'user_login'          => $arrFormData['user_login'],
                     'ratingscontrol'      => $arrFormData['ratingscontrol'],
                     'viewedconrtol'       => $arrFormData['viewedconrtol'],
+                    'reportvideo'         => $arrFormData['reportvideo'],
                     'categoryplayer'      => $arrFormData['categoryplayer'],
                     'seo_option'          => $arrFormData['seo_option'],
                     'upload_methods'      => $upload_methods,
