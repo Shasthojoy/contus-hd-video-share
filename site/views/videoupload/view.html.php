@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -14,29 +12,26 @@
  * @Modified Date : September 2013
  * */
 
-/*
- ***********************************************************/
-// No direct access to this file
+##  No direct access to this file
 defined( '_JEXEC' ) or die( 'Restricted access' );
-// import Joomla view library
+##  import Joomla view library
 jimport('joomla.application.component.view');
-/**
- * hdvideoshare component videoupload view page
- *
- */
+
+## hdvideoshare component videoupload view page
+
 class contushdvideoshareViewvideoupload extends ContushdvideoshareView
 {
-	/**
-	 * function to prepare view for videoupload view
-	 */
+	## function to prepare view for videoupload view
 	function display($cachable = false, $urlparams = false)
 	{
 		$model = $this->getModel();
-		//get category
+		## get category
 		$category = $model->getupload();
 		$this->assignRef('videocategory', $category[0]);
 		$this->assignRef('upload', $category[1]);
 		$this->assignRef('videodetails', $category[2]);
+                $get_site_settings = $model->get_site_settings();
+		$this->assignRef('dispenable', $get_site_settings);
 		parent::display();
 	}
 }

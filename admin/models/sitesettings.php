@@ -11,9 +11,9 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-## No direct access to this file
+##  No direct access to this file
 defined( '_JEXEC' ) or die( 'Restricted access' );
-## import joomla model library
+##  import joomla model library
 jimport('joomla.application.component.model');
 
 ## Contushdvideoshare Component Administrator Sitesettings Model
@@ -23,6 +23,7 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
 	## function to get sitesettings 
 	function getsitesetting()
 	{
+		$jcomment = $jomcomment = 0;
 		## query to fetch site settings
 		$query = 'SELECT `id`, `published`, `thumbview`, `dispenable`, `homethumbview`,`sidethumbview` 
 		          FROM #__hdflv_site_settings 
@@ -59,21 +60,33 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
 
 		$db->setQuery($query);
 		$jcomment = $db->loadResult();		
-		if (empty($settings)) {
+		if (empty($settings)){
 		JError::raiseError(500, 'detail with ID: ' . $id . ' not found.');
-		} else {
+		}else
 		return array($settings, $jomcomment, $jcomment);
-                }
 	}
 
 	## save sitesettings fields
 	function savesitesettings($arrFormData)
 	{
 		$option = JRequest::getCmd('option');
+                $upload_methods = '';
 		$mainframe = JFactory::getApplication();		
-		##Get the object for site settings table.
+		$db = & JFactory::getDBO();		
+		$cid = JRequest::getVar('cid', array(0), '', 'array');
+		$id = $cid[0];
+		## Get the object for site settings table.
 		$objSitesettingsTable = & $this->getTable('sitesettings');
-                
+                $inc = 0;
+                foreach ($arrFormData['upload_methods'] as $result) {
+
+                    if ((count($arrFormData['upload_methods']) - 1) == $inc) {
+                        $upload_methods.= $result;
+                    } else {
+                        $upload_methods.= $result . ',';
+                    }
+                    $inc++;
+                }
                 ## Get thumbview details and serialize data
                 $thumbview               = array(
                     'featurrow'             => $arrFormData['featurrow'],
@@ -144,6 +157,7 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
                     'viewedconrtol'       => $arrFormData['viewedconrtol'],
                     'categoryplayer'      => $arrFormData['categoryplayer'],
                     'seo_option'          => $arrFormData['seo_option'],
+                    'upload_methods'      => $upload_methods,
                     'language_settings'   => 'English.php',
                     'disqusapi'           => $arrFormData['disqusapi'],
                     'facebookapi'         => $arrFormData['facebookapi'],
@@ -152,22 +166,22 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
                  );
                 $arrFormData['dispenable'] = serialize($dispenable);
 
-		## Bind data to the table object.
+		##  Bind data to the table object.
 		if (!$objSitesettingsTable->bind($arrFormData))
 		{
 			JError::raiseError(500, $objSitesettingsTable->getError());
 		}
-		## Check that the node data is valid.
+		##  Check that the node data is valid.
 		if (!$objSitesettingsTable->check())
 		{
 			JError::raiseError(500, $objSitesettingsTable->getError());
 		}
-		## Store the node in the database table.
+		##  Store the node in the database table.
 		if (!$objSitesettingsTable->store())
 		{			
 			JError::raiseError(500, $objSitesettingsTable->getError());
 		}		
-		## page redirect
+		##  page redirect
 		$link = 'index.php?option=' . $option.'&layout=sitesettings';
 		$mainframe->redirect($link, 'Saved Successfully','message');		
 	}
