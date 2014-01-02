@@ -11,7 +11,6 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-
 ## No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 ## import joomla model library
@@ -43,8 +42,10 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                             WHERE $publish b.published='1' AND a.id=$vid AND a.filepath!='Embed'";
                 $db->setQuery($query);
                 $rows       = $db->loadObjectList();
-            }
-            
+                if($rows[0]->playlistid != $categ_id) {
+                    $rows = array();
+                }
+         }
         if($mid == 'playerModule'){
             if (count($rows) > 0) {
                 $query          = "SELECT distinct a.*,b.category
@@ -88,39 +89,43 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
             } else {
                 $videocategory = $rows[0]->playlistid;
             }
-            if (count($rows) > 0) {
-                $query          = "SELECT distinct a.*,b.category
-                                FROM #__hdflv_upload a 
-                                LEFT JOIN #__hdflv_category b on (a.playlistid=b.id)
-                                WHERE $publish b.published='1' AND (b.id=" . $videocategory . " or b.parent_id=$videocategory) AND a.id != $videoid AND a.filepath!='Embed'";
-                $db->setQuery($query);
-                $playlist_loop  = $db->loadObjectList();
-                
-                ## Array rotation to autoplay the videos correctly
-                $arr1           = array();
-                $arr2           = array();
-                if (count($playlist_loop) > 0) {
-                    foreach ($playlist_loop as $r):
-                        if ($r->id > $rows[0]->id) {      ##Storing greater values in an array
-                            $query      = "SELECT DISTINCT a.*,b.category
-                                        FROM #__hdflv_upload a 
-                                        LEFT JOIN #__hdflv_category b ON a.playlistid=b.id 
-                                        WHERE $publish b.published='1' AND a.id=$r->id  AND a.filepath!='Embed'";
-                            $db->setQuery($query);
-                            $arrGreat   = $db->loadObject();
-                            $arr1[]     = $arrGreat;
-                        } else {                          ##Storing lesser values in an array
-                            $query      = "SELECT DISTINCT a.*,b.category
-                                        FROM #__hdflv_upload a 
-                                        LEFT JOIN #__hdflv_category b ON a.playlistid=b.id 
-                                        WHERE $publish b.published='1' AND a.id=$r->id  AND a.filepath!='Embed'";
-                            $db->setQuery($query);
-                            $arrLess    = $db->loadObject();
-                            $arr2[]     = $arrLess;
-                        }
-                    endforeach;
+            if($rows[0]->playlistid == $categ_id) {
+                if (count($rows) > 0) {
+                    $query          = "SELECT distinct a.*,b.category
+                                    FROM #__hdflv_upload a 
+                                    LEFT JOIN #__hdflv_category b on (a.playlistid=b.id)
+                                    WHERE $publish b.published='1' AND (b.id=" . $videocategory . " or b.parent_id=$videocategory) AND a.id != $videoid AND a.filepath!='Embed'";
+                    $db->setQuery($query);
+                    $playlist_loop  = $db->loadObjectList();
+
+                    ## Array rotation to autoplay the videos correctly
+                    $arr1           = array();
+                    $arr2           = array();
+                    if (count($playlist_loop) > 0) {
+                        foreach ($playlist_loop as $r):
+                            if ($r->id > $rows[0]->id) {      ##Storing greater values in an array
+                                $query      = "SELECT DISTINCT a.*,b.category
+                                            FROM #__hdflv_upload a 
+                                            LEFT JOIN #__hdflv_category b ON a.playlistid=b.id 
+                                            WHERE $publish b.published='1' AND a.id=$r->id  AND a.filepath!='Embed'";
+                                $db->setQuery($query);
+                                $arrGreat   = $db->loadObject();
+                                $arr1[]     = $arrGreat;
+                            } else {                          ##Storing lesser values in an array
+                                $query      = "SELECT DISTINCT a.*,b.category
+                                            FROM #__hdflv_upload a 
+                                            LEFT JOIN #__hdflv_category b ON a.playlistid=b.id 
+                                            WHERE $publish b.published='1' AND a.id=$r->id  AND a.filepath!='Embed'";
+                                $db->setQuery($query);
+                                $arrLess    = $db->loadObject();
+                                $arr2[]     = $arrLess;
+                            }
+                        endforeach;
+                    }
+                    $playlist               = array_merge($arr1, $arr2);
                 }
-                $playlist               = array_merge($arr1, $arr2);
+            } else {
+                $playlist = array();
             }
         } else {
             $query                      = "SELECT a.*,b.category,d.username,e.*

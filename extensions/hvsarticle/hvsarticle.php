@@ -32,7 +32,6 @@ class plgContenthvsarticle extends JPlugin {
         $db = JFactory::getDBO();
 
         ## Declare the variables
-        $category = '';
         $type = '';
 
         $patterncode = '/\[hdvs(.*?)]/i';
@@ -45,10 +44,10 @@ class plgContenthvsarticle extends JPlugin {
 
             $string = $code[$i];
             $pattern = array("[", "]", "hdvs");
-            $shortCode = str_replace($pattern, "", $string);
-            $shortCode = trim(strip_tags($shortCode));
-            $shortCode = iconv('utf-8', 'ascii//translit', $shortCode);
-            $shortCode = preg_replace("/\s+/", "|", $shortCode);
+            $chk_shortCode_pattern = str_replace($pattern, "", $string);
+            $trim_shortCode = trim(strip_tags($chk_shortCode_pattern));
+            $utf8conevert_shortCode = iconv('utf-8', 'ascii//translit', $trim_shortCode);
+            $shortCode = preg_replace("/\s+/", "|", $utf8conevert_shortCode);
             $finalCode = explode("|", trim($shortCode, "|"));
             $pwidth = $pheight = $pautoplay = $playautoplay = $idval = $swidth = $sheight = $sautoplay = $splayautoplay = $categoryid = NULL;
             foreach ($finalCode as $val) {
@@ -243,6 +242,58 @@ class plgContenthvsarticle extends JPlugin {
         return $str2;
     }
 
+    ## Detect mobile device
+    function hvsarticle_detect_mobile()
+    {
+        $_SERVER['ALL_HTTP']    = isset($_SERVER['ALL_HTTP']) ? $_SERVER['ALL_HTTP'] : '';
+        $mobile_browser         = '0';
+        $agent                  = strtolower($_SERVER['HTTP_USER_AGENT']);
+        if(preg_match('/(up.browser|up.link|mmp|symbian|smartphone|midp|wap|phone|iphone|ipad|ipod|android|xoom)/i', $agent)){
+            $mobile_browser++;
+        }
+        if((isset($_SERVER['HTTP_ACCEPT'])) and (strpos(strtolower($_SERVER['HTTP_ACCEPT']),'application/vnd.wap.xhtml+xml') !== false)){
+            $mobile_browser++;
+        }
+        if(isset($_SERVER['HTTP_X_WAP_PROFILE'])){
+            $mobile_browser++;
+        }
+        if(isset($_SERVER['HTTP_PROFILE'])){
+            $mobile_browser++;
+        }
+        $mobile_ua              = substr($agent,0,4);
+        $mobile_agents          = array(
+                                'w3c ','acs-','alav','alca','amoi','audi','avan','benq','bird','blac',
+                                'blaz','brew','cell','cldc','cmd-','dang','doco','eric','hipt','inno',
+                                'ipaq','java','jigs','kddi','keji','leno','lg-c','lg-d','lg-g','lge-',
+                                'maui','maxo','midp','mits','mmef','mobi','mot-','moto','mwbp','nec-',
+                                'newt','noki','oper','palm','pana','pant','phil','play','port','prox',
+                                'qwap','sage','sams','sany','sch-','sec-','send','seri','sgh-','shar',
+                                'sie-','siem','smal','smar','sony','sph-','symb','t-mo','teli','tim-',
+                                'tosh','tsm-','upg1','upsi','vk-v','voda','wap-','wapa','wapi','wapp',
+                                'wapr','webc','winw','xda','xda-'
+                                );
+
+        if(in_array($mobile_ua, $mobile_agents)){
+            $mobile_browser++;
+        }
+        if(strpos(strtolower($_SERVER['ALL_HTTP']), 'operamini') !== false){
+            $mobile_browser++;
+        }
+        ## Pre-final check to reset everything if the user is on Windows
+        if(strpos($agent, 'windows') !== false){
+            $mobile_browser=0;
+        }
+        ## But WP7 is also Windows, with a slightly different characteristic
+        if(strpos($agent, 'windows phone') !== false){
+            $mobile_browser++;
+        }
+        if($mobile_browser>0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     ## Function for loading player with necessary inputs
     function addVideoHdvideo($width, $height, $idval, $categoryid, $autoplay, $filepath, $videos, $thumImg, $type, $playautoplay) {
 
@@ -252,6 +303,7 @@ class plgContenthvsarticle extends JPlugin {
         $baseurl1       = substr_replace($baseurl, "", -1);
         $idval          = trim($idval);
         $playerpath     = JURI::base() . 'components/com_contushdvideoshare/hdflvplayer/hdplayer.swf';
+        $mobile         = $this->hvsarticle_detect_mobile();
         $useragent      = $_SERVER['HTTP_USER_AGENT'];
         ## Check for windows phone
         if(strpos($useragent,'Windows Phone') > 0){
@@ -279,8 +331,6 @@ class plgContenthvsarticle extends JPlugin {
             $playlist_auto  = "&amp;playlist_autoplay=" . $playautoplay;
         }
 
-        $replace        = '<div id="pluginvideoshare-flashplayer'.$type . $idval . '">';
-
         if ($filepath == "Embed") {
             $replace   .= $videos;
         }
@@ -288,54 +338,49 @@ class plgContenthvsarticle extends JPlugin {
         else if (strpos($videos,'vimeo') > 0) {
             $split      = explode("/", $videos);
             $replace   .= '<iframe src="http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0" width="' . $width . '" height="' . $height . '" frameborder="0"></iframe>';
-        }
-        ## Else normal player
-        else {
+        } else {
+        if($mobile === true){       ## HTML5 PLAYER START
+            if ($filepath == "File" || $filepath == "FFmpeg" || $filepath == "Url") {       ## Checks for File or FFMpeg or url
+                $replace   .='<video id="video" poster="' . $thumImg . '" src="' . $videos . '" autobuffer controls onerror="failed(event)">
+                           Html5 Not support This video Format.
+                           </video>';
+            } else if ($filepath == "Youtube") {     
+                if( strpos($videos,'youtube.com') > 0 ) {           ## If youtube video
+                    $url            = $videos;
+                    $query_string   = array();
+                    parse_str(parse_url($url, PHP_URL_QUERY), $query_string);
+                    $id             = $query_string["v"];
+                    $videoid        = trim($id);
+                    $video          = "http://www.youtube.com/embed/$videoid";
+                    $replace        .='<iframe src="'.$video.'" class="iframe_frameborder" ></iframe>';
+                } else if(strpos($videos,'dailymotion') > 0) {      ## If dailymotion video
+                    $video          = $videos;
+                    $replace    .='<iframe src="'.$video.'" class="iframe_frameborder" ></iframe>';
+                } else if(strpos($videos,'viddler') > 0) {          ## If viddler video
+                     $imgstr        = explode("/", $videos);
+                     $replace       .='<iframe id="viddler-'.$imgstr.'" src="//www.viddler.com/embed/'.$imgstr.'/?f=1&autoplay=0&player=full&secret=26392356&loop=false&nologo=false&hd=false" frameborder="0" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>';
+                }
+            } else {
+                $replace .= ' <style type="text/css">
+                                .login_msg{vertical-align: middle;height:'.$height.'px;display: table-cell; color: #fff;}
+                                .login_msg a{background: #999; color:#fff; padding: 5px;}
+                            </style>
+                            
+                    <div id="video" style="height:'.$height.'px; background-color:#000000; position: relative;" >
+                        <div class="login_msg">
+                        <h3>Theer is no videos in this playlist</h3>
+                    </div>
+                    </div>';
+            }
+        } else {             ## Else normal player
             $replace   .= '<div class="videoshareplayer" id="videoshareplayer" style="width:' . $width . 'px;height:' . $height . 'px;" >'
                        . '<embed src="' . $playerpath . '" allowFullScreen="true"  allowScriptAccess="always" type="application/x-shockwave-flash" wmode="opaque" flashvars="baserefJHDV=' . $baseurl1 . $playxml . $video_params . $playlist_auto . '&amp;mid=1&amp;mtype=playerModule&amp;autoplay=' . $autoplay . '" style="width:' . $width . 'px;height:' . $height . 'px;" /></embed>'
-                       . '</div></div>';
+                       . '</div>';
         }
-
-        ## HTML5 PLAYER START
-        $replace       .= '<div id="pluginvideoshare-html5player' .$type. $idval . '" style="display:none;">';
-
-        ## Checks for File or FFMpeg
-        if ($filepath == "File" || $filepath == "FFmpeg" || $filepath == "Url") {
-            $replace   .='<video id="video" poster="' . $thumImg . '" src="' . $videos . '" autobuffer controls onerror="failed(event)">
-                       Html5 Not support This video Format.
-                       </video>';
-        }
-
-        ## Checks for Youtube, Viddle and Dailymotion videos
-        elseif ($filepath == "Youtube") {
-            if( strpos($videos,'youtube.com') > 0 ) {
-                $url            = $videos;
-                $query_string   = array();
-                parse_str(parse_url($url, PHP_URL_QUERY), $query_string);
-                $id             = $query_string["v"];
-                $videoid        = trim($id);
-                $video          = "http://www.youtube.com/embed/$videoid";
-                $replace        .='<iframe src="'.$video.'" class="iframe_frameborder" ></iframe>';
-            } else if(strpos($videos,'dailymotion') > 0)
-            {
-                $video          = $videos;
-                $replace    .='<iframe src="'.$video.'" class="iframe_frameborder" ></iframe>';
-            } else if(strpos($videos,'viddler') > 0){
-                 $imgstr        = explode("/", $videos);
-                 $replace       .='<iframe id="viddler-'.$imgstr.'" src="//www.viddler.com/embed/'.$imgstr.'/?f=1&autoplay=0&player=full&secret=26392356&loop=false&nologo=false&hd=false" frameborder="0" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>';
-            }
-        }
-        $replace                .= '</div><script>
+       
+        $replace                .= '<script>
             var txt     =  navigator.platform ;
             var windo   = "'.$windo.'";
-            if(txt =="iPod" || txt =="iPad" || txt =="iPhone" || windo=="Windows Phone"  || txt =="Linux armv7l" || txt =="Linux armv6l" )
-            {
-               document.getElementById("pluginvideoshare-html5player'.$type . $idval . '").style.display = "block";
-               document.getElementById("pluginvideoshare-flashplayer'.$type . $idval . '").style.display = "none";
-
-            }else{
-              document.getElementById("pluginvideoshare-html5player'.$type . $idval . '").style.display = "none";
-            }
             function failed(e) {
                 if(txt =="iPod" || txt =="iPad" || txt =="iPhone" || windo=="Windows Phone"  || txt =="Linux armv7l" || txt =="Linux armv6l")
                 {
@@ -344,7 +389,7 @@ class plgContenthvsarticle extends JPlugin {
  	    }
         </script>';
         ## HTML5 PLAYER  END
-
+        }
         return $replace;
     }
 }

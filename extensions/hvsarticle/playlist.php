@@ -26,6 +26,7 @@ require_once ( JPATH_BASE .DS.'includes'.DS.'framework.php' );
 require_once ( JPATH_BASE .DS.'libraries'.DS.'joomla'.DS.'factory.php' );
 
 $type       = JRequest::getVar('type');
+$playlistautoplay = $download = 'false';
 $order      = $query = NULL;
 $db         = JFactory::getDbo();
 $baseUrl    = JURI::base();
@@ -53,6 +54,9 @@ $player_icons                   = unserialize($rs_settings);
 
 if ($player_icons['playlist_autoplay'] == 1) {
     $playlistautoplay = "true";
+}
+if ($player_icons['enabledownload'] == 1) {
+    $download = "true";
 }
 
 ## Query to get Video details
