@@ -93,10 +93,15 @@ class uploadFfmpegHelper {
 			$exts = uploadFfmpegHelper::getFileExtension($strTmpVidName);
 			$video_name = $idval . '_hd' . ".flv";
 			$flvpath = $strTargetPath . $idval . '_hd' . ".flv";
-			exec($strFfmpegPath . ' ' . '-i' . ' ' . $strTmpPath . ' ' . '-sameq' . ' ' . $flvpath . ' ' . '2>&1');
+//			exec($strFfmpegPath . ' ' . '-i' . ' ' . $strTmpPath . ' ' . '-sameq' . ' ' . $flvpath . ' ' . '2>&1');
+			exec($strFfmpegPath  .' '."-i".' '. $strTmpPath.' '."-vcodec libx264  -sameq" . ' ' . $strTargetPath . $idval."_video.mp4");
+                        exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval."_thumb.jpeg");
+                        exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -vframes 1 -y" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
+
 			## To get Thumb image & Preview image from the original video file
-			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
-			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s" . ' ' . $previewwidth . "x" . $previewheight . ' ' . " -f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
+//			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
+//			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s" . ' ' . $previewwidth . "x" . $previewheight . ' ' . " -f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
+                        
                         $hd_name = $idval . '_video.' . $exts;
 			if($dispenable['amazons3'] == 1) {
                             $s3bucket_videurl = $s3bucket_hdurl = $s3bucket_thumburl = $s3bucket_previewurl = 1;
@@ -158,10 +163,14 @@ class uploadFfmpegHelper {
                         }
                         
 		} else {
-			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-sameq" . ' ' . $strTargetPath . $idval . '_video' . ".flv  2>&1");
+                    	exec($strFfmpegPath  .' '."-i".' '. $strTmpPath.' '."-vcodec libx264  -sameq" . ' ' . $strTargetPath . $idval."_video.mp4");
+                        exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath. $idval."_thumb.jpeg");
+                        exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -vframes 1 -y" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
+
+//			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-sameq" . ' ' . $strTargetPath . $idval . '_video' . ".flv  2>&1");
 			## To get Thumb image & Preview image from the original video file
-			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
-			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s " . ' ' . $previewwidth . "x" . $previewheight . ' ' . "-f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
+//			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
+//			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s " . ' ' . $previewwidth . "x" . $previewheight . ' ' . "-f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
 			$video_name = $idval . '_video' . ".flv";
 			$hd_name = "";
                         
