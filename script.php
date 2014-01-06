@@ -258,7 +258,9 @@ class com_contushdvideoshareInstallerScript {
                     'siderelatedvideorow'   => $settingstabeResult->siderelatedvideorow,
                     'siderelatedvideocol'   => $settingstabeResult->siderelatedvideocol,
                     'siderecentvideorow'    => $settingstabeResult->siderecentvideorow,
-                    'siderecentvideocol'    => $settingstabeResult->siderecentvideocol
+                    'siderecentvideocol'    => $settingstabeResult->siderecentvideocol,
+                    'siderandomvideorow'    => 3,
+                    'siderandomvideocol'    => 1
                  );
                 $arrsidethumbview   = serialize($sitesidethumbview);
                 $query              = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrsidethumbview . '\'';
@@ -558,6 +560,24 @@ class com_contushdvideoshareInstallerScript {
                 }
                 $featured_id = $db->loadResult();
                 if ($featured_id) {
+                    echo "<strong>" . JText::_('Installed successfully') . "</strong>";
+                } else {
+                    echo "<strong>" . JText::_('Not Installed successfully') . "</strong>";
+                }
+                ?>
+            </td>
+        </tr>
+        
+        <tr class="row0">
+            <td class="key" colspan="2"><?php echo 'HD Video Share Random - ' . JText::_('Module'); ?></td>
+            <td style="text-align: center;">
+            <?php
+                ## check installed modules
+                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
+                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRandom' LIMIT 1");
+                }
+                $Random_id = $db->loadResult();
+                if ($Random_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";
                 } else {
                     echo "<strong>" . JText::_('Not Installed successfully') . "</strong>";

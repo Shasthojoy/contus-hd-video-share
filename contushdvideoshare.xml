@@ -79,6 +79,7 @@
     <module module="mod_HDVideoShareFeatured" client="site" />
     <module module="mod_HDVideoSharePopular" client="site" />
     <module module="mod_HDVideoShareRecent" client="site" />
+    <module module="mod_HDVideoShareRandom" client="site" />
     <module module="mod_HDVideoShareRelated" client="site" />
     <module module="mod_HDVideoShareSearch" client="site" />
   </modules>

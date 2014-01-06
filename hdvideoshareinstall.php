@@ -267,7 +267,7 @@ if (empty($result)) {
    $homethumbview  = 'a:15:{s:16:"homepopularvideo";s:1:"1";s:19:"homepopularvideorow";s:1:"1";s:19:"homepopularvideocol";s:1:"4";s:17:"homefeaturedvideo";s:1:"1";s:20:"homefeaturedvideorow";s:1:"1";s:20:"homefeaturedvideocol";s:1:"4";s:15:"homerecentvideo";s:1:"1";s:18:"homerecentvideorow";s:1:"1";s:18:"homerecentvideocol";s:1:"4";s:21:"homepopularvideoorder";s:1:"1";s:22:"homefeaturedvideoorder";s:1:"2";s:20:"homerecentvideoorder";s:1:"3";s:21:"homepopularvideowidth";s:2:"20";s:22:"homefeaturedvideowidth";s:2:"20";s:20:"homerecentvideowidth";s:2:"20";}';
    $disenable      = 'a:18:{s:11:"allowupload";s:1:"1";s:12:"adminapprove";s:1:"1";s:10:"user_login";s:1:"1";s:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:11:"reportvideo";s:1:"0";s:14:"categoryplayer";s:1:"0";s:10:"seo_option";s:1:"0";s:14:"upload_methods";s:23:"Upload,Youtube,URL,RTMP";s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:0:"";s:11:"facebookapi";s:0:"";s:7:"comment";s:1:"2";s:8:"amazons3";s:1:"0";s:12:"amazons3name";s:16:"";s:17:"amazons3accesskey";s:20:"";s:28:"amazons3accesssecretkey_area";s:40:"";s:12:"facebooklike";s:1:"1";}';
    $thumbview      = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";s:9:"recentcol";s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";s:1:"3";s:10:"popularcol";s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";s:1:"3";s:10:"relatedcol";s:1:"4";s:11:"featurwidth";s:2:"20";s:11:"recentwidth";s:2:"20";s:13:"categorywidth";s:2:"20";s:12:"popularwidth";s:2:"20";s:11:"searchwidth";s:2:"20";s:12:"relatedwidth";s:2:"20";s:15:"memberpagewidth";s:2:"20";s:13:"memberpagerow";s:1:"3";s:13:"memberpagecol";s:1:"4";s:10:"myvideorow";s:1:"4";s:10:"myvideocol";s:1:"2";s:12:"myvideowidth";s:2:"20";}';
-   $sidethumbview  = 'a:8:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideocol";s:1:"1";s:20:"sidefeaturedvideorow";s:1:"2";s:20:"sidefeaturedvideocol";s:1:"1";s:19:"siderelatedvideorow";s:1:"3";s:19:"siderelatedvideocol";s:1:"1";s:18:"siderecentvideorow";s:1:"3";s:18:"siderecentvideocol";s:1:"1";}';
+   $sidethumbview  = 'a:10:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideocol";s:1:"1";s:20:"sidefeaturedvideorow";s:1:"2";s:20:"sidefeaturedvideocol";s:1:"1";s:19:"siderelatedvideorow";s:1:"3";s:19:"siderelatedvideocol";s:1:"1";s:18:"siderecentvideorow";s:1:"3";s:18:"siderecentvideocol";s:1:"1";s:18:"siderandomvideorow";s:1:"3";s:18:"siderandomvideocol";s:1:"1";}';
     $db->setQuery("INSERT INTO `#__hdflv_site_settings` (`id`, `published`, `homethumbview`, `dispenable`, `thumbview`, `sidethumbview`) VALUES
     (1, 1, '$homethumbview', '$disenable', '$thumbview', '$sidethumbview');");
     $db->query();
@@ -507,7 +507,9 @@ if (empty($result)) {
                     'siderelatedvideorow'   => $settingstabeResult->siderelatedvideorow,
                     'siderelatedvideocol'   => $settingstabeResult->siderelatedvideocol,
                     'siderecentvideorow'    => $settingstabeResult->siderecentvideorow,
-                    'siderecentvideocol'    => $settingstabeResult->siderecentvideocol
+                    'siderecentvideocol'    => $settingstabeResult->siderecentvideocol,
+                    'siderandomvideorow'    => 3,
+                    'siderandomvideocol'    => 1
                  );
                 $arrsidethumbview           = serialize($sitesidethumbview);
                 $query                      = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrsidethumbview . '\'';
@@ -644,6 +646,7 @@ if (empty($result)) {
 ## Install modules and plugin here
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareCategories');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareFeatured');
+$installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareRandom');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoSharePopular');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareRecent');
 $installer->install($this->parent->getPath('source') . '/extensions/mod_HDVideoShareRelated');
@@ -683,7 +686,13 @@ if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6.0
     if (JFile::exists($rootPath . '/modules/mod_HDVideoShareFeatured/mod_HDVideoShareFeatured.xml')) {
         JFile::delete($rootPath . '/modules/mod_HDVideoShareFeatured/mod_HDVideoShareFeatured.xml');
     }
+    
     JFile::move($rootPath . '/modules/mod_HDVideoShareFeatured/mod_HDVideoShareFeatured.j3.xml', $rootPath . '/modules/mod_HDVideoShareFeatured/mod_HDVideoShareFeatured.xml');
+    
+    if (JFile::exists($rootPath . '/modules/mod_HDVideoShareRandom/mod_HDVideoShareRandom.xml')) {
+        JFile::delete($rootPath . '/modules/mod_HDVideoShareRandom/mod_HDVideoShareRandom.xml');
+    }
+    JFile::move($rootPath . '/modules/mod_HDVideoShareRandom/mod_HDVideoShareRandom.j3.xml', $rootPath . '/modules/mod_HDVideoShareRandom/mod_HDVideoShareRandom.xml');
 
     if (JFile::exists($rootPath . '/modules/mod_HDVideoSharePopular/mod_HDVideoSharePopular.xml')) {
         JFile::delete($rootPath . '/modules/mod_HDVideoSharePopular/mod_HDVideoSharePopular.xml');
@@ -787,6 +796,29 @@ if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6.0
                 }
                 $featured_id = $db->loadResult();
                 if ($featured_id) {
+                    if ($upgra == 'upgrade') {
+                        echo "<strong>" . JText::_('Upgrade successfully') . "</strong>";
+                    } else {
+                        echo "<strong>" . JText::_('Installed successfully') . "</strong>";
+                    }
+                } else {
+                    echo "<strong>" . JText::_('Not Installed successfully') . "</strong>";
+                }
+                ?>
+            </td>
+        </tr>
+
+        <tr class="row0">
+            <td class="key" colspan="2"><?php echo 'HD Video Share Random - ' . JText::_('Module'); ?></td>
+            <td style="text-align: center;">
+                <?php
+                if (version_compare(JVERSION, '1.6.0', 'ge')) {
+                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRandom' LIMIT 1");
+                } else {
+                    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareRandom' LIMIT 1");
+                }
+                $Random_id = $db->loadResult();
+                if ($Random_id) {
                     if ($upgra == 'upgrade') {
                         echo "<strong>" . JText::_('Upgrade successfully') . "</strong>";
                     } else {

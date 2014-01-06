@@ -341,6 +341,22 @@ function enablefbapi(val) {
                                 <td>&nbsp;</td><td>&nbsp;</td>
 <?php } ?>
 			</tr>
+
+			<tr>
+				<td><?php echo JHTML::tooltip('Enter row and column for random videos module', 'Side Random Videos', 
+	            '', 'Side Random Videos');?></td>
+				<td>Row : <input type="text" name="siderandomvideorow" id="siderandomvideorow"
+					maxlength="100"
+                                        value="<?php if(isset($sidethumbview['siderandomvideorow'])) { echo $sidethumbview['siderandomvideorow']; } ?>">
+				</td>
+				<td <?php if(!version_compare(JVERSION, '3.0.0', 'ge')) echo 'colspan="3"'; ?> >Column : <input type="text" name="siderandomvideocol"
+					id="siderandomvideocol" maxlength="100"
+                                        value="<?php if(isset($sidethumbview['siderandomvideocol'])) { echo $sidethumbview['siderandomvideocol']; } ?>">
+				</td>
+                                <?php if(version_compare(JVERSION, '3.0.0', 'ge')) { ?>
+                                <td>&nbsp;</td><td>&nbsp;</td>
+<?php } ?>
+			</tr>
 			<tr>
 				<td><?php echo JHTML::tooltip('Enter row and column for popular videos in home page', 'Home Page Popular Videos', 
 	            '', 'Home Page Popular Videos');?></td>

@@ -145,7 +145,9 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
                     'siderelatedvideorow'   => $arrFormData['siderelatedvideorow'],
                     'siderelatedvideocol'   => $arrFormData['siderelatedvideocol'],
                     'siderecentvideorow'    => $arrFormData['siderecentvideorow'],
-                    'siderecentvideocol'    => $arrFormData['siderecentvideocol']
+                    'siderecentvideocol'    => $arrFormData['siderecentvideocol'],
+                    'siderandomvideorow'    => $arrFormData['siderandomvideorow'],
+                    'siderandomvideocol'    => $arrFormData['siderandomvideocol']
                  );
                 $arrFormData['sidethumbview'] = serialize($sidethumbview);
                 ## Get thumbview details and serialize data
