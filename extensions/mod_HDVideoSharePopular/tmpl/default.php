@@ -46,10 +46,16 @@ $seoOption =$dispenable['seo_option'];
             <ul class="ulvideo_thumb1 clearfix">
                 <?php } ?>
                     <?php
-                    if ($result[$i]->filepath == "File" || $result[$i]->filepath == "FFmpeg" || $result[$i]->filepath == "Embed")
-                        $src_path = JURI::base() . "components/com_contushdvideoshare/videos/" . $result[$i]->thumburl;
-                    if ($result[$i]->filepath == "Url" || $result[$i]->filepath == "Youtube")
+                    if ($result[$i]->filepath == "File" || $result[$i]->filepath == "FFmpeg" || $result[$i]->filepath == "Embed") {
+                        if(isset($result[$i]->amazons3) && $result[$i]->amazons3 == 1) {
+                            $src_path = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $result[$i]->thumburl;
+                        } else {
+                            $src_path = JURI::base() . "components/com_contushdvideoshare/videos/" . $result[$i]->thumburl;
+                        }
+                    }
+                    if ($result[$i]->filepath == "Url" || $result[$i]->filepath == "Youtube") {
                         $src_path = $result[$i]->thumburl;
+                    }
                         
                         //For SEO settings
                         if ($seoOption == 1)
