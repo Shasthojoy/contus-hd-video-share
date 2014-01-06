@@ -125,7 +125,11 @@ foreach ($this->membercollection as $rows)
                                     }
                                     if ($this->membercollection[$i]->filepath == "File" || $this->membercollection[$i]->filepath == "FFmpeg" || $this->membercollection[$i]->filepath == "Embed")
                                     {
-                                        $src_path = "components/com_contushdvideoshare/videos/" . $this->membercollection[$i]->thumburl;
+                                        if(isset($this->membercollection[$i]->amazons3) && $this->membercollection[$i]->amazons3 == 1) {
+                                            $src_path = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->membercollection[$i]->thumburl;
+                                        } else {
+                                            $src_path = "components/com_contushdvideoshare/videos/" . $this->membercollection[$i]->thumburl;
+                                        }
                                     }
                                     if ($this->membercollection[$i]->filepath == "Url" || $this->membercollection[$i]->filepath == "Youtube")
                                     {

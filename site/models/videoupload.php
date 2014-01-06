@@ -25,7 +25,6 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
     ## initializing constructor
     function __construct() {
         parent::__construct();
-        global $usergroup;
     }
 
     ##  function to display the category in the upload page
@@ -35,6 +34,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
         $db = $this->getDBO();
         $value = $updateform = $streamerpath = $streameroption = $streamname = $url = $previewurl = $flv = $hd = $hq = $ftype = $success = $editvideo1 = "";
          $editvideo1 = "";
+         $s3status = 0;
         $flagVideo = 1;
         if(!version_compare(JVERSION, '3.0.0', 'ge'))
         $task_edit=JRequest::getVar('type', '', 'get', 'string');
@@ -96,6 +96,15 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
         $success = "";
         $videourl = JRequest::getVar('videourl', '', 'post', 'string');
         $normalvideoformval = JRequest::getVar('normalvideoformval', '', 'post', 'string');
+        $normalvideoforms3status = JRequest::getVar('normalvideoforms3status', '', 'post', 'string');
+        $hdvideoforms3status = JRequest::getVar('hdvideoforms3status', '', 'post', 'string');
+        $thumbimageforms3status = JRequest::getVar('thumbimageforms3status', '', 'post', 'string');
+        $previewimageforms3status = JRequest::getVar('previewimageforms3status', '', 'post', 'string');
+        
+        if ($normalvideoforms3status == 1 || $hdvideoforms3status == 1 || $thumbimageforms3status == 1 || $previewimageforms3status == 1) {
+                $s3status = 1;
+            }
+        
          if (JRequest::getVar('videotype') == 'edit') {
              $seltype = JRequest::getVar('seltype');
             if ($seltype == 0 || $seltype == 2 || $seltype == 3) {
@@ -137,9 +146,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                     $path = substr(JRequest::getVar('ffmpeg', '', 'post', 'string'), 16, strlen(JRequest::getVar('ffmpeg', '', 'post', 'string'))); ##  Getting the normal video name
                     $filename = explode('.', $path);
                     $vpath = $VPATH1;
-                    $target_path_img = $vpath . $filename[0] . ".jpg";
                     $destFile = $vpath . $path;
-                    $jpg_resolution = "320x240";
                     $target_path2 = $VPATH1 . $filename[0] . ".flv";
                     if ($filename[1] != "flv") {
                         exec($EZFFMPEG_BIN_PATH . ' ' . "-i" . ' ' . $destFile . ' ' . "-sameq" . ' ' . $target_path2 . '  2>&1');
@@ -306,7 +313,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                     $updatestreamer     .= ",streamerpath=''";
                     $updatestreamer     .= ",streameroption=''";
                 }
-                $query                  = 'UPDATE #__hdflv_upload SET filepath="' . $ftype . '",tags= "' . $tags . '",title=' . $title . ',seotitle="' . $seoTitle . '",useraccess="' . $useraccess . '",type="' . $type . '",download="' . $download . '",description=' . $description . $updateform . $updatestreamer . ' WHERE id=' . JRequest::getVar('videoid', '', 'post', 'int');
+                $query                  = 'UPDATE #__hdflv_upload SET filepath="' . $ftype . '",amazons3="'.$s3status.'", tags= "' . $tags . '",title=' . $title . ',seotitle="' . $seoTitle . '",useraccess="' . $useraccess . '",type="' . $type . '",download="' . $download . '",description=' . $description . $updateform . $updatestreamer . ' WHERE id=' . JRequest::getVar('videoid', '', 'post', 'int');
                 $db->setQuery($query);
                 $db->query();
 
@@ -341,9 +348,9 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                 } else {
                     $adminapprove       = 1;
                 }
-                $query                  = 'INSERT INTO #__hdflv_upload(streamerpath,streameroption,title,seotitle,filepath,videourl,thumburl,previewurl,published,
+                $query                  = 'INSERT INTO #__hdflv_upload(streamerpath,amazons3,streameroption,title,seotitle,filepath,videourl,thumburl,previewurl,published,
                                         type,memberid,description,created_date,addedon,usergroupid,playlistid,hdurl,tags,download,useraccess)
-                                        VALUES ("' . $streamerpath . '","' . $streameroption . '",' . $title . ',"' . $seoTitle . '","' . $ftype . '","' . $url . '","' . $img . '","' . $previewurl . '",
+                                        VALUES ("' . $streamerpath . '","'.$s3status.'","' . $streameroption . '",' . $title . ',"' . $seoTitle . '","' . $ftype . '","' . $url . '","' . $img . '","' . $previewurl . '",
                                         "'.$adminapprove.'","'.$type.'","' . $memberid . '",' . $description . ',"' . $cdate . '","' . $cdate . '","' . $usergroup . '",
                                         "' . $cid . '","' . $hd . '","' . $tags . '","' . $download . '","'.$useraccess.'")';
                 $db->setQuery($query);

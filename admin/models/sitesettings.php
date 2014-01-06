@@ -163,6 +163,10 @@ class contushdvideoshareModelsitesettings extends ContushdvideoshareModel
                     'disqusapi'           => $arrFormData['disqusapi'],
                     'facebookapi'         => $arrFormData['facebookapi'],
                     'comment'             => $arrFormData['comment'],
+                    'amazons3'            => $arrFormData['amazons3'],
+                    'amazons3name'        => $arrFormData['amazons3name'],
+                    'amazons3accesskey'   => $arrFormData['amazons3accesskey'],
+                    'amazons3accesssecretkey_area' => $arrFormData['amazons3accesssecretkey_area'],
                     'facebooklike'        => $arrFormData['facebooklike']
                  );
                 $arrFormData['dispenable'] = serialize($dispenable);

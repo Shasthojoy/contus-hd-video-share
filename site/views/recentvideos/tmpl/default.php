@@ -103,8 +103,13 @@ function submitform()
                                     $recentCategoryVal = "catid=" . $this->recentvideos[$i]->catid;
                                     $recentVideoVal = "id=" . $this->recentvideos[$i]->id;
                                 }
-                                if ($this->recentvideos[$i]->filepath == "File" || $this->recentvideos[$i]->filepath == "FFmpeg" || $this->recentvideos[$i]->filepath == "Embed")
-                                    $src_path = "components/com_contushdvideoshare/videos/" . $this->recentvideos[$i]->thumburl;
+                                if ($this->recentvideos[$i]->filepath == "File" || $this->recentvideos[$i]->filepath == "FFmpeg" || $this->recentvideos[$i]->filepath == "Embed") {
+                                    if(isset($this->recentvideos[$i]->amazons3) && $this->recentvideos[$i]->amazons3 == 1) {
+                                        $src_path = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->recentvideos[$i]->thumburl;
+                                    } else {
+                                        $src_path = "components/com_contushdvideoshare/videos/" . $this->recentvideos[$i]->thumburl;
+                                    }
+                                }
                                 if ($this->recentvideos[$i]->filepath == "Url" || $this->recentvideos[$i]->filepath == "Youtube")
                                     $src_path = $this->recentvideos[$i]->thumburl;
                             ?>

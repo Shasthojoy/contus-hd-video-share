@@ -29,9 +29,16 @@ $htmlVideoDetails   = $this->htmlVideoDetails;
 if (isset($this->htmlVideoDetails) && $this->htmlVideoDetails != '') {
     if ($this->htmlVideoDetails->filepath == "File" || $this->htmlVideoDetails->filepath == "FFmpeg" || $this->htmlVideoDetails->filepath == "Embed") {
         $current_path       = "components/com_contushdvideoshare/videos/";
-        $video_url          = JURI::base() . $current_path . $this->htmlVideoDetails->videourl;
-        $video_thumb        = JURI::base() . $current_path . $this->htmlVideoDetails->thumburl;
-        $video_preview      = JURI::base() . $current_path . $this->htmlVideoDetails->previewurl;
+            if(isset($this->htmlVideoDetails->amazons3) && $this->htmlVideoDetails->amazons3 == 1) {
+                $video_url           = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->htmlVideoDetails->videourl;
+                $video_thumb         = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->htmlVideoDetails->thumburl;
+                $video_preview       = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->htmlVideoDetails->previewurl;
+            } else {
+                $video_url          = JURI::base() . $current_path . $this->htmlVideoDetails->videourl;
+                $video_thumb        = JURI::base() . $current_path . $this->htmlVideoDetails->thumburl;
+                $video_preview      = JURI::base() . $current_path . $this->htmlVideoDetails->previewurl;
+            }
+        
     } elseif ($this->htmlVideoDetails->filepath == "Youtube") {
         if( strpos($htmlVideoDetails->videourl,'youtube.com') > 0 ) {
             $url            = $htmlVideoDetails->videourl;
@@ -319,7 +326,12 @@ if (USER_LOGIN == '1') {
                                 $video      = $htmlVideoDetails->videourl;
                             }
                         } else {
-                            $video          = JURI::base() . $current_path . $htmlVideoDetails->videourl;   ## For upload Method videos
+                            if(isset($htmlVideoDetails->amazons3) && $htmlVideoDetails->amazons3 == 1) {
+                                $video           = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $htmlVideoDetails->videourl;
+                            } else {
+                                $video          = JURI::base() . $current_path . $htmlVideoDetails->videourl;   ## For upload Method videos
+                            }
+                            
                         }
                         ?>
                         <video id="video" src="<?php echo $video; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" autobuffer controls onerror="failed(event)">
@@ -664,13 +676,13 @@ if (isset($details1['closeadd'])) {
                     <?php if(isset($dispenable['reportvideo']) && $dispenable['reportvideo'] == 1) { ?>
   
                         <a class="utility-link" onclick="showreport();">Report</a>
-                    <div class="clear"></div>
+                        <div class="clear"></div>
                         <div id="reportmessage" style="color: red;"></div>
                             <div id="reportadmin" style="display:none;">
                             <label style="width: 25%;float: left;">Title : </label><input type="text" id="rep_title" style="margin: 0 0 10px;" name="rep_title" /> <br/>
                             <label style="width: 25%;float: left;">Message : </label><textarea id="rep_msg" name="rep_msg" rows="5" cols="25"> </textarea><br />
                             <button type="submit" onclick="submitreport()">Send</button>
-                </div>
+                            </div>
                      <?php } ?>
                     <div class="clear"></div>
                 </div>

@@ -122,7 +122,7 @@ class Modelcontushdvideosharehdvideosharesearch extends ContushdvideoshareModel
 		$kt=preg_split("/[\s,]+/", $search);//Breaking the string to array of words
 		// Now let us generate the sql
 		$searchquery="SELECT a.id as vid,a.category,a.seo_category,b.catid,b.vid,
-					  c.id,c.filepath,c.thumburl,c.title,c.description,c.times_viewed,c.ratecount,c.rate,
+					  c.id,c.amazons3,c.filepath,c.thumburl,c.title,c.description,c.times_viewed,c.ratecount,c.rate,
 				      c.times_viewed,c.seotitle,d.id,d.username 
 					  FROM #__hdflv_category a 
 					  LEFT JOIN #__hdflv_video_category b on b.catid=a.id 
@@ -135,7 +135,7 @@ class Modelcontushdvideosharehdvideosharesearch extends ContushdvideoshareModel
 		while(list($key,$search)=each($kt)){
 			if($search<>" " and strlen($search) > 0){
 				$searchquery="SELECT a.id as vid,a.category,a.seo_category,b.catid,b.vid,
-							  c.id,c.filepath,c.thumburl,c.title,c.description,c.times_viewed,c.ratecount,c.rate,
+							  c.id,c.amazons3,c.filepath,c.thumburl,c.title,c.description,c.times_viewed,c.ratecount,c.rate,
 				              c.times_viewed,c.seotitle
 							  FROM #__hdflv_category a 
 							  LEFT JOIN #__hdflv_video_category b on b.catid=a.id 

@@ -119,7 +119,11 @@ function submitform()
                     }
 
                     if ($this->search[$i]->filepath == "File" || $this->search[$i]->filepath == "FFmpeg" || $this->search[$i]->filepath == "Embed") {
-                        $src_path = "components/com_contushdvideoshare/videos/" . $this->search[$i]->thumburl;
+                            if(isset($this->rs_playlist1[0][$i]->amazons3) && $this->rs_playlist1[0][$i]->amazons3 == 1) {
+                                $src_path = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->search[$i]->thumburl;
+                            } else {
+                                $src_path = "components/com_contushdvideoshare/videos/" . $this->search[$i]->thumburl;
+                            }
                     }elseif ($this->search[$i]->filepath == "Url" || $this->search[$i]->filepath == "Youtube") {
                         $src_path = $this->search[$i]->thumburl;
                     }else {

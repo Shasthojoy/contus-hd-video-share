@@ -72,7 +72,7 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
 		else
 		$start= ( $pageno - 1) * $length;
 		// This query for displaying category's full view display
-		$categoryquery = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,a.streameroption,a.streamerpath,a.videourl,
+		$categoryquery = "SELECT a.id,a.filepath,a.amazons3,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,a.streameroption,a.streamerpath,a.videourl,
 							  a.times_viewed,a.seotitle,b.category,b.seo_category,b.parent_id,d.username,e.catid,e.vid 
             				  FROM #__hdflv_upload a 
             				  LEFT JOIN #__users d on a.memberid=d.id 
@@ -134,7 +134,7 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
 	function getcategoryid()
 	{
 		$db = $this->getDBO();
-		$flatCatid = is_numeric(JRequest::getString('category'));
+                $flatCatid = is_numeric(JRequest::getString('category'));
 		if (JRequest::getString('category') && $flatCatid != 1) {
 			$catvalue = str_replace(':', '-', JRequest::getString('category'));
 			if(!version_compare(JVERSION, '3.0.0', 'ge'))
@@ -192,7 +192,7 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
         } else {
             $accessid = $user->get('aid');
         }
-	
+
         ## CODE FOR SEO OPTION OR NOT - START 
         $flatCatid = is_numeric(JRequest::getString('category'));
 		if (JRequest::getString('category') && $flatCatid != 1) {

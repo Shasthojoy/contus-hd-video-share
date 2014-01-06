@@ -529,6 +529,10 @@ if ($type == 'edit') {
         <br/><br/>
         <input type="hidden" id="videouploadformurl" name="videouploadformurl" value="<?php echo JURI::base(); ?>" />
         <input type="hidden" name="videourl" value="1" class="text" size="20" id="videourl" />
+        <input type="hidden" name="normalvideoforms3status" value="" id="normalvideoforms3status" />
+        <input type="hidden" name="hdvideoforms3status" value="" id="hdvideoforms3status" />
+        <input type="hidden" name="thumbimageforms3status" value="" id="thumbimageforms3status" />
+        <input type="hidden" name="previewimageforms3status" value="" id="previewimageforms3status" />
         <input type="hidden" name="thump" value="<?php if (isset($imgurl)
                )
                    echo $imgurl;

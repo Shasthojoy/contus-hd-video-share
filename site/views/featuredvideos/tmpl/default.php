@@ -106,8 +106,13 @@ function submitform()
                                     $featuredCategoryVal = "catid=" . $this->featuredvideos[$i]->catid;
                                     $featuredVideoVal = "id=" . $this->featuredvideos[$i]->id;
                                 }
-                                if ($this->featuredvideos[$i]->filepath == "File" || $this->featuredvideos[$i]->filepath == "FFmpeg" || $this->featuredvideos[$i]->filepath == "Embed")
-                                    $src_path = "components/com_contushdvideoshare/videos/" . $this->featuredvideos[$i]->thumburl;
+                                if ($this->featuredvideos[$i]->filepath == "File" || $this->featuredvideos[$i]->filepath == "FFmpeg" || $this->featuredvideos[$i]->filepath == "Embed") {
+                                    if(isset($this->featuredvideos[$i]->amazons3) && $this->featuredvideos[$i]->amazons3 == 1) {
+                                        $src_path = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->featuredvideos[$i]->thumburl;
+                                    } else {
+                                        $src_path = "components/com_contushdvideoshare/videos/" . $this->featuredvideos[$i]->thumburl;
+                                    }
+                                }
                                 if ($this->featuredvideos[$i]->filepath == "Url" || $this->featuredvideos[$i]->filepath == "Youtube")
                                     $src_path = $this->featuredvideos[$i]->thumburl;
                             ?>

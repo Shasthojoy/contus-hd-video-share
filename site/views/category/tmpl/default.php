@@ -91,7 +91,8 @@ if ($totalrecords <= 0) { ##  If the count is 0 then this part will be executed
         } else {
             ?>
                                  <div id="video-grid-container" class="clearfix">
-                                    <?php
+                  
+<?php
 if(isset($dispenable['categoryplayer']) && $dispenable['categoryplayer'] == 1) {
 ?>
                                      
@@ -197,7 +198,11 @@ $mobile = category_detect_mobile();
                                 $video      = $this->categoryview[0]->videourl;
                             }
                         } else {
-                            $video          = JURI::base() . $current_path . $this->categoryview[0]->videourl;   ## For upload Method videos
+                            if(isset($this->categoryview[0]->amazons3) && $this->categoryview[0]->amazons3 == 1) {
+                                $video           = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->categoryview[0]->videourl;
+                            } else {
+                                $video          = JURI::base() . $current_path . $this->categoryview[0]->videourl;   ## For upload Method videos
+                            }
                         }
                         ?>
                         <video id="video" src="<?php echo $video; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" autobuffer controls onerror="failed(event)">
@@ -250,7 +255,8 @@ $mobile = category_detect_mobile();
                 <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
                        allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $baseurl; ?><?php echo '&amp;id=' . $this->categoryview[0]->id . '&amp;catid=' . $this->getcategoryid; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px" />
             </div>
-             <?php }
+             <?php } ?>
+              <?php
 }
 }
 ?>                       
@@ -285,8 +291,13 @@ $mobile = category_detect_mobile();
                     $categoryVideoVal = "id=" . $this->categoryview[$i]->id;
                 }
 
-                if ($this->categoryview[$i]->filepath == "File" || $this->categoryview[$i]->filepath == "FFmpeg" || $this->categoryview[$i]->filepath == "Embed")
-                    $src_path = "components/com_contushdvideoshare/videos/" . $this->categoryview[$i]->thumburl;
+                if ($this->categoryview[$i]->filepath == "File" || $this->categoryview[$i]->filepath == "FFmpeg" || $this->categoryview[$i]->filepath == "Embed") {
+                    if(isset($this->categoryview[0]->amazons3) && $this->categoryview[0]->amazons3 == 1) {
+                        $src_path = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->categoryview[$i]->thumburl;
+                    } else {
+                        $src_path = "components/com_contushdvideoshare/videos/" . $this->categoryview[$i]->thumburl;
+                    }
+                }
                 if ($this->categoryview[$i]->filepath == "Url" || $this->categoryview[$i]->filepath == "Youtube")
                     $src_path = $this->categoryview[$i]->thumburl;
 ?>

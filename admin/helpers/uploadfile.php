@@ -91,14 +91,33 @@ class uploadFileHelper
 	{
 		$strTargetPath = VPATH . "/";
 		##  for videos
+                $db = $this->getDBO();
+                $s3bucket_video = $s3bucket_thumb = $s3bucket_pre = $s3bucket_srt1 = $s3bucket_srt2 = $s3bucket_hdurl = 0;
+                $query = 'SELECT `dispenable` FROM #__hdflv_site_settings  WHERE `id` = 1';
+		$db->setQuery($query);
+		$setting_res = $db->loadResult();
+                $dispenable = unserialize($setting_res);
+                
 		if ($file_video <> '')
 		{
 			$exts = uploadFileHelper::getFileExtension($file_video);
 			$strVidTempPath = FVPATH . "/images/uploads/" . $file_video;
 			$strVidTargetPath = $strTargetPath . $idval . "_video" . "." . $exts;
-			$fv = $idval . "_video" . "." . $exts;
-			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
-			uploadFileHelper::copytovideos($strVidTempPath, $strVidTargetPath, $fv, $idval, 'videourl',$newupload, $filepath);
+                        $fv = $idval . "_video" . "." . $exts;
+                        if($dispenable['amazons3'] == 1) {
+                            $s3bucket_video = 1;
+                            require_once(FVPATH.DS.'helpers'.DS.'s3_config.php');
+                            $strVids3TargetPath = 'components/com_contushdvideoshare/videos/'.$fv;
+                            if($s3->putObjectFile($strVidTempPath, $bucket , $strVids3TargetPath, S3::ACL_PUBLIC_READ) ) {
+                                $s3bucket_video = 1;
+                                uploadFileHelper::amazons3update($strVidTempPath,  $fv, $idval, 'videourl', $filepath);
+                            } else {
+                                $s3bucket_video = 0;
+                            }
+                        } else if($s3bucket_video == 0) {
+                            ##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
+                            uploadFileHelper::copytovideos($strVidTempPath, $strVidTargetPath, $fv, $idval, 'videourl',$newupload, $filepath);
+                        }
 		}
 
 		##  for thumb image
@@ -107,9 +126,21 @@ class uploadFileHelper
 			$exts = uploadFileHelper::getFileExtension($file_timage);
 			$strThumbImgTempPath = FVPATH . "/images/uploads/" . $file_timage;
 			$strThumbImgTargetPath = $strTargetPath . $idval . "_thumb" . "." . $exts;
-			$ft = $idval . "_thumb" . "." . $exts;
-			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
-			uploadFileHelper::copytovideos($strThumbImgTempPath, $strThumbImgTargetPath, $ft, $idval, 'thumburl',$newupload, $filepath);
+                        $ft = $idval . "_thumb" . "." . $exts;
+                        if($dispenable['amazons3'] == 1) {
+                            $s3bucket_thumb = 1;
+                            require_once(FVPATH.DS.'helpers'.DS.'s3_config.php');
+                            $strthumbs3TargetPath = 'components/com_contushdvideoshare/videos/'.$ft;
+                            if($s3->putObjectFile($strThumbImgTempPath, $bucket , $strthumbs3TargetPath, S3::ACL_PUBLIC_READ) ) {
+                                $s3bucket_thumb = 1;
+                                uploadFileHelper::amazons3update($strThumbImgTempPath,  $ft, $idval, 'thumburl', $filepath);
+                            } else {
+                                $s3bucket_thumb = 0;
+                            }
+                        } else if($s3bucket_thumb == 0) {
+                            ##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
+                            uploadFileHelper::copytovideos($strThumbImgTempPath, $strThumbImgTargetPath, $ft, $idval, 'thumburl',$newupload, $filepath);
+                        }
 		}
 		##  for preview image
 		if ($file_pimage <> '')
@@ -118,8 +149,20 @@ class uploadFileHelper
 			$strPreImgTempPath = FVPATH . "/images/uploads/" . $file_pimage;
 			$strPreImgTargetPath = $strTargetPath . $idval . "_preview" . "." . $exts;
 			$fp = $idval . "_preview" . "." . $exts;
+                        if($dispenable['amazons3'] == 1) {
+                            $s3bucket_pre = 1;
+                        require_once(FVPATH.DS.'helpers'.DS.'s3_config.php');
+                        $strpreviews3TargetPath = 'components/com_contushdvideoshare/videos/'.$fp;
+                        if($s3->putObjectFile($strPreImgTempPath, $bucket , $strpreviews3TargetPath, S3::ACL_PUBLIC_READ) ) {
+                            uploadFileHelper::amazons3update($strPreImgTempPath,  $fp, $idval, 'previewurl',  $filepath);
+                            $s3bucket_pre = 1;
+                        } else {
+                                $s3bucket_pre = 0;
+                            } 
+                        } else if($s3bucket_pre == 0) {
 			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
-			uploadFileHelper::copytovideos($strPreImgTempPath, $strPreImgTargetPath, $fp, $idval, 'previewurl', $newupload, $filepath);
+                            uploadFileHelper::copytovideos($strPreImgTempPath, $strPreImgTargetPath, $fp, $idval, 'previewurl', $newupload, $filepath);
+                        }
 		}
 		##  for Subtitle1
 		if ($file_str1 <> '')
@@ -128,8 +171,20 @@ class uploadFileHelper
 			$strstr1TempPath = FVPATH . "/images/uploads/" . $file_str1;
 			$strstr1TargetPath = $strTargetPath . $idval . "_".$subtile_lang1 . "." . $exts;
 			$fp = $idval . "_".$subtile_lang1 . "." . $exts;
+                        if($dispenable['amazons3'] == 1) {
+                            $s3bucket_srt1 = 1;
+                        require_once(FVPATH.DS.'helpers'.DS.'s3_config.php');
+                        $strstr1s3TargetPath = 'components/com_contushdvideoshare/videos/'.$fp;
+                        if($s3->putObjectFile($strstr1TempPath, $bucket , $strstr1s3TargetPath, S3::ACL_PUBLIC_READ) ) {
+                            uploadFileHelper::amazons3update($strstr1TempPath,  $fp, $idval, 'previewurl',  $filepath);
+                        $s3bucket_srt1 = 1;
+                        } else {
+                                $s3bucket_srt1 = 0;
+                            } 
+                        } else if($s3bucket_srt1 == 0) {
 			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
-			uploadFileHelper::copytovideos($strstr1TempPath, $strstr1TargetPath, $fp, $idval, 'subtitle1', $newupload, $filepath);
+                            uploadFileHelper::copytovideos($strstr1TempPath, $strstr1TargetPath, $fp, $idval, 'subtitle1', $newupload, $filepath);
+                        }
 		}
 		##  for Subtitle2
 		if ($file_str2 <> '')
@@ -138,8 +193,20 @@ class uploadFileHelper
 			$strstr2TempPath = FVPATH . "/images/uploads/" . $file_str2;
 			$strstr2TargetPath = $strTargetPath . $idval . "_" .$subtile_lang2. "." . $exts;
 			$fp = $idval . "_" .$subtile_lang2. "." . $exts;
+                        if($dispenable['amazons3'] == 1) {
+                            $s3bucket_srt2 = 1;
+                        require_once(FVPATH.DS.'helpers'.DS.'s3_config.php');
+                        $strstr2s3TargetPath = 'components/com_contushdvideoshare/videos/'.$fp;
+                        if($s3->putObjectFile($strstr2TempPath, $bucket , $strstr2s3TargetPath, S3::ACL_PUBLIC_READ) ) {
+                            uploadFileHelper::amazons3update($strstr2TempPath,  $fp, $idval, 'subtitle2',  $filepath);
+                        $s3bucket_srt2 = 1;
+                        } else {
+                                $s3bucket_srt2 = 0;
+                            } 
+                        } else if($s3bucket_srt2 == 0) {
 			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
-			uploadFileHelper::copytovideos($strstr2TempPath, $strstr2TargetPath, $fp, $idval, 'subtitle2', $newupload, $filepath);
+                            uploadFileHelper::copytovideos($strstr2TempPath, $strstr2TargetPath, $fp, $idval, 'subtitle2', $newupload, $filepath);
+                        }
 		}
 		##  for hdvideo
 		if ($file_hvideo <> '')
@@ -148,11 +215,43 @@ class uploadFileHelper
 			$strHdVidTempPath = FVPATH . "/images/uploads/" . $file_hvideo;
 			$strHdVidTargetPath = $strTargetPath . $idval . "_hd" . "." . $exts;
 			$fh = $idval . "_hd" . "." . $exts;
+                        if($dispenable['amazons3'] == 1) {
+                            $s3bucket_hdurl = 1;
+                        require_once(FVPATH.DS.'helpers'.DS.'s3_config.php');
+                        $strhds3TargetPath = 'components/com_contushdvideoshare/videos/'.$fh;
+                        if($s3->putObjectFile($strHdVidTempPath, $bucket , $strhds3TargetPath, S3::ACL_PUBLIC_READ) ) {
+                            uploadFileHelper::amazons3update($strHdVidTempPath,  $fh, $idval, 'hdurl',  $filepath);
+                        $s3bucket_hdurl = 1;
+                        } else {
+                                $s3bucket_hdurl = 0;
+                            } 
+                        } else if($s3bucket_hdurl == 0) {
 			##  function to copy from imasges/uploads to /components/com_hdvideoshare/videos/
-			uploadFileHelper::copytovideos($strHdVidTempPath, $strHdVidTargetPath, $fh, $idval, 'hdurl', $newupload, $filepath);
+                            uploadFileHelper::copytovideos($strHdVidTempPath, $strHdVidTargetPath, $fh, $idval, 'hdurl', $newupload, $filepath);
+                        }
 		}
 	}	
 
+	## function to move files from temp path to target path 
+	 
+	function amazons3update($strFileTempPath,  $vmfile, $idval, $dbname, $filepath)
+	{		
+		$db = JFactory::getDBO();		
+		##  check thumb image is default thumb image
+		if ($strFileTempPath <> 'default_thumb')
+		{			
+		} else {
+			$vmfile = 'default_thumb.jpg';
+		}
+		
+		##  update streamer option,thumb url and file path
+		$query = "UPDATE `#__hdflv_upload`
+      			  SET streameroption='None',$dbname='$vmfile',filepath='$filepath',amazons3='1' 
+      			  WHERE id = $idval "; 
+		$db->setQuery($query);
+		$db->query();
+	
+	}
 	## function to move files from temp path to target path 
 	 
 	function copytovideos($strFileTempPath, $strFileTargetPath, $vmfile, $idval, $dbname, $newupload, $filepath)

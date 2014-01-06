@@ -173,9 +173,13 @@ function submitform()
                         {
                             if ($this->deletevideos[$i]->thumburl != "")
                             {
-                                $src_path = "components/com_contushdvideoshare/videos/" . $this->deletevideos[$i]->thumburl;
+                                if(isset($this->deletevideos[$i]->amazons3) && $this->deletevideos[$i]->amazons3 == 1) {
+                                    $src_path = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->deletevideos[$i]->thumburl;
+                                } else {
+                                    $src_path = "components/com_contushdvideoshare/videos/" . $this->deletevideos[$i]->thumburl;
+                                }
                             }
-                            }
+                        }
                         if ($this->deletevideos[$i]->filepath == "Url" || $this->deletevideos[$i]->filepath == "Youtube")
                         {
                             $src_path = $this->deletevideos[$i]->thumburl;

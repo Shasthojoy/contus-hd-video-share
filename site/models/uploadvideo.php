@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,20 +11,14 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-
-/*
- ***********************************************************/
-// No direct access to this file
+##  No direct access to this file
 defined( '_JEXEC' ) or die( 'Restricted access' );
-// import joomla model library
+##  import joomla model library
 jimport('joomla.application.component.model');
-//Import filesystem libraries.
+## Import filesystem libraries.
 jimport('joomla.filesystem.file');
-/**
- * Contushdvideoshare Component Uploadvideos Model
- */
-//session_start();
-//session_regenerate_id();
+## Contushdvideoshare Component Uploadvideos Model
+
 class contushdvideoshareModeluploadvideo extends ContushdvideoshareModel {
 	/**
 	 * Constructor
@@ -34,9 +26,9 @@ class contushdvideoshareModeluploadvideo extends ContushdvideoshareModel {
 	 */
 	function __construct() {
 		global $option, $mainframe, $allowedExtensions;
-		global $target_path,$error,$errorcode,$errormsg,$clientupload_val;
+		global $target_path,$error,$errorcode,$errormsg,$clientupload_val,$s3bucket_video;
 		parent::__construct();
-		// get global configuration
+		##  get global configuration
 		$mainframe = JFactory::getApplication();
 		$option = JRequest::getVar('option');
 		$target_path = $error = '';
@@ -60,41 +52,36 @@ class contushdvideoshareModeluploadvideo extends ContushdvideoshareModel {
 		$errormsg[13] = " Please check post_max_size in php.ini settings";
 }
 
-/**
-	 * function to get uploaded file details
-	 * from form
- */
+##function to get uploaded file details from form
 	function fileupload()
 	{
-		global $clientupload_val,$allowedExtensions,$errorcode,$error,$target_path,$errormsg;
-if (JRequest::getVar('error') != '') {
-	$error = JRequest::getVar('error');
-}
-if (JRequest::getVar('processing') != '') {
-	$pro = JRequest::getVar('processing');
-}
-if (JRequest::getVar('clientupload') != '') {
-	$clientupload_val = JRequest::getVar('clientupload');
-}
-$uploadFile = JRequest::getVar('myfile', null, 'files', 'array');
-if (JRequest::getVar('mode') != '') {
-	$exttype = JRequest::getVar('mode');
-	if ($exttype == 'video')
-	$allowedExtensions = array("mp3","MP3","flv", "FLV", "mp4", "MP4" , "m4v", "M4V", "M4A", "m4a", "MOV",
-			"mov", "mp4v", "Mp4v", "F4V", "f4v");
-	else if ($exttype == 'image')
-	$allowedExtensions = array("jpg", "JPG", "png", "PNG");
-	else if ($exttype == 'video_ffmpeg')
-	$allowedExtensions = array("avi","AVI","dv","DV","3gp","3GP","3g2","3G2","mpeg","MPEG","wav","WAV","rm",
-			"RM","mp3","MP3","flv", "FLV", "mp4", "MP4" , "m4v", "M4V", "M4A", "m4a", "MOV", "mov", "mp4v", "Mp4v", 
-			"F4V", "f4v");
+		global $clientupload_val,$allowedExtensions,$errorcode,$error,$target_path,$s3bucket_video,$errormsg;
+                if (JRequest::getVar('error') != '') {
+                        $error = JRequest::getVar('error');
+                }
+                if (JRequest::getVar('processing') != '') {
+                        $pro = JRequest::getVar('processing');
+                }
+                if (JRequest::getVar('clientupload') != '') {
+                        $clientupload_val = JRequest::getVar('clientupload');
+                }
+                $uploadFile = JRequest::getVar('myfile', null, 'files', 'array');
+                if (JRequest::getVar('mode') != '') {
+                        $exttype = JRequest::getVar('mode');
+                        if ($exttype == 'video')
+                        $allowedExtensions = array("mp3","MP3","flv", "FLV", "mp4", "MP4" , "m4v", "M4V", "M4A", "m4a", "MOV",
+                                        "mov", "mp4v", "Mp4v", "F4V", "f4v");
+                        else if ($exttype == 'image')
+                        $allowedExtensions = array("jpg", "JPG", "png", "PNG");
+                        else if ($exttype == 'video_ffmpeg')
+                        $allowedExtensions = array("avi","AVI","dv","DV","3gp","3GP","3g2","3G2","mpeg","MPEG","wav","WAV","rm",
+                                        "RM","mp3","MP3","flv", "FLV", "mp4", "MP4" , "m4v", "M4V", "M4A", "m4a", "MOV", "mov", "mp4v", "Mp4v", 
+                                        "F4V", "f4v");
 }
 
-/**
- * function to check error
- */
+## function to check error
 if (!$this->iserror()) {
-	//check if stopped by post_max_size
+	## check if stopped by post_max_size
 	if (($pro == 1) && (empty($uploadFile))) {
 		$errorcode = 13;
 	}
@@ -102,9 +89,9 @@ if (!$this->iserror()) {
 		$file = $uploadFile;
 		if ($this->no_file_upload_error($file)) {
 			if ($this->isAllowedExtension($file)) {
-				//check file size
+				## check file size
 				if (!$this->filesizeexceeds($file)) {
-					$this->doupload($file,$clientupload_val);
+					$final_target_path = $this->doupload($file,$clientupload_val);
 				}
 			}
 		}
@@ -113,13 +100,12 @@ if (!$this->iserror()) {
 		?>
 <script language="javascript" type="text/javascript">
     window.top.window.updateQueue(<?php echo $errorcode;
-?>,"<?php echo $errormsg[$errorcode]; ?>","<?php echo $target_path; ?>");
+?>,"<?php echo $errormsg[$errorcode]; ?>","<?php echo $final_target_path; ?>","<?php echo $s3bucket_video; ?>");
 </script>
 <?php 
 	}
-/**
- * function to check error
- */
+## function to check error
+
 function iserror() {
 	global $error;
 	global $errorcode;
@@ -131,9 +117,7 @@ function iserror() {
 		return false;
 	}
 }
-/**
- * function to set file upload error
- */
+## function to set file upload error
 function no_file_upload_error($file) {
 	global $errorcode;
 	$error_code = $file['error'];
@@ -166,9 +150,7 @@ function no_file_upload_error($file) {
 			return false;
 	}
 }
-/**
- * function to check the extension of the file
- */
+## function to check the extension of the file
 function isAllowedExtension($file) {
 	global $allowedExtensions;
 	global $errorcode;
@@ -184,9 +166,7 @@ function isAllowedExtension($file) {
 	}
 }
 
-/**
- * function to check the file size
- */
+## function to check the file size
 function filesizeexceeds($file) {
 	global $errorcode;
 	$POST_MAX_SIZE = ini_get('post_max_size');
@@ -202,32 +182,49 @@ function filesizeexceeds($file) {
 	}
 }
 
-/**
- * function to upload video to temporary folder
- */
+## function to upload video to temporary folder
 function doupload($file,$clientupload_val) {	
-	global $errorcode;
-    global $target_path;
-		$destination_path="components/com_contushdvideoshare/views/videoupload/tmpl";
-		if($clientupload_val=="true") {
-			$destination=realpath(dirname(__FILE__).'/../../../components/com_contushdvideoshare/videos/');
-			$destination_path=str_replace('\\', '/', $destination)."/";
-		}
-		$filename = JFile::makeSafe($file['name']);
-		$target_path = $destination_path . rand() . "." . end(explode(".", $filename));
-		//Clean up filename to get rid of strange characters like spaces etc
-		$sourceImage = $file['tmp_name'];
-			
-		// To store images to a directory called components/com_contushdvideoshare/videos
-		if(JFile::upload($sourceImage, $target_path)) {
-        $errorcode = 0;
-    }
-    else {
-        $errorcode = 4;
-    }
-    sleep(1);		
+	global $errorcode,$s3bucket_video;
+        global $target_path;
+        $db = JFactory::getDBO();
+        $query = 'SELECT `dispenable` FROM #__hdflv_site_settings  WHERE `id` = 1';
+        $db->setQuery($query);
+        $setting_res = $db->loadResult();
+        $dispenable = unserialize($setting_res);
+        
+        $destination_path="components/com_contushdvideoshare/views/videoupload/tmpl";
+        if($clientupload_val=="true") {
+                $destination=realpath(dirname(__FILE__).'/../../../components/com_contushdvideoshare/videos/');
+                $destination_path=str_replace('\\', '/', $destination)."/";
+        }
+        $filename = JFile::makeSafe($file['name']);
+        $target_path = $destination_path . rand() . "." . end(explode(".", $filename));
+        ## Clean up filename to get rid of strange characters like spaces etc
+        $sourceImage = $file['tmp_name'];
+
+        if($dispenable['amazons3'] == 1) {
+            $s3bucket_video = 1;
+            require_once(JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'s3_config.php');
+            $strVids3TargetPath = 'components/com_contushdvideoshare/videos/'.$filename;
+            if($s3->putObjectFile($sourceImage, $bucket , $strVids3TargetPath, S3::ACL_PUBLIC_READ) ) {
+                $s3bucket_video = 1;
+                $errorcode = 0;
+            } else {
+                $s3bucket_video = 0;
+            }
+        } 
+        if($s3bucket_video == 0) {
+            $strVids3TargetPath = $target_path;
+            ## To store images to a directory called components/com_contushdvideoshare/videos
+            if(JFile::upload($sourceImage, $target_path)) {
+                $errorcode = 0;
+            }
+            else {
+                $errorcode = 4;
+            }
+        }
+        sleep(1);	
+        return $final_target_path = $strVids3TargetPath;
 }
 }
 ?>
-
-

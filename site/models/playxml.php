@@ -195,6 +195,11 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
             $accessid = $user->get('aid');
         }
 
+        $settingQuery   = "SELECT dispenable FROM #__hdflv_site_settings";
+        $db->setQuery($settingQuery);
+        $resultSetting  = $db->loadResult();
+        $dispenable      = unserialize($resultSetting);
+                
         ## Get player settings
         $qry_settings                   = "SELECT player_icons FROM #__hdflv_player_settings LIMIT 1";
         $db->setQuery($qry_settings);
@@ -231,19 +236,39 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                     if ($hddefault == 0 && $rows->hdurl != '') {
                         $video = '';
                     } else {
+                        if(isset($rows->amazons3) && $rows->amazons3 == 1) {
+                            $video = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->videourl;
+                        } else {
+                            $video = JURI::base() . $current_path . $rows->videourl;
+                        }
+                    }
+                    if(isset($rows->amazons3) && $rows->amazons3 == 1) {
+                        $video = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->videourl;
+                    } else {
                         $video = JURI::base() . $current_path . $rows->videourl;
                     }
-                    $video = JURI::base() . $current_path . $rows->videourl;
                     if ($rows->hdurl != "") {
-                        $hdvideo = JURI::base() . $current_path . $rows->hdurl;
+                        if(isset($rows->amazons3) && $rows->amazons3 == 1) {
+                            $hdvideo = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->hdurl;
+                        } else {
+                            $hdvideo = JURI::base() . $current_path . $rows->hdurl;
+                        }
                     }
                     if (!empty($rows->previewurl)) {
                         $preview_image = $rows->previewurl;
                     } else {
                         $preview_image = 'default_preview.jpg';
                     }
-                    $previewimage = JURI::base() . $current_path . $preview_image;
-                    $timage = JURI::base() . $current_path . $rows->thumburl;
+                    if(isset($rows->amazons3) && $rows->amazons3 == 1 && !empty($rows->previewurl)) {
+                        $previewimage = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->previewurl;
+                    } else {
+                        $previewimage = JURI::base() . $current_path . $preview_image;
+                    }
+                    if(isset($rows->amazons3) && $rows->amazons3 == 1) {
+                        $timage = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->thumburl;
+                    } else {
+                        $timage = JURI::base() . $current_path . $rows->thumburl;
+                    }
                     if ($rows->hdurl) {
                         $hd_bol = "true";
                     } else {
@@ -377,10 +402,6 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                 $db->setQuery($categoryQuery);
                 $seo_category   = $db->loadResult();                      ## Get seo category title
                 
-                $settingQuery   = "SELECT dispenable FROM #__hdflv_site_settings";
-                $db->setQuery($settingQuery);
-                $resultSetting  = $db->loadResult();
-                $dispenable      = unserialize($resultSetting);
                 if ($dispenable['seo_option'] == 1) {               ## If seo option enabled
                     $fbCategoryVal = "category=" . $seo_category;
                     $fbVideoVal = "video=" . $rows->seotitle;

@@ -41,7 +41,11 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                 }
 
                 if ($this->rs_playlist1[0][$i]->filepath == "File" || $this->rs_playlist1[0][$i]->filepath == "FFmpeg" || $this->rs_playlist1[0][$i]->filepath == "Embed"){
-                    $src_path               = "components/com_contushdvideoshare/videos/" . $this->rs_playlist1[0][$i]->thumburl;
+                    if(isset($this->rs_playlist1[0][$i]->amazons3) && $this->rs_playlist1[0][$i]->amazons3 == 1) {
+                            $src_path               = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->rs_playlist1[0][$i]->thumburl;
+                    } else {
+                            $src_path               = "components/com_contushdvideoshare/videos/" . $this->rs_playlist1[0][$i]->thumburl;
+                    }
                 }
                 if ($this->rs_playlist1[0][$i]->filepath == "Url" || $this->rs_playlist1[0][$i]->filepath == "Youtube"){
                     $src_path               = $this->rs_playlist1[0][$i]->thumburl;
@@ -129,10 +133,16 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                     $popularCategoryVal = "catid=" . $this->rs_playlist1[2][$i]->catid;
                     $popularVideoVal = "id=" . $this->rs_playlist1[2][$i]->id;
                 }
-                if ($this->rs_playlist1[2][$i]->filepath == "File" || $this->rs_playlist1[2][$i]->filepath == "FFmpeg" || $this->rs_playlist1[2][$i]->filepath == "Embed")
-                    $src_path = "components/com_contushdvideoshare/videos/" . $this->rs_playlist1[2][$i]->thumburl;
-                if ($this->rs_playlist1[2][$i]->filepath == "Url" || $this->rs_playlist1[2][$i]->filepath == "Youtube")
+                if ($this->rs_playlist1[2][$i]->filepath == "File" || $this->rs_playlist1[2][$i]->filepath == "FFmpeg" || $this->rs_playlist1[2][$i]->filepath == "Embed"){
+                    if(isset($this->rs_playlist1[2][$i]->amazons3) && $this->rs_playlist1[2][$i]->amazons3 == 1) {
+                            $src_path               = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->rs_playlist1[2][$i]->thumburl;
+                    } else {
+                            $src_path = "components/com_contushdvideoshare/videos/" . $this->rs_playlist1[2][$i]->thumburl;
+                    }
+                }
+                if ($this->rs_playlist1[2][$i]->filepath == "Url" || $this->rs_playlist1[2][$i]->filepath == "Youtube") {
                     $src_path = $this->rs_playlist1[2][$i]->thumburl;
+                }
             ?>
                 <li class="video-item popular_gutterwidth">
                     <a class=" info_hover featured_vidimg"  rel="htmltooltip1" href="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&amp;view=player&amp;' . $popularCategoryVal . '&amp;' . $popularVideoVal, true); ?>" ><img class="yt-uix-hovercard-target" src="<?php echo $src_path; ?>"  width="145" height="80" title="" alt="thumb_image"/></a>
@@ -222,8 +232,13 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                         $recentCategoryVal = "catid=" . $this->rs_playlist1[1][$i]->catid;
                         $recentVideoVal = "id=" . $this->rs_playlist1[1][$i]->id;
                     }
-                    if ($this->rs_playlist1[1][$i]->filepath == "File" || $this->rs_playlist1[1][$i]->filepath == "FFmpeg"  || $this->rs_playlist1[1][$i]->filepath == "Embed")
-                        $src_path = "components/com_contushdvideoshare/videos/" . $this->rs_playlist1[1][$i]->thumburl;
+                    if ($this->rs_playlist1[1][$i]->filepath == "File" || $this->rs_playlist1[1][$i]->filepath == "FFmpeg"  || $this->rs_playlist1[1][$i]->filepath == "Embed") {
+                        if(isset($this->rs_playlist1[1][$i]->amazons3) && $this->rs_playlist1[1][$i]->amazons3 == 1) {
+                            $src_path               = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->rs_playlist1[1][$i]->thumburl;
+                        } else {
+                            $src_path = "components/com_contushdvideoshare/videos/" . $this->rs_playlist1[1][$i]->thumburl;
+                        }
+                    }
                     if ($this->rs_playlist1[1][$i]->filepath == "Url" || $this->rs_playlist1[1][$i]->filepath == "Youtube")
                         $src_path = $this->rs_playlist1[1][$i]->thumburl;
             ?>

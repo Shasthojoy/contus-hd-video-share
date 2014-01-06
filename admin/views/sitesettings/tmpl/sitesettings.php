@@ -587,6 +587,52 @@ function enablefbapi(val) {
 					value="0" />No</td>
 			</tr>
 			<tr>
+				<td><?php echo JHTML::tooltip('Option to store videos in Amazon S3 bucket', 'Store videos in Amazon S3 bucket', 
+	            '', 'Store videos in Amazon S3 bucket');?></td>
+				<td><input type="radio" name="amazons3" id="amazons3" onclick="dispenable(1);"
+				<?php
+				if (isset($dispenable['amazons3']) && $dispenable['amazons3'] == '1') {
+					echo 'checked="checked" ';
+				}
+				?>
+					value="1" />Yes</td>
+				<td colspan="3"><input type="radio" name="amazons3" onclick="dispenable(0);"
+					id="amazons3"
+					<?php
+					if (isset($dispenable['amazons3']) && $dispenable['amazons3'] == '0') {
+						echo 'checked="checked" ';
+					}
+					?>
+					value="0" />No</td>
+			</tr>
+			<tr id="amazons3name_area" style="display: none;">
+				<td><?php echo JHTML::tooltip('Option to get Amazon S3 bucket name', 'Enter Amazon S3 bucket name', 
+	            '', 'Enter Amazon S3 bucket name');?></td>
+				<td>
+                                    <input type="text" name="amazons3name"
+					id="amazons3name" maxlength="100"
+					value="<?php if (isset($dispenable['amazons3name'])) echo $dispenable['amazons3name']; ?>">
+                                </td>
+			</tr>
+			<tr id="amazons3accesskey_area" style="display: none;">
+				<td><?php echo JHTML::tooltip('Option to get Amazon S3 bucket access key', 'Enter Amazon S3 bucket access key', 
+	            '', 'Enter Amazon S3 bucket access key');?></td>
+				<td>
+                                    <input type="text" name="amazons3accesskey"
+					id="amazons3accesskey" maxlength="100"
+					value="<?php if (isset($dispenable['amazons3accesskey'])) echo $dispenable['amazons3accesskey']; ?>">
+                                </td>
+			</tr>
+			<tr id="amazons3accesssecretkey_area" style="display: none;">
+				<td><?php echo JHTML::tooltip('Option to get Amazon S3 bucket access secret key', 'Enter Amazon S3 bucket access secret key', 
+	            '', 'Enter Amazon S3 bucket access secret key');?></td>
+				<td>
+                                    <input type="text" name="amazons3accesssecretkey_area"
+					id="amazons3accesssecretkey_area" maxlength="100"
+					value="<?php if (isset($dispenable['amazons3accesssecretkey_area'])) echo $dispenable['amazons3accesssecretkey_area']; ?>">
+                                </td>
+			</tr>
+			<tr>
 				<td><?php echo JHTML::tooltip('Option to enable/disable search engine friendly url', 'Search Engine Friendly URLs', 
 	            '', 'Search Engine Friendly URLs');?></td>
 				<td ><input type="radio" name="seo_option"
@@ -642,4 +688,18 @@ if(<?php echo $dispenable['comment']; ?>== 1){
 else if(<?php echo $dispenable['comment']; ?>== 5){	
 	enablefbapi('5');		
 }
+    function dispenable(status) {
+        if (status == 1)
+        {
+            document.getElementById("amazons3name_area").style.display = '';
+            document.getElementById("amazons3accesskey_area").style.display = '';
+            document.getElementById("amazons3accesssecretkey_area").style.display = '';
+        }
+        else
+        {
+            document.getElementById("amazons3name_area").style.display = "none";
+            document.getElementById("amazons3accesskey_area").style.display = "none";
+            document.getElementById("amazons3accesssecretkey_area").style.display = "none";
+        }
+    }
 </script>

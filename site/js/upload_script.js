@@ -1,8 +1,6 @@
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -12,9 +10,6 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-
-/*
- ***********************************************************/
 
 
 var uploadqueue = [];
@@ -68,7 +63,7 @@ function holdQueue()
     form_handler = uploadqueue[uploadqueue.length-1];
     setStatus(form_handler,'Queued');
 }
-function updateQueue(statuscode,statusmessage,outfile)
+function updateQueue(statuscode,statusmessage,outfile,s3buck)
 {
     
     uploadmessage = statusmessage;
@@ -79,12 +74,15 @@ function updateQueue(statuscode,statusmessage,outfile)
     {
 
         form_handlers=form_handler+"val";
+        amazons3bucketstatus=form_handler+"s3status";
         document.getElementById(form_handlers).value = outfile;
+        document.getElementById(amazons3bucketstatus).value = s3buck;
     }
     else
     {
         document.getElementById(form_handler).value = outfile;
     }
+    
     setStatus(form_handler,statuscode);
     uploadqueue.shift();
     processQueue();

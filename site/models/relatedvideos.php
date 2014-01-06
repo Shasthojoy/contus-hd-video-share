@@ -90,7 +90,7 @@ function getrelatedvideos()
         else
         $start= ($pageno - 1) * $length;
         if (isset($videoid) && (isset($video)) && !empty($video)) {
-$query = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+$query = "SELECT a.id,a.amazons3,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
 						 	  a.times_viewed,a.seotitle,b.id as catid,b.category,b.seo_category,e.catid,e.vid
         		  FROM #__hdflv_upload a 
         		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 

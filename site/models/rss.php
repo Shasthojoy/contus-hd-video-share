@@ -52,10 +52,15 @@ class Modelcontushdvideosharerss extends ContushdvideoshareModel {
                     WHERE a.published='1' and b.published='1' $orderby";
         $db->setQuery($query);
         $rs_video = $db->loadObjectList();
-        $this->showxml($rs_video);
+        $settings_query = 'SELECT `dispenable` FROM #__hdflv_site_settings  WHERE `id` = 1';
+        $db->setQuery($settings_query);
+        $setting_res = $db->loadResult();
+        $dispenable = unserialize($setting_res);
+                
+        $this->showxml($rs_video,$dispenable);
     }
 
-    function showxml($rs_video) {
+    function showxml($rs_video,$dispenable) {
 
         ob_clean();
         header("Cache-Control: no-cache, must-revalidate");
@@ -82,7 +87,11 @@ class Modelcontushdvideosharerss extends ContushdvideoshareModel {
                     if ($hddefault == 0 && $rows->hdurl != '') {
                         $video = '';
                     } else {
-                        $video = JURI::base() . $current_path . $rows->videourl;
+                        if(isset($rows->amazons3) && $rows->amazons3 == 1) {
+                            $video = "http://".$dispenable['amazons3name'].".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->videourl;
+                        } else {
+                            $video = JURI::base() . $current_path . $rows->videourl;
+                        }
                     }
                     $video = JURI::base() . $current_path . $rows->videourl;
                     if (!empty($rows->previewurl))
