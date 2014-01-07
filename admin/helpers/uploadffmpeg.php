@@ -91,14 +91,14 @@ class uploadFfmpegHelper {
 		## To check for HD or Flv or other movies
 		if ($hdfile == "h264") {
 			$exts = uploadFfmpegHelper::getFileExtension($strTmpVidName);
-			$video_name = $idval . '_hd' . ".flv";
-			$flvpath = $strTargetPath . $idval . '_hd' . ".flv";
+			$video_name = $idval . '_hd' . ".mp4";
+			$flvpath = $strTargetPath . $idval . '_hd' . ".mp4";
 //			exec($strFfmpegPath . ' ' . '-i' . ' ' . $strTmpPath . ' ' . '-sameq' . ' ' . $flvpath . ' ' . '2>&1');
-			exec($strFfmpegPath  .' '."-i".' '. $strTmpPath.' '."-vcodec libx264  -sameq" . ' ' . $strTargetPath . $idval."_video.mp4");
+			exec($strFfmpegPath  .' '."-i".' '. $strTmpPath.' '."-vcodec libx264  -sameq" . ' ' . $strTargetPath . $idval."_hd.mp4");
                         exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval."_thumb.jpeg");
                         exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -vframes 1 -y" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
 
-			## To get Thumb image & Preview image from the original video file
+                        ## To get Thumb image & Preview image from the original video file
 //			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
 //			exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s" . ' ' . $previewwidth . "x" . $previewheight . ' ' . " -f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
                         
@@ -171,7 +171,7 @@ class uploadFfmpegHelper {
 			## To get Thumb image & Preview image from the original video file
 //			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s 120x68 -f image2" . ' ' . $strTargetPath . $idval . '_thumb' . ".jpeg");
 //			exec($strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:05 -an -r 1 -s " . ' ' . $previewwidth . "x" . $previewheight . ' ' . "-f image2" . ' ' . $strTargetPath . $idval . '_preview' . ".jpeg");
-			$video_name = $idval . '_video' . ".flv";
+			$video_name = $idval . '_video' . ".mp4";
 			$hd_name = "";
                         
                         if($dispenable['amazons3'] == 1) {

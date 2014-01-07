@@ -378,7 +378,7 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
 					<?php
 					$str1 = explode('administrator', JURI::base());
 					$videopath1 = $str1[0];
-					$videolink1 = 'index.php?option=com_contushdvideoshare&view=player&id=' . $row_showupload->id.'&adminview=true';
+					$videolink1 = 'index.php?option=com_contushdvideoshare&view=player&id=' . $row_showupload->id.'&catid=' . $row_showupload->playlistid.'&adminview=true';
 					$videolink = $videopath1 . $videolink1;
 					if ($row_showupload->filepath == "File" || $row_showupload->filepath == "FFmpeg") {
 						$videolink2 = $row_showupload->videourl;
