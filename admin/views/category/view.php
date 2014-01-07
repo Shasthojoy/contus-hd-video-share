@@ -55,6 +55,17 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
         ## Setting the toolbar
         protected function addToolBar()
         {
+            if (version_compare(JVERSION, '1.5', 'ge')) {
+                JToolBarHelper::addNewX();
+                JToolBarHelper::editListX();
+                if(JRequest::getVar('category_status') == 3) {        	
+                    JToolBarHelper::deleteList('', 'remove', 'JTOOLBAR_EMPTY_TRASH');
+                }else {			
+                        JToolBarHelper::trash('trash');	
+                }
+                JToolBarHelper::publishList();
+                JToolBarHelper::unpublishList();
+            } else {
             require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
             ## What Access Permissions does this user have? What can (s)he do?
                 $this->canDo = ContushdvideoshareHelper::getActions();
@@ -91,5 +102,6 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
                     JToolBarHelper::preferences('com_contushdvideoshare');
                 }
         }
+}
 }
 ?>

@@ -54,12 +54,21 @@ class com_contushdvideoshareInstallerScript {
     function postflight($type, $parent) {
 
         $db         = JFactory::getDBO();
-        $player_colorscolumnExists = $player_valuescolumnExists = $imaadscolumnExists = $embedcodecolumnExists = $subtitle1codecolumnExists = $subtitle2codecolumnExists = $subtile_lang2codecolumnExists = $subtile_lang1codecolumnExists = $amazons3columnExists = $imaaddetcolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = 'false';
-        $query      = 'SELECT id FROM #__hdflv_player_settings LIMIT 1;';
-        $db->setQuery($query);
-        $result     = $db->loadResult();
-
-        if (!empty($result)) {
+        $player_colorscolumnExists = $playersettingstableExists = $player_valuescolumnExists = $imaadscolumnExists = $embedcodecolumnExists = $subtitle1codecolumnExists = $subtitle2codecolumnExists = $subtile_lang2codecolumnExists = $subtile_lang1codecolumnExists = $amazons3columnExists = $imaaddetcolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = 'false';
+        $showtablequery    = 'SHOW TABLES ;';
+        $db->setQuery($showtablequery);
+        $db->query();
+        $tablecolumnData             = $db->loadObjectList();
+        $conf = JFactory::getConfig();
+	$database = $conf->get('db');
+        $prefix = $conf->get('dbprefix');
+        foreach ($tablecolumnData as $valuetable) {
+            $field = 'Tables_in_'.$database;
+            if ($valuetable->$field == $prefix.'_hdflv_player_settings') {
+                $playersettingstableExists = 'true';
+            }
+        }
+        if ($playersettingstableExists == 'true') {
         
         $playersettingsquery    = 'SHOW COLUMNS FROM `#__hdflv_player_settings`';
         $db->setQuery($playersettingsquery);
@@ -266,6 +275,27 @@ class com_contushdvideoshareInstallerScript {
                 $query              = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrsidethumbview . '\'';
                 $db->setQuery($query);
                 $db->query();
+        } else {
+                $query                  = 'SELECT sidethumbview FROM `#__hdflv_site_settings`';
+                $db->setQuery($query);
+                $sidethumbviewResult     = $db->loadResult();
+                $upgradesidethumbview = unserialize($sidethumbviewResult);
+                if(!empty($sidethumbviewResult)) {
+                    if(!isset($upgradesidethumbview['siderandomvideorow'])){
+                        $upgradesidethumbview['siderandomvideorow'] = 3;
+                        $arrupgradesiderandomvideorow          = serialize($upgradesidethumbview);
+                        $query                  = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrupgradesiderandomvideorow . '\'';
+                        $db->setQuery($query);
+                        $db->query();
+                   }
+                   if(!isset($upgradesidethumbview['siderandomvideocol'])){
+                        $upgradesidethumbview['siderandomvideocol'] = 1;
+                        $arrupgradesiderandomvideocol          = serialize($upgradesidethumbview);
+                        $query                  = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrupgradesiderandomvideocol . '\'';
+                        $db->setQuery($query);
+                        $db->query();
+                   }
+                }
         }
         if ($dispenablecolumnExists == 'false') {
             $db->setQuery("ALTER TABLE  `#__hdflv_site_settings` ADD  `dispenable` longtext NOT NULL");
@@ -295,6 +325,46 @@ class com_contushdvideoshareInstallerScript {
                 $query              = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrdispenable . '\'';
                 $db->setQuery($query);
                 $db->query();
+        } else {
+            $query                  = 'SELECT dispenable FROM `#__hdflv_site_settings`';
+            $db->setQuery($query);
+            $dispenableResult     = $db->loadResult();
+            $upgradedisp = unserialize($dispenableResult);
+            if(!isset($upgradedisp['upload_methods'])){
+                $upgradedisp['upload_methods'] = 'Upload,Youtube,URL,RTMP';
+                $arrupgradedisp          = serialize($upgradedisp);
+                $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+                $db->setQuery($query);
+                $db->query();
+            }
+            if(!isset($upgradedisp['adminapprove'])){
+                $upgradedisp['adminapprove'] = 0;
+                $arrupgradedisp          = serialize($upgradedisp);
+                $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+                $db->setQuery($query);
+                $db->query();
+            }
+            if(!isset($upgradedisp['reportvideo'])){
+                $upgradedisp['reportvideo'] = 0;
+                $arrupgradedisp          = serialize($upgradedisp);
+                $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+                $db->setQuery($query);
+                $db->query();
+            }
+            if(!isset($upgradedisp['categoryplayer'])){
+                $upgradedisp['categoryplayer'] = 0;
+                $arrupgradedisp          = serialize($upgradedisp);
+                $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+                $db->setQuery($query);
+                $db->query();
+            }
+            if(!isset($upgradedisp['amazons3'])){
+                $upgradedisp['amazons3'] = 0;
+                $arrupgradedisp          = serialize($upgradedisp);
+                $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+                $db->setQuery($query);
+                $db->query();
+            }
         }
         
         $googleadquery = 'SHOW COLUMNS FROM `#__hdflv_googlead`';
@@ -541,9 +611,7 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
             <?php
                 ## check installed modules
-                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareCategories' LIMIT 1");
-                }
+                $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareCategories' LIMIT 1");
                 $category_id = $db->loadResult();
                 if ($category_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";
@@ -559,9 +627,7 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
             <?php
                 ## check installed modules
-                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareFeatured' LIMIT 1");
-                }
+                $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareFeatured' LIMIT 1");
                 $featured_id = $db->loadResult();
                 if ($featured_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";
@@ -577,9 +643,7 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
             <?php
                 ## check installed modules
-                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRandom' LIMIT 1");
-                }
+                $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRandom' LIMIT 1");
                 $Random_id = $db->loadResult();
                 if ($Random_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";
@@ -595,9 +659,7 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
             <?php
                 ## check installed modules
-                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRelated' LIMIT 1");
-                }
+                $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRelated' LIMIT 1");
                 $related_id = $db->loadResult();
                 if ($related_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";
@@ -613,9 +675,7 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
                 <?php
                 ## check installed modules
-                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoSharePopular' LIMIT 1");
-                }
+                $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoSharePopular' LIMIT 1");
                 $popular_id = $db->loadResult();
                 if ($popular_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";
@@ -631,9 +691,7 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
                 <?php
                 ## check installed modules
-                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRecent' LIMIT 1");
-                }
+                $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRecent' LIMIT 1");
                 $recent_id = $db->loadResult();
                 if ($recent_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";
@@ -648,9 +706,7 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
             <?php
                 ## check installed modules
-                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareSearch' LIMIT 1");
-                }
+                $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareSearch' LIMIT 1");
                 $search_id = $db->loadResult();
                 if ($search_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";
@@ -665,9 +721,7 @@ class com_contushdvideoshareInstallerScript {
             <td style="text-align: center;">
             <?php
                 ## check installed modules
-                if (!version_compare(JVERSION, '1.5.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'plugin' AND element = 'hvsarticle' AND folder = 'content' LIMIT 1");
-                }
+                $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'plugin' AND element = 'hvsarticle' AND folder = 'content' LIMIT 1");
                 $article_id = $db->loadResult();
                 if ($article_id) {
                     echo "<strong>" . JText::_('Installed successfully') . "</strong>";

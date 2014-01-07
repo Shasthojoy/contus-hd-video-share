@@ -436,6 +436,11 @@ if (empty($result)) {
     if (!$updatethumbview) {
         $msgSQL             .= "error adding 'thumbview' column to 'hdflv_site_settings' table <br />";
     } else {
+        
+        $query                  = 'SELECT thumbview FROM `#__hdflv_site_settings`';
+        $db->setQuery($query);
+        $thumbviewResult     = $db->loadResult();
+        if(empty($thumbviewResult)) {
         ## Get thumbview details and serialize data
                 $sitethumbview              = array(
                     'featurrow'             => $settingstabeResult->featurrow,
@@ -468,9 +473,16 @@ if (empty($result)) {
                 $db->setQuery($query);
                 $db->query();
     }
+    }
     if (!$updatehomethumbview) {
         $msgSQL                             .= "error adding 'homethumbview' column to 'hdflv_site_settings' table <br />";
     } else {
+        
+        $query                  = 'SELECT homethumbview FROM `#__hdflv_site_settings`';
+        $db->setQuery($query);
+        $homethumbviewResult     = $db->loadResult();
+        if(empty($homethumbviewResult)) {
+        
         ## Get home page thumb details and serialize data
                 $sitehomethumbview          = array(
                     'homepopularvideo'      => $settingstabeResult->homepopularvideo,
@@ -494,10 +506,17 @@ if (empty($result)) {
                 $query                      = 'UPDATE #__hdflv_site_settings SET homethumbview=\'' .$arrhomethumbview . '\'';
                 $db->setQuery($query);
                 $db->query();
+        }
     }
     if (!$updatesidethumbview) {
         $msgSQL                             .= "error adding 'sidethumbview' column to 'hdflv_site_settings' table <br />";
     } else {
+        
+        $query                  = 'SELECT sidethumbview FROM `#__hdflv_site_settings`';
+        $db->setQuery($query);
+        $sidethumbviewResult     = $db->loadResult();
+        $upgradesidethumbview = unserialize($sidethumbviewResult);
+        if(empty($sidethumbviewResult)) {
         ## Get home page thumb details and serialize data
                 $sitesidethumbview          = array(
                     'sidepopularvideorow'   => $settingstabeResult->sidepopularvideorow,
@@ -515,35 +534,91 @@ if (empty($result)) {
                 $query                      = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrsidethumbview . '\'';
                 $db->setQuery($query);
                 $db->query();
+    } else if(!isset($upgradesidethumbview['siderandomvideorow'])){
+        $upgradesidethumbview['siderandomvideorow'] = 3;
+        $arrupgradesiderandomvideorow          = serialize($upgradesidethumbview);
+        $query                  = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrupgradesiderandomvideorow . '\'';
+        $db->setQuery($query);
+        $db->query();
+    }
+    if(!isset($upgradesidethumbview['siderandomvideocol'])){
+        $upgradesidethumbview['siderandomvideocol'] = 1;
+        $arrupgradesiderandomvideocol          = serialize($upgradesidethumbview);
+        $query                  = 'UPDATE #__hdflv_site_settings SET sidethumbview=\'' .$arrupgradesiderandomvideocol . '\'';
+        $db->setQuery($query);
+        $db->query();
+    }
     }
     if (!$updatedispenable) {
         $msgSQL                             .= "error adding 'dispenable' column to 'hdflv_site_settings' table <br />";
     } else {
+        
+        $query                  = 'SELECT dispenable FROM `#__hdflv_site_settings`';
+        $db->setQuery($query);
+        $dispenableResult     = $db->loadResult();
+        $upgradedisp = unserialize($dispenableResult);
+        
+        if(empty($dispenableResult)) {
         ## Get thumbview details and serialize data
-                $sitedispenable           = array(
-                    'allowupload'         => $settingstabeResult->allowupload,
-                    'user_login'          => $settingstabeResult->user_login,
-                    'ratingscontrol'      => $settingstabeResult->ratingscontrol,
-                    'viewedconrtol'       => $settingstabeResult->viewedconrtol,
-                    'reportvideo'         => 0,
-                    'seo_option'          => $settingstabeResult->seo_option,
-                    'adminapprove'        => 0,
-                    'categoryplayer'      => 0,
-                    'upload_methods'      => 'Upload,Youtube,URL,RTMP',
-                    'language_settings'   => 'English.php',
-                    'disqusapi'           => '',
-                    'amazons3'            => 0,
-                    'amazons3name'        => '',
-                    'amazons3accesskey'    => '',
-                    'amazons3accesssecretkey_area' => '',
-                    'facebookapi'         => $settingstabeResult->facebookapi,
-                    'comment'             => $settingstabeResult->comment,
-                    'facebooklike'        => $settingstabeResult->facebooklike
-                 );
-                $arrdispenable          = serialize($sitedispenable);
-                $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrdispenable . '\'';
-                $db->setQuery($query);
-                $db->query();
+        $sitedispenable           = array(
+            'allowupload'         => $settingstabeResult->allowupload,
+            'user_login'          => $settingstabeResult->user_login,
+            'ratingscontrol'      => $settingstabeResult->ratingscontrol,
+            'viewedconrtol'       => $settingstabeResult->viewedconrtol,
+            'reportvideo'         => 0,
+            'seo_option'          => $settingstabeResult->seo_option,
+            'adminapprove'        => 1,
+            'categoryplayer'      => 0,
+            'upload_methods'      => 'Upload,Youtube,URL,RTMP',
+            'language_settings'   => 'English.php',
+            'disqusapi'           => '',
+            'amazons3'            => 0,
+            'amazons3name'        => '',
+            'amazons3accesskey'    => '',
+            'amazons3accesssecretkey_area' => '',
+            'facebookapi'         => $settingstabeResult->facebookapi,
+            'comment'             => $settingstabeResult->comment,
+            'facebooklike'        => $settingstabeResult->facebooklike
+         );
+        $arrdispenable          = serialize($sitedispenable);
+        $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrdispenable . '\'';
+        $db->setQuery($query);
+        $db->query();
+    } else if(!isset($upgradedisp['upload_methods'])){
+        $upgradedisp['upload_methods'] = 'Upload,Youtube,URL,RTMP';
+        $arrupgradedisp          = serialize($upgradedisp);
+        $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+        $db->setQuery($query);
+        $db->query();
+    }
+    if(!isset($upgradedisp['adminapprove'])){
+        $upgradedisp['adminapprove'] = 1;
+        $arrupgradedisp          = serialize($upgradedisp);
+        $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+        $db->setQuery($query);
+        $db->query();
+    }
+    if(!isset($upgradedisp['reportvideo'])){
+        $upgradedisp['reportvideo'] = 0;
+        $arrupgradedisp          = serialize($upgradedisp);
+        $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+        $db->setQuery($query);
+        $db->query();
+    }
+    if(!isset($upgradedisp['categoryplayer'])){
+        $upgradedisp['categoryplayer'] = 0;
+        $arrupgradedisp          = serialize($upgradedisp);
+        $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+        $db->setQuery($query);
+        $db->query();
+    }
+    if(!isset($upgradedisp['amazons3'])){
+        $upgradedisp['amazons3'] = 0;
+        $arrupgradedisp          = serialize($upgradedisp);
+        $query                  = 'UPDATE #__hdflv_site_settings SET dispenable=\'' .$arrupgradedisp . '\'';
+        $db->setQuery($query);
+        $db->query();
+    }
     }
     
     ## Update player settings table
@@ -557,6 +632,11 @@ if (empty($result)) {
     if (!$updateplayer_icons) {
         $msgSQL                 .= "error adding 'player_icons' column to 'hdflv_player_settings' table <br />";
     } else {
+        $query                  = 'SELECT player_icons FROM `#__hdflv_player_settings`';
+        $db->setQuery($query);
+        $player_iconsResult     = $db->loadResult();
+        if(empty($player_iconsResult)) {
+
         ## Get player icon options and serialize data
                 $updateplayer_icons             = array(
                     'autoplay'                  => $playersettingstabeResult->autoplay,
@@ -593,9 +673,14 @@ if (empty($result)) {
                 $db->setQuery($query);
                 $db->query();
     }
+    }
     if (!$updateplayer_values) {
         $msgSQL                                 .= "error adding 'player_values' column to 'hdflv_player_settings' table <br />";
     } else {
+        $query                  = 'SELECT player_values FROM `#__hdflv_player_settings`';
+        $db->setQuery($query);
+        $player_valuesResult     = $db->loadResult();
+        if(empty($player_valuesResult)) {
         ## Get Player values and serialize data
                 $updateplayer_values                  = array(
                     'buffer'                    => $playersettingstabeResult->buffer,
@@ -628,6 +713,7 @@ if (empty($result)) {
                 $query                          = 'UPDATE #__hdflv_player_settings SET player_values=\'' .$arrplayer_values . '\'';
                 $db->setQuery($query);
                 $db->query();
+    }
     }
 
     if (!$updateMid) {

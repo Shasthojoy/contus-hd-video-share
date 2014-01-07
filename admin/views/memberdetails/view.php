@@ -31,10 +31,16 @@ class contushdvideoshareViewmemberdetails extends ContushdvideoshareView {
     ## Setting the toolbar
     protected function addToolBar()
     {
+        JToolBarHelper::title('Member Details', 'memberdetails');
+        if (version_compare(JVERSION, '1.5', 'ge')) {
+            JToolBarHelper::custom($task = 'allowupload', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable User upload', $listSelect = true);
+            JToolBarHelper::custom($task = 'unallowupload', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable User upload', $listSelect = true);
+            JToolBarHelper::publishList('publish', 'Active');
+            JToolBarHelper::unpublishList('unpublish', 'Deactive');
+        } else {
         require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
         ## What Access Permissions does this user have? What can (s)he do?
             $this->canDo = ContushdvideoshareHelper::getActions();
-            JToolBarHelper::title('Member Details', 'memberdetails');
             if ($this->canDo->get('core.admin'))
             {
                 JToolBarHelper::custom($task = 'allowupload', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable User upload', $listSelect = true);
@@ -45,5 +51,6 @@ class contushdvideoshareViewmemberdetails extends ContushdvideoshareView {
                 JToolBarHelper::preferences('com_contushdvideoshare');
             }
     }
+}
 }
 ?>

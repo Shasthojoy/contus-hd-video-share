@@ -9,8 +9,6 @@
     <authorEmail>support@apptha.com</authorEmail>
     <authorUrl>http://www.apptha.com</authorUrl>
     <description>Contus HD Video Share</description>
-    <!-- Database setup -->
-    <scriptfile>script.php</scriptfile>
     <install> <!-- Runs on install -->
         <sql>
             <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
@@ -21,6 +19,8 @@
             <file driver="mysql" charset="utf8">sql/uninstall.mysql.utf8.sql</file>
         </sql>
     </uninstall>
+    <!-- Database setup -->
+    <scriptfile>script.php</scriptfile>
     <!-- The following tag(s) are evaluated by the above subinstall script -->
         <!-- Frontend files -->
     <files folder="site">

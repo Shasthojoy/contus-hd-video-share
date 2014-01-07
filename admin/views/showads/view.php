@@ -33,12 +33,21 @@ class contushdvideoshareViewshowads extends ContushdvideoshareView {
     ## Setting the toolbar
     protected function addToolBar()
     {
-        require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
-        ## What Access Permissions does this user have? What can (s)he do?
+        JToolBarHelper::title(JText::_('Video Ads'), 'ads');
+        if (version_compare(JVERSION, '1.5', 'ge')) {
+            JToolBarHelper::addNew('addads', 'New Ad');
+            JToolBarHelper::editList('editads', 'Edit');
+            if(JRequest::getVar('ads_status') == 3) {        	
+                JToolBarHelper::deleteList('', 'removeads', 'JTOOLBAR_EMPTY_TRASH');
+            } else {
+                JToolBarHelper::trash('trash');
+            }
+            JToolBarHelper::publishList();
+            JToolBarHelper::unpublishList();
+        } else {
+            require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+            ## What Access Permissions does this user have? What can (s)he do?
             $this->canDo = ContushdvideoshareHelper::getActions();
-            
-            JToolBarHelper::title(JText::_('Video Ads'), 'ads');
-
             if ($this->canDo->get('core.create'))
             {
                     JToolBarHelper::addNew('addads', 'New Ad');
@@ -65,6 +74,7 @@ class contushdvideoshareViewshowads extends ContushdvideoshareView {
                     JToolBarHelper::divider();
                     JToolBarHelper::preferences('com_contushdvideoshare');
             }
+        }
     }
 }
 ?>   

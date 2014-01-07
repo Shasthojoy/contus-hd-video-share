@@ -44,16 +44,35 @@ class contushdvideoshareViewshowvideos extends ContushdvideoshareView {
     ## Setting the toolbar
     protected function addToolBar()
     {
-        require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
-        ## What Access Permissions does this user have? What can (s)he do?
-            $this->canDo = ContushdvideoshareHelper::getActions();
-            if (JRequest::getVar('page') == 'comment') {
-                JToolBarHelper::title('Comments');
-            } else if(JRequest::getVar('user', '', 'get')) {
-                JToolBarHelper::title(JText::_('Admin Videos'), 'adminvideos');
+        if (JRequest::getVar('page') == 'comment') {
+            JToolBarHelper::title('Comments');
+        } else if(JRequest::getVar('user', '', 'get')) {
+            JToolBarHelper::title(JText::_('Admin Videos'), 'adminvideos');
+        } else {
+            JToolBarHelper::title(JText::_('Member Videos'), 'membervideos');
+        }
+        if (version_compare(JVERSION, '1.5', 'ge')) {
+            if (JRequest::getVar('page') != 'comment') {
+                JToolBarHelper::addNew('addvideos', 'New Video');
+                JToolBarHelper::editList('editvideos', 'Edit');
+                if(JRequest::getVar('filter_state') == 3) {        	
+                    JToolBarHelper::deleteList('', 'Removevideos', 'JTOOLBAR_EMPTY_TRASH');
+                } else {  
+                    JToolBarHelper::trash('trash');
+                }
+                JToolBarHelper::publishList();
+                JToolBarHelper::unpublishList();
+                JToolBarHelper::custom($task = 'featured', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable Featured', $listSelect = true);
+                JToolBarHelper::custom($task = 'unfeatured', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable Featured', $listSelect = true);
+
             } else {
-                JToolBarHelper::title(JText::_('Member Videos'), 'membervideos');
+                JToolBarHelper::cancel('Commentcancel','Cancel');
             }
+        } else {
+            require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+            ## What Access Permissions does this user have? What can (s)he do?
+            $this->canDo = ContushdvideoshareHelper::getActions();
+            
             if (JRequest::getVar('page') != 'comment') {
                 if ($this->canDo->get('core.create')) {
                         JToolBarHelper::addNew('addvideos', 'New Video');
@@ -81,6 +100,8 @@ class contushdvideoshareViewshowvideos extends ContushdvideoshareView {
             } else {
                 JToolBarHelper::cancel('Commentcancel','Cancel');
             }
+        }
+        
     }
 }
 ?>   

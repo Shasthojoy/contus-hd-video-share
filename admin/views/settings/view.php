@@ -34,16 +34,21 @@ class contushdvideoshareViewsettings extends ContushdvideoshareView {
         ## Setting the toolbar
         protected function addToolBar()
         {
-            require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
-            ## What Access Permissions does this user have? What can (s)he do?
+            JToolBarHelper::title(JText::_('Player Settings'), 'settings');
+            if (version_compare(JVERSION, '1.5', 'ge')) {
+                JToolBarHelper::apply();
+            } else {
+                require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+                ## What Access Permissions does this user have? What can (s)he do?
                 $this->canDo = ContushdvideoshareHelper::getActions();
-                JToolBarHelper::title(JText::_('Player Settings'), 'settings');
+                
                 if ($this->canDo->get('core.admin'))
                 {
                         JToolBarHelper::apply();
                         JToolBarHelper::divider();
                         JToolBarHelper::preferences('com_contushdvideoshare');
                 }
+            }
         }
 }
 ?>
