@@ -56,7 +56,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
             }
 
             if ($flagVideo != 1) {
-            $editvideo = "SELECT  a.`id`, a.`memberid`, a.`published`, a.`title`, a.`seotitle`,
+            $editvideo = "SELECT  a.`id`, a.`memberid`, a.`published`, a.`title`, a.`seotitle`, a.`islive`,
 						 a.`featured`, a.`type`, a.`rate`, a.`ratecount`, a.`times_viewed`, a.`videos`, a.`filepath`,
 						 a.`videourl`, a.`thumburl`, a.`previewurl`, a.`hdurl`, a.`home`, a.`playlistid`, a.`duration`,
 						 a.`ordering`, a.`streamerpath`, a.`streameroption`, a.`postrollads`, a.`prerollads`,
@@ -69,7 +69,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
              			 LEFT JOIN #__hdflv_category c ON c.id=b.catid
              			 WHERE a.seotitle=" . $videoid;
            } else {
-                $editvideo = "SELECT  a.`id`, a.`memberid`, a.`published`, a.`title`, a.`seotitle`,
+                $editvideo = "SELECT  a.`id`, a.`memberid`, a.`published`, a.`title`, a.`seotitle`, a.`islive`,
 						 a.`featured`, a.`type`, a.`rate`, a.`ratecount`, a.`times_viewed`, a.`videos`, a.`filepath`,
 						 a.`videourl`, a.`thumburl`, a.`previewurl`, a.`hdurl`, a.`home`, a.`playlistid`, a.`duration`,
 						 a.`ordering`, a.`streamerpath`, a.`streameroption`, a.`postrollads`, a.`prerollads`,
@@ -174,11 +174,13 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                 $ftype          = "Url";
                 $streamerpath   = $streamname = $updatestreamer = '';
                 $streamname     = JRequest::getVar('streamname', '', 'post', 'string');
+                $isLive         = JRequest::getVar('islive-value', '', 'post', 'string');
                 if (!empty($streamname) && $seltype == 3) {
                     $streameroption     = "rtmp";
                     $streamerpath       = $streamname;
                     $updatestreamer     .= ",streamerpath='$streamname'";
                     $updatestreamer     .= ",streameroption='$streameroption'";
+                    $updatestreamer     .= ",islive='$isLive'";
                 }
                 $hd             = JRequest::getVar('hdurl', '', 'post', 'string');          ##  Getting Hd path
                 $hq             = JRequest::getVar('hq', '', 'post', 'string');             ##  Getting Hq path
@@ -348,9 +350,9 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                 } else {
                     $adminapprove       = 1;
                 }
-                $query                  = 'INSERT INTO #__hdflv_upload(streamerpath,amazons3,streameroption,title,seotitle,filepath,videourl,thumburl,previewurl,published,
+                $query                  = 'INSERT INTO #__hdflv_upload(islive,streamerpath,amazons3,streameroption,title,seotitle,filepath,videourl,thumburl,previewurl,published,
                                         type,memberid,description,created_date,addedon,usergroupid,playlistid,hdurl,tags,download,useraccess)
-                                        VALUES ("' . $streamerpath . '","'.$s3status.'","' . $streameroption . '",' . $title . ',"' . $seoTitle . '","' . $ftype . '","' . $url . '","' . $img . '","' . $previewurl . '",
+                                        VALUES ("' . $isLive . '","' . $streamerpath . '","'.$s3status.'","' . $streameroption . '",' . $title . ',"' . $seoTitle . '","' . $ftype . '","' . $url . '","' . $img . '","' . $previewurl . '",
                                         "'.$adminapprove.'","'.$type.'","' . $memberid . '",' . $description . ',"' . $cdate . '","' . $cdate . '","' . $usergroup . '",
                                         "' . $cid . '","' . $hd . '","' . $tags . '","' . $download . '","'.$useraccess.'")';
                 $db->setQuery($query);

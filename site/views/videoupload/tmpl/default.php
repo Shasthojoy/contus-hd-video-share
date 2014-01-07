@@ -333,11 +333,9 @@ if ($user->get('id') != '') {
             <ul id="islive_visible" name="islive_visible">
                 <li><label>Is Live<span class="star">*</span></label>
                     <input type="radio" style="float:none;" name="islive[]"  id="islive2" <?php
-                    if (isset($videoedit->islive)) {
-                        if ($videoedit->islive == '1') {
+                    if (isset($videoedit->islive) && ($videoedit->islive == '1')) {
                             echo 'checked="checked" ';
                         }
-                    }
                     ?>  value="1" />Yes
                     <input type="radio" style="float:none;" name="islive[]"  id="islive1"  <?php
                     if (isset($videoedit->islive)) {
@@ -651,7 +649,12 @@ if ($type == 'edit') {
             document.getElementById("typeurl").style.display = "block";
             document.getElementById("typefile").style.display = "none";
             document.getElementById("hd_url").style.display = "none";
-            document.getElementById('islive1').checked = true;
+            var islivevalue2 = (document.getElementById('islive2').checked);
+            if(islivevalue2 === true) {
+                document.getElementById('islive-value').value=1;
+            } else {
+                document.getElementById('islive-value').value=0;
+            }
             document.getElementById("down_load").style.display = "none";
             document.getElementById("image_path").style.display = "block";
             document.getElementById("typeff").style.display = "none";
