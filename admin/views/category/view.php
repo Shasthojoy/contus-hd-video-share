@@ -56,8 +56,8 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
         protected function addToolBar()
         {
             if (version_compare(JVERSION, '1.5', 'ge')) {
-                JToolBarHelper::addNewX();
-                JToolBarHelper::editListX();
+                JToolBarHelper::addNew();
+                JToolBarHelper::editList();
                 if(JRequest::getVar('category_status') == 3) {        	
                     JToolBarHelper::deleteList('', 'remove', 'JTOOLBAR_EMPTY_TRASH');
                 }else {			
@@ -71,19 +71,11 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
                 $this->canDo = ContushdvideoshareHelper::getActions();
                 JToolBarHelper::title('Category', 'category');
                 if ($this->canDo->get('core.create')) {
-                    if(version_compare(JVERSION, '3.0.0', 'ge')) {
                         JToolbarHelper::addNew();
-                    } else {
-                        JToolBarHelper::addNewX();
-                    }
                 }
                     
                 if ($this->canDo->get('core.edit')) {
-                    if(version_compare(JVERSION, '3.0.0', 'ge')) {
                         JToolBarHelper::editList();
-                    } else {
-                        JToolBarHelper::editListX();
-                    }
                 }
                 if ($this->canDo->get('core.delete')) {
                     if(JRequest::getVar('category_status') == 3) {        	
