@@ -283,6 +283,10 @@ class com_contushdvideoshareInstallerScript {
                     'upload_methods'      => 'Upload,Youtube,URL,RTMP',
                     'language_settings'   => 'English.php',
                     'disqusapi'           => '',
+                    'amazons3'            => 0,
+                    'amazons3name'        => '',
+                    'amazons3accesskey'    => '',
+                    'amazons3accesssecretkey_area' => '',
                     'facebookapi'         => $settingstabeResult->facebookapi,
                     'comment'             => $settingstabeResult->comment,
                     'facebooklike'        => $settingstabeResult->facebooklike

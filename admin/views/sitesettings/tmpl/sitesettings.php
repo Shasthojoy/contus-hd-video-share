@@ -639,7 +639,7 @@ function enablefbapi(val) {
 					value="<?php if (isset($dispenable['amazons3accesskey'])) echo $dispenable['amazons3accesskey']; ?>">
                                 </td>
 			</tr>
-			<tr id="amazons3accesssecretkey_area" style="display: none;">
+			<tr id="amazons3accesssecretkey" style="display: none;">
 				<td><?php echo JHTML::tooltip('Option to get Amazon S3 bucket access secret key', 'Enter Amazon S3 bucket access secret key', 
 	            '', 'Enter Amazon S3 bucket access secret key');?></td>
 				<td>
@@ -708,13 +708,19 @@ else if(<?php echo $dispenable['comment']; ?>== 5){
         if (status == 1)
         {
             document.getElementById("amazons3name_area").style.display = '';
+            document.getElementById("amazons3name").style.display = '';
             document.getElementById("amazons3accesskey_area").style.display = '';
+            document.getElementById("amazons3accesskey").style.display = '';
+            document.getElementById("amazons3accesssecretkey").style.display = '';
             document.getElementById("amazons3accesssecretkey_area").style.display = '';
         }
         else
         {
             document.getElementById("amazons3name_area").style.display = "none";
+            document.getElementById("amazons3name").style.display = "none";
             document.getElementById("amazons3accesskey_area").style.display = "none";
+            document.getElementById("amazons3accesskey").style.display = "none";
+            document.getElementById("amazons3accesssecretkey").style.display = "none";
             document.getElementById("amazons3accesssecretkey_area").style.display = "none";
         }
     }
