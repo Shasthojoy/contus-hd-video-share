@@ -51,7 +51,7 @@ class contushdvideoshareViewshowvideos extends ContushdvideoshareView {
         } else {
             JToolBarHelper::title(JText::_('Member Videos'), 'membervideos');
         }
-        if (version_compare(JVERSION, '1.5', 'ge')) {
+        if (version_compare(JVERSION, '1.5', '==')) {
             if (JRequest::getVar('page') != 'comment') {
                 JToolBarHelper::addNew('addvideos', 'New Video');
                 JToolBarHelper::editList('editvideos', 'Edit');
@@ -75,7 +75,9 @@ class contushdvideoshareViewshowvideos extends ContushdvideoshareView {
             
             if (JRequest::getVar('page') != 'comment') {
                 if ($this->canDo->get('core.create')) {
+                    if(JRequest::getVar('user', '', 'get')) {
                         JToolBarHelper::addNew('addvideos', 'New Video');
+                }
                 }
                 if ($this->canDo->get('core.edit')) {
                        JToolBarHelper::editList('editvideos', 'Edit');

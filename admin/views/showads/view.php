@@ -34,7 +34,7 @@ class contushdvideoshareViewshowads extends ContushdvideoshareView {
     protected function addToolBar()
     {
         JToolBarHelper::title(JText::_('Video Ads'), 'ads');
-        if (version_compare(JVERSION, '1.5', 'ge')) {
+        if (version_compare(JVERSION, '1.5', '==')) {
             JToolBarHelper::addNew('addads', 'New Ad');
             JToolBarHelper::editList('editads', 'Edit');
             if(JRequest::getVar('ads_status') == 3) {        	

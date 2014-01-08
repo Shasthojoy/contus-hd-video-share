@@ -55,7 +55,7 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
         ## Setting the toolbar
         protected function addToolBar()
         {
-            if (version_compare(JVERSION, '1.5', 'ge')) {
+            if (version_compare(JVERSION, '1.5', '==')) {
                 JToolBarHelper::addNew();
                 JToolBarHelper::editList();
                 if(JRequest::getVar('category_status') == 3) {        	

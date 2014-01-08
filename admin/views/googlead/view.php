@@ -34,7 +34,7 @@ class contushdvideoshareViewgooglead extends ContushdvideoshareView {
         protected function addToolBar()
         {
             JToolBarHelper::title(JText::_('Google AdSense'),'googlead');
-            if (version_compare(JVERSION, '1.5', 'ge')) {
+            if (version_compare(JVERSION, '1.5', '==')) {
                 JToolBarHelper::apply();
             } else {
                 require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';

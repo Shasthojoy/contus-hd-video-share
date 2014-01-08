@@ -32,7 +32,7 @@ class contushdvideoshareViewmemberdetails extends ContushdvideoshareView {
     protected function addToolBar()
     {
         JToolBarHelper::title('Member Details', 'memberdetails');
-        if (version_compare(JVERSION, '1.5', 'ge')) {
+        if (version_compare(JVERSION, '1.5', '==')) {
             JToolBarHelper::custom($task = 'allowupload', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable User upload', $listSelect = true);
             JToolBarHelper::custom($task = 'unallowupload', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable User upload', $listSelect = true);
             JToolBarHelper::publishList('publish', 'Active');
