@@ -100,13 +100,13 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
         $hdvideoforms3status = JRequest::getVar('hdvideoforms3status', '', 'post', 'string');
         $thumbimageforms3status = JRequest::getVar('thumbimageforms3status', '', 'post', 'string');
         $previewimageforms3status = JRequest::getVar('previewimageforms3status', '', 'post', 'string');
-        
+        $seltype = JRequest::getVar('seltype');
         if ($normalvideoforms3status == 1 || $hdvideoforms3status == 1 || $thumbimageforms3status == 1 || $previewimageforms3status == 1) {
                 $s3status = 1;
             }
         
          if (JRequest::getVar('videotype') == 'edit') {
-             $seltype = JRequest::getVar('seltype');
+             
             if ($seltype == 0 || $seltype == 2 || $seltype == 3) {
                 $normalvideoformval = '';
             }
