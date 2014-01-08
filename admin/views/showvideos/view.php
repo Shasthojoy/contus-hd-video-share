@@ -51,24 +51,9 @@ class contushdvideoshareViewshowvideos extends ContushdvideoshareView {
         } else {
             JToolBarHelper::title(JText::_('Member Videos'), 'membervideos');
         }
-        if (version_compare(JVERSION, '1.5', '==')) {
-            if (JRequest::getVar('page') != 'comment') {
-                JToolBarHelper::addNew('addvideos', 'New Video');
-                JToolBarHelper::editList('editvideos', 'Edit');
-                if(JRequest::getVar('filter_state') == 3) {        	
-                    JToolBarHelper::deleteList('', 'Removevideos', 'JTOOLBAR_EMPTY_TRASH');
-                } else {  
-                    JToolBarHelper::trash('trash');
-                }
-                JToolBarHelper::publishList();
-                JToolBarHelper::unpublishList();
-                JToolBarHelper::custom($task = 'featured', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable Featured', $listSelect = true);
-                JToolBarHelper::custom($task = 'unfeatured', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable Featured', $listSelect = true);
-
-            } else {
-                JToolBarHelper::cancel('Commentcancel','Cancel');
-            }
-        } else {
+        if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6', 'ge') || version_compare(JVERSION, '1.7', 'ge') || version_compare(JVERSION, '3.0', 'ge')) {
+            
+            
             require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
             ## What Access Permissions does this user have? What can (s)he do?
             $this->canDo = ContushdvideoshareHelper::getActions();
@@ -77,7 +62,7 @@ class contushdvideoshareViewshowvideos extends ContushdvideoshareView {
                 if ($this->canDo->get('core.create')) {
                     if(JRequest::getVar('user', '', 'get')) {
                         JToolBarHelper::addNew('addvideos', 'New Video');
-                }
+                    }
                 }
                 if ($this->canDo->get('core.edit')) {
                        JToolBarHelper::editList('editvideos', 'Edit');
@@ -99,6 +84,28 @@ class contushdvideoshareViewshowvideos extends ContushdvideoshareView {
                         JToolBarHelper::divider();
                         JToolBarHelper::preferences('com_contushdvideoshare');
                 }
+            } else {
+                JToolBarHelper::cancel('Commentcancel','Cancel');
+            }
+            
+            
+            
+        } else {
+            if (JRequest::getVar('page') != 'comment') {
+                 if(JRequest::getVar('user', '', 'get')) {
+                        JToolBarHelper::addNew('addvideos', 'New Video');
+                    }
+                JToolBarHelper::editList('editvideos', 'Edit');
+                if(JRequest::getVar('filter_state') == 3) {        	
+                    JToolBarHelper::deleteList('', 'Removevideos', 'JTOOLBAR_EMPTY_TRASH');
+                } else {  
+                    JToolBarHelper::trash('trash');
+                }
+                JToolBarHelper::publishList();
+                JToolBarHelper::unpublishList();
+                JToolBarHelper::custom($task = 'featured', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable Featured', $listSelect = true);
+                JToolBarHelper::custom($task = 'unfeatured', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable Featured', $listSelect = true);
+
             } else {
                 JToolBarHelper::cancel('Commentcancel','Cancel');
             }

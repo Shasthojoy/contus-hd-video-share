@@ -34,9 +34,8 @@ class contushdvideoshareViewgooglead extends ContushdvideoshareView {
         protected function addToolBar()
         {
             JToolBarHelper::title(JText::_('Google AdSense'),'googlead');
-            if (version_compare(JVERSION, '1.5', '==')) {
-                JToolBarHelper::apply();
-            } else {
+            if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6', 'ge') || version_compare(JVERSION, '1.7', 'ge') || version_compare(JVERSION, '3.0', 'ge')) {
+                
                 require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
                 ## What Access Permissions does this user have? What can (s)he do?
                 $this->canDo = ContushdvideoshareHelper::getActions();
@@ -46,6 +45,9 @@ class contushdvideoshareViewgooglead extends ContushdvideoshareView {
                     JToolBarHelper::divider();
                     JToolBarHelper::preferences('com_contushdvideoshare');
                 }
+                
+            } else {
+                JToolBarHelper::apply();
             }
                 
         }

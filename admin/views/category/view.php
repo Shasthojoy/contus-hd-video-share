@@ -55,18 +55,8 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
         ## Setting the toolbar
         protected function addToolBar()
         {
-            if (version_compare(JVERSION, '1.5', '==')) {
-                JToolBarHelper::addNew();
-                JToolBarHelper::editList();
-                if(JRequest::getVar('category_status') == 3) {        	
-                    JToolBarHelper::deleteList('', 'remove', 'JTOOLBAR_EMPTY_TRASH');
-                }else {			
-                        JToolBarHelper::trash('trash');	
-                }
-                JToolBarHelper::publishList();
-                JToolBarHelper::unpublishList();
-            } else {
-            require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+            if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6', 'ge') || version_compare(JVERSION, '1.7', 'ge') || version_compare(JVERSION, '3.0', 'ge')) {
+                require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
             ## What Access Permissions does this user have? What can (s)he do?
                 $this->canDo = ContushdvideoshareHelper::getActions();
                 JToolBarHelper::title('Category', 'category');
@@ -93,6 +83,16 @@ class contushdvideoshareViewcategory extends ContushdvideoshareView {
                     JToolBarHelper::divider();
                     JToolBarHelper::preferences('com_contushdvideoshare');
                 }
+            } else {
+            JToolBarHelper::addNew();
+                JToolBarHelper::editList();
+                if(JRequest::getVar('category_status') == 3) {        	
+                    JToolBarHelper::deleteList('', 'remove', 'JTOOLBAR_EMPTY_TRASH');
+                }else {			
+                        JToolBarHelper::trash('trash');	
+                }
+                JToolBarHelper::publishList();
+                JToolBarHelper::unpublishList();
         }
 }
 }

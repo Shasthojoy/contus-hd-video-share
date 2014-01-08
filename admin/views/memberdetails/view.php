@@ -32,13 +32,9 @@ class contushdvideoshareViewmemberdetails extends ContushdvideoshareView {
     protected function addToolBar()
     {
         JToolBarHelper::title('Member Details', 'memberdetails');
-        if (version_compare(JVERSION, '1.5', '==')) {
-            JToolBarHelper::custom($task = 'allowupload', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable User upload', $listSelect = true);
-            JToolBarHelper::custom($task = 'unallowupload', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable User upload', $listSelect = true);
-            JToolBarHelper::publishList('publish', 'Active');
-            JToolBarHelper::unpublishList('unpublish', 'Deactive');
-        } else {
-        require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
+        if (version_compare(JVERSION, '2.5.0', 'ge') || version_compare(JVERSION, '1.6', 'ge') || version_compare(JVERSION, '1.7', 'ge') || version_compare(JVERSION, '3.0', 'ge')) {
+            
+            require_once JPATH_COMPONENT . '/helpers/contushdvideoshare.php';
         ## What Access Permissions does this user have? What can (s)he do?
             $this->canDo = ContushdvideoshareHelper::getActions();
             if ($this->canDo->get('core.admin'))
@@ -50,6 +46,12 @@ class contushdvideoshareViewmemberdetails extends ContushdvideoshareView {
                 JToolBarHelper::divider();
                 JToolBarHelper::preferences('com_contushdvideoshare');
             }
+            
+        } else {
+        JToolBarHelper::custom($task = 'allowupload', $icon = 'featured.png', $iconOver = 'featured.png', $alt = 'Enable User upload', $listSelect = true);
+            JToolBarHelper::custom($task = 'unallowupload', $icon = 'unfeatured.png', $iconOver = 'unfeatured.png', $alt = 'Disable User upload', $listSelect = true);
+            JToolBarHelper::publishList('publish', 'Active');
+            JToolBarHelper::unpublishList('unpublish', 'Deactive');
     }
 }
 }
