@@ -51,6 +51,7 @@ class Modelcontushdvideoshareimaadxml extends ContushdvideoshareModel {
             $imaadType          = $rows['imaadtype'];
             if ($imaadType == 'videoad'){
                 $imaadType      = '';
+                $channels      = '';
             } else {
                 $imaadType      = 'Text';
             $channels           = $rows['channels'];

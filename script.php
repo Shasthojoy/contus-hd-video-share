@@ -42,21 +42,16 @@ class com_contushdvideoshareInstallerScript {
     function postflight($type, $parent) {
 
         $db         = JFactory::getDBO();
-        $player_colorscolumnExists = $playersettingstableExists = $player_valuescolumnExists = $imaadscolumnExists = $embedcodecolumnExists = $subtitle1codecolumnExists = $subtitle2codecolumnExists = $subtile_lang2codecolumnExists = $subtile_lang1codecolumnExists = $amazons3columnExists = $imaaddetcolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = 'false';
-        $showtablequery    = 'SHOW TABLES ;';
+        $player_colorscolumnExists = $player_valuescolumnExists = $imaadscolumnExists = $embedcodecolumnExists = $subtitle1codecolumnExists = $subtitle2codecolumnExists = $subtile_lang2codecolumnExists = $subtile_lang1codecolumnExists = $amazons3columnExists = $imaaddetcolumnExists = $dispenablecolumnExists = $sidethumbviewcolumnExists = $homethumbviewcolumnExists = $player_iconscolumnExists = $thumbviewcolumnExists = 'false';
+        
+        $conf = JFactory::getConfig();
+        $prefix = $conf->get('dbprefix');
+        $expected_tablename =  $prefix.'hdflv_player_settings';
+        $showtablequery    = 'SHOW TABLES LIKE "'.$expected_tablename.'";';
         $db->setQuery($showtablequery);
         $db->query();
-        $tablecolumnData             = $db->loadObjectList();
-        $conf = JFactory::getConfig();
-	$database = $conf->get('db');
-        $prefix = $conf->get('dbprefix');
-        foreach ($tablecolumnData as $valuetable) {
-            $field = 'Tables_in_'.$database;
-            if ($valuetable->$field == $prefix.'_hdflv_player_settings') {
-                $playersettingstableExists = 'true';
-            }
-        }
-        if ($playersettingstableExists == 'true') {
+        $tablecolumnData             = $db->loadResult();
+        if (!empty($tablecolumnData)) {
         
         $playersettingsquery    = 'SHOW COLUMNS FROM `#__hdflv_player_settings`';
         $db->setQuery($playersettingsquery);
