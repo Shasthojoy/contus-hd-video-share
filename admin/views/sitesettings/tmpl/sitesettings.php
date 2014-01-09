@@ -625,7 +625,7 @@ function enablefbapi(val) {
 				<td><?php echo JHTML::tooltip('Option to get Amazon S3 bucket name', 'Enter Amazon S3 bucket name', 
 	            '', 'Enter Amazon S3 bucket name');?></td>
 				<td>
-                                    <input type="text" name="amazons3name"
+                                    <input type="text" name="amazons3name" style="display: none;"
 					id="amazons3name" maxlength="100"
 					value="<?php if (isset($dispenable['amazons3name'])) echo $dispenable['amazons3name']; ?>">
                                 </td>
@@ -634,7 +634,7 @@ function enablefbapi(val) {
 				<td><?php echo JHTML::tooltip('Option to get Amazon S3 bucket access key', 'Enter Amazon S3 bucket access key', 
 	            '', 'Enter Amazon S3 bucket access key');?></td>
 				<td>
-                                    <input type="text" name="amazons3accesskey"
+                                    <input type="text" name="amazons3accesskey" style="display: none;"
 					id="amazons3accesskey" maxlength="100"
 					value="<?php if (isset($dispenable['amazons3accesskey'])) echo $dispenable['amazons3accesskey']; ?>">
                                 </td>
@@ -643,7 +643,7 @@ function enablefbapi(val) {
 				<td><?php echo JHTML::tooltip('Option to get Amazon S3 bucket access secret key', 'Enter Amazon S3 bucket access secret key', 
 	            '', 'Enter Amazon S3 bucket access secret key');?></td>
 				<td>
-                                    <input type="text" name="amazons3accesssecretkey_area"
+                                    <input type="text" name="amazons3accesssecretkey_area" style="display: none;"
 					id="amazons3accesssecretkey_area" maxlength="100"
 					value="<?php if (isset($dispenable['amazons3accesssecretkey_area'])) echo $dispenable['amazons3accesssecretkey_area']; ?>">
                                 </td>
@@ -704,6 +704,12 @@ if(<?php echo $dispenable['comment']; ?>== 1){
 else if(<?php echo $dispenable['comment']; ?>== 5){	
 	enablefbapi('5');		
 }
+<?php 
+if (isset($dispenable['amazons3']) && $dispenable['amazons3'] == '1') { ?>
+    dispenable(1);
+<?php } else { ?>
+    dispenable(0);
+<?php } ?>
     function dispenable(status) {
         if (status == 1)
         {
