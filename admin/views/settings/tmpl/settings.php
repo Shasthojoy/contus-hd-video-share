@@ -680,7 +680,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         ?>
                         value="0" />Disable</td>
                     <td class="key"><?php echo JHTML::tooltip('Enter the time interval for Ad Skip Duration', 'Ad Skip Duration', '', 'Ad Skip Duration'); ?></td>
-                    <td colspan="3"><input type="text" name="adsSkipDuration"  value="<?php if (isset($player_values['adsSkipDuration'])){ echo $player_values['adsSkipDuration']; } ?>" style="margin-bottom: 0;"/> </td>
+                    <td colspan="3"><input type="text" name="adsSkipDuration"  value="<?php if (isset($player_values['adsSkipDuration'])){ echo $player_values['adsSkipDuration']; } ?>" style="margin-bottom: 0;"/>  sec </td>
                 </tr>
                 <tr>
                         <?php if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
@@ -758,7 +758,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                         ?>
                         value="0" />Disable</td>
                     <td class="key"  ><?php echo JHTML::tooltip('Enter begin time for mid roll ad', 'Begin', '', 'Begin'); ?></td>
-                    <td ><input type="text" name="midbegin" value="<?php if (isset($player_values['midbegin'])){ echo $player_values['midbegin']; } ?>" />
+                    <td ><input type="text" name="midbegin" value="<?php if (isset($player_values['midbegin'])){ echo $player_values['midbegin']; } ?>" />  sec
                     </td>
                     <td class="key" ><?php echo JHTML::tooltip('Option to enable/disable rotation of ads', 'Ad Rotate', '', 'Ad Rotate'); ?></td>
                     <td <?php if (version_compare(JVERSION, '3.0.0', 'ge')){ echo 'class="radio_algin"'; } ?> ><input type="radio" name="midadrotate"
@@ -792,7 +792,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge')) { ?>
                     value="0" />Disable</td>
                     <td class="key"><?php echo JHTML::tooltip('Enter the time interval between ads', 'Ad Interval', '', 'Ad Interval');
                     ?></td>
-                    <td colspan="3"><input type="text" name="midinterval" value="<?php if (isset($player_values['midinterval'])){ echo $player_values['midinterval']; } ?>" />
+                    <td colspan="3"><input type="text" name="midinterval" value="<?php if (isset($player_values['midinterval'])){ echo $player_values['midinterval']; } ?>" />  sec
                     </td>
 
                 </tr>
