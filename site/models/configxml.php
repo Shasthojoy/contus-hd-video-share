@@ -220,6 +220,12 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         $baseUrl1                   = $baseUrl1['scheme'] . '://' . $baseUrl1['host'];          ## Generate base url
         ## Video download file path
         $downloadpath               = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=downloadfile');
+        ## Add http in URL if not exist
+        $logotarget                 = $player_values['logourl'];
+        if (!preg_match("~^(?:f|ht)tps?://~i", $logotarget)) {
+                $logotarget = "http://" . $logotarget;
+            }
+
         ## Generate config xml here
         ob_clean();
         
@@ -236,7 +242,7 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         <logopath>' . $logopath . '</logopath>
         <logoalpha>' . $logoalpha . '</logoalpha>
         <logoalign>' . $player_values['logoalign'] . '</logoalign>
-        <logo_target>' . $player_values['logourl'] . '</logo_target>
+        <logo_target>' . $logotarget . '</logo_target>
         <sharepanel_up_BgColor>' . $player_colors['sharepanel_up_BgColor'] . '</sharepanel_up_BgColor>
         <sharepanel_down_BgColor>' . $player_colors['sharepanel_down_BgColor'] . '</sharepanel_down_BgColor>
         <sharepaneltextColor>' . $player_colors['sharepaneltextColor'] . '</sharepaneltextColor>
