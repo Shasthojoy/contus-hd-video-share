@@ -49,6 +49,13 @@ class contushdvideoshareController extends ContusvideoshareController {
             $this->getdisplay('player');
     }
 
+       function videohitCount_function($vid) {
+        $db = JFactory::getDBO();
+    $query      = "UPDATE #__hdflv_upload SET times_viewed=1+times_viewed WHERE id=" . $vid;
+                $db->setQuery($query);
+                $db->query();
+}
+
     function sendreport() {
         $db             = JFactory::getDBO();
         $reptitle       = JRequest::getVar('reporttitle');

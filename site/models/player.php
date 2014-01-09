@@ -416,11 +416,6 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel {
                 $rows   = $db->LoadObject();
             }
         }
-        if (!empty($rows) && (((preg_match('/vimeo/', $rows->videourl)) && ($rows->videourl != '')) || $rows->filepath == 'Embed')) {
-            $query = "UPDATE #__hdflv_upload SET times_viewed=1+times_viewed WHERE id=".$rows->id;
-                        $db->setQuery($query);
-                        $db->query();
-        }
                         
         return $rows;
     }

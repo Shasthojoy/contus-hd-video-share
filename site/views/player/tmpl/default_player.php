@@ -272,6 +272,7 @@ if (USER_LOGIN == '1') {
         if ($htmlVideoDetails->filepath == 'Embed') {
                $playerembedcode = $htmlVideoDetails->embedcode;
                $playeriframewidth =  str_replace('width=', 'width="'.$player_values['width'].'"', $playerembedcode);
+                       contushdvideoshareController::videohitCount_function($htmlVideoDetails->id);
                if($mobile === true){
                    echo $playerembedcode;
                } else {   
@@ -283,6 +284,7 @@ if (USER_LOGIN == '1') {
                }## For embed code videos
         } else if (!empty($htmlVideoDetails) && (preg_match('/vimeo/', $htmlVideoDetails->videourl)) && ($htmlVideoDetails->videourl != '')) {
             $split = explode("/", $htmlVideoDetails->videourl);     ## For vimeo videos
+                    contushdvideoshareController::videohitCount_function($htmlVideoDetails->id);
             if($mobile === true){
                    $widthheight = '';
                } else {
@@ -291,12 +293,6 @@ if (USER_LOGIN == '1') {
             ?>
         <div id="flashplayer">
             <iframe <?php echo $widthheight; ?> src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>"  class="iframe_frameborder"></iframe>
-        </div>
-<?php } else if (!empty($this->videodetails) && (preg_match('/vimeo/', $this->videodetails->videourl)) && ($this->videodetails->videourl != '')) {
-            $split = explode("/", $this->videodetails->videourl);   ## For vimeo videos
-    ?>
-        <div id="flashplayer">
-            <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
         </div>
         <?php }
             } else { ?>
@@ -320,6 +316,7 @@ if (USER_LOGIN == '1') {
                 <?php
                 ## Generate details for HTML5 player
                 if ($this->homepageaccess == 'true') {
+                    contushdvideoshareController::videohitCount_function($htmlVideoDetails->id);
                     if ($htmlVideoDetails->filepath == "File" || $htmlVideoDetails->filepath == "FFmpeg" || $htmlVideoDetails->filepath == "Url") {
                         $current_path       = "components/com_contushdvideoshare/videos/";
                         if ($htmlVideoDetails->filepath == "Url") {                             ## For URL Method videos
@@ -563,7 +560,7 @@ if (isset($details1['closeadd'])) {
                 <?php if ($user->get('id') == '') {
                   ?>  location.href='<?php echo JRoute::_("index.php?option=com_users&view=login&return=".base64_encode(JURI::getInstance()->toString())); ?>'; <?php
                 } else { ?>
-                http.open('get', '<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport&amp;tmpl=component&amp;reporttitle='+reptitle+'&amp;reportmsg='+ repmsg+'&amp;videoid=<?php echo $this->videodetails->id; ?>', true);
+                http.open('get', '<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport&amp;tmpl=component&amp;reporttitle='+reptitle+'&amp;reportmsg='+ repmsg+'&amp;videoid=<?php echo $htmlVideoDetails->id; ?>', true);
                 http.onreadystatechange = getReport;
                 http.send(null);
                 <?php } ?>
