@@ -174,6 +174,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
         $download = $playlistautoplay = $islive ="false";
         $member         = "true";
         $current_path   = "components/com_contushdvideoshare/videos/";
+        $adminview      = JRequest::getString('adminview');
         
         if (version_compare(JVERSION, '1.6.0', 'ge')) {
             $uid        = $user->get('id');
@@ -445,6 +446,9 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                     if ($rows->islive == 1) {
                         $islive = "true";                                           ## Check for RTMP video is live one or not
                     }
+                }
+                if(!empty($adminview)){
+                    $member = "true";
                 }
                 
                 ## Restrict playxml for vimeo videos.

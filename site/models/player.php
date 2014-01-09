@@ -454,6 +454,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel {
         ## CODE FOR SEO OPTION OR NOT - START 
         $video      = JRequest::getVar('video');
         $id         = JRequest::getInt('id');
+        $adminview  = JRequest::getString('adminview');
         $flagVideo  = is_numeric($video);
         if (isset($video) && $video != "") {
             if ($flagVideo != 1) {
@@ -541,6 +542,9 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel {
                         $member = "false";
                     }
                 }
+            }
+            if(!empty($adminview)){
+                $member = "true";
             }
             return $member;
         }
