@@ -52,7 +52,7 @@ if(version_compare(JVERSION, '3.0.0', 'ge')) {
 			<button onclick="document.id('member_search').value='';this.form.submit();" type="button">
 			<?php echo JText::_('Clear'); ?></button>
                         <?php }else { ?>
-                        <input type="text" title="Search in module title." id="member_search" placeholder="Search Members" name="member_search" style="float:left; margin-right: 10px;">
+                        <input type="text" value="<?php if (isset($arrMemberFilter['member_search'])) echo $arrMemberFilter['member_search']; ?>" title="Search in module title." id="member_search" placeholder="Search Members" name="member_search" style="float:left; margin-right: 10px;">
                         <div class="btn-group pull-left">
                             <button type="submit"  class="btn hasTooltip"><i class="icon-search"></i></button>
                             <button  class="btn hasTooltip" onclick="document.id('member_search').value='';this.form.submit();" type="button">

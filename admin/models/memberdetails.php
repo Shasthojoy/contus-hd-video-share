@@ -106,21 +106,28 @@ $search1=$strMemberSearch;
 		// filtering based on search keyword
 		if ($strMemberSearch)
 		{
-			$mainQuery .= " AND a.name LIKE '%$strMemberSearch%'";
+			$mainQuery .= " WHERE a.name LIKE '%$strMemberSearch%'";
 			$arrMemberFilter['member_search'] = $search1;
 		}
 		
+                if ($strMemberSearch && $strMemberStatus)
+		{
+                    $mainQuery .= " AND";
+                } else if ( !$strMemberSearch && $strMemberStatus)
+		{
+                    $mainQuery .= " WHERE";
+                }
 		// filtering based on status
 		if($strMemberUpload) {
 			$strMemberUploadVal = ($strMemberUpload == '1')?'1':'0';
-			$mainQuery .= " AND b.allowupload = $strMemberUploadVal";
+			$mainQuery .= " b.allowupload = $strMemberUploadVal";
 			$arrMemberFilter['member_upload'] = $strMemberUpload;
 		}
 		
 		// filtering based on status
 		if($strMemberStatus) {
 			$strMemberStatusVal = ($strMemberStatus == '1')?'0':'1';
-			$mainQuery .= " AND a.block = $strMemberStatusVal";
+			$mainQuery .= " a.block = $strMemberStatusVal";
 			$arrMemberFilter['member_status'] = $strMemberStatus;
 		}
 		$mainQuery .= " ORDER BY $strMemberOrder $strMemberDir";
