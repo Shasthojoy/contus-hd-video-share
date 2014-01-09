@@ -17,7 +17,8 @@ $ratearray          = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpo
 $user               = JFactory::getUser();
 $thumbview          = unserialize($this->categoryrowcol[0]->thumbview);
 $dispenable         = unserialize($this->categoryrowcol[0]->dispenable);
-$player_values      = unserialize($this->player_values);
+$player_values      = unserialize($this->player_values->player_values);
+$player_icons       = unserialize($this->player_values->player_icons);
 $playerpath         = JURI::base() . "components/com_contushdvideoshare/hdflvplayer/hdplayer.swf";
 $base_url           = str_replace(':', '%3A', JURI::base());
 $url_base           = substr_replace($base_url, "", -1);
@@ -136,9 +137,12 @@ if(isset($dispenable['categoryplayer']) && $dispenable['categoryplayer'] == 1) {
                 return false;
         }
 $mobile = category_detect_mobile();
+if (($this->categoryview[0]->filepath == 'Embed') || (!empty($this->categoryview[0]) && (preg_match('/vimeo/', $this->categoryview[0]->videourl)) && ($this->categoryview[0]->videourl != '')) ) {
+if ($this->homepageaccess == 'true') {
         if ($this->categoryview[0]->filepath == 'Embed') {
                $playerembedcode = $this->categoryview[0]->embedcode;
                $playeriframewidth =  str_replace('width=', 'width="'.$player_values['width'].'"', $playerembedcode);
+               contushdvideoshareController::videohitCount_function($this->categoryview[0]->id);
                if($mobile === true){
                    echo $playerembedcode;
                } else {   
@@ -150,6 +154,7 @@ $mobile = category_detect_mobile();
                }## For embed code videos
         } else if (!empty($this->categoryview[0]) && (preg_match('/vimeo/', $this->categoryview[0]->videourl)) && ($this->categoryview[0]->videourl != '')) {
             $split = explode("/", $this->categoryview[0]->videourl);     ## For vimeo videos
+            contushdvideoshareController::videohitCount_function($this->categoryview[0]->id);
             if($mobile === true){
                    $widthheight = '';
                } else {
@@ -159,13 +164,21 @@ $mobile = category_detect_mobile();
         <div id="flashplayer">
             <iframe <?php echo $widthheight; ?> src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>"  class="iframe_frameborder"></iframe>
         </div>
-<?php } else if (!empty($this->categoryview[0]) && (preg_match('/vimeo/', $this->categoryview[0]->videourl)) && ($this->categoryview[0]->videourl != '')) {
-            $split = explode("/", $this->categoryview[0]->videourl);   ## For vimeo videos
-    ?>
-        <div id="flashplayer">
-            <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
-        </div>
-<?php } else {
+<?php }  
+} else { ?>
+            <style type="text/css">
+                                .login_msg{height:<?php echo $player_values['height']; ?>px; color: #fff;width: 100%;margin: <?php echo ceil($player_values['width']/3); ?>px 0 0;}
+                                .login_msg a{background: #999; color:#fff; padding: 5px;}
+                            </style>
+                            
+                    <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
+                        <div class="login_msg">
+                        <h3>Please login to watch this video</h3>
+                        <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
+                    </div>
+                    </div>
+       <?php }
+} else {
                         if($mobile === true){
     ?>                                     
         <!-- HTML5 player starts here -->
@@ -173,6 +186,7 @@ $mobile = category_detect_mobile();
                 <?php
                 ## Generate details for HTML5 player
                 if ($this->homepageaccess == 'true') {
+                    contushdvideoshareController::videohitCount_function($this->categoryview[0]->id);
                     if ($this->categoryview[0]->filepath == "File" || $this->categoryview[0]->filepath == "FFmpeg" || $this->categoryview[0]->filepath == "Url") {
                         $current_path       = "components/com_contushdvideoshare/videos/";
                         if ($this->categoryview[0]->filepath == "Url") {                             ## For URL Method videos
@@ -238,7 +252,7 @@ $mobile = category_detect_mobile();
             <!-- Flash player Start -->
             <div id="flashplayer">
                 <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
-                       allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $baseurl; ?><?php echo '&amp;id=' . $this->categoryview[0]->id . '&amp;catid=' . $this->getcategoryid; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px" />
+                       allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $baseurl; ?><?php echo '&amp;id=' . $this->categoryList[0]->vid . '&amp;catid=' . $this->categoryList[0]->id; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px" />
             </div>
              <?php } ?>
               <?php

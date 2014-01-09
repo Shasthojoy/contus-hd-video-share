@@ -266,7 +266,7 @@ if (USER_LOGIN == '1') {
         }
         ?>
         <?php
-        if (($htmlVideoDetails->filepath == 'Embed') || (!empty($htmlVideoDetails) && (preg_match('/vimeo/', $htmlVideoDetails->videourl)) && ($htmlVideoDetails->videourl != '')) || (!empty($this->videodetails) && (preg_match('/vimeo/', $this->videodetails->videourl)) && ($this->videodetails->videourl != '')) ) {
+        if (($htmlVideoDetails->filepath == 'Embed') || (!empty($htmlVideoDetails) && (preg_match('/vimeo/', $htmlVideoDetails->videourl)) && ($htmlVideoDetails->videourl != '')) ) {
         
             if ($this->homepageaccess == 'true') {
         if ($htmlVideoDetails->filepath == 'Embed') {
