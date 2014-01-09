@@ -279,6 +279,9 @@ if (USER_LOGIN == '1') {
         }
         ?>
         <?php
+        if (($htmlVideoDetails->filepath == 'Embed') || (!empty($htmlVideoDetails) && (preg_match('/vimeo/', $htmlVideoDetails->videourl)) && ($htmlVideoDetails->videourl != '')) || (!empty($this->videodetails) && (preg_match('/vimeo/', $this->videodetails->videourl)) && ($this->videodetails->videourl != '')) ) {
+        
+            if ($this->homepageaccess == 'true') {
         if ($htmlVideoDetails->filepath == 'Embed') {
                $playerembedcode = $htmlVideoDetails->embedcode;
                $playeriframewidth =  str_replace('width=', 'width="'.$player_values['width'].'"', $playerembedcode);
@@ -308,7 +311,21 @@ if (USER_LOGIN == '1') {
         <div id="flashplayer">
             <iframe src="<?php echo 'http://player.vimeo.com/video/' . $split[3] . '?title=0&amp;byline=0&amp;portrait=0'; ?>" width="<?php echo $player_values['width']; ?>" height="<?php echo $player_values['height']; ?>" class="iframe_frameborder"></iframe>
         </div>
-<?php } else {
+        <?php }
+            } else { ?>
+            <style type="text/css">
+                                .login_msg{height:<?php echo $player_values['height']; ?>px; color: #fff;width: 100%;margin: <?php echo ceil($player_values['width']/3); ?>px 0 0;}
+                                .login_msg a{background: #999; color:#fff; padding: 5px;}
+                            </style>
+                            
+                    <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
+                        <div class="login_msg">
+                        <h3>Please login to watch this video</h3>
+                        <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
+                    </div>
+                    </div>
+       <?php } 
+       } else {
                         if($mobile === true){
     ?>
              <!-- HTML5 player starts here -->
