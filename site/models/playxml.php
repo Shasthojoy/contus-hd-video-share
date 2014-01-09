@@ -42,7 +42,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel {
                             WHERE $publish b.published='1' AND a.id=$vid AND a.filepath!='Embed'";
                 $db->setQuery($query);
                 $rows       = $db->loadObjectList();
-                if($rows[0]->playlistid != $categ_id) {
+                if(!empty ($categ_id) && $rows[0]->playlistid != $categ_id) {
                     $rows = array();
                 }
          }
