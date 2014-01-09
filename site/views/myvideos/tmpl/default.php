@@ -31,25 +31,6 @@ if ($user->get('id') == '')
 	header("Location: $url");
       }
 }
-?>
-<script type="text/javascript">
-function submitform()
-{
-  document.myform.submit();
-}
-</script>
-
-<form name="myform" action="<?php echo JURI::root();?>" method="post" id="login-form">
-
-	<div class="logout-button">
-
-		<input type="hidden" name="option" value="com_users" />
-		<input type="hidden" name="task" value="user.logout" />
-<!--		<input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />-->
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
-</form>
-<?php
 	if ($user->get('id') != '')
 	{
 		     if(version_compare(JVERSION,'1.6.0','ge'))
@@ -57,7 +38,7 @@ function submitform()
                        ?>
                     <div class="toprightmenu">
                     <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
-                    <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+                    <a href="<?php echo JRoute::_('index.php?option=com_users&task=user.logout&'. JSession::getFormToken().'=1&return='.  base64_encode(JUri::root())); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
                     </div>
             <?php }else { ?>
                 <div class="toprightmenu">

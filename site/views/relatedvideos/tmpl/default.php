@@ -1,9 +1,7 @@
 <?php
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -13,45 +11,25 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-/*
- ***********************************************************/
-//No direct acesss
+## No direct acesss
 defined('_JEXEC') or die('Restricted access');
-//rating array
+## rating array
 $ratearray = array("nopos1", "onepos1", "twopos1", "threepos1", "fourpos1", "fivepos1");
 $user = JFactory::getUser();
 $requestpage = '';
-//get current page number
+## get current page number
 $requestpage = JRequest::getVar('page', '', 'post', 'int');
 $thumbview       = unserialize($this->relatedvideosrowcol[0]->thumbview);
 $dispenable      = unserialize($this->relatedvideosrowcol[0]->dispenable);
 $document = JFactory::getDocument();
 $style = '#video-grid-container .ulvideo_thumb .video-item{margin-right:'.$thumbview['relatedwidth'] . 'px; }';
 $document->addStyleDeclaration($style);
-?>
-<script type="text/javascript">
-function submitform()
-{
-  document.myform.submit();
-}
-</script>
-<form name="myform" action="<?php echo JURI::root();?>" method="post" id="login_form">
-
-	<div class="logout-button">
-
-		<input type="hidden" name="option" value="com_users" />
-		<input type="hidden" name="task" value="user.logout" />
-<!--		<input type="hidden" name="return" value="<?php echo $logoutval_2; ?>" />-->
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
-</form>
-<?php
     if (USER_LOGIN == '1') {
        if ($user->get('id') != '') {
            if(version_compare(JVERSION,'1.6.0','ge')) { ?>
              <div class="toprightmenu">
                 <a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_( 'HDVS_MY_VIDEOS' ); ?></a> |
-                <a href="javascript: submitform();"><?php echo JText::_( 'HDVS_LOGOUT' ); ?></a>
+                <a href="<?php echo JRoute::_('index.php?option=com_users&task=user.logout&'. JSession::getFormToken().'=1&return='.  base64_encode(JUri::root())); ?>"><?php echo JText::_( 'HDVS_LOGOUT' ); ?></a>
              </div>
             <?php }else { ?>
              <div class="toprightmenu">
@@ -94,7 +72,7 @@ function submitform()
                                 {
                                     echo '<ul class="ulvideo_thumb clearfix">';
                                 }
-						//For SEO settings
+						## For SEO settings
                                 $seoOption = $dispenable['seo_option'];
                                 if ($seoOption == 1)
                                 {
@@ -223,8 +201,7 @@ function submitform()
                                                             echo("<li><a onclick='changepage(1)'>1</a></li>");
                                                             echo ("<li>...</li>");
                                                             echo("<li><a onclick='changepage(".$next_page.")'>$next_page</a></li>");
-//                                                            echo("<li><a onclick='changepage(".$next_page1.")'>$next_page1</a></li>");
-                                                             echo ("<li>...</li>");
+                                                            echo ("<li>...</li>");
                                                             }else{
                                                             echo("<li><a onclick='changepage(1)'>1</a></li>");
                                                             echo ("<li>...</li>");

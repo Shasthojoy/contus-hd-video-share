@@ -126,20 +126,7 @@ $document->addStyleDeclaration($style);
 <script src="http://connect.facebook.net/en_US/all.js#xfbml=1" type="text/javascript"></script>
 <input type="hidden" name="category" value="<?php if (isset($this->videodetails->playlistid)) { echo $this->videodetails->playlistid; } ?>" id="category"/>
 <input type="hidden" value="<?php if (isset($this->videodetails->id)) { echo $this->videodetails->id; } ?>" name="videoid" id="videoid"/>
-<script type="text/javascript">
-    function submitform()
-    {
-        document.myform.submit();
-    }
-</script>
-<!--Login and Registration form-->
-<form name="myform" action="<?php echo JURI::root();?>" method="post" id="login-form1">
-    <div class="logout-button">
-        <input type="hidden" name="option" value="com_users" />
-        <input type="hidden" name="task" value="user.logout" />
-<?php echo JHtml::_('form.token'); ?>
-    </div>
-</form>
+
 <?php
 ## Google analytics code
 if ($player_icons['googleana_visible'] == 1) {
@@ -179,7 +166,7 @@ if (USER_LOGIN == '1') {
             <?php
             if (version_compare(JVERSION, '1.6.0', 'ge')) {
                 ?>
-                <a href="javascript: submitform();"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
+            <a href="<?php echo JRoute::_('index.php?option=com_users&task=user.logout&'. JSession::getFormToken().'=1&return='.  base64_encode(JUri::root())); ?>"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
             <?php } else {
                 ?>
                 <a href="index.php?option=com_user&amp;task=logout"><?php echo JText::_('HDVS_LOGOUT'); ?></a>
