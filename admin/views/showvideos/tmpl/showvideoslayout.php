@@ -33,9 +33,7 @@ $toolTipArray = array('className' => 'custom2', 'showDelay' => '0', 'hideDelay' 
     $document = JFactory::getDocument();
     $document->addStyleSheet('components/com_contushdvideoshare/css/cc.css');
     $document->addStyleSheet('components/com_contushdvideoshare/css/styles.css');
-    $document->addScript( 'components/com_contushdvideoshare/js/jquery-1.3.2.min.js' );
-    $document->addScript( 'components/com_contushdvideoshare/js/jquery-ui-1.7.1.custom.min.js' ); 
-	
+	JHtml::_('jquery.ui', array('core', 'sortable'));
 	##  variable initialization
 	$option = JRequest::getCmd('option');
 	$user = JRequest::getVar('user');
@@ -50,9 +48,6 @@ $toolTipArray = array('className' => 'custom2', 'showDelay' => '0', 'hideDelay' 
 	}
 	</style>
 	<?php } ?>
-<?php if(version_compare(JVERSION, '3.0.0', 'ge')){ ?>
-<script src="components/com_contushdvideoshare/js/jquery-ui.js"></script>
-<?php } ?>
 <style>
 fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{float: none;}
 #commentlist tr td{text-align:left;}
@@ -76,7 +71,6 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
                     oid= "ordertd_"+videoid[i];
                     document.getElementById(oid).innerHTML=i-1;
                 }
-                //dragdr("#info").load("<?php echo $baseurl; ?>/index.php?option=com_contushdvideoshare&task=videos&layout=sortorder&"+order);
                 dragdr.post("<?php echo $baseurl; ?>/index.php?option=com_contushdvideoshare&task=videos&layout=sortorder",order);
                
             }
