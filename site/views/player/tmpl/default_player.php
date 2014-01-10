@@ -174,11 +174,11 @@ if (USER_LOGIN == '1') {
         <?php
     } else {
         if (version_compare(JVERSION, '1.6.0', 'ge')) {
-            $register_url = "index.php?option=com_users&amp;view=registration";
-            $login_url = "index.php?option=com_users&amp;view=login";
+            $register_url   = "index.php?option=com_users&amp;view=registration";
+            $login_url      = "index.php?option=com_users&amp;view=login";
         } else {
-            $register_url = "index.php?option=com_user&amp;view=register";
-            $login_url = "index.php?option=com_user&amp;view=login";
+            $register_url   = "index.php?option=com_user&amp;view=register";
+            $login_url      = "index.php?option=com_user&amp;view=login";
         }
         ?>
         <div class="toprightmenu">
@@ -246,7 +246,6 @@ if (USER_LOGIN == '1') {
     <div id="HDVideoshare1" style="position:relative;   " class="clearfix">
         <h1 id="viewtitle" class="floatleft" style="" ><?php if (isset($this->htmlVideoDetails->title)) echo $this->htmlVideoDetails->title; ?></h1>
         <div class="clear"></div>
-        
         <?php
         $mobile = detect_mobile();
         if (!empty($this->videodetails) && ($this->videodetails->id) && ($this->videodetails->playlistid)) {
@@ -266,8 +265,8 @@ if (USER_LOGIN == '1') {
         
             if ($this->homepageaccess == 'true') {
         if ($htmlVideoDetails->filepath == 'Embed') {
-               $playerembedcode = $htmlVideoDetails->embedcode;
-               $playeriframewidth =  str_replace('width=', 'width="'.$player_values['width'].'"', $playerembedcode);
+               $playerembedcode         = $htmlVideoDetails->embedcode;
+               $playeriframewidth       =  str_replace('width=', 'width="'.$player_values['width'].'"', $playerembedcode);
                        contushdvideoshareController::videohitCount_function($htmlVideoDetails->id);
                if($mobile === true){
                    echo $playerembedcode;
@@ -293,19 +292,18 @@ if (USER_LOGIN == '1') {
         <?php }
             } else { ?>
             <style type="text/css">
-                                .login_msg{height:<?php echo $player_values['height']; ?>px; color: #fff;width: 100%;margin: <?php echo ceil($player_values['width']/3); ?>px 0 0;}
-                                .login_msg a{background: #999; color:#fff; padding: 5px;}
-                            </style>
-                            
-                    <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
-                        <div class="login_msg">
-                        <h3><?php echo JText::_('HDVS_LOGIN_TO_WATCH'); ?></h3>
-                        <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
-                    </div>
-                    </div>
+                .login_msg{height:<?php echo $player_values['height']; ?>px; color: #fff;width: 100%;margin: <?php echo ceil($player_values['width']/3); ?>px 0 0;}
+                .login_msg a{background: #999; color:#fff; padding: 5px;}
+            </style>
+            <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
+                <div class="login_msg">
+                <h3><?php echo JText::_('HDVS_LOGIN_TO_WATCH'); ?></h3>
+                <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
+            </div>
+            </div>
        <?php } 
        } else {
-                        if($mobile === true){
+           if($mobile === true){
     ?>
              <!-- HTML5 player starts here -->
             <div id="htmlplayer">
@@ -355,40 +353,39 @@ if (USER_LOGIN == '1') {
         }
     } else {               ## Restricted video design part 
         ?>
-                            <style type="text/css">
-                                .login_msg{vertical-align: middle;height:<?php echo $player_values['height']; ?>px;display: table-cell; color: #fff;}
-                                .login_msg a{background: #999; color:#fff; padding: 5px;}
-                            </style>
-                            
-                    <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
-                        <div class="login_msg">
-                        <h3><?php echo JText::_('HDVS_LOGIN_TO_WATCH'); ?></h3>
-                        <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
-                    </div>
-                    </div>
+        <style type="text/css">
+            .login_msg{vertical-align: middle;height:<?php echo $player_values['height']; ?>px;display: table-cell; color: #fff;}
+            .login_msg a{background: #999; color:#fff; padding: 5px;}
+        </style>
+        <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
+            <div class="login_msg">
+            <h3><?php echo JText::_('HDVS_LOGIN_TO_WATCH'); ?></h3>
+            <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
+        </div>
+        </div>
     <?php } ?>
             </div>
              
-                        <?php } else { ?>
+    <?php } else { ?>
              
-             <!-- Flash player Start -->
-            <div id="flashplayer">
-                <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
-                       allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $details1['baseurl']; ?><?php echo $baseref; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px" />
-            </div>
-                        <?php } ?>
+        <!-- Flash player Start -->
+       <div id="flashplayer">
+           <embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
+                  allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $details1['baseurl']; ?><?php echo $baseref; ?>"  style="width:<?php echo $player_values['width']; ?>px; height:<?php echo $player_values['height']; ?>px" />
+       </div>
+    <?php } ?>
             <!--Platform check-->
-            <script type="text/javascript">
-                var txt = navigator.platform;
-                function failed(e)
-                {
-                    if (txt == 'iPod' || txt == 'iPad' || txt == 'iPhone' || windo == "Windows Phone" || txt == 'Linux armv7l' || txt == 'Linux armv6l')
-                    {
-                        alert('Player doesnot support this video.');
-                    }
-                }
-            </script>
-            <!-- HTML5 PLAYER  END -->
+    <script type="text/javascript">
+        var txt = navigator.platform;
+        function failed(e)
+        {
+            if (txt == 'iPod' || txt == 'iPad' || txt == 'iPhone' || windo == "Windows Phone" || txt == 'Linux armv7l' || txt == 'Linux armv6l')
+            {
+                alert('Player doesnot support this video.');
+            }
+        }
+    </script>
+    <!-- HTML5 PLAYER  END -->
     <?php
 }
 ## Display Google Adsense
@@ -415,14 +412,61 @@ if (isset($details1['publish']) == '1' && isset($details1['showaddc']) == '1' &&
 </div>
 <?php
 if (isset($details1['closeadd'])) {
-    $closeadd = $details1['closeadd'];
-    $ropen = $details1['ropen'];
+    $closeadd   = $details1['closeadd'];
+    $ropen      = $details1['ropen'];
     ?>
     <script type="text/javascript">
                 var closeadd = <?php echo $closeadd * 1000; ?>;
                 var ropen = <?php echo $ropen * 1000; ?>;
     </script>
 <?php } ?>
+    
+    <div class="video-page-container clscenter" style="width:<?php echo $player_values['width']; ?>px;">
+        
+        <div class="video-page-info ">
+            <div class="video-page-date">
+                <!--Display video created date-->
+                <div class="video_addedon">
+                    <span class="addedon"><strong><?php echo JText::_('HDVS_ADDED_ON'); ?> : </strong></span><span id="createdate">
+                        <?php if (isset($this->htmlVideoDetails->created_date)) {
+                            $created_on = date('j-M-Y', strtotime($this->htmlVideoDetails->created_date));
+                        echo $created_on; 
+                        }
+                        ?></span>
+                </div>
+            </div>
+            <div class="video-page-views">
+                <strong><?php if ($dispenable['viewedconrtol'] == 1) { ?>  
+                 <?php echo JText::_('HDVS_VIEWS'); ?> :</strong> 
+                 <span id="viewcount">
+                     <?php if (isset($this->htmlVideoDetails->times_viewed)) { echo $this->htmlVideoDetails->times_viewed; } ?>
+                 </span> 
+                 <?php } ?>
+            </div>
+            <div class="clearfix"></div>
+            <div class="video-page-username">
+                <?php
+                    if (isset($this->commenttitle)) {
+                        foreach ($this->commenttitle as $row) {
+                            if(isset($row->memberid)) {
+                                $mid = $row->memberid;
+                            } else {
+                                $mid = '';
+                            }
+                            if(isset($row->username)){
+                                $username = $row->username;
+                            } else {
+                                $username = '';
+                            }
+                            if ($username != '') {
+                                ?>
+                            <div class="viewsubname"><span class="uploadedby"><strong><?php echo JText::_('HDVS_UPLOADED_BY'); ?> : </strong></span>  <a  href="#" title="<?php echo $username; ?>" class="namelink cursor_pointer" onclick="membervalue('<?php echo $mid; ?>')" ><?php echo $row->username; ?></a></div><?php
+                            }
+                        }
+                    }
+                ?>
+            </div>
+            <div class="video-page-rating">
     <!--Rating starts here-->
 <div id="rateid" class="ratingbg" >
     <div class="content_center clearfix" style="">
@@ -467,17 +511,7 @@ if (isset($details1['closeadd'])) {
                 </div>
             </div>
 <?php } ?>
-        <!--Display video created date-->
-        <div class="video_addedon">
-            <b><?php if ($dispenable['viewedconrtol'] == 1) { ?>   <?php echo JText::_('HDVS_VIEWS'); ?> :</b> <span id="viewcount"><?php if (isset($this->htmlVideoDetails->times_viewed)) echo $this->htmlVideoDetails->times_viewed; ?></span> <?php } ?>
-            <span class="addedon"><b><?php echo JText::_('HDVS_ADDED_ON'); ?> : </b></span><span id="createdate">
-                <?php if (isset($this->htmlVideoDetails->created_date)) {
-                    $created_on = date('j-M-Y', strtotime($this->htmlVideoDetails->created_date));
-                echo $created_on; 
-                }
-                ?></span>
         </div>
-    </div>
     <!-- Script for rating of the video starts here -->
     <script type="text/javascript">
             function ratecal(rating, ratecount)
@@ -616,59 +650,48 @@ if (isset($details1['closeadd'])) {
     </script>
     <!-- Script for rating of the video ends here -->
 </div>
-    <!--Social Sharing icons-->
-<div class="clscenter" style="width:<?php echo $player_values['width']; ?>px;">
+            </div> 
+            <div class="clear"></div>
+        </div> <!-- Social Sharing Icons starts here -->
+        <?php if (isset($this->commenttitle)) { ?>
+         <div id="share_like" class="video-socialshare">
     <?php
-        if (isset($this->commenttitle)) {
-            foreach ($this->commenttitle as $row) {
-                $mid = isset($row->memberid) ? $row->memberid : '';
-                $row->username = isset($row->username) ? $row->username : '';
-                if ($row->username != '') {
-                    ?>
-                <div class="viewsubname"><span class="uploadedby"><?php echo JText::_('HDVS_UPLOADED_BY'); ?> :</span>  <a  href="#" title="<?php echo $row->username; ?>" class="namelink cursor_pointer" onclick="membervalue('<?php echo $mid; ?>')" ><?php echo $row->username; ?></a></div><?php
-                }
-                ?><div class="clear"></div>
-            <!-- Social sharing starts here -->
-            <div class="sharing_vid clearfix">
-                    <?php if ($dispenable['facebooklike'] == 1) {
+            if ($dispenable['facebooklike'] == 1) { 
                         $pageURL = str_replace('&', '%26', JURI::getInstance()->toString());
-                        ?>
-                    <div id="share_like">
-                        <div id="fb-root" class="floatleft">
-                            <div style="position: absolute; top: -10000px; height: 0px; width: 0px;"></div>
-                        </div>
-                        <?php
                         if (strpos($this->htmlVideoDetails->videourl, 'vimeo') > 0) {
                             $url_fb = "http://www.facebook.com/dialog/feed?app_id=19884028963&ref=share_popup&link=" . urlencode($this->htmlVideoDetails->videourl) . "&redirect_uri=" . urlencode($this->htmlVideoDetails->videourl) . "%3Fclose";
                         } else {
                             $url_fb = "http://www.facebook.com/sharer/sharer.php?s=100&amp;p%5Btitle%5D=" . $this->htmlVideoDetails->title . "&amp;p%5Bsummary%5D=" . strip_tags($this->htmlVideoDetails->description) . "&amp;p%5Bmedium%5D=103&amp;p%5Bvideo%5D%5Bwidth%5D=" . $player_values['width'] . "&amp;p%5Bvideo%5D%5Bheight%5D=" . $player_values['height'] . "&amp;p%5Bvideo%5D%5Bsrc%5D=" . urlencode($playerpath) . "%3Ffile%3D" . urlencode($video_url) . "%26embedplayer%3Dtrue%26share%3Dfalse%26HD_default%3Dtrue%26autoplay%3Dtrue%26skin_autohide%3Dtrue%26showPlaylist%3Dfalse%26id%3D" . $this->videodetails->id . "%26baserefJHDV%3D" . urlencode(JURI::base()) . "&amp;p%5Burl%5D=" . urlencode($pageURL) . "&amp;p%5Bimages%5D%5B0%5D=" . urlencode($video_thumb);
                         }
                         ?>
-                        <!--Facebook Share icon-->
-                        <a href="<?php echo $url_fb; ?>" class="fbshare" id="fbshare" target="_blank" ></a>
-                        <!--Twitter Share icon-->
-                        <div class="floatleft">
-                            <a href="<?php echo 'http://twitter.com/home?status='.urlencode($this->htmlVideoDetails->title.':+'.$pageURL.'%26random%3D'.rand()); ?>" data-count="horizontal" id="twshare" target="_blank"><img alt="" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/images/twitter-icon.png" width="16" height="16" />Tweet</a>
-                        </div>
-                        <!-- Google plus share icon -->
-                        <div class="floatleft google-plus">
-                            <script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
-                            <div class="g-plusone" data-size="medium" data-count="true"></div>
-                        </div>
+            <div class="floatleft" style=" margin-right: 9px; "><a href="<?php echo $url_fb; ?>" class="fbshare" id="fbshare" target="_blank"></a></div>
+            <!-- Facebook share End and Twitter like Start -->
+            <div class="floatleft ttweet" >
+                <a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-url="<?php echo JURI::getInstance()->toString(); ?>" data-via="<?php echo $siteName; ?>" data-text="<?php echo $this->htmlVideoDetails->title; ?>">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
+            <!-- Twitter like End and Google plus one Start -->
+            <div class="floatleft gplusshare"><script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script><div class="g-plusone" data-size="medium" data-count="true"></div></div>
+            <!-- Google plus one End -->
+            <div class="floatleft fbsharelike">
                         <!--Facebook like button-->
                         <iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo $pageURL; ?>&amp;layout=button_count&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" class="iframe_frameborder facebook_hdlike"  allowTransparency="true"> </iframe>
-                         
                     </div>
-                <?php } ?>
-                <!--Embed code section starts here-->
-                <div class="commentpost vinfo_right_embed">
-                <?php if ($player_icons['enabledownload'] == 1 && $this->htmlVideoDetails->filepath != "Youtube" && $this->htmlVideoDetails->filepath != "Embed" && $this->htmlVideoDetails->streameroption != "rtmp") {
+        <?php 
+            }
                     ?>
+            </div>
+            <!--Social Sharing icons ends here-->
+            
+      <div class="vido_info_container">
+            <div class="clearfix">
+                <div class="video-cat-thumb commentpost">
+                    <?php if($player_icons['embedVisible']== 1) { ?>
+                    <a class="utility-link embed" class="embed" id="allowEmbed" href="javascript:void(0)" onclick="enableEmbed()" ><?php echo JText::_('HDVS_EMBED'); ?> </a>
+                <?php }
+                if ($player_icons['enabledownload'] == 1 && $this->htmlVideoDetails->filepath != "Youtube" && $this->htmlVideoDetails->filepath != "Embed" && $this->htmlVideoDetails->streameroption != "rtmp") {
+                ?>
                         <a class="utility-link" href="<?php echo $video_url; ?>" target="_blank"><?php echo JText::_('HDVS_DOWNLOAD'); ?></a>
-                <?php } ?>
-                        <?php if($player_icons['embedVisible']== 1) { ?>
-                    <a class="utility-link embed" href="javascript:void(0)" onclick="enableEmbed()" ><?php echo JText::_('HDVS_EMBED'); ?> </a>
-                <?php } ?>
+                    <?php
+                    } ?>
                     <?php if(isset($dispenable['reportvideo']) && $dispenable['reportvideo'] == 1) { ?>
   
                         <a class="utility-link" onclick="showreport();">Report</a>
@@ -680,8 +703,6 @@ if (isset($details1['closeadd'])) {
                             <button type="submit" onclick="submitreport()">Send</button>
                             </div>
                      <?php } ?>
-                    <div class="clear"></div>
-                </div>
                 <?php
                 $split = explode("/", $this->videodetails->videourl);
                 if (!empty($this->videodetails) && (preg_match('/vimeo/', $this->videodetails->videourl)) && ($this->videodetails->videourl != '')) {
@@ -695,7 +716,7 @@ if (isset($details1['closeadd'])) {
                     $embed_code = '<embed id="player" src="' . $playerpath . '" flashvars="id=' . $this->videodetails->id . '&amp;baserefJHDV=' . JURI::base() . '&amp;playlist_auto=false&amp;Preview=' . $video_preview . '&amp;showPlaylist=false&amp;embedplayer=true&amp;shareIcon=false&amp;email=false&amp;zoomIcon=false&amp;playlist_autoplay=false" style="width:' . $player_values['width'] . 'px;height:' . $player_values['height'] . 'px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash" wmode="transparent"></embed>';
                 }
                 ?>
-                <textarea id="embedcode" name="embedcode" style="display:none;width:<?php
+                 <textarea onclick="this.select()" id="embedcode" name="embedcode" style="display:none;width:<?php
                 if ($player_values['width'] > 10) {
                     echo ($player_values['width']) - (17);
                 } else {
@@ -717,23 +738,21 @@ if (isset($details1['closeadd'])) {
                         }
                     }
             </script>
-            <!--Embed code section ends here-->
-            <!-- Social sharing ends and Description display place starts here -->
-            <p id="videoDescription"><?php echo $this->htmlVideoDetails->description; ?></p>
-            <div class="clear"></div>
+               <div style="clear: both;"></div>
+               <div class="video-page-desc"><?php echo $this->htmlVideoDetails->description; ?></div>
+           </div>
+     </div>
         <?php
-        break;
     }
-}
 ?>
 </div>
+    
 <div class="clear"></div>
 <!-- Add Facebook Comment -->
 <?php
 if (!empty($this->videodetails) && $this->videodetails->id) {
     if ($dispenable['comment'] == 1) {
         ?>
-
         <div class="fbcomments" id="theFacebookComment">
             <h3><?php echo JText::_('HDVS_ADD_YOUR_COMMENTS'); ?></h3>
         <?php
@@ -767,10 +786,10 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
         <script type="text/javascript">
             var disqus_shortname = "<?php echo $dispenable['disqusapi']; ?>";
             (function() {
-                var dsq = document.createElement("script");
-                dsq.type = "text/javascript";
-                dsq.async = true;
-                dsq.src = "http://" + disqus_shortname + ".disqus.com/embed.js";
+                var dsq     = document.createElement("script");
+                dsq.type    = "text/javascript";
+                dsq.async   = true;
+                dsq.src     = "http://" + disqus_shortname + ".disqus.com/embed.js";
                 (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(dsq);
             })();
         </script>
@@ -833,8 +852,8 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
                                 return;
                             }
                             document.getElementById('prcimg').style.display = "block";
-                            var url = "<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=commentappend&tmpl=component&id=<?php echo $this->videodetails->id; ?>&cmdid=2&page=" + pageno;
-                            url = url + "&sid=" + Math.random();
+                            var url     = "<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=commentappend&tmpl=component&id=<?php echo $this->videodetails->id; ?>&cmdid=2&page=" + pageno;
+                            url         = url + "&sid=" + Math.random();
                             xmlhttp.onreadystatechange = function stateChanged()
                             {
                                 if (xmlhttp.readyState == 4)
@@ -858,22 +877,22 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
                         }
                         function insert()
                         {
-                            var name = encodeURI(document.getElementById('username').value);
-                                       var message = encodeURI(document.getElementById('comment_message').value);
-                            var id = encodeURI(document.getElementById('id').value);
+                            var name        = encodeURI(document.getElementById('username').value);
+                            var message     = encodeURI(document.getElementById('comment_message').value);
+                            var id          = encodeURI(document.getElementById('id').value);
 
-                            var category = encodeURI(document.getElementById('category').value);
-                            var parentid = encodeURI(document.getElementById('parentvalue').value);
+                            var category    = encodeURI(document.getElementById('category').value);
+                            var parentid    = encodeURI(document.getElementById('parentvalue').value);
                             // Set te random number to add to URL request
-                            var nocache = Math.random();
-                            xmlhttp = GetXmlHttpObject();
+                            var nocache     = Math.random();
+                            xmlhttp         = GetXmlHttpObject();
                             if (xmlhttp == null)
                             {
                                 alert("Browser does not support HTTP Request");
                                 return;
                             }
                             document.getElementById('prcimg').style.display = "block";
-                            var url = "<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=player&id=" + id + "&category=" + category + "&name=" + name + "&message=" + message + "&pid=" + parentid + "&nocache = " + nocache + "&sid=" + Math.random();
+                            var url         = "<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&view=player&id=" + id + "&category=" + category + "&name=" + name + "&message=" + message + "&pid=" + parentid + "&nocache = " + nocache + "&sid=" + Math.random();
                             xmlhttp.onreadystatechange = stateChanged;
                             xmlhttp.open("GET", url, true);
                             xmlhttp.send(null);
@@ -884,12 +903,12 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
                             if (xmlhttp.readyState == 4)
                             {
                                 document.getElementById('prcimg').style.display = "none";
-                                var name = document.getElementById('username').value;
-                                var message = document.getElementById('comment_message').value;
-                                var id = encodeURI(document.getElementById('videoid').value);
-                                var boxid = encodeURI(document.getElementById('id').value);
-                                var category = encodeURI(document.getElementById('category').value);
-                                var parentid = encodeURI(document.getElementById('parentvalue').value);
+                                var name            = document.getElementById('username').value;
+                                var message         = document.getElementById('comment_message').value;
+                                var id              = encodeURI(document.getElementById('videoid').value);
+                                var boxid           = encodeURI(document.getElementById('id').value);
+                                var category        = encodeURI(document.getElementById('category').value);
+                                var parentid        = encodeURI(document.getElementById('parentvalue').value);
                                 var commentcountval = document.getElementById('commentcount').innerHTML;
                                 document.getElementById('username').disabled = true;
                                 document.getElementById('comment_message').disabled = true;

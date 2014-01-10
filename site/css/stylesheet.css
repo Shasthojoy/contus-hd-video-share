@@ -108,7 +108,7 @@ ul.ratethis1 li {cursor: pointer;float:left;}
 .fourpos {background-position:0 -80px}
 .fivepos {background-position:0 -100px}
 #rateimg ul.ratethis li { text-indent:-999em;cursor: pointer;float:left;list-style:none;}
-#rateimg .ratethis{margin: 0px;padding: 0px;margin-right: 10px;}
+#rateimg .ratethis{margin: 0px;padding: 0px;}
 .callout-header-home h2{margin-bottom:5px;font-size:15px;}
 h2.hoverable a{font-size:18px;}
 h2.hoverable a:hover{background:none;}
@@ -138,7 +138,7 @@ ul.ratethis li.five a:hover {background-position:0 -200px;background: none !impo
 .googlead_img{float:right;cursor: pointer;}
 /*video css*/
 #HDVideoshare1{width:100%;}
-#HDVideoshare1 div{text-align:center;margin-bottom: 10px;overflow: hidden;}
+#HDVideoshare1 div{margin-bottom: 10px;overflow: hidden;}
 /*video content css*/
 .content_center{width:100%;margin: 10px 0;overflow: hidden;}
 .content_center1{margin-left:auto;margin-right:auto;}
@@ -294,12 +294,14 @@ div.module_videos div{background: transparent !important; padding:0 0 !important
 }
 #share_like {float: left;}
 .vinfo_right_embed {float: right;padding: 4px;}
-.embed {display: block;float: right;cursor: pointer;margin-right: 10px;padding: 0 5px;}
+.embed {cursor: pointer;margin-right: 4px;padding: 0 5px;}
 #embedcode {float: right;margin: 10px 0px 0px 0px;resize:vertical;}
 #downloadurl {display: block;float: right;}
-.fbshare {width: 57px;height: 18px;float: left;background: url(../images/fb_share_button.png) no-repeat;margin: 3px 13px 3px 3px;}
+.fbshare {background: url(../images/fb_share_button.png) no-repeat;display: block;
+width: 57px;
+height: 20px;}
 .video_addedon{float:right;}
-.video_addedon .addedon {margin-left: 10px;}
+
 .user-thumb-semismall {display: block;overflow: hidden;background-color: white;border: 3px double #999;border-image: initial;}
 .channel-title-container {float: left;padding: 0.4em;}
 .user-thumb-semismall div {width: 400px;float: left;}.bot_dot3 .leftdiv button{text-align: center;}
@@ -379,7 +381,7 @@ div.module_videos div{background: transparent !important; padding:0 0 !important
 .activetab{color: #333;background: white;border: 1px solid #DADADA;padding: 5px 10px 10px;position: relative;float: left;display: block;margin: 0 5px 0px 0;font-weight: bold;border-bottom: none;overflow: visible;}
 .disabletab{color: white;background: #666;border:none;padding: 6px 10px;margin: 0 5px 0 0;float: left;font-size: 12px;overflow: visible;}
 .button{overflow: visible;}
-#fbshare:hover{width: 57px;height:18px;float: left;background: url(../images/fb_share_button.png) !important;margin-right: 20px;}
+/*#fbshare:hover{width: 57px;height:18px;float: left;background: url(../images/fb_share_button.png) !important;margin-right: 20px;}*/
 #clsinsertbtns table{width:200px !important;}
 
 /*#face-comments iframe{width: 600px !important;}*/
@@ -604,7 +606,7 @@ border-radius: 5px;}
 .featureright .myvideopage_title a{font-size: 12px;font-weight: bold;}
 
 #share_like .google-plus{width:70px;padding: 2px;margin-left: 10px;}
-#share_like .facebook_hdlike{border: none; overflow: hidden; width: 100px; height: 22px; padding: 2px 2px 0;}
+#share_like .facebook_hdlike{border: none; overflow: hidden; width: 100px; height: 22px;}
 
 .channelpage_savebtn{margin-right: 10px;}
 
@@ -712,3 +714,30 @@ ul#upload_thread li{ float:left; margin-bottom: 0; margin-right: 5px;}
 .allform_left .select_videotype, .allform_left .select_upload{float:none;}
 ul#upload_thread li input[type="radio"]{margin: 0;}
 .allform_left label{float: left;}
+
+
+
+.video-page-container{ font-family: helvetica, arial, sans-serif; font-size: 12px; }
+.video-page-container .video-page-info strong, .video-page-container .video-page-info span{/*width: auto;*/float:left;text-align:left; display: inline-block;  }
+.video-page-container strong{/*width: auto; */display: inline-block;}
+.video-page-container .video-page-date{float: left;text-align: left;}
+.video-page-container .video-page-views{ float: right; text-align: right;}
+.video-page-container .video-page-username{ width: 48%; float: left; text-align: left;}
+.video-page-container.shortcode .video-page-info{float: right;text-align: right;width: 100%;}
+.video-page-container.shortcode .video-page-info.noviews{width: 100%;}
+.video-page-container.shortcode .video-page-views {width:100%;float: right;text-align: right;}
+.video-page-container.shortcode .video-page-rating{width: auto;float: right;}
+.video-page-container.shortcode .noviews .video-page-rating{width: auto;}
+
+.video-page-container.shortcode .video-page-rating .floatleft {float: right;}
+.video-page-container.shortcode .video-page-rating .floatleft .rateimgleft{ float: right;}
+
+.video-page-container .video-page-tag{ padding-bottom: 10px; margin-bottom: 5px; clear: both;}
+.video-page-container .video-page-category {}
+.video-page-info{clear: both; overflow: hidden; padding-bottom: 5px; }
+.video-page-info .video-page-rating{float: right; *width:30%;}
+.video-page-info .video-page-rating .rateimgleft{float: right; }
+.video-page-info .video-page-rating .rateright-views{margin-right: 5px;padding-top: 2px;/*width: 120px;*/text-align: right;}
+.video-page-info .video-page-category{float: right;text-align: right;}
+.gplusshare{width: 62px;}
+.ttweet{width: 64px;}
