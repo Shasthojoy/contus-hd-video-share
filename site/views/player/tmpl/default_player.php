@@ -46,7 +46,7 @@ if (isset($this->htmlVideoDetails) && $this->htmlVideoDetails != '') {
             parse_str(parse_url($url, PHP_URL_QUERY), $query_string);
             $id             = $query_string["v"];
             $videoid        = trim($id);
-            $video_thumb    = "http://i3.ytimg.com/vi/$videoid/mqdefault.jpg";
+            $video_thumb    = "http://i3.ytimg.com/vi/$videoid/hqdefault.jpg";
             $video_url      = $this->htmlVideoDetails->videourl;
             $video_preview  = "http://i3.ytimg.com/vi/$videoid/maxresdefault.jpg";
         } else if (strpos($this->htmlVideoDetails->videourl, 'dailymotion') > 0 || strpos($this->htmlVideoDetails->videourl, 'viddler') > 0) {
@@ -85,9 +85,8 @@ if (!empty($this->htmlVideoDetails->description)){
 }
 ## Fb Share og detail
 $document->addCustomTag('<link rel="image_src" href="' . $video_thumb . '"/>');
-$document->addCustomTag('<meta property="fb:app_id" content="' . $facebookapi . '"/>');
+$document->addCustomTag('<link rel="canonical" href="' .$instance->toString() . '"/>');
 $document->addCustomTag('<meta property="og:site_name" content="' . $siteName . '"/>');
-$document->addCustomTag('<meta property="og:type" content="website"/>');
 $document->addCustomTag('<meta property="og:url" content="' . $instance->toString() . '"/>');
 $document->addCustomTag('<meta property="og:title" content="' . $video_title . '"/>');
 $document->addCustomTag('<meta property="og:description" content="' . strip_tags($video_desc) . '"/>');
@@ -652,7 +651,7 @@ if (isset($details1['closeadd'])) {
                         <a href="<?php echo $url_fb; ?>" class="fbshare" id="fbshare" target="_blank" ></a>
                         <!--Twitter Share icon-->
                         <div class="floatleft">
-                            <a href="http://twitter.com/home?status=<?php echo $this->htmlVideoDetails->title; ?>:+<?php echo $pageURL; ?>%26random%3D<?php echo rand(); ?>" data-count="horizontal" id="twshare" target="_blank"><img alt="" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/images/twitter-icon.png" width="16" height="16" />Tweet</a>
+                            <a href="<?php echo 'http://twitter.com/home?status='.urlencode($this->htmlVideoDetails->title.':+'.$pageURL.'%26random%3D'.rand()); ?>" data-count="horizontal" id="twshare" target="_blank"><img alt="" src="<?php echo JURI::base(); ?>components/com_contushdvideoshare/images/twitter-icon.png" width="16" height="16" />Tweet</a>
                         </div>
                         <!-- Google plus share icon -->
                         <div class="floatleft google-plus">
@@ -661,7 +660,7 @@ if (isset($details1['closeadd'])) {
                         </div>
                         <!--Facebook like button-->
                         <script src="http://connect.facebook.net/en_US/all.js"></script>
-                        <iframe class="facebook_hdlike" src="http://www.facebook.com/plugins/like.php?href=<?php echo $pageURL; ?>&amp;layout=button_count&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" class="iframe_frameborder"  allowTransparency="true"> </iframe>
+                        <iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo $pageURL; ?>&amp;layout=button_count&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" class="iframe_frameborder facebook_hdlike"  allowTransparency="true"> </iframe>
                          
                     </div>
                 <?php } ?>
@@ -672,7 +671,7 @@ if (isset($details1['closeadd'])) {
                         <a class="utility-link" href="<?php echo $video_url; ?>" target="_blank"><?php echo JText::_('HDVS_DOWNLOAD'); ?></a>
                 <?php } ?>
                         <?php if($player_icons['embedVisible']== 1) { ?>
-                    <a class="utility-link" href="javascript:void(0)" onclick="enableEmbed()" class="embed"><?php echo JText::_('HDVS_EMBED'); ?> </a>
+                    <a class="utility-link embed" href="javascript:void(0)" onclick="enableEmbed()" ><?php echo JText::_('HDVS_EMBED'); ?> </a>
                 <?php } ?>
                     <?php if(isset($dispenable['reportvideo']) && $dispenable['reportvideo'] == 1) { ?>
   

@@ -120,7 +120,7 @@ $seoOption =$dispenable['seo_option'];
                                                  <span class="view_txt"><?php echo JText::_('HDVS_VIEWS'); ?>: </span>
                                                  <span class="view_count"><?php echo $result[$i]->times_viewed; ?> </span>
                                              </div>
-                                             <div id="htmltooltipwrapper3<?php echo $i; ?>">
+                                             <div id="htmltooltipwrapper13<?php echo $i; ?>">
                                                  <div class="chat-bubble-arrow-border"></div>
                                                <div class="chat-bubble-arrow"></div>
                                              </div>
