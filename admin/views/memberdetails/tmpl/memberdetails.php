@@ -158,12 +158,12 @@ if(version_compare(JVERSION, '3.0.0', 'ge')) {
 			$allowUpload = $upload;
 			if ($allowUpload == '1')
 			{
-				$allowUploadImage = '<a title="Disallow upload User" onclick="return listItemTask(\'cb' . $i . '\',\'unallowupload\')" href="javascript:void(0);">
+				$allowUploadImage = '<a title="Disallow upload" onclick="return listItemTask(\'cb' . $i . '\',\'unallowupload\')" href="javascript:void(0);">
 									 <img src="components/com_contushdvideoshare/images/tick.png" />';
 			}
 			else
 			{
-				$allowUploadImage = '<a title="Allow upload User" onclick="return listItemTask(\'cb' . $i . '\',\'allowupload\')" href="javascript:void(0);">
+				$allowUploadImage = '<a title="Allow upload" onclick="return listItemTask(\'cb' . $i . '\',\'allowupload\')" href="javascript:void(0);">
 									 <img src="components/com_contushdvideoshare/images/publish_x.png" />';
 			}
 			?> <?php echo $allowUploadImage; ?>

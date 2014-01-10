@@ -456,10 +456,10 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
                                     <?php
 				$published = $row_showupload->published;
 				if ($published == "1") {
-					$pub = '<a title="unpublish Item" onclick="return listItemTask(\'cb' . $i . '\',\'unpublish\')" href="javascript:void(0);">
+					$pub = '<a title="Unpublish Item" onclick="return listItemTask(\'cb' . $i . '\',\'unpublish\')" href="javascript:void(0);">
 								<img src="components/com_contushdvideoshare/images/tick.png" /></a>';
 				} else {
-					$pub = '<a title="publish Item" onclick="return listItemTask(\'cb' . $i . '\',\'publish\')" href="javascript:void(0);"><img src="components/com_contushdvideoshare/images/publish_x.png" /></a>';
+					$pub = '<a title="Publish Item" onclick="return listItemTask(\'cb' . $i . '\',\'publish\')" href="javascript:void(0);"><img src="components/com_contushdvideoshare/images/publish_x.png" /></a>';
 				}
 				?>
 					<?php echo $pub; ?>
@@ -469,10 +469,10 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
 				<?php
 				$featured = $row_showupload->featured;
 				if ($featured == "1") {
-					$fimg = '<a title="unfeatured Item" onclick="return listItemTask(\'cb' . $i . '\',\'unfeatured\')" href="javascript:void(0);">
+					$fimg = '<a title="Unfeatured Item" onclick="return listItemTask(\'cb' . $i . '\',\'unfeatured\')" href="javascript:void(0);">
 								<img src="components/com_contushdvideoshare/images/tick.png" /></a>';
 				} else {
-					$fimg = '<a title="featured Item" onclick="return listItemTask(\'cb' . $i . '\',\'featured\')" href="javascript:void(0);"><img src="components/com_contushdvideoshare/images/publish_x.png" /></a>';
+					$fimg = '<a title="Featured Item" onclick="return listItemTask(\'cb' . $i . '\',\'featured\')" href="javascript:void(0);"><img src="components/com_contushdvideoshare/images/publish_x.png" /></a>';
 				}
 				?> <?php echo $fimg; ?>
 				
