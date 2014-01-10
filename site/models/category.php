@@ -163,7 +163,7 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel {
         $catgoryrows            = $db->LoadObjectList();
         
         ## Get parent category details
-        $parentcategoryquery    = "SELECT a.*, b.id AS vid FROM #__hdflv_category a LEFT JOIN #__hdflv_upload b ON b.playlistid = a.id WHERE a.parent_id=$catid ORDER BY ordering"; ## Query is to select the popular videos row
+        $parentcategoryquery    = "SELECT DISTINCT(a.id), a.*, b.id AS vid FROM #__hdflv_category a LEFT JOIN #__hdflv_upload b ON b.playlistid = a.id WHERE a.parent_id=$catid GROUP BY a.id ORDER BY ordering"; ## Query is to select the popular videos row
         $db->setQuery($parentcategoryquery);
         $parentrows             = $db->LoadObjectList();
         
