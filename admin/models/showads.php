@@ -102,7 +102,15 @@ class contushdvideoshareModelshowads extends ContushdvideoshareModel {
 
         ##  filtering based on ads type
         if ($strFilterAdsType) {
-            $strFilterTypeval            = ($strFilterAdsType == '1') ? 'prepost' : 'mid';
+            
+            if($strFilterAdsType == 1) {
+                $strFilterTypeval = 'prepost';
+            } else if($strFilterAdsType == 2) {
+                $strFilterTypeval = 'mid';
+            } else if($strFilterAdsType == 3) {
+                $strFilterTypeval = 'ima';
+            }
+            
             $where                      .= ' AND ';
             $where                      .= ' typeofadd = "' . $strFilterTypeval . '" ';
             $arrAdsFilter['ads_type']    = $strFilterAdsType;

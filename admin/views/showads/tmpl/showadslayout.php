@@ -62,6 +62,7 @@ float: none;
 			<option selected="selected" value="">- Select Ad Type -</option>
 			<option value="1" <?php if (isset($arrAdsFilter['ads_type']) && $arrAdsFilter['ads_type'] == '1')echo 'selected=selected'; ?>>Pre/Post Roll</option>
 			<option value="2" <?php if (isset($arrAdsFilter['ads_type']) && $arrAdsFilter['ads_type'] == '2')echo 'selected=selected'; ?>>Mid Roll</option>
+			<option value="3" <?php if (isset($arrAdsFilter['ads_type']) && $arrAdsFilter['ads_type'] == '3')echo 'selected=selected'; ?>>IMA</option>
 			</select>
 		</div>
 </fieldset>	
