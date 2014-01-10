@@ -1,8 +1,6 @@
-/*
- ***********************************************************/
 /**
  * @name          : Joomla HD Video Share
- *** @version	  : 3.5
+ * @version	  : 3.5
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
@@ -12,11 +10,6 @@
  * @Creation Date : March 2010
  * @Modified Date : September 2013
  * */
-
-/*
- ***********************************************************/
-
-
 /*RTL CSS*/
 
 /*changing css*/
@@ -270,7 +263,7 @@ a{cursor:pointer;}
 .searchpos{padding: 2px 0px 0px 2px;}
 
 .underline{border-bottom: 1px dotted #C3C3C3;padding-bottom: 12px;}
-.toprightmenu{font-size:13px;float:right;margin: 10px 0;}
+.toprightmenu{font-size:13px;text-align: left; margin: 10px 0;}
 #rateid{width:100%;}
 #clsdetail  ul li{list-style:none;}
 .clearfix{clear:both;}
