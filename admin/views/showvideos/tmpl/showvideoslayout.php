@@ -79,8 +79,6 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
                 //dragdr("#info").load("<?php echo $baseurl; ?>/index.php?option=com_contushdvideoshare&task=videos&layout=sortorder&"+order);
                 dragdr.post("<?php echo $baseurl; ?>/index.php?option=com_contushdvideoshare&task=videos&layout=sortorder",order);
                
-                <!-- Codes by Quackit.com -->
-               
             }
         });
     });
@@ -318,14 +316,7 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
 				1	=> array('tick.png',		'messages.publish',	'COM_MESSAGES_OPTION_READ','COM_MESSAGES_MARK_AS_UNREAD'),
 				0	=> array('publish_x.png',	'messages.unpublish','COM_MESSAGES_OPTION_UNREAD','COM_MESSAGES_MARK_AS_READ')
 				);
-				## $published = JHtml::_('grid.published',  $row_showupload, $i, $states[$row_showupload->published][0], $states[$row_showupload->published][0], '', 'cb');
-				## $published = JHTML::_('grid.published', $row_showupload, $i);
-                                if(version_compare(JVERSION,'1.6.0','ge'))
-                                {
-                                    $published = JHtml::_('jgrid.published', $row_showupload->published, $i);
-                                } else {
-                                    $published = JHtml::_('grid.published',  $row_showupload, $i, $states[$row_showupload->published][0], $states[$row_showupload->published][0], '', 'cb');
-                                }
+
 				$userId = (JRequest::getVar('user', '', 'get') == 'admin') ? "&user=" . JRequest::getVar('user', '', 'get') : "";
 
 				$link = JRoute::_('index.php?option=com_contushdvideoshare&layout=adminvideos&task=editvideos' . $userId . '&cid[]=' . $row_showupload->id);
@@ -468,7 +459,16 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
                         <p style="padding:6px;" id="ordertd_<?php echo $row_showupload->id; ?>"> <?php echo $row_showupload->ordering; ?> </p>
                 </td>
 				<td class="center">
-					<?php echo $published; ?>
+                                    <?php
+				$published = $row_showupload->published;
+				if ($published == "1") {
+					$pub = '<a title="unpublish Item" onclick="return listItemTask(\'cb' . $i . '\',\'unpublish\')" href="javascript:void(0);">
+								<img src="components/com_contushdvideoshare/images/tick.png" /></a>';
+				} else {
+					$pub = '<a title="publish Item" onclick="return listItemTask(\'cb' . $i . '\',\'publish\')" href="javascript:void(0);"><img src="components/com_contushdvideoshare/images/publish_x.png" /></a>';
+				}
+				?>
+					<?php echo $pub; ?>
 				</td>
 				<td class="center">
 				
