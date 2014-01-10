@@ -68,8 +68,6 @@ if (version_compare(JVERSION, '3.0.0', 'ge')) {
 } else {
     $siteName               = $config->getValue('config.sitename');
 }
-$document->addScript(JURI::base() . 'components/com_contushdvideoshare/js/autoHeight.js');
-$document->addScript(JURI::base() . 'components/com_contushdvideoshare/js/popup.js');
 ## Meta Information
 if (!empty($this->videodetails) && $this->videodetails->id) {
     $document->setTitle($this->htmlVideoDetails->title);
@@ -122,7 +120,6 @@ $document->addStyleDeclaration($style);
 </div>
 <!--Rich snippet ends here -->
 
-<script src="http://connect.facebook.net/en_US/all.js#xfbml=1" type="text/javascript"></script>
 <input type="hidden" name="category" value="<?php if (isset($this->videodetails->playlistid)) { echo $this->videodetails->playlistid; } ?>" id="category"/>
 <input type="hidden" value="<?php if (isset($this->videodetails->id)) { echo $this->videodetails->id; } ?>" name="videoid" id="videoid"/>
 
@@ -659,7 +656,6 @@ if (isset($details1['closeadd'])) {
                             <div class="g-plusone" data-size="medium" data-count="true"></div>
                         </div>
                         <!--Facebook like button-->
-                        <script src="http://connect.facebook.net/en_US/all.js"></script>
                         <iframe src="http://www.facebook.com/plugins/like.php?href=<?php echo $pageURL; ?>&amp;layout=button_count&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" class="iframe_frameborder facebook_hdlike"  allowTransparency="true"> </iframe>
                          
                     </div>
