@@ -2,7 +2,7 @@
 <!DOCTYPE install PUBLIC "-//Joomla! 1.5//DTD plugin 1.0//EN" "http://dev.joomla.org/xml/1.5/plugin-install.dtd">
 <extension version="1.5" type="plugin" group="content" method="upgrade">
     <name>HVS Article Plugin</name>
-    <creationDate>July 15, 2013</creationDate>
+    <creationDate>January 2014</creationDate>
     <author>Apptha</author>
     <authorEmail>assist@apptha.com</authorEmail>
     <authorUrl>http://www.apptha.com</authorUrl>
