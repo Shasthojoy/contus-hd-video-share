@@ -303,7 +303,7 @@ if (USER_LOGIN == '1') {
                             
                     <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
                         <div class="login_msg">
-                        <h3>Please login to watch this video</h3>
+                        <h3><?php echo JText::_('HDVS_LOGIN_TO_WATCH'); ?></h3>
                         <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
                     </div>
                     </div>
@@ -366,7 +366,7 @@ if (USER_LOGIN == '1') {
                             
                     <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
                         <div class="login_msg">
-                        <h3>Please login to watch this video</h3>
+                        <h3><?php echo JText::_('HDVS_LOGIN_TO_WATCH'); ?></h3>
                         <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
                     </div>
                     </div>
@@ -975,7 +975,7 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
             }
             ?>
                  <!--Ask user to login to post comment-->
-                <div class="commentpost floatright"><a  href="<?php echo $login_url; ?>"  class="utility-link"><?php echo "Login to post comment"; ?></a></div>
+                <div class="commentpost floatright"><a  href="<?php echo $login_url; ?>"  class="utility-link"><?php echo JText::_('HDVS_LOGIN_TO_COMMENT'); ?></a></div>
             <?php
         }
     }
