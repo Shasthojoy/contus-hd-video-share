@@ -136,9 +136,9 @@ function checklogin(str) {
 }
 
 function videoupload() {
-	if (document.getElementById("filetype2").checked == true) {
-		if (document.getElementById("Youtubeurl").value == ""
-				|| document.getElementById("Youtubeurl").value == " ") {
+	if (document.getElementById("filetype2") && document.getElementById("filetype2").checked === true) {
+		if (document.getElementById("Youtubeurl").value === ""
+				|| document.getElementById("Youtubeurl").value === " ") {
 			alert("Please Enter the Video URL");
 			document.getElementById("Youtubeurl").focus();
 			return false;
@@ -153,7 +153,7 @@ function videoupload() {
 
 		}
 	}
-	if (document.getElementById("filetype3").checked == true) {
+	if (document.getElementById("filetype3") && document.getElementById("filetype3").checked === true) {
 		if (document.getElementById("Youtubeurl").value == ""
 				|| document.getElementById("Youtubeurl").value == " ") {
 			alert("Please Enter the Video URL");
@@ -170,7 +170,7 @@ function videoupload() {
 
 		}
 	}
-	if (document.getElementById("filetype4").checked == true) {
+	if (document.getElementById("filetype4") && document.getElementById("filetype4").checked === true) {
 		var streamer_name = document.getElementById('streamname').value;
                         var islivevalue2=(document.getElementById('islive2').checked);
                         if(streamer_name == ''){
@@ -198,8 +198,8 @@ function videoupload() {
 		}
 	}
 
-	if (document.getElementById("Youtubeurl").value == ""
-			&& document.getElementById("seltype").value == 2) {
+	if (document.getElementById("Youtubeurl") && document.getElementById("Youtubeurl").value === ""
+			&& document.getElementById("seltype").value === 2) {
 		alert("Please Enter Video Url");
 		document.getElementById("normalvideoformval").focus();
 		return false;

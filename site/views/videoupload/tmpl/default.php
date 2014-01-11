@@ -773,7 +773,7 @@ if (isset($videoedit->streameroption) && $videoedit->streameroption == 'rtmp') {
         document.getElementById("filetype2").checked = true;
     <?php
 }
-if ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url') {
+if (isset($videoedit->filepath) && ($videoedit->filepath == 'Youtube' || $videoedit->filepath == 'Url')) {
     ?>
         bindvideo();
     <?php
