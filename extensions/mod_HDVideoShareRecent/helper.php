@@ -29,7 +29,7 @@ class modrecentvideos {
                 $thumbview       = unserialize($limitrow[0]->sidethumbview);
 		$length = $thumbview['siderecentvideorow'] * $thumbview['siderecentvideocol'];
 		// Query is to display recent videos
-		$recentquery = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+		$recentquery = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,a.amazons3,
 						a.times_viewed,a.seotitle,b.category,b.seo_category,d.username,e.catid,e.vid
         			    FROM  #__hdflv_upload a 
         			    LEFT JOIN #__users d on a.memberid=d.id 

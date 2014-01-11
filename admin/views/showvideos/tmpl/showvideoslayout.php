@@ -39,6 +39,7 @@ $toolTipArray = array('className' => 'custom2', 'showDelay' => '0', 'hideDelay' 
 	$user = JRequest::getVar('user');
 	$userUrl = ($user == 'admin')?"&user=$user":"";
 	$page = JRequest::getVar('page', '', 'get', 'string');
+        $current_page = ceil(($videolist1['limitstart'] + 1) / $videolist1['limit']);
     if(version_compare(JVERSION,'1.6.0','le')){?>
 	<style>
 	table tr td a img {width:16px;}
@@ -69,9 +70,9 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
                 {
                     videoid[i]=orderid[i].replace('&',"");
                     oid= "ordertd_"+videoid[i];
-                    document.getElementById(oid).innerHTML=i-1;
+                    document.getElementById(oid).innerHTML=((<?php echo $current_page; ?>*20)+(i-2)) - 20;
                 }
-                dragdr.post("<?php echo $baseurl; ?>/index.php?option=com_contushdvideoshare&task=videos&layout=sortorder",order);
+                dragdr.post("<?php echo $baseurl; ?>/index.php?option=com_contushdvideoshare&task=videos&layout=sortorder&pagenum=<?php echo $current_page; ?>",order);
                
             }
         });

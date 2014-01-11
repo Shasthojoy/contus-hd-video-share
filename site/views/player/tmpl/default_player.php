@@ -248,6 +248,11 @@ if (USER_LOGIN == '1') {
         <div class="clear"></div>
         <?php
         $mobile = detect_mobile();
+        if ($user->get('id') != '') {
+            $error_msg = JText::_('HDVS_NOT_AUTHORIZED');
+        } else {
+            $error_msg = JText::_('HDVS_LOGIN_TO_WATCH');
+        }
         if (!empty($this->videodetails) && ($this->videodetails->id) && ($this->videodetails->playlistid)) {
             $baseref    = '&amp;id=' . $this->videodetails->id . '&amp;catid=' . $this->videodetails->playlistid;
         } else if (!empty($this->videodetails) && $this->videodetails->id) {
@@ -297,8 +302,10 @@ if (USER_LOGIN == '1') {
             </style>
             <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
                 <div class="login_msg">
-                <h3><?php echo JText::_('HDVS_LOGIN_TO_WATCH'); ?></h3>
+                    <h3><?php echo $error_msg; ?></h3>
+                <?php if ($user->get('id') == '') { ?>
                 <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
+                <?php } ?>
             </div>
             </div>
        <?php } 
@@ -359,8 +366,10 @@ if (USER_LOGIN == '1') {
         </style>
         <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
             <div class="login_msg">
-            <h3><?php echo JText::_('HDVS_LOGIN_TO_WATCH'); ?></h3>
+            <h3><?php echo $error_msg; ?></h3>
+            <?php if ($user->get('id') == '') { ?>
             <a href="<?php if (!empty($player_icons['login_page_url'])) { echo $player_icons['login_page_url']; } else { echo "#"; } ?>"><?php echo JText::_('HDVS_LOGIN'); ?></a>
+            <?php } ?>
         </div>
         </div>
     <?php } ?>
@@ -436,12 +445,14 @@ if (isset($details1['closeadd'])) {
                 </div>
             </div>
             <div class="video-page-views">
-                <strong><?php if ($dispenable['viewedconrtol'] == 1) { ?>  
-                 <?php echo JText::_('HDVS_VIEWS'); ?> :</strong> 
+                <span class="video-view">
+                <?php if ($dispenable['viewedconrtol'] == 1) { ?> <strong> 
+                 <?php echo JText::_('HDVS_VIEWS'); ?> :</strong> </span>
                  <span id="viewcount">
                      <?php if (isset($this->htmlVideoDetails->times_viewed)) { echo $this->htmlVideoDetails->times_viewed; } ?>
                  </span> 
                  <?php } ?>
+ 
             </div>
             <div class="clearfix"></div>
             <div class="video-page-username">
@@ -528,7 +539,7 @@ if (isset($details1['closeadd'])) {
                     document.getElementById('rate').className = "ratethis fivepos";
                 else
                     document.getElementById('rate').className = "ratethis nopos";
-                document.getElementById('ratemsg').innerHTML = "<span class='ratting_txt'><?php echo JText::_('HDVS_RATTING'); ?> :</span> " + ratecount;
+                document.getElementById('ratemsg').innerHTML = "<span dir='LTR' class='ratting_txt'><?php echo JText::_('HDVS_RATTING'); ?> : "+ ratecount+"</span> ";
             }
 <?php if (isset($ratestar) && isset($this->commentview[0]->ratecount) && isset($this->commentview[0]->times_viewed)) { ?>
                 ratecal('<?php echo $ratestar; ?>', '<?php echo $this->commentview[0]->ratecount; ?>', '<?php echo $this->commentview[0]->times_viewed; ?>');
@@ -590,7 +601,13 @@ if (isset($details1['closeadd'])) {
                 for(var i = 0; i < reportvideotype.length; i++){
                     if(reportvideotype[i].checked){
                         repmsg = reportvideotype[i].value;
+                    } else {
+                        repmsg = '';
                     }
+                }
+                if(repmsg === "") {
+                    alert('Select Report Type');
+                    return false;
                 }
                 <?php if ($user->get('id') == '') {
                   ?>  location.href='<?php echo JRoute::_("index.php?option=com_users&view=login&return=".base64_encode(JURI::getInstance()->toString())); ?>'; <?php
@@ -615,7 +632,7 @@ if (isset($details1['closeadd'])) {
             {
                 if (http.readyState == 4)
                 {
-                    document.getElementById('ratemsg').innerHTML = "<span class='ratting_txt'><?php echo JText::_('HDVS_RATTING'); ?> : </span>" + http.responseText;
+                    document.getElementById('ratemsg').innerHTML = "<span dir='LTR' class='ratting_txt'><?php echo JText::_('HDVS_RATTING'); ?> : "+ http.responseText+"</span>" ;
                     document.getElementById('rate').className = "";
                     document.getElementById('storeratemsg').value = http.responseText;
                 }
@@ -626,9 +643,9 @@ if (isset($details1['closeadd'])) {
                 document.getElementById('ratemsg1').style.display = "none";
                 document.getElementById('ratemsg').style.display = "block";
                 if (document.getElementById('storeratemsg').value == '') {
-                    document.getElementById('ratemsg').innerHTML = "<span class='ratting_txt'><?php echo JText::_('HDVS_RATTING'); ?> :</span> <?php echo $this->commentview[0]->ratecount; ?>";
+                    document.getElementById('ratemsg').innerHTML = "<span dir='LTR' class='ratting_txt'><?php echo JText::_('HDVS_RATTING'); ?> : <?php echo $this->commentview[0]->ratecount; ?></span>";
                 } else {
-                    document.getElementById('ratemsg').innerHTML = "<span class='ratting_txt'><?php echo JText::_('HDVS_RATTING'); ?> : </span> " + document.getElementById('storeratemsg').value;
+                    document.getElementById('ratemsg').innerHTML = "<span dir='LTR' class='ratting_txt'><?php echo JText::_('HDVS_RATTING'); ?> : "+ document.getElementById('storeratemsg').value+"</span> ";
                 }
             }
             function displayrating(t)
@@ -678,7 +695,7 @@ if (isset($details1['closeadd'])) {
             <div class="floatleft ttweet" >
                 <a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-url="<?php echo JURI::getInstance()->toString(); ?>" data-via="<?php echo $siteName; ?>" data-text="<?php echo $this->htmlVideoDetails->title; ?>">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></div>
             <!-- Twitter like End and Google plus one Start -->
-            <div class="floatleft gplusshare"><script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script><div class="g-plusone" data-size="medium" data-count="true"></div></div>
+            <div class="floatleft gplusshare"><script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script><div class="g-plusone" data-size="medium" data-count="false"></div></div>
             <!-- Google plus one End -->
             <div class="floatleft fbsharelike">
                         <!--Facebook like button-->
@@ -737,7 +754,7 @@ if (isset($details1['closeadd'])) {
                     $embed_code = '<embed id="player" src="' . $playerpath . '" flashvars="id=' . $this->videodetails->id . '&amp;baserefJHDV=' . JURI::base() . '&amp;playlist_auto=false&amp;Preview=' . $video_preview . '&amp;showPlaylist=false&amp;embedplayer=true&amp;shareIcon=false&amp;email=false&amp;zoomIcon=false&amp;playlist_autoplay=false" style="width:' . $player_values['width'] . 'px;height:' . $player_values['height'] . 'px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash" wmode="transparent"></embed>';
                 }
                 ?>
-                 <textarea onclick="this.select()" id="embedcode" name="embedcode" style="display:none;width:<?php
+                 <textarea onclick="this.select()" dir="LTR" id="embedcode" name="embedcode" style="display:none;width:<?php
                 if ($player_values['width'] > 10) {
                     echo ($player_values['width']) - (17);
                 } else {
@@ -751,12 +768,16 @@ if (isset($details1['closeadd'])) {
                         embedFlag = document.getElementById('flagembed').value
                         if (embedFlag != 1) {
                             document.getElementById('embedcode').style.display = "block";
+                            if(document.getElementById('reportadmin')) {
                             document.getElementById('reportadmin').style.display = 'none';
+                            }
                             document.getElementById('flagembed').value = '1';
                         }
                         else {
                             document.getElementById('embedcode').style.display = "none";
+                             if(document.getElementById('reportadmin')) {
                             document.getElementById('reportadmin').style.display = 'none';
+                             }
                             document.getElementById('flagembed').value = '0';
                         }
                     }

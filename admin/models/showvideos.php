@@ -225,7 +225,7 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
 			JError::raiseWarning($db->getErrorNum(), $db->stderr());
 		}
 
-		return array('pageNav' => $pageNav, 'limitstart' => $limitstart,'lists' => $lists, 'rs_showupload' => $arrVideoList, 'rs_showplaylistname' => $rs_showplaylistname);
+		return array('pageNav' => $pageNav, 'limit' => $limit, 'limitstart' => $limitstart,'lists' => $lists, 'rs_showupload' => $arrVideoList, 'rs_showplaylistname' => $rs_showplaylistname);
 	}
 
 	## function to publish and unpublish videos
@@ -270,7 +270,7 @@ class contushdvideoshareModelshowvideos extends ContushdvideoshareModel {
                         $mailer->addRecipient($user_details->email);
                         $subject = JText::_('HDVS_VIDEO_APPROVED_BY_ADMIN');
                         $baseurl = str_replace('administrator/', '', JURI::base());
-                        $video_url = JRoute::_('index.php?option=com_contushdvideoshare&view=player&' . $featureCategoryVal . '&' . $featureVideoVal, true);
+                        $video_url = $baseurl.'index.php?option=com_contushdvideoshare&view=player&' . $featureCategoryVal . '&' . $featureVideoVal;
                         $video_url = str_replace('administrator/', '', $video_url);
                         $message = file_get_contents($baseurl . '/components/com_contushdvideoshare/emailtemplate/approveadmin.html');
                         $message = str_replace("{baseurl}", $baseurl, $message);

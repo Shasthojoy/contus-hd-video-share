@@ -78,9 +78,8 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel {
         ## Get skin path
         $skin                       = $base . "components/com_contushdvideoshare/hdflvplayer/skin/skin_hdflv_white.swf";
         $stagecolor                 = "0x" . $player_values['stagecolor'];          ## Get stage color
-        
         ## Enable/Disable skin
-        if ($player_icons['skinVisible'] == 0) {
+        if ($player_icons['skinvisible'] == 0) {
             $skinVisible            = "true";
         } 
         ## Enable/Disable video autoplay

@@ -30,9 +30,16 @@ class contushdvideoshareModelsortorder extends ContushdvideoshareModel {
 		global $mainframe;
 		$db = JFactory::getDBO();
 		$listitem=JRequest::getvar('listItem');
+		$pagenum=JRequest::getvar('pagenum');
 		$ids = implode(',', $listitem);
+                if (isset($pagenum)) {
+                    $page = (20 * ($pagenum - 1));
+                }
+                foreach ($listitem as $key => $value) {
+                    $listitems[$key + $page] = $value;
+                }
 		$sql = 'UPDATE `#__hdflv_upload` SET `ordering` = CASE id ';
-		foreach ($listitem as $position => $item) {
+		foreach ($listitems as $position => $item) {
 			$sql .= sprintf("WHEN %d THEN %d ", $item, $position);
 		}
 		$sql .= ' END WHERE id IN ('.$ids.')';

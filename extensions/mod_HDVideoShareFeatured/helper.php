@@ -30,7 +30,7 @@ class modfeaturedVideos {
         $thumbview       = unserialize($limitrow[0]->sidethumbview);
         $length = $thumbview['sidefeaturedvideorow'] * $thumbview['sidefeaturedvideocol'];
         // Query is to display featured videos randomly
-        $featuredquery = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
+        $featuredquery = "SELECT a.id,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,a.amazons3,
 						  a.times_viewed,a.seotitle,b.category,b.seo_category,d.username,e.catid,e.vid
         				  FROM #__hdflv_upload a left join #__users d on a.memberid=d.id 
         				  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
