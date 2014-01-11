@@ -347,10 +347,12 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                 }
 
                 $usergroup              = $ugp->group_id;
-                if(isset($dispenable['adminapprove']) && $dispenable['adminapprove'] == 1) {
+                if(isset($dispenable['adminapprove']) && $dispenable['adminapprove'] == 0) {
                     $adminapprove       = 0;
+                    $success            = "Your video Uploaded Successfully. It will be published once admin reviewed your video.";
                 } else {
                     $adminapprove       = 1;
+                    $success            = "Your video Uploaded Successfully";
                 }
                 $query                  = 'INSERT INTO #__hdflv_upload(islive,streamerpath,amazons3,streameroption,title,seotitle,filepath,videourl,thumburl,previewurl,published,
                                         type,memberid,description,created_date,addedon,usergroupid,playlistid,hdurl,tags,download,useraccess)
@@ -361,19 +363,6 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                 $db->query();
                 $db_insert_id           = $db->insertid();
                 $value                  = $db_insert_id;
-            }
-                $cid                    = $category->id;
-                $insertquery            = "INSERT INTO #__hdflv_video_category(vid,catid) VALUES ('$value','$cid')";
-                $db->setQuery($insertquery);
-                $db->query();
-            if (count($result) > 0) {
-                if ($videotype == 'edit') {
-                    $insertquery        = "UPDATE #__hdflv_upload SET playlistid='" . $cid . "'
-                			  WHERE id='" . JRequest::getVar('videoid', '', 'post', 'int') . "'";
-                    $db->setQuery($insertquery);
-                    $db->query();
-                }
-            }
             
             ## Alert admin regarding new video upload
             $mailer             = JFactory::getMailer(); ## define joomla mailer
@@ -400,9 +389,23 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
             $mailer->setBody($message);
             $mailer->Send();
             
-            $success            = "Your video Uploaded Successfully";
+            }
+                $cid                    = $category->id;
+                $insertquery            = "INSERT INTO #__hdflv_video_category(vid,catid) VALUES ('$value','$cid')";
+                $db->setQuery($insertquery);
+                $db->query();
+            if (count($result) > 0) {
+                if ($videotype == 'edit') {
+                    $insertquery        = "UPDATE #__hdflv_upload SET playlistid='" . $cid . "'
+                			  WHERE id='" . JRequest::getVar('videoid', '', 'post', 'int') . "'";
+                    $db->setQuery($insertquery);
+                    $db->query();
+                    $success            = "Your video updated Successfully";
+                }
+            }
+            
             $url                = JRoute::_($baseurl . 'index.php?option=com_contushdvideoshare&view=myvideos');
-            header("Location: $url");
+            JFactory::getApplication()->redirect($url, $success,'message');
         }
         return array($category1, $success, $editvideo1);
     }

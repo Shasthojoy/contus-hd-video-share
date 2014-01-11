@@ -69,6 +69,7 @@
         </files>
         <languages folder="admin">            
             <language tag="en-GB">language/en-GB.com_contushdvideoshare.sys.ini</language>
+            <language tag="en-GB">language/en-GB.com_contushdvideoshare.ini</language>
         </languages> 
     </administration>
   <modules>
