@@ -29,6 +29,7 @@
         <folder>images</folder>
         <folder>js</folder>
         <folder>models</folder>
+        <folder>emailtemplate</folder>
         <folder>views</folder>
         <folder>language</folder>
         <folder>videos</folder>

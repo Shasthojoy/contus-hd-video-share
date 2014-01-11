@@ -585,16 +585,25 @@ if (isset($details1['closeadd'])) {
             
             function submitreport()
             {
-                var reptitle = document.getElementById('rep_title').value;
-                var repmsg = document.getElementById('rep_msg').value;
+                var reportvideotype = document.getElementsByName('reportvideotype');
+                var repmsg;
+                for(var i = 0; i < reportvideotype.length; i++){
+                    if(reportvideotype[i].checked){
+                        repmsg = reportvideotype[i].value;
+                    }
+                }
                 <?php if ($user->get('id') == '') {
                   ?>  location.href='<?php echo JRoute::_("index.php?option=com_users&view=login&return=".base64_encode(JURI::getInstance()->toString())); ?>'; <?php
                 } else { ?>
-                http.open('get', '<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport&amp;tmpl=component&amp;reporttitle='+reptitle+'&amp;reportmsg='+ repmsg+'&amp;videoid=<?php echo $htmlVideoDetails->id; ?>', true);
+                http.open('get', '<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport&amp;tmpl=component&amp;reportmsg='+ repmsg+'&amp;videoid=<?php echo $htmlVideoDetails->id; ?>', true);
                 http.onreadystatechange = getReport;
                 http.send(null);
                 <?php } ?>
                 document.getElementById('reportadmin').style.visibility = 'none';
+            }
+            
+            function resetreport() {
+                document.getElementById('reportadmin').style.display = "none";
             }
             
             function getReport()
@@ -684,7 +693,7 @@ if (isset($details1['closeadd'])) {
       <div class="vido_info_container">
             <div class="clearfix">
                 <div class="video-cat-thumb commentpost">
-                    <?php if($player_icons['embedVisible']== 1) { ?>
+                    <?php if($player_icons['embedVisible']== 1 && ($mobile === false)) { ?>
                     <a class="utility-link embed" class="embed" id="allowEmbed" href="javascript:void(0)" onclick="enableEmbed()" ><?php echo JText::_('HDVS_EMBED'); ?> </a>
                 <?php }
                 if ($player_icons['enabledownload'] == 1 && $this->htmlVideoDetails->filepath != "Youtube" && $this->htmlVideoDetails->filepath != "Embed" && $this->htmlVideoDetails->streameroption != "rtmp") {
@@ -697,10 +706,22 @@ if (isset($details1['closeadd'])) {
                         <a class="utility-link" onclick="showreport();">Report</a>
                         <div class="clear"></div>
                         <div id="reportmessage" style="color: red;"></div>
-                            <div id="reportadmin" style="display:none;">
-                            <label style="width: 25%;float: left;">Title : </label><input type="text" id="rep_title" style="margin: 0 0 10px;" name="rep_title" /> <br/>
-                            <label style="width: 25%;float: left;">Message : </label><textarea id="rep_msg" name="rep_msg" rows="5" cols="25"> </textarea><br />
+                            <div id="reportadmin" style="display:none;margin-top: 5px;">
+                                 <div>
+                                    <h2>Report this video</h2>
+                                        <ul>
+                                             <li>
+                                                 <input type="radio" name="reportvideotype" id="violence" value="<?php echo JText::_('HDVS_VIOLENT'); ?>"/><?php echo JText::_('HDVS_VIOLENT'); ?><br>
+                                                 <input type="radio" name="reportvideotype" id="groupattack" value="<?php echo JText::_('HDVS_HATEFUL'); ?>"/><?php echo JText::_('HDVS_HATEFUL'); ?><br>
+                                                 <input type="radio" name="reportvideotype" id="harmful" value="<?php echo JText::_('HDVS_HARMFUL'); ?>"/><?php echo JText::_('HDVS_HARMFUL'); ?><br>
+                                                 <input type="radio" name="reportvideotype" id="spam" value="<?php echo JText::_('HDVS_SPAM'); ?>"/><?php echo JText::_('HDVS_SPAM'); ?><br/>
+                                                 <input type="radio" name="reportvideotype" id="childabuse" value="<?php echo JText::_('HDVS_CHILD_ABUSE'); ?>"/><?php echo JText::_('HDVS_CHILD_ABUSE'); ?><br/>
+                                                 <input type="radio" name="reportvideotype" id="sexualcontent" value="<?php echo JText::_('HDVS_SEXUAL_CONTENT'); ?>"/><?php echo JText::_('HDVS_SEXUAL_CONTENT'); ?><br/>
+                                             </li>
+                                         </ul>
                             <button type="submit" onclick="submitreport()">Send</button>
+                            <button type="submit" onclick="resetreport()">cancel</button>
+                            </div>
                             </div>
                      <?php } ?>
                 <?php
@@ -730,10 +751,12 @@ if (isset($details1['closeadd'])) {
                         embedFlag = document.getElementById('flagembed').value
                         if (embedFlag != 1) {
                             document.getElementById('embedcode').style.display = "block";
+                            document.getElementById('reportadmin').style.display = 'none';
                             document.getElementById('flagembed').value = '1';
                         }
                         else {
                             document.getElementById('embedcode').style.display = "none";
+                            document.getElementById('reportadmin').style.display = 'none';
                             document.getElementById('flagembed').value = '0';
                         }
                     }
@@ -989,7 +1012,7 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
             }
             ?>
                  <!--Ask user to login to post comment-->
-                <div class="commentpost floatright"><a  href="<?php echo $login_url; ?>"  class="utility-link"><?php echo JText::_('HDVS_LOGIN_TO_COMMENT'); ?></a></div>
+                <div class="commentpost floatright" style="padding-top: 15px;"><a  href="<?php echo $login_url; ?>"  class="utility-link"><?php echo JText::_('HDVS_LOGIN_TO_COMMENT'); ?></a></div>
             <?php
         }
     }
@@ -1062,5 +1085,10 @@ if ($langDirection == 1) {
    function showreport() 
    {
        document.getElementById('reportadmin').style.display = 'block';
+      document.getElementById('embedcode').style.display = "none";
+      document.getElementById('flagembed').value = 0;
+   }
+   function closereport(){
+       document.getElementById('reportadmin').style.display = 'none';
    }
 </script>

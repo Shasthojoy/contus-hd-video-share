@@ -58,7 +58,6 @@ class contushdvideoshareController extends ContusvideoshareController {
 
     function sendreport() {
         $db             = JFactory::getDBO();
-        $reptitle       = JRequest::getVar('reporttitle');
         $repmsg         = JRequest::getVar('reportmsg');
         $videoid        = JRequest::getInt('videoid');
         $user           = JFactory::getUser();
@@ -76,7 +75,7 @@ class contushdvideoshareController extends ContusvideoshareController {
         $mailer->setSender($user_details->email);
         $featureVideoVal  = "id=" . $videoid;
         $mailer->addRecipient($sender);
-        $subject        = 'User reported on a video - '.$reptitle;
+        $subject        = 'User reported on a video';
         $baseurl        = JURI::base();
         $video_url      = $baseurl.'index.php?option=com_contushdvideoshare&view=player&'. $featureVideoVal.'&adminview=true';
         $get_htmlmessage= file_get_contents($baseurl . '/components/com_contushdvideoshare/emailtemplate/reportvideo.html');
