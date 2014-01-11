@@ -36,6 +36,11 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
          $editvideo1 = "";
          $s3status = 0;
         $flagVideo = 1;
+         $query = 'SELECT `dispenable` FROM #__hdflv_site_settings  WHERE `id` = 1';
+		$db->setQuery($query);
+		$setting_res = $db->loadResult();
+                $dispenable = unserialize($setting_res);
+ 
         if(!version_compare(JVERSION, '3.0.0', 'ge'))
         $task_edit=JRequest::getVar('type', '', 'get', 'string');
         else
@@ -86,10 +91,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
             $editvideo1 = $db->loadObjectList();
         }
 
-        $query = 'SELECT `dispenable` FROM #__hdflv_site_settings  WHERE `id` = 1';
-		$db->setQuery($query);
-		$setting_res = $db->loadResult();
-                $dispenable = unserialize($setting_res);
+                
                 
         $url = "";
         $ftype = "";
@@ -345,7 +347,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel {
                 }
 
                 $usergroup              = $ugp->group_id;
-                if(isset($dispenable['adminapprove']) && $dispenable['adminapprove'] === 1) {
+                if(isset($dispenable['adminapprove']) && $dispenable['adminapprove'] == 1) {
                     $adminapprove       = 0;
                 } else {
                     $adminapprove       = 1;
