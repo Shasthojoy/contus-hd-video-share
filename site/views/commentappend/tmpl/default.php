@@ -263,7 +263,7 @@ if ($cmdid == 2) {
 <textarea class="messagebox commenttxtarea" name="comment_message" id="comment_message"
                                                       onKeyDown="CountLeft(this.form.comment_message,this.form.left,500);"
                                                       onKeyUp="CountLeft(this.form.comment_message,this.form.left,500);" ></textarea>
-                                <div   class="remaining_character"><div class="floatleft" >Remaining Characters:</div>
+                                <div   class="remaining_character"><div class="floatleft" style="margin-top: 2px;">Remaining Characters:</div>
                                                 <div class="commenttxt"><input readonly type="text" name="left" size=1 maxlength=8 value="500" style="border:none;background:none;width:70px;" /></div></div>
 
                                 </div>

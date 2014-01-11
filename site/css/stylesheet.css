@@ -68,7 +68,7 @@ ul.ratethis1 li {cursor: pointer;float:left;}
 .fivepos1 {background-position:0 -60px !important;}
 
 .commentstop{padding:5px 0;}
-.viewsubname{font-size:12px;padding:5px 0;width: 70%;float: left;}
+.viewsubname{font-size:12px;padding:5px 0;float: left;}
 
 #clsdetail .toptitle{float:left}
 #clsdetail .toptitle h1{margin:0px;}
@@ -606,7 +606,7 @@ border-radius: 5px;}
 .featureright .myvideopage_title a{font-size: 12px;font-weight: bold;}
 
 #share_like .google-plus{width:70px;padding: 2px;margin-left: 10px;}
-#share_like .facebook_hdlike{border: none; overflow: hidden; width: 100px; height: 22px;}
+#share_like .facebook_hdlike{border: none; overflow: hidden; width: 80px; height: 22px;}
 
 .channelpage_savebtn{margin-right: 10px;}
 
@@ -722,7 +722,7 @@ ul#upload_thread li input[type="radio"]{margin: 0;}
 .video-page-container strong{/*width: auto; */display: inline-block;}
 .video-page-container .video-page-date{float: left;text-align: left;}
 .video-page-container .video-page-views{ float: right; text-align: right;}
-.video-page-container .video-page-username{ width: 48%; float: left; text-align: left;}
+.video-page-container .video-page-username{  float: left; text-align: left;}
 .video-page-container.shortcode .video-page-info{float: right;text-align: right;width: 100%;}
 .video-page-container.shortcode .video-page-info.noviews{width: 100%;}
 .video-page-container.shortcode .video-page-views {width:100%;float: right;text-align: right;}
@@ -747,3 +747,4 @@ ul#upload_thread li input[type="radio"]{margin: 0;}
 #reportadmin{margin-top: 5px;border: 1px solid #ccc;padding: 0px 15px 15px;}
 #reportadmin ul{margin: 0 0 9px 0px;}
 #reportadmin ul li input[type="radio"]{margin: -2px 4px 0 0;}
+.videosharecommetsection { margin-bottom: 60px; }

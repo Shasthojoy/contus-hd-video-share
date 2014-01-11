@@ -292,7 +292,7 @@ if (USER_LOGIN == '1') {
         <?php }
             } else { ?>
             <style type="text/css">
-                .login_msg{height:<?php echo $player_values['height']; ?>px; color: #fff;width: 100%;margin: <?php echo ceil($player_values['width']/3); ?>px 0 0;}
+                .login_msg{height:<?php echo $player_values['height']; ?>px; color: #fff;width: 100%;margin: <?php echo ceil($player_values['width']/3); ?>px 0 0;text-align: center;}
                 .login_msg a{background: #999; color:#fff; padding: 5px;}
             </style>
             <div id="video" style="height:<?php echo $player_values['height']; ?>px; background-color:#000000; position: relative;" >
@@ -421,7 +421,7 @@ if (isset($details1['closeadd'])) {
     </script>
 <?php } ?>
     
-    <div class="video-page-container clscenter" style="width:<?php echo $player_values['width']; ?>px;">
+    <div class="video-page-container clscenter">
         
         <div class="video-page-info ">
             <div class="video-page-date">
@@ -771,6 +771,8 @@ if (isset($details1['closeadd'])) {
 </div>
     
 <div class="clear"></div>
+
+<div class="videosharecommetsection">
 <!-- Add Facebook Comment -->
 <?php
 if (!empty($this->videodetails) && $this->videodetails->id) {
@@ -822,7 +824,7 @@ if (!empty($this->videodetails) && $this->videodetails->id) {
         ?>
     <input type="hidden" value="<?php echo $dispenable['comment']; ?>" id="commentoption" name="commentoption" />
     <div id="commentappended" class="clscenter" style="<?php if ($dispenable['comment'] == 1) {
-            ?>display:none;<?php } ?>width:<?php echo $player_values['width']; ?>px;">
+            ?>display:none;<?php } ?>">
     <?php
     if (USER_LOGIN == '1') {
         if ($user->get('id') != '') {
@@ -1092,3 +1094,4 @@ if ($langDirection == 1) {
        document.getElementById('reportadmin').style.display = 'none';
    }
 </script>
+</div>
