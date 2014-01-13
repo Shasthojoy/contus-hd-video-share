@@ -444,6 +444,8 @@ if (isset($details1['closeadd'])) {
                         ?></span>
                 </div>
             </div>
+            <?php
+                    if (isset($this->commenttitle)) { ?>
             <div class="video-page-views">
                 <span class="video-view">
                 <?php if ($dispenable['viewedconrtol'] == 1) { ?> <strong> 
@@ -457,7 +459,6 @@ if (isset($details1['closeadd'])) {
             <div class="clearfix"></div>
             <div class="video-page-username">
                 <?php
-                    if (isset($this->commenttitle)) {
                         foreach ($this->commenttitle as $row) {
                             if(isset($row->memberid)) {
                                 $mid = $row->memberid;
@@ -474,9 +475,10 @@ if (isset($details1['closeadd'])) {
                             <div class="viewsubname"><span class="uploadedby"><strong><?php echo JText::_('HDVS_UPLOADED_BY'); ?> : </strong></span>  <a  href="#" title="<?php echo $username; ?>" class="namelink cursor_pointer" onclick="membervalue('<?php echo $mid; ?>')" ><?php echo $row->username; ?></a></div><?php
                             }
                         }
-                    }
                 ?>
             </div>
+            <?php }
+                ?>
             <div class="video-page-rating">
     <!--Rating starts here-->
 <div id="rateid" class="ratingbg" >
@@ -786,9 +788,6 @@ if (isset($details1['closeadd'])) {
                <div class="video-page-desc"><?php echo $this->htmlVideoDetails->description; ?></div>
            </div>
      </div>
-        <?php
-    }
-?>
 </div>
     
 <div class="clear"></div>
@@ -1116,3 +1115,4 @@ if ($langDirection == 1) {
    }
 </script>
 </div>
+<?php } ?>
