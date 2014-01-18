@@ -693,6 +693,7 @@ document.getElementById('tags').value = '';
 function generateyoutubedetail(){
 var videourl= document.getElementById('videourl').value;
 nocache = Math.random();
+videourl=videourl.split('').reverse().join('');
 http.open('get', '<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&layout=adminvideos&task=youtubeurl&tmpl=component&videourl='+videourl,true);
 http.onreadystatechange = insertReply;
 http.send(null);

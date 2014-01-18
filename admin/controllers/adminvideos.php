@@ -187,6 +187,7 @@ class contushdvideoshareControlleradminvideos extends ContusvideoshareController
                 }else{
                      $videourl=JRequest::getVar('videourl', '', 'get', 'string');
                 }
+$videourl = strrev($videourl);
             $act_filepath = addslashes(trim($videourl));
             if (!empty($act_filepath)) {
                  if (strpos($act_filepath, 'youtube') > 0 || strpos($act_filepath, 'youtu.be') > 0) {
