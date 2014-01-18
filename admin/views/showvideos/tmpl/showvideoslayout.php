@@ -33,13 +33,22 @@ $toolTipArray = array('className' => 'custom2', 'showDelay' => '0', 'hideDelay' 
     $document = JFactory::getDocument();
     $document->addStyleSheet('components/com_contushdvideoshare/css/cc.css');
     $document->addStyleSheet('components/com_contushdvideoshare/css/styles.css');
+    if(version_compare(JVERSION, '3.0.0', 'ge')){
 	JHtml::_('jquery.ui', array('core', 'sortable'));
+    } else {
+       $document->addScript( 'components/com_contushdvideoshare/js/jquery-1.3.2.min.js' );
+    $document->addScript( 'components/com_contushdvideoshare/js/jquery-ui-1.7.1.custom.min.js' ); 
+    }
 	##  variable initialization
 	$option = JRequest::getCmd('option');
 	$user = JRequest::getVar('user');
 	$userUrl = ($user == 'admin')?"&user=$user":"";
 	$page = JRequest::getVar('page', '', 'get', 'string');
+        if(!empty($videolist1['limit'])) {
         $current_page = ceil(($videolist1['limitstart'] + 1) / $videolist1['limit']);
+        } else {
+            $current_page = 1;
+        }
     if(version_compare(JVERSION,'1.6.0','le')){?>
 	<style>
 	table tr td a img {width:16px;}
@@ -70,7 +79,7 @@ fieldset input,fieldset textarea,fieldset select,fieldset img,fieldset button{fl
                 {
                     videoid[i]=orderid[i].replace('&',"");
                     oid= "ordertd_"+videoid[i];
-                    document.getElementById(oid).innerHTML=((<?php echo $current_page; ?>*20)+(i-2)) - 20;
+                    document.getElementById(oid).innerHTML=((<?php echo $current_page; ?>*20)+(i-1)) - 20;
                 }
                 dragdr.post("<?php echo $baseurl; ?>/index.php?option=com_contushdvideoshare&task=videos&layout=sortorder&pagenum=<?php echo $current_page; ?>",order);
                
