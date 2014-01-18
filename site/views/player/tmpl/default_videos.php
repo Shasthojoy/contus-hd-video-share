@@ -73,8 +73,9 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                 ?>
                     <div class="ratethis1 <?php echo $ratearray[$ratestar]; ?> "></div>
                 <?php } if ($dispenable['viewedconrtol'] == 1) { ?>
-                    <span class="floatright viewcolor"><?php echo $this->rs_playlist1[0][$i]->times_viewed; ?> <?php echo JText::_('HDVS_VIEWS'); ?></span></div>
+                    <span class="floatright viewcolor"><?php echo $this->rs_playlist1[0][$i]->times_viewed; ?> <?php echo JText::_('HDVS_VIEWS'); ?></span>
                 <?php } ?>
+                    </div>
             </li>
             <?php
                 if ((($i + 1) % $thumbview['homefeaturedvideocol']) == 0 && ($i+1)!=$totalrecords) {
@@ -172,8 +173,9 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                 <?php
                     if ($dispenable['viewedconrtol'] == 1) {
                 ?>
-                        <span class="floatright viewcolor"><?php echo $this->rs_playlist1[2][$i]->times_viewed; ?> <?php echo JText::_('HDVS_VIEWS'); ?></span></div>
+                        <span class="floatright viewcolor"><?php echo $this->rs_playlist1[2][$i]->times_viewed; ?> <?php echo JText::_('HDVS_VIEWS'); ?></span>
                 <?php } ?>
+                        </div>
                 </li>
             <?php
                     if ((($i + 1) % $thumbview['homepopularvideocol']) == 0 && ($i+1)!=$totalrecords) {
@@ -265,8 +267,8 @@ if (empty($this->videodetails)) { ## home page bottom starts here
                         <div class="ratethis1 <?php echo $ratearray[$ratestar]; ?> "></div>
                 <?php } if ($dispenable['viewedconrtol'] == 1) {
                 ?>
-                        <span class="floatright viewcolor"><?php echo $this->rs_playlist1[1][$i]->times_viewed; ?> <?php echo JText::_('HDVS_VIEWS'); ?></span></div>
-                <?php } ?>
+                        <span class="floatright viewcolor"><?php echo $this->rs_playlist1[1][$i]->times_viewed; ?> <?php echo JText::_('HDVS_VIEWS'); ?></span>
+                <?php } ?></div>
                 </li>
             <?php
                     if ((($i + 1) % $thumbview['homerecentvideocol']) == 0 && ($i+1)!=$totalrecords) {

@@ -788,8 +788,9 @@ if (isset($details1['closeadd'])) {
                <div class="video-page-desc"><?php echo $this->htmlVideoDetails->description; ?></div>
            </div>
      </div>
+        <?php } ?>
 </div>
-    
+    <?php if (isset($this->commenttitle)) { ?>
 <div class="clear"></div>
 
 <div class="videosharecommetsection">
