@@ -693,7 +693,17 @@ document.getElementById('tags').value = '';
 function generateyoutubedetail(){
 var videourl= document.getElementById('videourl').value;
 nocache = Math.random();
-videourl=videourl.split('').reverse().join('');
+
+var index = videourl.indexOf("&");
+var result;
+if (index < 0) {
+    result = videourl;
+} else {
+    result = videourl.substr(0, index);
+}
+
+
+videourl=result.split('').reverse().join('');
 http.open('get', '<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&layout=adminvideos&task=youtubeurl&tmpl=component&videourl='+videourl,true);
 http.onreadystatechange = insertReply;
 http.send(null);
