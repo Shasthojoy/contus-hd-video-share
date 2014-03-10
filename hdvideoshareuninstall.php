@@ -1,27 +1,22 @@
 <?php
 /**
- * @name          : Joomla HD Video Share
- *** @version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Uninstallation File 
- * @Creation Date : March 2010
- * @Modified Date : May 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-
-/**
- * Description :    Uninstallation file
- */
-
-//No direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
-error_reporting(0);
-// Imports
+
+// Import Joomla installer library
 jimport('joomla.installer.installer');
 $db = JFactory::getDBO();
+$query = $db->getQuery(true);
 $db->setQuery("DROP TABLE IF EXISTS `#__hdflv_category_backup`");
 $db->query();
 $db->setQuery("RENAME TABLE `#__hdflv_category` TO `#__hdflv_category_backup`");
@@ -67,262 +62,493 @@ $db->query();
 $db->setQuery("RENAME TABLE `#__hdflv_user` TO `#__hdflv_user_backup`");
 $db->query();
 
-if (version_compare(JVERSION, '1.6.0', 'ge')) {
-    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareCategories' LIMIT 1");
-} else {
-    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareCategories' LIMIT 1");
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$query->select('extension_id')
+			->from($db->nameQuote('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
+
+	$db->setQuery($query, 1);
 }
-$id = $db->loadResult();
-if ($id) {
-    $installer = new JInstaller();
-    $installer->uninstall('module', $id);
-}
-if (version_compare(JVERSION, '1.6.0', 'ge')) {
-    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareFeatured' LIMIT 1");
-} else {
-    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareFeatured' LIMIT 1");
-}
-$id = $db->loadResult();
-if ($id) {
-    $installer = new JInstaller();
-    $installer->uninstall('module', $id);
-}
-if (version_compare(JVERSION, '1.6.0', 'ge')) {
-    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoSharePopular' LIMIT 1");
-} else {
-    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoSharePopular' LIMIT 1");
-}
-$id = $db->loadResult();
-if ($id) {
-    $installer = new JInstaller();
-    $installer->uninstall('module', $id);
-}
-if (version_compare(JVERSION, '1.6.0', 'ge')) {
-    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRecent' LIMIT 1");
-} else {
-    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareRecent' LIMIT 1");
-}
-$id = $db->loadResult();
-if ($id) {
-    $installer = new JInstaller();
-    $installer->uninstall('module', $id);
-}
-if (version_compare(JVERSION, '1.6.0', 'ge')) {
-    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRelated' LIMIT 1");
-} else {
-    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareRelated' LIMIT 1");
-}
-$id = $db->loadResult();
-if ($id) {
-    $installer = new JInstaller();
-    $installer->uninstall('module', $id);
-}
-if (version_compare(JVERSION, '1.6.0', 'ge')) {
-    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareSearch' LIMIT 1");
-} else {
-    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareSearch' LIMIT 1");
-}
-$id = $db->loadResult();
-if ($id) {
-    $installer = new JInstaller();
-    $installer->uninstall('module', $id);
+else
+{
+	$query->select('id')
+			->from($db->nameQuote('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
+
+	$db->setQuery($query, 1);
 }
 
-if (version_compare(JVERSION, '1.6.0', 'ge')) {
-    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'plugin' AND element = 'hvsarticle' AND folder = 'content' LIMIT 1");
-} else {
-    $db->setQuery("SELECT id FROM #__plugins WHERE element = 'hvsarticle' LIMIT 1");
-}
 $id = $db->loadResult();
-if ($id) {
-    $installer = new JInstaller();
-    $installer->uninstall('plugin', $id);
+
+if ($id)
+{
+	$installer = new JInstaller;
+	$installer->uninstall('module', $id);
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$query->clear()
+			->select('extension_id')
+			->from($db->nameQuote('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
+
+	$db->setQuery($query, 1);
+}
+else
+{
+	$query->clear()
+			->select('id')
+			->from($db->nameQuote('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
+	$db->setQuery($query, 1);
+}
+
+$id = $db->loadResult();
+
+if ($id)
+{
+	$installer = new JInstaller;
+	$installer->uninstall('module', $id);
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$query->clear()
+			->select('extension_id')
+			->from($db->nameQuote('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
+	$db->setQuery($query, 1);
+}
+else
+{
+	$query->clear()
+			->select('id')
+			->from($db->nameQuote('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
+	$db->setQuery($query, 1);
+}
+
+$id = $db->loadResult();
+
+if ($id)
+{
+	$installer = new JInstaller;
+	$installer->uninstall('module', $id);
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$query->clear()
+			->select('extension_id')
+			->from($db->nameQuote('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
+
+	$db->setQuery($query, 1);
+}
+else
+{
+	$query->clear()
+			->select('id')
+			->from($db->nameQuote('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
+	$db->setQuery($query, 1);
+}
+
+$id = $db->loadResult();
+
+if ($id)
+{
+	$installer = new JInstaller;
+	$installer->uninstall('module', $id);
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$query->clear()
+			->select('extension_id')
+			->from($db->nameQuote('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
+	$db->setQuery($query, 1);
+}
+else
+{
+	$query->clear()
+			->select('id')
+			->from($db->nameQuote('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
+	$db->setQuery($query, 1);
+}
+
+$id = $db->loadResult();
+
+if ($id)
+{
+	$installer = new JInstaller;
+	$installer->uninstall('module', $id);
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$query->clear()
+			->select('extension_id')
+			->from($db->nameQuote('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
+
+	$db->setQuery($query, 1);
+}
+else
+{
+	$query->clear()
+			->select('id')
+			->from($db->nameQuote('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
+
+	$db->setQuery($query, 1);
+}
+
+$id = $db->loadResult();
+
+if ($id)
+{
+	$installer = new JInstaller;
+	$installer->uninstall('module', $id);
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$query->clear()
+			->select('extension_id')
+			->from($db->nameQuote('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('content'));
+
+	$db->setQuery($query, 1);
+}
+else
+{
+	$query->clear()
+			->select('id')
+			->from($db->nameQuote('#__plugins'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
+	$db->setQuery($query, 1);
+}
+
+$id = $db->loadResult();
+
+if ($id)
+{
+	$installer = new JInstaller;
+	$installer->uninstall('plugin', $id);
 }
 ?>
 <h2 align="center">HDVideo Share UnInstallation Status</h2>
 <table class="adminlist">
-    <thead>
-        <tr>
-            <th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
-            <th><?php echo JText::_('Status'); ?></th>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <td colspan="3"></td>
-        </tr>
-    </tfoot>
-    <tbody>        
-        <tr class="row0">
-            <td class="key" colspan="2"><?php echo JText::_('HDVideoShare - Component'); ?></td>
-            <td style="text-align: center;">
-                <?php
-                //check installed components
-                $db = &JFactory::getDBO();
-                $db->setQuery("SELECT id FROM #__hdflv_player_settings_backup LIMIT 1");
-                $id = $db->loadResult();
-                if (!$id) {
-                    echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
-                } else {
-                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
-                }
-                ?>
-            </td>
-        </tr>        
-        <tr class="row1">
-            <td class="key" colspan="2"><?php echo 'HDVideoShare Categories - ' . JText::_('Module'); ?></td>
-            <td style="text-align: center;">
-                <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
-                if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareCategories' LIMIT 1");
-                } else {
-                    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareCategories' LIMIT 1");
-                }
-                $id = $db->loadResult();
-                if (!$id) {
-                    echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
-                } else {
-                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
-                }
-                ?>
-            </td>
-        </tr>
+	<thead>
+		<tr>
+			<th class="title" colspan="2"><?php echo JText::_('Extension'); ?></th>
+			<th><?php echo JText::_('Status'); ?></th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td colspan="3"></td>
+		</tr>
+	</tfoot>
+	<tbody>        
+		<tr class="row0">
+			<td class="key" colspan="2"><?php echo JText::_('HDVideoShare - Component'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed components
+				$query->clear()
+						->select('id')
+						->from($db->nameQuote('#__hdflv_player_settings_backup'));
+				$db->setQuery($query);
+				$id = $db->loadResult();
 
-        <tr class="row0">
-            <td class="key" colspan="2"><?php echo 'HDVideoShare Featured - ' . JText::_('Module'); ?></td>
-            <td style="text-align: center;">
-                <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
-                if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareFeatured' LIMIT 1");
-                } else {
-                    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareFeatured' LIMIT 1");
-                }
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>        
+		<tr class="row1">
+			<td class="key" colspan="2"><?php echo 'HDVideoShare Categories - ' . JText::_('Module'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed modules
+				if (version_compare(JVERSION, '1.6.0', 'ge'))
+				{
+					$query->clear()
+							->select('extension_id')
+							->from($db->nameQuote('#__extensions'))
+							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
 
-                $id = $db->loadResult();
-                if (!$id) {
-                    echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
-                } else {
-                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
-                }
-                ?>
-            </td>
-        </tr>
+					$db->setQuery($query, 1);
+				}
+				else
+				{
+					$query->clear()
+							->select('id')
+							->from($db->nameQuote('#__modules'))
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
 
-        <tr class="row1">
-            <td class="key" colspan="2"><?php echo 'HDVideoShare Related - ' . JText::_('Module'); ?></td>
-            <td style="text-align: center;">
-                <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
-                if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRelated' LIMIT 1");
-                } else {
-                    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareRelated' LIMIT 1");
-                }
+					$db->setQuery($query, 1);
+				}
 
-                $id = $db->loadResult();
-                if (!$id) {
-                     echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
-                } else {
-                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
-                }
-                ?>
-            </td>
-        </tr>
+				$id = $db->loadResult();
 
-        <tr class="row0">
-            <td class="key" colspan="2"><?php echo 'HDVideoShare Popular - ' . JText::_('Module'); ?></td>
-            <td style="text-align: center;">
-                <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
-                if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoSharePopular' LIMIT 1");
-                } else {
-                    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoSharePopular' LIMIT 1");
-                }
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>
 
-                $id = $db->loadResult();
-                if (!$id) {
-                    echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
-                } else {
-                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
-                }
-                ?>
-            </td>
-        </tr>
+		<tr class="row0">
+			<td class="key" colspan="2"><?php echo 'HDVideoShare Featured - ' . JText::_('Module'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed modules
+				if (version_compare(JVERSION, '1.6.0', 'ge'))
+				{
+					$query->clear()
+							->select('extension_id')
+							->from($db->nameQuote('#__extensions'))
+							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
+					$db->setQuery($query, 1);
+				}
+				else
+				{
+					$query->clear()
+							->select('id')
+							->from($db->nameQuote('#__modules'))
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
 
-        <tr class="row1">
-            <td class="key" colspan="2"><?php echo 'HDVideoShare Recent - ' . JText::_('Module'); ?></td>
-            <td style="text-align: center;">
-                <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
-                if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareRecent' LIMIT 1");
-                } else {
-                    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareRecent' LIMIT 1");
-                }
+					$db->setQuery($query, 1);
+				}
 
-                $id = $db->loadResult();
-                if (!$id) {
-                    echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
-                } else {
-                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
-                }
-                ?>
-            </td>
-        </tr>
+				$id = $db->loadResult();
+
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="key" colspan="2"><?php echo 'HDVideoShare Related - ' . JText::_('Module'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed modules
+				if (version_compare(JVERSION, '1.6.0', 'ge'))
+				{
+					$query->clear()
+							->select('extension_id')
+							->from($db->nameQuote('#__extensions'))
+							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
+					$db->setQuery($query, 1);
+				}
+				else
+				{
+					$query->clear()
+							->select('id')
+							->from($db->nameQuote('#__modules'))
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
+					$db->setQuery($query, 1);
+				}
+
+				$id = $db->loadResult();
+
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>
+
+		<tr class="row0">
+			<td class="key" colspan="2"><?php echo 'HDVideoShare Popular - ' . JText::_('Module'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed modules
+				if (version_compare(JVERSION, '1.6.0', 'ge'))
+				{
+					$query->clear()
+							->select('extension_id')
+							->from($db->nameQuote('#__extensions'))
+							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
+					$db->setQuery($query, 1);
+				}
+				else
+				{
+					$query->clear()
+							->select('id')
+							->from($db->nameQuote('#__modules'))
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
+					$db->setQuery($query, 1);
+				}
+
+				$id = $db->loadResult();
+
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="key" colspan="2"><?php echo 'HDVideoShare Recent - ' . JText::_('Module'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed modules
+				if (version_compare(JVERSION, '1.6.0', 'ge'))
+				{
+					$query->clear()
+							->select('extension_id')
+							->from($db->nameQuote('#__extensions'))
+							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
+
+					$db->setQuery($query, 1);
+				}
+				else
+				{
+					$query->clear()
+							->select('id')
+							->from($db->nameQuote('#__modules'))
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
+					$db->setQuery($query, 1);
+				}
+
+				$id = $db->loadResult();
+
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>
 
 
 
-        <tr class="row0">
-            <td class="key" colspan="2"><?php echo 'HDVideoShare Search - ' . JText::_('Module'); ?></td>
-            <td style="text-align: center;">
-                <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
-                if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                    $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'module' AND element = 'mod_HDVideoShareSearch' LIMIT 1");
-                } else {
-                    $db->setQuery("SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareSearch' LIMIT 1");
-                }
+		<tr class="row0">
+			<td class="key" colspan="2"><?php echo 'HDVideoShare Search - ' . JText::_('Module'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed modules
+				if (version_compare(JVERSION, '1.6.0', 'ge'))
+				{
+					$query->clear()
+							->select('extension_id')
+							->from($db->nameQuote('#__extensions'))
+							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
+					$db->setQuery($query, 1);
+				}
+				else
+				{
+					$query->clear()
+							->select('id')
+							->from($db->nameQuote('#__modules'))
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
+					$db->setQuery($query, 1);
+				}
 
-                $id = $db->loadResult();
-                if (!$id) {
-                    echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
-                } else {
-                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
-                }
-                ?>
-            </td>
-        </tr>
-        <tr class="row0">
-            <td class="key" colspan="2"><?php echo 'HVS Article Plugin - ' . JText::_('Plugin'); ?></td>
-            <td style="text-align: center;">
-                <?php
-                //check installed modules
-                $db = &JFactory::getDBO();
-                if (version_compare(JVERSION, '1.6.0', 'ge')) {
-                        $db->setQuery("SELECT extension_id FROM #__extensions WHERE type = 'plugin' AND element = 'hvsarticle' AND folder = 'content' LIMIT 1");
-                } else {
-                        $db->setQuery("SELECT id FROM #__plugins WHERE element = 'hvsarticle' LIMIT 1");
-                }
+				$id = $db->loadResult();
 
-                $id = $db->loadResult();
-                if (!$id) {
-                    echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
-                } else {
-                    echo "<strong>" . JText::_('Remove Manually') . "</strong>";
-                }
-                ?>
-            </td>
-        </tr>
-       
-        
-    </tbody>
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>
+		<tr class="row0">
+			<td class="key" colspan="2"><?php echo 'HVS Article Plugin - ' . JText::_('Plugin'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed modules
+				if (version_compare(JVERSION, '1.6.0', 'ge'))
+				{
+					$query->clear()
+							->select('extension_id')
+							->from($db->nameQuote('#__extensions'))
+							->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'))
+							->where($db->quoteName('folder') . ' = ' . $db->quote('content'));
+					$db->setQuery($query, 1);
+				}
+				else
+				{
+					$query->clear()
+							->select('id')
+							->from($db->nameQuote('#__plugins'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
+					$db->setQuery($query, 1);
+				}
+
+				$id = $db->loadResult();
+
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>
+	</tbody>
 </table>

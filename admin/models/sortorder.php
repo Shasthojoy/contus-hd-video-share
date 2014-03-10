@@ -1,58 +1,70 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Sortorder Model 
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-
-/*
- ***********************************************************/
 // No direct access to this file
-defined( '_JEXEC' ) or die( 'Restricted access' );
-// import joomla model library
+defined('_JEXEC') or die('Restricted access');
+
+// Import joomla model library
 jimport('joomla.application.component.model');
 
-class contushdvideoshareModelsortorder extends ContushdvideoshareModel {
-
-
-	//Function to change sort order when drags the row
-	function videosortordermodel()
+/**
+ * Admin sortorder model class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class ContushdvideoshareModelsortorder extends ContushdvideoshareModel
+{
+	/**
+	 * Function to save sort order
+	 * 
+	 * @return  videosortordermodel
+	 */
+	public function videosortordermodel()
 	{
-		global $mainframe;
 		$db = JFactory::getDBO();
-		$listitem=JRequest::getvar('listItem');
-		$pagenum=JRequest::getvar('pagenum');
+		$sql = '';
+		$query = $db->getQuery(true);
+		$listitem = JRequest::getvar('listItem');
+		$pagenum = JRequest::getvar('pagenum');
 		$ids = implode(',', $listitem);
-                if (isset($pagenum)) {
-                    $page = (20 * ($pagenum - 1));
-                }
-                foreach ($listitem as $key => $value) {
-                    $listitems[$key + $page] = $value;
-                }
-		$sql = 'UPDATE `#__hdflv_upload` SET `ordering` = CASE id ';
-		foreach ($listitems as $position => $item) {
+
+		if (isset($pagenum))
+		{
+			$page = (20 * ($pagenum - 1));
+		}
+
+		foreach ($listitem as $key => $value)
+		{
+			$listitems[$key + $page] = $value;
+		}
+
+		$query->clear()
+				->update($db->quoteName('#__hdflv_upload'))
+				->set($db->quoteName('ordering') . ' = CASE id');
+
+		foreach ($listitems as $position => $item)
+		{
+			$query->set($db->quoteName('impmade') . ' = ' . $db->quote(0));
 			$sql .= sprintf("WHEN %d THEN %d ", $item, $position);
 		}
-		$sql .= ' END WHERE id IN ('.$ids.')';
-		$db->setQuery($sql);
-		$db->query();	
+
+		$query->set($sql)
+				->set(' END')
+				->where($db->quoteName('id') . ' IN ' . $db->quote($ids));
+		$db->setQuery($query);
+		$db->query();
+
 		exit();
-
 	}
-	
-	
-	
-
-
-
 }
-?>

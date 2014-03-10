@@ -1,69 +1,122 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Adminvideos Table
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
-// no direct access to this file
+// No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
-// table for adminvideos
-class Tableadminvideos extends JTable {
-    var $id = null;
-    var $published = null;
-    var $title = null;
-    var $times_viewed = null;
-    var $videos = null;
-    var $filepath = null;
-    var $videourl = null;
-    var $thumburl = null;
-    var $previewurl = null;
-    var $hdurl = null;
-    var $playlistid = null;
-    var $duration = null;
-    var $ordering = null;
-    var $home = null;
-    var $streameroption = null;
-    var $streamerpath = null;
-    var $postrollads = null;
-    var $prerollads = null;
-    var $midrollads = null;
-    var $imaads = null;
-    var $description = null;
-    var $targeturl = null;
-    var $download = null;
-    var $prerollid = null;
-    var $postrollid = null;
-    var $memberid = null;
-    var $type = null;
-    var $featured = null;
-    var $rate = null;
-    var $ratecount = null;
-    var $addedon = null;
-    var $usergroupid = null;
-    var $created_date = null;
-    var $scaletologo = null;
-    var $tags=null;
-    var $seotitle=null;
-    var $useraccess = null;
-    var $islive = null;
-    var $embedcode = null;
-    var $subtitle1 = null;
-    var $subtitle2 = null;
-    var $subtile_lang1 = null;
-    var $subtile_lang2 = null;
-    function Tableadminvideos(&$db) {
-        parent::__construct('#__hdflv_upload', 'id', $db);
-    }
+
+/**
+ * Admin adminvideos table class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class Tableadminvideos extends JTable
+{
+	public $id = null;
+
+	public $published = null;
+
+	public $title = null;
+
+	public $times_viewed = null;
+
+	public $videos = null;
+
+	public $filepath = null;
+
+	public $videourl = null;
+
+	public $thumburl = null;
+
+	public $previewurl = null;
+
+	public $hdurl = null;
+
+	public $playlistid = null;
+
+	public $duration = null;
+
+	public $ordering = null;
+
+	public $home = null;
+
+	public $streameroption = null;
+
+	public $streamerpath = null;
+
+	public $postrollads = null;
+
+	public $prerollads = null;
+
+	public $midrollads = null;
+
+	public $imaads = null;
+
+	public $description = null;
+
+	public $targeturl = null;
+
+	public $download = null;
+
+	public $prerollid = null;
+
+	public $postrollid = null;
+
+	public $memberid = null;
+
+	public $type = null;
+
+	public $featured = null;
+
+	public $rate = null;
+
+	public $ratecount = null;
+
+	public $addedon = null;
+
+	public $usergroupid = null;
+
+	public $created_date = null;
+
+	public $scaletologo = null;
+
+	public $tags = null;
+
+	public $seotitle = null;
+
+	public $useraccess = null;
+
+	public $islive = null;
+
+	public $embedcode = null;
+
+	public $subtitle1 = null;
+
+	public $subtitle2 = null;
+
+	public $subtile_lang1 = null;
+
+	public $subtile_lang2 = null;
+
+	/**
+	 * Function to save admin videos
+	 * 
+	 * @param   object  &$db  Database detail
+	 * 
+	 * @return  Tableadminvideos
+	 */
+	public function Tableadminvideos(&$db)
+	{
+		parent::__construct('#__hdflv_upload', 'id', $db);
+	}
 }
-?>

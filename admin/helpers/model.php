@@ -1,65 +1,70 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Administrator modle file
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
 // No direct access to this file
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 
+// Import Joomla model library
 jimport('joomla.application.component.model');
 
-if (version_compare(JVERSION, '3.0', 'ge')) {
-
-    class ContushdvideoshareModel extends JModelLegacy {
-	
-        public static function addIncludePath($path = '', $prefix = '') {
-            return parent::addIncludePath($path, $prefix);
-        }
-
-    }
-
-} else if (version_compare(JVERSION, '2.5', 'ge')) {
-
-    class ContushdvideoshareModel extends JModel {
-	
-        public static function addIncludePath($path = '', $prefix = '') {
-            return parent::addIncludePath($path, $prefix);
-        }
-
-    }
-
-} else if (version_compare(JVERSION, '1.6', 'ge') || version_compare(JVERSION, '1.7', 'ge')) {
-
-    class ContushdvideoshareModel extends JModel {
-
-        public static function addIncludePath($path = '', $prefix = '') {
-            return parent::addIncludePath($path, $prefix);
-        }
-
-    }
-
-}else {
-
-    class ContushdvideoshareModel extends JModel {
-	
-        public function addIncludePath($path = '', $prefix = '') {
-            return parent::addIncludePath($path);
-        }
-
-    }
-
+if (version_compare(JVERSION, '3.0', 'ge'))
+				{
+	/**
+	 * Admin model class.
+	 *
+	 * @package     Joomla.Contus_HD_Video_Share
+	 * @subpackage  Com_Contushdvideoshare
+	 * @since       1.5
+	 */
+	class ContushdvideoshareModel extends JModelLegacy
+				{
+	}
 }
-
-?>
+elseif (version_compare(JVERSION, '2.5', 'ge'))
+				{
+	/**
+	 * Admin model class.
+	 *
+	 * @package     Joomla.Contus_HD_Video_Share
+	 * @subpackage  Com_Contushdvideoshare
+	 * @since       1.5
+	 */
+	class ContushdvideoshareModel extends JModel
+				{
+	}
+}
+elseif(version_compare(JVERSION, '1.6', 'ge') || version_compare(JVERSION, '1.7', 'ge'))
+				{
+	/**
+	 * Admin model class.
+	 *
+	 * @package     Joomla.Contus_HD_Video_Share
+	 * @subpackage  Com_Contushdvideoshare
+	 * @since       1.5
+	 */
+	class ContushdvideoshareModel extends JModel
+				{
+	}
+}
+else
+	{
+	/**
+	 * Admin model class.
+	 *
+	 * @package     Joomla.Contus_HD_Video_Share
+	 * @subpackage  Com_Contushdvideoshare
+	 * @since       1.5
+	 */
+	class ContushdvideoshareModel extends JModel
+				{
+	}
+}

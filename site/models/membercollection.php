@@ -1,100 +1,134 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- *** @version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component MemberCollection Model
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
-//No direct acesss
-defined( '_JEXEC' ) or die( 'Restricted access' );
-// import Joomla model library
-jimport( 'joomla.application.component.model' );
+// No direct acesss
+defined('_JEXEC') or die('Restricted access');
+
+// Import Joomla model library
+jimport('joomla.application.component.model');
+
 /**
- * Contushdvideoshare Component Myvidos Model
+ * Member videos model class
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
  */
 class Modelcontushdvideosharemembercollection extends ContushdvideoshareModel
 {
-    
-/* Following function is to display the videos of a particular registered member */
-function getmembercollection()
-{
-    
-    $user = JFactory::getUser();
-        $session = JFactory::getSession();
-    if(JRequest::getVar('memberidvalue','','post','int')){
-                 $session->set( 'memberid', JRequest::getVar('memberidvalue','','post','int') );
-                }
-        // Query for fetching membercollection total for pagination
-        $totalquery	= "SELECT count(a.id)
-        			   FROM  #__hdflv_upload a 
-        			   LEFT JOIN #__hdflv_category b on a.playlistid=b.id 
-        			   LEFT JOIN #__users d on a.memberid=d.id 
-        			   WHERE a.published=1 AND b.published=1 AND a.type=0 AND d.block=0 AND a.memberid=".$session->get( 'memberid', 'empty' );
-        $db = JFactory::getDBO();
-        $db->setQuery($totalquery);
-        $resulttotal = $db->loadResult();        
-        $total=$resulttotal;
-        $pageno = 1;
-        if(JRequest::getVar('page','','post','int'))
-        {
-            $pageno = JRequest::getVar('page','','post','int');
-        }
-        $limitrow=$this->getmemberpagerowcol();//function call for fetching member collection settings
-        $thumbview       = unserialize($limitrow[0]->thumbview);
-        $length=$thumbview['memberpagerow']* $thumbview['memberpagecol'];
-        $pages = ceil($total/$length);
-        if($pageno==1)
-        $start=0;
-        else
-        $start= ($pageno - 1) * $length;
-        // Query for displaying the member collection videos when click on his name
-        $query = "SELECT a.id,a.amazons3,a.filepath,a.thumburl,a.title,a.description,a.times_viewed,a.ratecount,a.rate,
-				  a.times_viewed,a.seotitle,b.category,b.seo_category,d.username,e.catid,e.vid 
-        		  FROM #__hdflv_upload a 
-        		  LEFT JOIN #__users d on a.memberid=d.id 
-        		  LEFT JOIN #__hdflv_video_category e on e.vid=a.id 
-        		  LEFT JOIN #__hdflv_category b on e.catid=b.id 
-        		  WHERE a.published=1 and b.published=1 and d.block=0 and a.type=0 and a.memberid=".$session->get( 'memberid', 'empty' )."
-        		  GROUP BY e.vid 
-        		  ORDER BY a.id desc 
-        		  LIMIT $start,$length";
-        $db->setQuery($query);
-        $rows=$db->LoadObjectList();
-        // Below code is to merge the pagination values like pageno,pages,start value,length value
-        if(count($rows)>0)
-        {
-        	$rows['pageno'] = $pageno;
+	/**
+	 * Function to display the videos of a particular registered member
+	 * 
+	 * @return  getmembercollection
+	 */
+	public function getmembercollection()
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$session = JFactory::getSession();
+
+		if (JRequest::getVar('memberidvalue', '', 'post', 'int'))
+		{
+			$session->set('memberid', JRequest::getVar('memberidvalue', '', 'post', 'int'));
+		}
+
+		// Query for fetching membercollection total for pagination
+		$query->select('count(a.id)')
+				->from('#__hdflv_upload AS a')
+				->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id')
+				->leftJoin('#__users AS d ON a.memberid=d.id')
+				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('a.memberid') . ' = ' . $db->quote($session->get('memberid', 'empty')));
+
+		$db->setQuery($query);
+		$resulttotal = $db->loadResult();
+		$total = $resulttotal;
+		$pageno = 1;
+
+		if (JRequest::getVar('page', '', 'post', 'int'))
+		{
+			$pageno = JRequest::getVar('page', '', 'post', 'int');
+		}
+
+		// Function call for fetching member collection settings
+		$limitrow = $this->getmemberpagerowcol();
+		$thumbview = unserialize($limitrow[0]->thumbview);
+		$length = $thumbview['memberpagerow'] * $thumbview['memberpagecol'];
+		$pages = ceil($total / $length);
+
+		if ($pageno == 1)
+		{
+			$start = 0;
+		}
+		else
+		{
+			$start = ($pageno - 1) * $length;
+		}
+
+		// Query for displaying the member collection videos when click on his name
+		$query->clear()
+				->select(
+						array(
+							'a.id', 'a.filepath', 'a.thumburl', 'a.title', 'a.description', 'a.times_viewed',
+							'a.ratecount', 'a.rate',
+							'a.amazons3', 'a.seotitle',
+							'b.category', 'b.seo_category', 'd.username', 'e.catid', 'e.vid'
+						)
+				)
+				->from('#__hdflv_upload AS a')
+				->leftJoin('#__users AS d ON a.memberid=d.id')
+				->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
+				->leftJoin('#__hdflv_category AS b ON e.catid=b.id')
+				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('b.published') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('a.memberid') . ' = ' . $db->quote($session->get('memberid', 'empty')))
+				->group($db->escape('e.vid'))
+				->order($db->escape('a.id' . ' ' . 'DESC'));
+		$db->setQuery($query, $start, $length);
+		$rows = $db->LoadObjectList();
+
+		// Below code is to merge the pagination values like pageno,pages,start value,length value
+		if (count($rows) > 0)
+		{
+			$rows['pageno'] = $pageno;
 			$rows['pages'] = $pages;
 			$rows['start'] = $start;
-			$rows['length'] = $length;	            
-        }       
-        return $rows;
+			$rows['length'] = $length;
+		}
+
+		return $rows;
+	}
+
+	/**
+	 * Function to get thumb settings
+	 * 
+	 * @return  getmemberpagerowcol
+	 */
+	public function getmemberpagerowcol()
+	{
+		$db = $this->getDBO();
+		$query = $db->getQuery(true);
+
+		// Query is to fetch membercollection settings
+		$query->select(array('thumbview', 'dispenable'))
+				->from('#__hdflv_site_settings');
+		$db->setQuery($query);
+		$rows = $db->LoadObjectList();
+
+		return $rows;
+	}
 }
-
-
-
-function getmemberpagerowcol()
-{
-
-        $db = $this->getDBO();
-        //Query is to fetch membercollection settings
-        $memberpagequery="SELECT thumbview,dispenable FROM #__hdflv_site_settings";
-        $db->setQuery($memberpagequery);
-        $rows=$db->LoadObjectList();
-        return $rows;
-}
-
-
-
-}
-?>

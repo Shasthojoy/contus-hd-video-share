@@ -1,57 +1,63 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Controlpanel Model 
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
+// No direct acesss
+defined('_JEXEC') or die('Restricted access');
 
-/*
- ***********************************************************/
-
-//No direct acesss
-defined( '_JEXEC' ) or die( 'Restricted access' );
-// import joomla model library
+// Import joomla model library
 jimport('joomla.application.component.model');
 
-class contushdvideoshareModelcontrolpanel extends ContushdvideoshareModel {
+/**
+ * Admin control panel model class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class ContushdvideoshareModelcontrolpanel extends ContushdvideoshareModel
+{
+	/**
+	 * Function to show Top 5 popular videos,added videos etc.
+	 * 
+	 * @return  controlpaneldetails
+	 */
+	public function controlpaneldetails()
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName(array('COUNT(b.memberid) AS count','a.username AS username')))
+				->from($db->quoteName('#__users a'))
+				->leftJoin('#__hdflv_upload b ON b.memberid = a.id')
+				->group($db->escape('a.id'));
+		$db->setQuery($query);
+		$member_detail = $db->loadObjectList();
 
-	//function to show Top 5 popular videos,added videos etc.
-    function controlpaneldetails() 
-    {
-        $db =  JFactory::getDBO();
-        $query = "SELECT  count(b.memberid) as count ,a.username as username 
-        		  FROM #__users a 
-        		  LEFT JOIN  #__hdflv_upload b on b.memberid = a.id 
-        		  GROUP BY a.id";
-        $db->setQuery($query);
-        $member_detail = $db->loadObjectList();
-        //Query is to display the top 5 popular videos
-        $popularquery = "SELECT id,title,times_viewed 
-                         FROM #__hdflv_upload 
-                         WHERE published=1 and type='0'  
-                         ORDER BY times_viewed desc 
-                         LIMIT 5";
-        $db->setQuery($popularquery);
-        $popularvideos = $db->LoadObjectList();
-        //Query is to display the last 5 added videos
-        $latestquery = "SELECT id,title,created_date 
-                        FROM #__hdflv_upload 
-                        WHERE published=1 and type='0'  
-                        ORDER BY id desc 
-                        LIMIT 5"; 
-        $db->setQuery($latestquery);
-        $latestvideos = $db->LoadObjectList();
-        $count = array('membervideos' => $member_detail,'popularvideos' => $popularvideos,'latestvideos' => $latestvideos);
-        return $count;
-    }    
+		// Query is to display the top 5 popular videos
+		$query->select($db->quoteName(array('id','title','times_viewed')))
+				->from($db->quoteName('#__hdflv_upload'))
+				->where('published=1 and type=0')
+				->order('times_viewed DESC');
+		$db->setQuery($query, 5);
+		$popularvideos = $db->LoadObjectList();
+
+		// Query is to display the last 5 added videos
+		$query->select($db->quoteName(array('id','title','created_date')))
+				->from($db->quoteName('#__hdflv_upload'))
+				->where('published=1 and type=0')
+				->order('id DESC');
+		$db->setQuery($query, 5);
+		$latestvideos = $db->LoadObjectList();
+		$count = array('membervideos' => $member_detail, 'popularvideos' => $popularvideos, 'latestvideos' => $latestvideos);
+
+		return $count;
+	}
 }
-?>

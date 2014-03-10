@@ -1,36 +1,54 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Comment Table
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
-// table for comment
-class Tablecomment extends JTable {
-	var $id = null;
-	var $parentid = null;
-    var $videoid = null;
-    var $name = null;
-    var $email = null;
-    var $subject = null;
-    var $message = null;
-    var $created = null;
-    var $published = null;
 
-   	function Tablecomment(&$db){
+/**
+ * Admin comment table class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class Tablecomment extends JTable
+{
+	public $id = null;
+
+	public $parentid = null;
+
+	public $videoid = null;
+
+	public $name = null;
+
+	public $email = null;
+
+	public $subject = null;
+
+	public $message = null;
+
+	public $created = null;
+
+	public $published = null;
+
+	/**
+	 * Function to save comment
+	 * 
+	 * @param   object  &$db  Database detail
+	 * 
+	 * @return  Tablecomment
+	 */
+	public function Tablecomment(&$db)
+	{
 		parent::__construct('#__hdflv_comments', 'id', $db);
 	}
 }
-?>

@@ -1,69 +1,109 @@
 <?php
 /**
- * @name 	        HVS Article Plugin
- * @version	        1.0
- * @package	        Apptha
- * @since	        Joomla 1.5
- * @author      	Apptha - http://www.apptha.com/
- * @copyright 		Copyright (C) 2013 Powered by Apptha
- * @license 		http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      	HVS Article Plugin installation file.
- * @Creation Date	July 2013
- * @modified Date	July 2013
+ * @name       HVS Article Plugin
+ * @SVN        1.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   July 2013
+ * @Modified Date   February 2014
+ * */
+
+/**
+ * HVS Article Plugin installation class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
  */
-/*
- * Class for HVS Article Plugin installation
- */
-class plgContenthvsarticleInstallerScript {
+class PlgContenthvsarticleInstallerScript
+{
+	/**
+	 * Joomla installation hook for plugin
+	 * 
+	 * @param   string  $parent  parent value
+	 * 
+	 * @return  install
+	 */
+	public function install($parent)
+	{
+	}
 
-    function install($parent) {
-            
-    }
-        function uninstall($parent) {
-           
-        }
+	/**
+	 * Joomla uninstallation hook for plugin
+	 * 
+	 * @param   string  $parent  parent value
+	 * 
+	 * @return  uninstall
+	 */
+	public function uninstall($parent)
+	{
+	}
 
-        function update($parent) {
-            
-        }
+	/**
+	 * Joomla update hook for plugin
+	 * 
+	 * @param   string  $parent  parent value
+	 * 
+	 * @return  update
+	 */
+	public function update($parent)
+	{
+	}
 
-        function preflight($type, $parent) {
-            
-        }
+	/**
+	 * Joomla before installation hook for plugin
+	 * 
+	 * @param   string  $type    type
+	 * @param   string  $parent  parent value
+	 * 
+	 * @return  preflight
+	 */
+	public function preflight($type, $parent)
+	{
+	}
 
-        function postflight($type, $parent) {
+	/**
+	 * Joomla after installation hook for plugin
+	 * 
+	 * @param   string  $type    type
+	 * @param   string  $parent  parent value
+	 * 
+	 * @return  postflight
+	 */
+	public function postflight($type, $parent)
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
 
-            $db = JFactory::getDBO();
+		if (version_compare(JVERSION, '1.7.0', 'ge'))
+		{
+			$query->update($db->quoteName('#__extensions'))
+					->set($db->quoteName('enabled') . ' = ' . $db->quote('1'))
+					->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
+			$db->setQuery($query);
+			$db->query();
+		}
+		elseif (version_compare(JVERSION, '1.6.0', 'ge'))
+		{
+			$query->update($db->quoteName('#__extensions'))
+					->set($db->quoteName('enabled') . ' = ' . $db->quote('1'))
+					->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
+			$db->setQuery($query);
+			$db->query();
+		}
+		else
+		{
+			$query->update($db->quoteName('#__plugins'))
+					->set($db->quoteName('enabled') . ' = ' . $db->quote('1'))
+					->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
+			$db->setQuery($query);
+			$db->query();
+		}
 
-        if (version_compare(JVERSION, '1.7.0', 'ge')) {
-            $query = 'UPDATE  #__extensions ' .
-                    'SET enabled=1 ' .
-                    'WHERE element = "hvsarticle"';
-            $db->setQuery($query);
-            $db->query();
-        } elseif (version_compare(JVERSION, '1.6.0', 'ge')) {
-            $query = 'UPDATE  #__extensions ' .
-                    'SET enabled=1 ' .
-                    'WHERE element= "hvsarticle"';
-            $db->setQuery($query);
-            $db->query();
-        }
-        else {
-            $query = 'UPDATE  #__plugins ' .
-                    'SET enabled=1 ' .
-                    'WHERE element = "hvsarticle"';
-            $db->setQuery($query);
-            $db->query();
-        }
-        $root = JPATH_SITE;
-        JFile::move($root . '/plugins/content/hvsarticle/hvsarticle.j3.xml', $root . '/plugins/content/hvsarticle/hvsarticle.xml');
-            ?>
-     <!-- Display Installation Status -->
-        
-
-<?php
-        }
-
-    }
-
-?>
+		$root = JPATH_SITE;
+		JFile::move($root . '/plugins/content/hvsarticle/hvsarticle.j3.xml', $root . '/plugins/content/hvsarticle/hvsarticle.xml');
+	}
+}

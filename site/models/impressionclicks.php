@@ -1,44 +1,58 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- *** @version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Impressionclicks Model
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
-//No direct acesss
-defined( '_JEXEC' ) or die( 'Restricted access' );
-// import Joomla model library
-jimport('joomla.application.component.model');
-/**
- * Contushdvideoshare Component Impressionclicks Model
- */
-class Modelcontushdvideoshareimpressionclicks extends ContushdvideoshareModel {
+// No direct acesss
+defined('_JEXEC') or die('Restricted access');
 
-	/* function to get & update the impression clicks to the Ads*/
-    function impressionclicks() {
-        global $mainframe;
-        $db = JFactory::getDBO();
-        $click = JRequest::getVar('click', 'get', '', 'string');
-        $id = JRequest::getVar('id', 'get', '', 'int');
-        if ($click != 'click') {
-            $query = "UPDATE #__hdflv_ads SET clickcounts = clickcounts+1  WHERE `id` = $id";
-        }
-        else {
-            $query = "UPDATE #__hdflv_ads SET impressioncounts= impressioncounts+1 WHERE `id` = $id";
-        }
-        $db->setQuery($query);
-        $db->query();
-        exit();
-    }
+// Import Joomla model library
+jimport('joomla.application.component.model');
+
+/**
+ * Impressionclicks model class
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class Modelcontushdvideoshareimpressionclicks extends ContushdvideoshareModel
+{
+	/**
+	 * Function to get & update the impression clicks to the Ads
+	 * 
+	 * @return  impressionclicks
+	 */
+	public function impressionclicks()
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+
+		$click = JRequest::getVar('click', 'get', '', 'string');
+		$id = JRequest::getVar('id', 'get', '', 'int');
+
+		if ($click != 'click')
+		{
+			$query->update($db->quoteName('#__hdflv_ads'))
+					->set($db->quoteName('clickcounts') . ' = clickcounts+1')
+					->where($db->quoteName('id') . ' = ' . $db->quote($id));
+		}
+		else
+		{
+			$query->update($db->quoteName('#__hdflv_ads'))
+					->set($db->quoteName('impressioncounts') . ' = impressioncounts+1')
+					->where($db->quoteName('id') . ' = ' . $db->quote($id));
+		}
+
+		$db->setQuery($query);
+		$db->query();
+		exit();
+	}
 }
-?>

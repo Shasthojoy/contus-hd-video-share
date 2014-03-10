@@ -1,41 +1,55 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- *** @version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Commentappend Model
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
-//No direct acesss
-defined( '_JEXEC' ) or die( 'Restricted access' );
-// import Joomla view library
-jimport( 'joomla.application.component.view');
+// No direct acesss
+defined('_JEXEC') or die('Restricted access');
+
+// Import Joomla view library
+jimport('joomla.application.component.view');
+
 /**
- * view class for the hdvideoshare commentappend
+ * Commentappend view class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
  */
-class contushdvideoshareViewcommentappend extends ContushdvideoshareView
+class ContushdvideoshareViewcommentappend extends ContushdvideoshareView
 {
-
-	function display($cachable = false, $urlparams = false)
+	/**
+	 * Function to set layout and model for view page.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $urlparams  An array of safe url parameters and their variable types
+	 *
+	 * @return  ContushdvideoshareViewcommentappend		This object to support chaining.
+	 * 
+	 * @since   1.5
+	 */
+	public function display($cachable = false, $urlparams = false)
 	{
-            $model = $this->getModel();
-            $getcomments = $model->getcomment();
-            $this->assignRef('commenttitle', $getcomments[0]); // Assigning the reference for the results
-            $this->assignRef('commenttitle1', $getcomments[1]); // Assigning the reference for the results
-            $this->assignRef('playersettings', $getcomments[2]); // Assigning the reference for the results
-            $commentsview = $model->ratting();
-            $this->assignRef('commentview', $commentsview);
-            parent::display();
-	}
+		$model = $this->getModel();
+		$getcomments = $model->getcomment();
 
+		// Assigning the reference for the results
+		$this->assignRef('commenttitle', $getcomments[0]);
+
+		// Assigning the reference for the results
+		$this->assignRef('commenttitle1', $getcomments[1]);
+
+		// Assigning the reference for the results
+		$this->assignRef('playersettings', $getcomments[2]);
+		$commentsview = $model->ratting();
+		$this->assignRef('commentview', $commentsview);
+		parent::display();
+	}
 }
-?>   

@@ -1,87 +1,30 @@
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component style.css file for admin
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
 
-/*
- ***********************************************************/
-
-
-.icon-48-settings {
-	background: url('../assets/player-settings-icon.png') no-repeat left;
-}
-.icon-48-sitesettings {
-	background: url('../assets/site-settings-icon.png') no-repeat left;
-}
-.icon-48-category {
-	background: url('../assets/category-icon.png') no-repeat left;
-}
-.icon-48-ads {
-	background: url('../assets/ads-icon.png') no-repeat left;
-}
-.icon-48-googlead {
-	background: url('../assets/google- adsense-icon.png') no-repeat left;
-}
-.icon-48-adminvideos {
-	background: url('../assets/admin-video.png') no-repeat left;
-}
-.icon-48-memberdetails {
-	background: url('../assets/member-details.png') no-repeat left;
-}
-.icon-48-membervideos {
-	background: url('../assets/member-videos.png') no-repeat left;
-}
+.icon-48-settings {background: url('../assets/player-settings-icon.png') no-repeat left;}
+.icon-48-sitesettings {background: url('../assets/site-settings-icon.png') no-repeat left;}
+.icon-48-category {background: url('../assets/category-icon.png') no-repeat left;}
+.icon-48-ads {background: url('../assets/ads-icon.png') no-repeat left;}
+.icon-48-googlead {background: url('../assets/google- adsense-icon.png') no-repeat left;}
+.icon-48-adminvideos {background: url('../assets/admin-video.png') no-repeat left;}
+.icon-48-memberdetails {background: url('../assets/member-details.png') no-repeat left;}
+.icon-48-membervideos {background: url('../assets/member-videos.png') no-repeat left;}
 div.header {padding-left: 65px !important;}
-
-#info {
-	display: block;
-	border: 1px solid #333;
-	background-color: #efefef;
-}
-
-#test-list {
-	list-style: none;
-}
-
-#test-list li {
-	display: block;
-	
-	background-color: #efefef;
-}
-
-img.handle {
-	margin-right:0px;
-	cursor: move;
-}
-.header_title
-{
-text-align: center;
-	background: #f0f0f0;
-	color: #666;
-	/* border-bottom: 1px solid #999; */
-	border-left: 1px solid #fff;
-}
-
-table.videolist {
-	width: 100%;
-	border-spacing: 1px;
-	background-color: #e7e7e7;
-	color: #666;
-}
-
-/*table.videolist td,
-table.videolist th { padding: 4px; }*/
-
+#info {display: block;border: 1px solid #333;background-color: #efefef;}
+#test-list {list-style: none;}
+#test-list li {display: block;background-color: #efefef;}
+img.handle {margin-right:0px;cursor: move;}
+.header_title{text-align: center;background: #f0f0f0;color: #666;border-left: 1px solid #fff;}
+table.videolist {width: 100%;border-spacing: 1px;background-color: #e7e7e7;color: #666;}
 table.videolist thead th {
 	text-align: center;
 	background: #f0f0f0;

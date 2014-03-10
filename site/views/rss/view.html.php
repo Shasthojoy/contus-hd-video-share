@@ -1,36 +1,43 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- * @version	  : 3.4
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Playxml View Page
- * @Creation Date : March 2010
- * @Modified Date : May 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-
-/*
- ***********************************************************/
 // No direct access to this file
+defined('_JEXEC') or die('Restricted access');
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// Import Joomla component library
+jimport('joomla.application.component.view');
 
-jimport( 'joomla.application.component.view');
-
-
-class contushdvideoshareViewrss extends ContushdvideoshareView
+/**
+ * RSS view file
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class ContushdvideoshareViewrss extends ContushdvideoshareView
 {
-
-	function display($cachable = false, $urlparams = false)
+	/**
+	 * Function to set layout and model for view page.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   boolean  $urlparams  An array of safe url parameters and their variable types
+	 *
+	 * @return  ContushdvideoshareViewrss		This object to support chaining.
+	 * 
+	 * @since   1.5
+	 */
+	public function  display($cachable = false, $urlparams = false)
 	{
-        $model =& $this->getModel();
+		$model = & $this->getModel();
 		$detail = $model->playgetrecords();
 	}
-
 }
-?>   

@@ -1,232 +1,274 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Memberdetails Model
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-
-/*
- ***********************************************************/
 // No direct access to this file
-defined( '_JEXEC' ) or die( 'Restricted access' );
-// import joomla model library
-jimport('joomla.application.component.model');
-// import Joomla pagination library
-jimport('joomla.html.pagination');
-/**
- * Contushdvideoshare Component Memberdetails Model
- */
-class contushdvideoshareModelmemberdetails extends ContushdvideoshareModel {
-	
-	
-	/**
-	 * Constructor
-	 * global variable initialization
-	 */
+defined('_JEXEC') or die('Restricted access');
 
-	function __construct() {
+// Import joomla model library
+jimport('joomla.application.component.model');
+
+// Import Joomla pagination library
+jimport('joomla.html.pagination');
+
+/**
+ * Admin google adsense model class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class ContushdvideoshareModelmemberdetails extends ContushdvideoshareModel
+{
+	/**
+	 * Constructor function to declare global value
+	 */
+	public function __construct()
+	{
 		global $mainframe;
 		parent::__construct();
-		$mainframe = JFactory::getApplication();		
+		$mainframe = JFactory::getApplication();
 	}
 
-        function phpSlashes($string, $type='add') {
-        if ($type == 'add') {
-            if (get_magic_quotes_gpc ()) {
-                return $string;
-            } else {
-                if (function_exists('addslashes')) {
-                    return addslashes($string);
-                } else {
-                    return mysql_real_escape_string($string);
-                }
-            }
-        } else if ($type == 'strip') {
-            return stripslashes($string);
-        } else {
-            die('error in PHP_slashes (mixed,add | strip)');
-        }
-    }
+	/**
+	 * Function to remove slashes from string
+	 * 
+	 * @param   string  $string  string to be remove slash
+	 * @param   string  $type    type of action to be performed
+	 * 
+	 * @return  phpSlashes
+	 */
+	public function phpSlashes($string, $type = 'add')
+	{
+		if ($type == 'add')
+		{
+			if (get_magic_quotes_gpc())
+			{
+				return $string;
+			}
+			else
+			{
+				if (function_exists('addslashes'))
+				{
+					return addslashes($string);
+				}
+				else
+				{
+					return mysql_real_escape_string($string);
+				}
+			}
+		}
+		elseif ($type == 'strip')
+		{
+			return stripslashes($string);
+		}
+		else
+		{
+			die('error in PHP_slashes (mixed,add | strip)');
+		}
+	}
 
 	/**
-	 * function to get member details
+	 * Function to get member details
+	 * 
+	 * @return  getmemberdetails
 	 */
-	function getmemberdetails()
+	public function getmemberdetails()
 	{
 		global $mainframe;
 		$option = JRequest::getCmd('option');
 		$mainframe = JFactory::getApplication();
 		$db = $this->getDBO();
-                if(version_compare(JVERSION, '3.0.0', 'ge')) {
-                    $mainQuery = "SELECT a.`id`,a.`name`,a.`username`,a.`email`,a.`registerDate`,a.`block`,b.`allowupload`
-					   FROM #__users a
-					   LEFT JOIN #__hdflv_user b
-					   ON a.`id` = b.`member_id`
-					   ";
-                }else{
+		$query = $db->getQuery(true);
 
-		$mainQuery = "SELECT a.`id`,a.`name`,a.`username`,a.`email`,a.`registerDate`,a.`block`,b.`allowupload`
-					   FROM #__users a 
-					   LEFT JOIN #__hdflv_user b 
-					   ON a.`id` = b.`member_id`
-					   ";
-                }
-		// filter variable for member order
+		if (version_compare(JVERSION, '3.0.0', 'ge'))
+		{
+			$query->select($db->quoteName(array('a.id','a.name','a.username','a.email','a.registerDate','a.block','a.allowupload')))
+					->from($db->quoteName('#__users a'))
+					->leftJoin('#__hdflv_user b ON b.member_id = a.id');
+		}
+		else
+		{
+			$query->select($db->quoteName(array('a.id','a.name','a.username','a.email','a.registerDate','a.block','a.allowupload')))
+					->from($db->quoteName('#__users a'))
+					->leftJoin('#__hdflv_user b ON b.member_id = a.id');
+		}
+
+		// Filter variable for member order
 		$strMemberOrder = $mainframe->getUserStateFromRequest($option . 'filter_order_member', 'filter_order', 'name', 'cmd');
-		// filter variable for member order direction
-		$strMemberDir = $mainframe->getUserStateFromRequest($option . 'filter_order_Dir_member', 'filter_order_Dir', 'asc', 'word');
-		// filter variable for member name search
-		$strMemberSearch = $mainframe->getUserStateFromRequest($option . 'member_search', 'member_search', '', 'string');
-		// filter variable for member status
-		$strMemberStatus = $mainframe->getUserStateFromRequest($option . 'member_status', 'member_status', '', 'int');
-		// filter variable for member upload
-		$strMemberUpload = $mainframe->getUserStateFromRequest($option . 'member_upload', 'member_upload', '', 'int');
-		/**
-		 * for page navigation
-		 * get default list limit from global settings
-		 * and limit start @ initial value is 0
-		 * */
-$search1=$strMemberSearch;
- $strMemberSearch = $this->phpSlashes($strMemberSearch);
-		$limit = $mainframe->getUserStateFromRequest($option.'limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
-		$limitstart = $mainframe->getUserStateFromRequest($option.'limitstart', 'limitstart', 0, 'int');
 
-		$arrMemberFilter['filter_order_Dir']= $strMemberDir;
-		$arrMemberFilter['filter_order']= $strMemberOrder;
-		
-		// filtering based on search keyword
+		// Filter variable for member order direction
+		$strMemberDir = $mainframe->getUserStateFromRequest($option . 'filter_order_Dir_member', 'filter_order_Dir', 'asc', 'word');
+
+		// Filter variable for member name search
+		$strMemberSearch = $mainframe->getUserStateFromRequest($option . 'member_search', 'member_search', '', 'string');
+
+		// Filter variable for member status
+		$strMemberStatus = $mainframe->getUserStateFromRequest($option . 'member_status', 'member_status', '', 'int');
+
+		// Filter variable for member upload
+		$strMemberUpload = $mainframe->getUserStateFromRequest($option . 'member_upload', 'member_upload', '', 'int');
+		$search1 = $strMemberSearch;
+		$strMemberSearch = $this->phpSlashes($strMemberSearch);
+		$limit = $mainframe->getUserStateFromRequest($option . 'limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
+		$limitstart = $mainframe->getUserStateFromRequest($option . 'limitstart', 'limitstart', 0, 'int');
+
+		$arrMemberFilter['filter_order_Dir'] = $strMemberDir;
+		$arrMemberFilter['filter_order'] = $strMemberOrder;
+
+		// Filtering based on search keyword
 		if ($strMemberSearch)
 		{
-			$mainQuery .= " WHERE a.name LIKE '%$strMemberSearch%'";
+			$dbescape_search = $db->quote('%' . $db->escape($strMemberSearch, true) . '%');
+			$query->where('(a.name LIKE ' . $dbescape_search . ')');
 			$arrMemberFilter['member_search'] = $search1;
 		}
-		
-                if ($strMemberSearch && $strMemberStatus)
+
+		if ($strMemberSearch && $strMemberStatus)
 		{
-                    $mainQuery .= " AND";
-                } else if ( !$strMemberSearch && $strMemberStatus)
+			$query->where(' AND');
+		}
+		elseif (!$strMemberSearch && $strMemberStatus)
 		{
-                    $mainQuery .= " WHERE";
-                }
-		// filtering based on status
-		if($strMemberUpload) {
-			$strMemberUploadVal = ($strMemberUpload == '1')?'1':'0';
-			$mainQuery .= " b.allowupload = $strMemberUploadVal";
+			$query->where('');
+		}
+
+		// Filtering based on status
+		if ($strMemberUpload)
+		{
+			$strMemberUploadVal = ($strMemberUpload == '1') ? '1' : '0';
+			$query->where(' b.allowupload = ' . $strMemberUploadVal);
 			$arrMemberFilter['member_upload'] = $strMemberUpload;
 		}
-		
-		// filtering based on status
-		if($strMemberStatus) {
-			$strMemberStatusVal = ($strMemberStatus == '1')?'0':'1';
-			$mainQuery .= " a.block = $strMemberStatusVal";
+
+		// Filtering based on status
+		if ($strMemberStatus)
+		{
+			$strMemberStatusVal = ($strMemberStatus == '1') ? '0' : '1';
+			$query->where(' a.block = ' . $strMemberStatusVal);
 			$arrMemberFilter['member_status'] = $strMemberStatus;
 		}
-		$mainQuery .= " ORDER BY $strMemberOrder $strMemberDir";
-			
-		$db->setQuery($mainQuery);
+
+		$query->order($db->escape($strMemberOrder . ' ' . $strMemberDir));
+		$db->setQuery($query);
 		$settingupload = $db->loadObjectList();
 		$strMemberCount = count($settingupload);
-			
-		// set pagination
+
+		// Set pagination
 		$pageNav = new JPagination($strMemberCount, $limitstart, $limit);
-			
-		$mainQuery .= " LIMIT $pageNav->limitstart,$pageNav->limit";
-		$db->setQuery( $mainQuery );
+
+		$db->setQuery($query, $pageNav->limitstart, $pageNav->limit);
 		$memberdetails = $db->loadObjectList();
 
-		$query = "SELECT `dispenable` FROM #__hdflv_site_settings";
-		$db->setQuery( $query );
+		$query->select('dispenable')
+				->from('#__hdflv_site_settings');
+		$db->setQuery($query);
 		$res_disenable = $db->loadResult();
 		$ser_disenable = unserialize($res_disenable);
 		$disenable = $ser_disenable['allowupload'];
-		/**
-		 * get the most recent database error code
-		 * display the last database error message in a standard format
-		 *
-		 */
+
+		// Display the last database error message in a standard format
 		if ($db->getErrorNum())
 		{
 			JError::raiseWarning($db->getErrorNum(), $db->stderr());
-		}	
-		
-		return array('pageNav' => $pageNav,'limitstart'=>$limitstart,'memberFilter'=>$arrMemberFilter,'memberdetails'=>$memberdetails,'settingupload'=>$disenable);
+		}
 
+		return array(
+			'pageNav' => $pageNav, 'limitstart' => $limitstart, 'memberFilter' => $arrMemberFilter,
+			'memberdetails' => $memberdetails, 'settingupload' => $disenable
+				);
 	}
 
-
 	/**
-	 * function to activate or deactivate users
+	 * Function to activate or deactivate users
+	 * 
+	 * @param   array  $arrayIDs  task array
+	 * 
+	 * @return  memberActivation
 	 */
-	function memberActivation($arrayIDs)
+	public function memberActivation($arrayIDs)
 	{
 		global $mainframe;
 		$db = $this->getDBO();
-		if($arrayIDs['task']=="publish")
+		$query = $db->getQuery(true);
+
+		if ($arrayIDs['task'] == "publish")
 		{
-			$publish=0;
+			$publish = 0;
 			$msg = 'Published Successfully';
 		}
 		else
 		{
-			$publish=1;
+			$publish = 1;
 			$msg = 'Unpublished Successfully';
 		}
-		$cids = implode( ',', $arrayIDs['cid'] );
-                if(version_compare(JVERSION, '3.0.0', 'ge')) {
-                    $query = "UPDATE #__users set block=".$publish."
-				  WHERE `id` IN ( $cids )";
-                }else{
-		$query = "UPDATE #__users set block=".$publish."
-				  WHERE usertype <> 'Super Administrator' 
-				  AND `id` IN ( $cids )";
-                }
+
+		$cids = implode(',', $arrayIDs['cid']);
+
+		if (version_compare(JVERSION, '3.0.0', 'ge'))
+		{
+			$query->update($db->quoteName('#__users'))
+				->set($db->quoteName('block') . ' = ' . $db->quote($publish))
+				->where($db->quoteName('id') . ' IN ( ' . $cids . ' )');
+		}
+		else
+		{
+			$query->update($db->quoteName('#__users'))
+				->set($db->quoteName('block') . ' = ' . $db->quote($publish))
+				->where($db->quoteName('usertype') . ' <> ' . $db->quote('Super Administrator'))
+				->where($db->quoteName('id') . ' IN ( ' . $cids . ' )');
+		}
+
 		$db->setQuery($query);
 		$db->query();
 		$link = 'index.php?option=com_contushdvideoshare&layout=memberdetails';
-		$mainframe->redirect($link, $msg,'message');
+		$mainframe->redirect($link, $msg, 'message');
 	}
 
 	/**
-	 * function to activate or deactivate user upload
+	 * Function to activate or deactivate user upload
+	 * 
+	 * @param   array  $arrayIDs  task array
+	 * 
+	 * @return  allowUpload
 	 */
-	function allowUpload($arrayIDs)
+	public function allowUpload($arrayIDs)
 	{
 		global $mainframe;
 		$db = $this->getDBO();
-		if($arrayIDs['task']=="allowupload")
+
+		if ($arrayIDs['task'] == "allowupload")
 		{
-			$publish=1;
+			$publish = 1;
 			$msg = 'Updated Successfully';
 		}
 		else
 		{
-			$publish=0;
+			$publish = 0;
 			$msg = 'Updated Successfully';
 		}
+
 		$strMemberCount = count($arrayIDs['cid']);
-		/**
-		 * execute a query
-		 */		
-		for($i=0;$i<$strMemberCount;$i++)
+
+		for ($i = 0; $i < $strMemberCount; $i++)
 		{
 			$idval = $arrayIDs['cid'][$i];
-
-			$query = "INSERT INTO #__hdflv_user (member_id,allowupload) VALUES ($idval,$publish)
-  					  ON DUPLICATE KEY UPDATE member_id=".$idval.", allowupload=".$publish;	
-			$db->setQuery($query);
+			$db->setQuery(
+					"INSERT INTO #__hdflv_user (member_id,allowupload) VALUES ($idval,$publish)
+					ON DUPLICATE KEY UPDATE member_id=" . $idval . ", allowupload=" . $publish
+					);
 			$db->query();
 		}
+
 		$link = 'index.php?option=com_contushdvideoshare&layout=memberdetails';
-		$mainframe->redirect($link, $msg,'message');	
+		$mainframe->redirect($link, $msg, 'message');
 	}
 }
-?>

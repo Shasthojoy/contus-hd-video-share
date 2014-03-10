@@ -1,43 +1,49 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Sortorder View Page
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
-// import joomla view library
-jimport( 'joomla.application.component.view');
+// Import joomla view library
+jimport('joomla.application.component.view');
 
-class contushdvideoshareViewsortorder extends ContushdvideoshareView
+/**
+ * Sortorder view class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class ContushdvideoshareViewsortorder extends ContushdvideoshareView
 {
-	//function for category sorting
-	function categorysortorder()
-	{        
-        $model = $this->getModel();
-        $sortorder = $model->categorysortordermodel();		
-		
+	/**
+	 * Function for category sorting
+	 * 
+	 * @return  categorysortorder
+	 */
+	public function categorysortorder()
+	{
+		$model = $this->getModel();
+		$sortorder = $model->categorysortordermodel();
 	}
-	
-	//function for video sorting
-	function videosortorder()
-	{        
-        $model = $this->getModel();
-        $sortorder = $model->videosortordermodel();		
-		
+
+	/**
+	 * Function for video sorting
+	 * 
+	 * @return  videosortorder
+	 */
+	public function videosortorder()
+	{
+		$model = $this->getModel();
+		$sortorder = $model->videosortordermodel();
 	}
-    
 }
-?>   

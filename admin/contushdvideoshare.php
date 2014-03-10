@@ -1,59 +1,55 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- *** @version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Administrator Controller
- * @Creation Date : March 2010
- * @Modified Date : May 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
 // No direct access to this file
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die('Restricted access');
 date_default_timezone_set('UTC');
+
 // Initialize path for video upload
-$componentPath  =  JPATH_COMPONENT;
-// if (version_compare(JVERSION, '1.6.0', 'ge')) {
-//
-// }else{
-//     if (file_exists($componentPath.'/manifest.xml')) {
-//unlink($componentPath.'/manifest.xml');
-//     }
-// }
+$componentPath = JPATH_COMPONENT;
 
- JLoader::register('contusvideoshareController', JPATH_COMPONENT.'/helpers/controller.php');
-JLoader::register('contushdvideoshareView', JPATH_COMPONENT.'/helpers/view.php');
-JLoader::register('contushdvideoshareModel', JPATH_COMPONENT.'/helpers/model.php');
-if(!defined('DS')) { define('DS',DIRECTORY_SEPARATOR); }
+JLoader::register('ContusvideoshareController', JPATH_COMPONENT . '/helpers/controller.php');
+JLoader::register('ContushdvideoshareView', JPATH_COMPONENT . '/helpers/view.php');
+JLoader::register('ContushdvideoshareModel', JPATH_COMPONENT . '/helpers/model.php');
 
-$sitePath 		= str_replace(DS.'administrator','',$componentPath);
-$videoPath 		= $sitePath.DS.'videos';
-//get the video path
-define('VPATH', $videoPath );
-//get current directory
+if (!defined('DS'))
+{
+	define('DS', DIRECTORY_SEPARATOR);
+}
+
+$sitePath = str_replace(DS . 'administrator', '', $componentPath);
+$videoPath = $sitePath . DS . 'videos';
+
+// Get the video path
+define('VPATH', $videoPath);
+
+// Get current directory
 define('FVPATH', $componentPath);
 
-$controllerName = JRequest::getCmd( 'layout','controlpanel');
-if($controllerName == 'categorylist'){
+$controllerName = JRequest::getCmd('layout', 'controlpanel');
+
+if ($controllerName == 'categorylist')
+{
 	$controllerName = 'category';
 }
-// setting variables to make menu active/deactive. 
-//Initialize to false and change to true according to current menu.
 
+// Initialize to false and change to true according to current menu.
 $category_active = $memberdetails_active = $adminvideos_active = $membervideos_active = false;
 $sitesettings_active = $settings_active = $sortorder_active = $googlead_active = $ads_active = false;
 
 switch ($controllerName)
 {
-    default:
-        $controllerName = 'controlpanel';
+	default:
+		$controllerName = 'controlpanel';
 	case "category":
 		$category_active = true;
 		break;
@@ -61,10 +57,14 @@ switch ($controllerName)
 		$memberdetails_active = true;
 		break;
 	case "adminvideos":
-		if (JRequest::getCmd('user','','get') == 'admin')
-		$adminvideos_active = true;
+		if (JRequest::getCmd('user', '', 'get') == 'admin')
+		{
+			$adminvideos_active = true;
+		}
 		else
-		$membervideos_active = true;
+		{
+			$membervideos_active = true;
+		}
 		break;
 	case "sitesettings":
 		$sitesettings_active = true;
@@ -83,8 +83,7 @@ switch ($controllerName)
 		break;
 }
 
-//adding menus
-
+// Adding menus
 JSubMenuHelper::addEntry(JText::_('Member Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos', $membervideos_active);
 JSubMenuHelper::addEntry(JText::_('Member Details'), 'index.php?option=com_contushdvideoshare&layout=memberdetails', $memberdetails_active);
 JSubMenuHelper::addEntry(JText::_('Admin Videos'), 'index.php?option=com_contushdvideoshare&layout=adminvideos&user=admin', $adminvideos_active);
@@ -94,21 +93,14 @@ JSubMenuHelper::addEntry(JText::_('Site Settings'), 'index.php?option=com_contus
 JSubMenuHelper::addEntry(JText::_('Google AdSense'), 'index.php?option=com_contushdvideoshare&layout=googlead', $googlead_active);
 JSubMenuHelper::addEntry(JText::_('Video Ads '), 'index.php?option=com_contushdvideoshare&layout=ads', $ads_active);
 
-// managing controllers
-
-// Temporary interceptor
-$task = JRequest::getCmd('task');
-
-require_once( JPATH_COMPONENT.DS.'controllers'.DS.$controllerName.'.php' );
-$controllerName = 'contushdvideoshareController'.$controllerName;
+require_once JPATH_COMPONENT . DS . 'controllers' . DS . $controllerName . '.php';
+$controllerName = 'ContushdvideoshareController' . $controllerName;
 
 // Create the controller
-$controller = new $controllerName();
+$controller = new $controllerName;
 
 // Perform the Request task
-$controller->execute( JRequest::getCmd('task') );
+$controller->execute(JRequest::getCmd('task'));
 
 // Redirect if set by the controller
 $controller->redirect();
-
-

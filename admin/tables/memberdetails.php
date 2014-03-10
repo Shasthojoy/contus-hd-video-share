@@ -1,34 +1,50 @@
 <?php
-/*
- ***********************************************************/
 /**
- * @name          : Joomla HD Video Share
- ****@version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Component Memberdetails Table
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-/*
- ***********************************************************/
 // No direct access to this file
 defined('_JEXEC') or die('Restricted Access');
-// table for memberdetails
-class Tablememberdetails extends JTable {
-	var $id = null;
-	var $name = null;
-    var $username = null;
-    var $email = null;
-    var $password = null;
-    var $created_date = null;
-    var $published = null;
 
-	function Tablememberdetails(&$db){
+/**
+ * Admin memberdetails table class.
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
+ */
+class Tablememberdetails extends JTable
+{
+	public $id = null;
+
+	public $name = null;
+
+	public $username = null;
+
+	public $email = null;
+
+	public $password = null;
+
+	public $created_date = null;
+
+	public $published = null;
+
+	/**
+	 * Function to save memberdetails
+	 * 
+	 * @param   object  &$db  Database detail
+	 * 
+	 * @return  Tablememberdetails
+	 */
+	public function Tablememberdetails(&$db)
+	{
 		parent::__construct('#__hdflv_member_details', 'id', $db);
 	}
 }
-?>

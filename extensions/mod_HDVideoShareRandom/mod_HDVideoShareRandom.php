@@ -1,45 +1,49 @@
 <?php
 /**
- * @name          : Joomla HD Video Share
- * @version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share random Videos Module
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-##  No direct access to this file
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
-##  Define DS
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
+
+// Define DS
+if (!defined('DS'))
+{
+	define('DS', DIRECTORY_SEPARATOR);
 }
-require_once( dirname(__FILE__) . DS . 'helper.php' );
-$db =  JFactory::getDBO();
+
+require_once dirname(__FILE__) . DS . 'helper.php';
 $document = JFactory::getDocument();
-if(version_compare(JVERSION,'1.7.0','ge')) {
-	$version='1.7';
-} elseif(version_compare(JVERSION,'1.6.0','ge')) {
-	$version='1.6';
-} else {
-	$version='1.5';
-        $document->addStyleSheet( JURI::base().'components/com_contushdvideoshare/css/tool_tip_15.css' );
+
+if (version_compare(JVERSION, '1.7.0', 'ge'))
+{
+	$version = '1.7';
 }
-if($version == '1.5'){
-	if(!class_exists('JHtmlString')){
-		JLoader::register('JHtmlString', JPATH_SITE.'/components/com_contushdvideoshare/string.php');
-	}
+elseif (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$version = '1.6';
 }
-if(version_compare(JVERSION,'1.6.0','ge')) {
+else
+{
+	$version = '1.5';
+	$document->addStyleSheet(JURI::base() . 'components/com_contushdvideoshare/css/tool_tip_15.css');
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
 	$jlang = JFactory::getLanguage();
-        $jlang->load('mod_HDVideoShareRandom', JPATH_SITE, $jlang->get('tag'), true);
-        $jlang->load('mod_HDVideoShareRandom', JPATH_SITE, null, true);
+	$jlang->load('mod_HDVideoShareRandom', JPATH_SITE, $jlang->get('tag'), true);
+	$jlang->load('mod_HDVideoShareRandom', JPATH_SITE, null, true);
 }
-$class	= $params->get( 'moduleclass_sfx' );
-$result = modrandomVideos::getrandomVideos();
-$result1 = modrandomVideos::getrandomVideossettings();
-require(JModuleHelper::getLayoutPath('mod_HDVideoShareRandom'));
-?>
+
+$class = $params->get('moduleclass_sfx');
+$result = ModrandomVideos::getrandomVideos();
+$result1 = ModrandomVideos::getrandomVideossettings();
+require JModuleHelper::getLayoutPath('mod_HDVideoShareRandom');

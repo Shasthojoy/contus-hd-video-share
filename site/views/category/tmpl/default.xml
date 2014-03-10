@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="Category">
 		<message>
-			<![CDATA[HD Video Share Player Category]]>
+<![CDATA[HD Video Share Player Category]]>
 		</message>
 	</layout>
 	<state>
@@ -15,14 +15,14 @@
 		</params>
 	</state>
 	<fields name="request" addfieldpath="administrator/components/com_contushdvideoshare/elements">
-	<fieldset name="request">
-		<field 
-			name="catid" 
-			type="category" 
-			label="Select Category" 
-			description="Please select a category from a list"
-			required="true"
-		/>
-	</fieldset>
-</fields>
+		<fieldset name="request">
+			<field 
+				name="catid" 
+				type="category" 
+				label="Select Category" 
+				description="Please select a category from a list"
+				required="true"
+			/>
+		</fieldset>
+	</fields>
 </metadata>

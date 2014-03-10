@@ -1,59 +1,99 @@
 <?php
 /**
- * @name          : Joomla HD Video Share
- *** @version	  : 3.5
- * @package       : apptha
- * @since         : Joomla 1.5
- * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2012 Powered by Apptha
- * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
- * @abstract      : Contus HD Video Share Category Module Install file
- * @Creation Date : March 2010
- * @Modified Date : September 2013
+ * @name       Joomla HD Video Share
+ * @SVN        3.5.1
+ * @package    Com_Contushdvideoshare
+ * @author     Apptha <assist@apptha.com>
+ * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ * @since      Joomla 1.5
+ * @Creation Date   March 2010
+ * @Modified Date   February 2014
  * */
-// Check to ensure this file is included in Joomla!
+// No direct access to this file
 defined('_JEXEC') or die('Restricted access');
 
-// Include the actual subinstaller class
+// Import Joomla filesystem library
 jimport('joomla.filesystem.folder');
+
+// Import Joomla installer library
 jimport('joomla.installer.installer');
-jimport( 'joomla.environment.uri' );
+
+// Import Joomla environment library
+jimport('joomla.environment.uri');
 
 /**
- * API entry point. Called from main installer.
+ * Categories Module installer file
+ *
+ * @package     Joomla.Contus_HD_Video_Share
+ * @subpackage  Com_Contushdvideoshare
+ * @since       1.5
  */
-class mod_HDVideoShareCategoriesInstallerScript
+class Mod_HDVideoShareCategoriesInstallerScript
 {
-    
+	/**
+	 * Joomla before installation hook for plugin
+	 * 
+	 * @param   string  $type    type
+	 * @param   string  $parent  parent value
+	 * 
+	 * @return  preflight
+	 */
+	public function preflight($type, $parent)
+	{
+	}
 
-     function preflight($type, $parent){
+	/**
+	 * Joomla installation hook for plugin
+	 * 
+	 * @param   string  $parent  parent value
+	 * 
+	 * @return  install
+	 */
+	public function install($parent)
+	{
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName('#__modules'))
+				->set($db->quoteName('published') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
+		$db->setQuery($query);
+		$db->query();
 
-}
-    function install($parent)
-		{
-       
-            $db = JFactory::getDBO();
-     $query = "UPDATE #__modules SET published='1' WHERE module='mod_HDVideoShareCategories' ";
-        $db->setQuery($query);
-        $db->query();
-$query = "SELECT id FROM #__modules WHERE module = 'mod_HDVideoShareCategories' ";
-        $db->setQuery($query);
-        $db->query();
-        $mid4 = $db->loadResult();
-        $query = "INSERT INTO #__modules_menu (moduleid) VALUES ('$mid4')";
-        $db->setQuery($query);
-        $db->query();
-}
+		$query->clear()
+				->select('id')
+				->from('#__modules')
+				->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
+		$db->setQuery($query);
+		$db->query();
+		$mid4 = $db->loadResult();
 
-/**
- * API entry point. Called from main un installer.
- */
-function postflight( $type, $parent ) {
+		$query->clear()
+				->insert($db->quoteName('#__modules_menu'))
+				->columns($db->quoteName('moduleid'))
+				->values($db->quote($mid4));
+		$db->setQuery($query);
+		$db->query();
+	}
 
-                 
+	/**
+	 * Joomla after installation hook for plugin
+	 * 
+	 * @param   string  $type    type
+	 * @param   string  $parent  parent value
+	 * 
+	 * @return  postflight
+	 */
+	public function postflight($type, $parent)
+	{
+	}
 
-}
-function uninstall() {
-   
-}
+	/**
+	 * Joomla uninstallation hook for plugin
+	 * 
+	 * @return  uninstall
+	 */
+	public function uninstall()
+	{
+	}
 }
