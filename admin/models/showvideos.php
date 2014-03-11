@@ -114,7 +114,8 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 		if (version_compare(JVERSION, '1.6.0', 'ge'))
 		{
 			// Query items are returned as an associative array
-			$query->select('g.id AS group_id')
+			$query->clear()
+					->select('g.id AS group_id')
 					->from('#__usergroups AS g')
 					->leftJoin('#__user_usergroup_map AS map ON map.group_id = g.id')
 					->where('map.user_id = ' . (int) $userid);
@@ -310,9 +311,10 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 
 			$db = JFactory::getDBO();
 			$query = $db->getQuery(true);
-			$query->select('dispenable')
+			$query->clear()
+					->select('dispenable')
 					->from('#__hdflv_site_settings')
-					->where($db->quote('id') . ' = 1');
+					->where($db->quote('id') . ' = ' . $db->quote('1'));
 			$db->setQuery($query);
 			$setting_res = $db->loadResult();
 			$dispenable = unserialize($setting_res);
@@ -409,10 +411,11 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 		$fileoption = $arrFormData['fileoption'];
 		$seoTitle = $db->quote(trim($arrFormData['title']));
 		$query = $db->getQuery(true);
-		$query->select('count(id)')
+		$query->clear()
+				->select('count(id)')
 				->from('#__hdflv_upload')
 				->where($db->quote('title') . ' = ' . $db->quote($seoTitle));
-		$db->setQuery($titlequery);
+		$db->setQuery($query);
 		$total_title = $db->loadResult();
 
 		if (!empty($total_title) || $total_title > 0)
@@ -420,12 +423,10 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 			$seoTitle = $seoTitle . rand();
 		}
 
-		$seoTitle = str_replace("+", "", $seoTitle);
-		$seoTitle = stripslashes($seoTitle);
-		$seoTitle = strtolower($seoTitle);
-		$seoTitle = preg_replace('/[&:\s]+/i', '-', $seoTitle);
-		$arrFormData['seotitle'] = preg_replace('/[#!@$%^.,:;\/&*(){}\"\'\[\]<>|?]+/i', '', $seoTitle);
-		$arrFormData['seotitle'] = preg_replace('/---|--+/i', '-', $arrFormData['seotitle']);
+		$replace_with_plus_title = strtolower(stripslashes(str_replace("+", "", $seoTitle)));
+		$replace_space_char_title = preg_replace('/[&:\s]+/i', '-', $replace_with_plus_title);
+		$replace_special_char_title = preg_replace('/[#!@$%^.,:;\/&*(){}\"\'\[\]<>|?]+/i', '', $replace_space_char_title);
+		$arrFormData['seotitle'] = preg_replace('/---|--+/i', '-', $replace_special_char_title);
 		$description = JRequest::getVar('description', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$arrFormData['description'] = $description;
 
@@ -566,7 +567,8 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 
 		$msg = 'Updated Successfully';
 		$strVideoIds = implode(',', $arrVideoId['cid']);
-		$query->update($db->quoteName('#__hdflv_upload'))
+		$query->clear()
+				->update($db->quoteName('#__hdflv_upload'))
 				->set($db->quoteName('featured') . ' = ' . $db->quote($publish))
 				->where($db->quoteName('id') . ' IN ' . $db->quote($strVideoIds));
 		$db->setQuery($query);
@@ -595,7 +597,8 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 		// Query for delete the comments
 		if ($commentId)
 		{
-			$query->delete($db->quoteName('#__hdflv_comments'))
+			$query->clear()
+					->delete($db->quoteName('#__hdflv_comments'))
 					->where($db->quoteName('id') . ' = ' . $db->quote($commentId) . ' OR ' . $db->quoteName('parentid') . ' = ' . $db->quote($commentId));
 			$db->setQuery($query);
 			$db->query();
@@ -677,7 +680,8 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 		// Variable initialization
 		global $db;
 		$query = $db->getQuery(true);
-		$query->select(array('count(id)'))
+		$query->clear()
+				->select(array('count(id)'))
 				->from('#__hdflv_comments')
 				->where($db->quoteName('videoid') . ' = ' . $db->quote($videoId));
 		$db->setQuery($query);

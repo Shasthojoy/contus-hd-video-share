@@ -60,7 +60,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 			$query->clear()
 					->select(array('DISTINCT a.*', 'b.category'))
 					->from('#__hdflv_upload AS a')
-					->leftJoin('#__hdflv_video_category AS b ON a.playlistid=b.id');
+					->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id');
 
 			if ($publish != '')
 			{
@@ -86,7 +86,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 				$query->clear()
 						->select(array('DISTINCT a.*', 'b.category'))
 						->from('#__hdflv_upload AS a')
-						->leftJoin('#__hdflv_video_category AS b ON a.playlistid=b.id or a.playlistid=b.parent_id');
+						->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id or a.playlistid=b.parent_id');
 
 				if ($publish != '')
 				{
@@ -114,7 +114,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 							$query->clear()
 									->select(array('DISTINCT a.*', 'b.category'))
 									->from('#__hdflv_upload AS a')
-									->leftJoin('#__hdflv_video_category AS b ON a.playlistid=b.id');
+									->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id');
 
 							if ($publish != '')
 							{
@@ -134,7 +134,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 							$query->clear()
 									->select(array('DISTINCT a.*', 'b.category'))
 									->from('#__hdflv_upload AS a')
-									->leftJoin('#__hdflv_video_category AS b ON a.playlistid=b.id');
+									->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id');
 
 							if ($publish != '')
 							{
@@ -174,7 +174,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 					$query->clear()
 							->select(array('DISTINCT a.*', 'b.category'))
 							->from('#__hdflv_upload AS a')
-							->leftJoin('#__hdflv_video_category AS b ON a.playlistid=b.id');
+							->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id');
 
 					if ($publish != '')
 					{
@@ -206,7 +206,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 								$query->clear()
 										->select(array('DISTINCT a.*', 'b.category'))
 										->from('#__hdflv_upload AS a')
-										->leftJoin('#__hdflv_video_category AS b ON a.playlistid=b.id');
+										->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id');
 
 								if ($publish != '')
 								{
@@ -226,7 +226,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 								$query->clear()
 										->select(array('DISTINCT a.*', 'b.category'))
 										->from('#__hdflv_upload AS a')
-										->leftJoin('#__hdflv_video_category AS b ON a.playlistid=b.id');
+										->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id');
 
 								if ($publish != '')
 								{

@@ -135,7 +135,7 @@ if (posturlregex == null) {
 return;
 }
 }
-	if (document.getElementById('clickurl').value != " ") {
+	if (document.getElementById('clickurl').value != "") {
 	clickurl = document.getElementById('clickurl').value;
 	var posturlregex = clickurl.match("^(http:\/\/|https:\/\/|ftp:\/\/|www.){1}([0-9A-Za-z]+\.)");
 if (posturlregex == null) {
@@ -384,8 +384,8 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 					<td class="key"><?php echo JHTML::tooltip('Enter IMA Ad Publisher Id', 'IMA Ad Publisher Id', '', 'Publisher Id'); ?>
 					</td>
 					<td>
-						<input type="text" name="publisherId" id="publisherId" style="width: 300px" maxlength="250" value="
-							<?php
+						<input type="text" name="publisherId" id="publisherId" style="width: 300px" maxlength="250"
+							   value="<?php
 							if (isset($imaaddetail['publisherId']))
 							{
 								echo $imaaddetail['publisherId'];
@@ -398,8 +398,8 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 					<td class="key"><?php echo JHTML::tooltip('Enter IMA Ad Content Id', 'IMA Ad Content Id', '', 'Content Id'); ?>
 					</td>
 					<td>
-						<input type="text" name="contentId" id="contentId" style="width: 300px" maxlength="250" value="
-							<?php
+						<input type="text" name="contentId" id="contentId" style="width: 300px" maxlength="250"
+							   value="<?php
 							if (isset($imaaddetail['contentId']))
 							{
 								echo $imaaddetail['contentId'];
@@ -412,8 +412,8 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 					<td class="key"><?php echo JHTML::tooltip('Enter IMA Ad Channel', 'Ad Channel', '', 'Channel'); ?>
 					</td>
 					<td>
-						<input type="text" name="channels" id="channels" style="width: 300px" maxlength="250" value="
-							<?php
+						<input type="text" name="channels" id="channels" style="width: 300px" maxlength="250"
+							   value="<?php
 							if (isset($imaaddetail['channels']))
 							{
 								echo $imaaddetail['channels'];
@@ -426,8 +426,8 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 					<td class="key"><?php echo JHTML::tooltip('Enter IMA Ad Path', 'IMA Ad Path', '', 'IMA Ad Path'); ?>
 
 					</td>
-					<td><input type="text" name="imaadpath" id="imaadpath" style="width: 300px" maxlength="250" value="
-						<?php
+					<td><input type="text" name="imaadpath" id="imaadpath" style="width: 300px" maxlength="250"
+							   value="<?php
 						if (isset($imaaddetail['imaadpath']))
 						{
 							echo $imaaddetail['imaadpath'];
@@ -530,8 +530,7 @@ else
 	<input type="hidden" name="task" value="addads" /> 
 	<input type="hidden" name="boxchecked" value="1" /> 
 	<input type="hidden" name="submitted" value="true" id="submitted" /> 
-	<input type="hidden" name="fileoption" id="fileoption" value="
-		<?php
+	<input type="hidden" name="fileoption" id="fileoption" value="<?php
 		if (isset($rs_roll['rs_ads']->filepath))
 		{
 			echo $rs_roll['rs_ads']->filepath;

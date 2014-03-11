@@ -58,8 +58,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 {
 ?>
 				<label for="member_search" class="filter-search-lbl">Filter:</label>
-				<input type="text" title="Search in module title." value="
-					<?php
+				<input type="text" title="Search in module title." value="<?php
 					if (isset($arrMemberFilter['member_search']))
 					{
 						echo $arrMemberFilter['member_search'];
@@ -74,8 +73,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 else
 {
 ?>
-				<input type="text" value="
-					<?php
+				<input type="text" value="<?php
 					if (isset($arrMemberFilter['member_search']))
 					{
 						echo $arrMemberFilter['member_search'];
@@ -128,8 +126,7 @@ else
 			$firstName = JHTML::_('grid.sort', 'Name', 'name', @$arrMemberFilter['filter_order_Dir'], @$arrMemberFilter['filter_order']);
 			?>
 				<th width="1%">#</th>
-				<th width="2%"><input type="checkbox" name="toggle" value="" onclick="
-<?php
+				<th width="2%"><input type="checkbox" name="toggle" value="" onclick="<?php
 if (!version_compare(JVERSION, '3.0.0', 'ge'))
 {
 ?>
@@ -268,8 +265,7 @@ else
 		</td>
 		</tfoot>
 	</table>
-	<input type="hidden" name="id" value="
-		<?php
+	<input type="hidden" name="id" value="<?php
 		if (isset($memberDetail->id))
 		{
 			echo $memberDetail->id;

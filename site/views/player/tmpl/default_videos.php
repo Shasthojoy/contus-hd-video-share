@@ -83,9 +83,8 @@ echo JText::_('HDVS_FEATURED_VIDEOS');
 							}
 							?>
 							<li class="video-item featured_gutterwidth">
-								<a class=" info_hover featured_vidimg" rel="htmltooltip"
-								   href="
-<?php
+								<a class="info_hover featured_vidimg" rel="htmltooltip"
+								   href="<?php
 echo JRoute::_(
 		'index.php?option=com_contushdvideoshare&amp;view=player&amp;'
 		. $featureCategoryVal . '&amp;' . $featureVideoVal, true
@@ -96,8 +95,7 @@ echo JRoute::_(
 										 width="145" height="80" title="" alt="thumb_image" /></a>
 								<div class="video_thread">
 									<div class="show-title-container">
-										<a href="
-<?php
+										<a href="<?php
 echo JRoute::_(
 		'index.php?option=com_contushdvideoshare&amp;view=player&amp;'
 		. $featureCategoryVal . '&amp;' . $featureVideoVal, true
@@ -272,8 +270,7 @@ echo JHTML::_(
 							?>
 							<li class="video-item popular_gutterwidth">
 								<a class=" info_hover featured_vidimg" rel="htmltooltip1"
-								   href="
-<?php
+								   href="<?php
 echo JRoute::_(
 		'index.php?option=com_contushdvideoshare&amp;view=player&amp;'
 		. $popularCategoryVal . '&amp;' . $popularVideoVal, true
@@ -285,8 +282,7 @@ echo JRoute::_(
 								<div class="video_thread">
 
 									<div class="show-title-container" >
-										<a href = "
-<?php
+										<a href = "<?php
 echo JRoute::_(
 		'index.php?option=com_contushdvideoshare&amp;view=player&amp;'
 		. $popularCategoryVal . '&amp;' . $popularVideoVal, true
@@ -456,8 +452,7 @@ echo JHTML::_(
 							}
 							?>
 							<li class="video-item recent_gutterwidth">
-								<a class=" info_hover featured_vidimg" rel="htmltooltip2" href="
-<?php
+								<a class=" info_hover featured_vidimg" rel="htmltooltip2" href="<?php
 echo JRoute::_(
 		'index.php?option=com_contushdvideoshare&amp;view=player&amp;'
 		. $recentCategoryVal . '&amp;' . $recentVideoVal, true
@@ -469,8 +464,7 @@ echo JRoute::_(
 
 								<div class="video_thread">
 									<div class="show-title-container">
-										<a href = "
-<?php
+										<a href = "<?php
 echo JRoute::_(
 		'index.php?option=com_contushdvideoshare&amp;view=player&amp;'
 		. $recentCategoryVal . '&amp;' . $recentVideoVal, true

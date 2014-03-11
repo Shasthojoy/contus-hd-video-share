@@ -24,8 +24,7 @@ if (JRequest::getVar('option') != 'com_contushdvideoshare')
 	<form name="hsearch" id="hsearch" method="post" 
 		  action="<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=hdvideosharesearch'); ?>"
 		  enctype="multipart/form-data"  >
-		<input type="text" value="
-		<?php
+		<input type="text" value="<?php
 		$searchtxtbox = JRequest::getVar('searchtxtbox', '', 'post');
 
 		if (isset($searchtxtbox))

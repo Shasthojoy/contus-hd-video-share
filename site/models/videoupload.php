@@ -283,8 +283,8 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel
 					$streameroption = 'rtmp';
 					$streamerpath = $streamname;
 					$updatestreamer .= $db->quoteName('streamerpath') . ' = ' . $db->quote($streamname);
-					$updatestreamer .= $db->quoteName('streameroption') . ' = ' . $db->quote($streameroption);
-					$updatestreamer .= $db->quoteName('islive') . ' = ' . $db->quote($isLive);
+					$updatestreamer .= ', ' . $db->quoteName('streameroption') . ' = ' . $db->quote($streameroption);
+					$updatestreamer .= ', ' . $db->quoteName('islive') . ' = ' . $db->quote($isLive);
 				}
 
 				// Getting Hd path
@@ -391,7 +391,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel
 			$gettitle = JRequest::getVar('title', '', 'post', 'string');
 			$title = $db->quote($gettitle);
 			$getdescription = JRequest::getVar('description', '', 'post', 'string');
-			$description = $db->quote($getdescription);
+			$description = $getdescription;
 			$gettagname = JRequest::getVar('tagname', '', 'post', 'string');
 			$tags = JRequest::getVar('tags1', '', 'post', 'string');
 			$type = JRequest::getVar('type', '', 'post', 'string');
@@ -467,42 +467,42 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel
 
 				if ($hd != '')
 				{
-					$updateform .= $db->quoteName('hdurl') . ' = ' . $db->quote($hd);
+					$updateform .= ', ' . $db->quoteName('hdurl') . ' = ' . $db->quote($hd);
 				}
 				else
 				{
-					$updateform .= $db->quoteName('hdurl') . ' = ""';
+					$updateform .= ', ' . $db->quoteName('hdurl') . ' = ""';
 				}
 
 				if ($url != '')
 				{
-					$updateform .= $db->quoteName('videourl') . ' = ' . $db->quote($url);
+					$updateform .= ', ' . $db->quoteName('videourl') . ' = ' . $db->quote($url);
 				}
 				else
 				{
-					$updateform .= $db->quoteName('videourl') . ' = ""';
+					$updateform .= ', ' . $db->quoteName('videourl') . ' = ""';
 				}
 
 				if ($img != '')
 				{
-					$updateform .= $db->quoteName('thumburl') . ' = ' . $db->quote($img);
+					$updateform .= ', ' . $db->quoteName('thumburl') . ' = ' . $db->quote($img);
 				}
 				else
 				{
-					$updateform .= $db->quoteName('thumburl') . ' = ""';
+					$updateform .= ', ' . $db->quoteName('thumburl') . ' = ""';
 				}
 
 				if ($seltype == 0 || $seltype == 2 || $seltype == 1)
 				{
 					$updatestreamer .= $db->quoteName('streamerpath') . ' = ""';
-					$updatestreamer .= $db->quoteName('streameroption') . ' = ""';
+					$updatestreamer .= ', ' . $db->quoteName('streameroption') . ' = ""';
 				}
 
 				$fields = array(
 					$db->quoteName('filepath') . ' = ' . $db->quote($ftype),
 					$db->quoteName('amazons3') . ' = ' . $db->quote($s3status),
 					$db->quoteName('tags') . ' = ' . $db->quote($tags),
-					$db->quoteName('title') . ' = ' . $db->quote($title),
+					$db->quoteName('title') . ' = ' . $title,
 					$db->quoteName('seotitle') . ' = ' . $db->quote($seoTitle),
 					$db->quoteName('useraccess') . ' = ' . $db->quote($useraccess),
 					$db->quoteName('type') . ' = ' . $db->quote($type),
@@ -577,7 +577,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel
 					'playlistid', 'hdurl', 'tags', 'download', 'useraccess'
 				);
 				$values = array(
-					$db->quote($isLive), $db->quote($streamerpath), $db->quote($s3status), $db->quote($streameroption), $db->quote($title),
+					$db->quote($isLive), $db->quote($streamerpath), $db->quote($s3status), $db->quote($streameroption), $title,
 					$db->quote($seoTitle), $db->quote($ftype), $db->quote($url), $db->quote($img), $db->quote($previewurl),
 					$db->quote($adminapprove), $db->quote($type), $db->quote($memberid), $db->quote($description), $db->quote($cdate),
 					$db->quote($usergroup), $db->quote($cid), $db->quote($hd), $db->quote($tags),

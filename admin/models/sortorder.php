@@ -50,18 +50,15 @@ class ContushdvideoshareModelsortorder extends ContushdvideoshareModel
 		}
 
 		$query->clear()
-				->update($db->quoteName('#__hdflv_upload'))
-				->set($db->quoteName('ordering') . ' = CASE id');
+				->update($db->quoteName('#__hdflv_upload'));
 
 		foreach ($listitems as $position => $item)
 		{
-			$query->set($db->quoteName('impmade') . ' = ' . $db->quote(0));
 			$sql .= sprintf("WHEN %d THEN %d ", $item, $position);
 		}
 
-		$query->set($sql)
-				->set(' END')
-				->where($db->quoteName('id') . ' IN ' . $db->quote($ids));
+		$query->set($db->quoteName('ordering') . ' = CASE id ' . $sql . ' END')
+				->where($db->quoteName('id') . ' IN (' . $ids . ')');
 		$db->setQuery($query);
 		$db->query();
 

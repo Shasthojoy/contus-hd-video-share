@@ -103,11 +103,11 @@ class Modelcontushdvideosharehdvideosharesearch extends ContushdvideoshareModel
 				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
 				->where(
 						'(' . $db->quoteName('c.title') . ' LIKE '
-						. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-						. $db->quoteName('c.description') . ' LIKE '
-						. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-						. $db->quoteName('c.tags') . ' LIKE '
-						. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
+						. $db->quote('%' . $search . '%', false)
+						. ' || ' . $db->quoteName('c.description') . ' LIKE '
+						. $db->quote('%' . $search . '%', false)
+						. ' || ' . $db->quoteName('c.tags') . ' LIKE '
+						. $db->quote('%' . $search . '%', false)
 						. ')'
 				)
 				->group($db->escape('c.id'));
@@ -136,11 +136,11 @@ class Modelcontushdvideosharehdvideosharesearch extends ContushdvideoshareModel
 						->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
 						->where(
 								'(' . $db->quoteName('c.title') . ' LIKE '
-								. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-								. $db->quoteName('c.description') . ' LIKE '
-								. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-								. $db->quoteName('c.tags') . ' LIKE '
-								. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
+								. $db->quote('%' . $search . '%', false)
+								. ' || ' . $db->quoteName('c.description') . ' LIKE '
+								. $db->quote('%' . $search . '%', false)
+								. ' || ' . $db->quoteName('c.tags') . ' LIKE '
+								. $db->quote('%' . $search . '%', false)
 								. ')'
 						)
 						->group($db->escape('c.id'));
@@ -233,11 +233,11 @@ class Modelcontushdvideosharehdvideosharesearch extends ContushdvideoshareModel
 						->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
 						->where(
 								'(' . $db->quoteName('c.title') . ' LIKE '
-								. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-								. $db->quoteName('c.description') . ' LIKE '
-								. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-								. $db->quoteName('c.tags') . ' LIKE '
-								. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
+								. $db->quote('%' . $search . '%', false)
+								. ' || ' . $db->quoteName('c.description') . ' LIKE '
+								. $db->quote('%' . $search . '%', false)
+								. ' || ' . $db->quoteName('c.tags') . ' LIKE '
+								. $db->quote('%' . $search . '%', false)
 								. ')'
 						)
 						->group($db->escape('c.id'));

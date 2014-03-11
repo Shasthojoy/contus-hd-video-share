@@ -163,9 +163,10 @@ class UploadFileHelper
 		$db = $this->getDBO();
 		$s3bucket_video = $s3bucket_thumb = $s3bucket_pre = $s3bucket_srt1 = $s3bucket_srt2 = $s3bucket_hdurl = 0;
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName(array('dispenable')))
+		$query->clear()
+				->select($db->quoteName(array('dispenable')))
 				->from($db->quoteName('#__hdflv_site_settings'))
-				->where($db->quoteName('id') . '1');
+				->where($db->quote('id') . ' = ' . $db->quote('1'));
 		$db->setQuery($query);
 		$setting_res = $db->loadResult();
 		$dispenable = unserialize($setting_res);
@@ -395,7 +396,8 @@ class UploadFileHelper
 		);
 
 		//  Update streamer option,thumb url and file path
-		$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+		$query->clear()
+				->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 		$db->setQuery($query);
 		$db->query();
 	}
@@ -454,7 +456,8 @@ class UploadFileHelper
 		);
 
 		//  Update streamer option,thumb url and file path
-		$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+		$query->clear()
+				->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 		$db->setQuery($query);
 		$db->query();
 

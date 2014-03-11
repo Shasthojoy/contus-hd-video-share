@@ -39,15 +39,17 @@ class UploadFfmpegHelper
 
 		// Query for get HEIGTH,WIDTH player size and FFMPEG path from player settings
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName(array('player_values')))
+		$query->clear()
+				->select($db->quoteName(array('player_values')))
 				->from($db->quoteName('#__hdflv_player_settings'));
 		$db->setQuery($query);
 		$arrPlayerSettings = $db->loadResult();
 		$player_values = unserialize($arrPlayerSettings);
 
-		$query->select($db->quoteName(array('dispenable')))
+		$query->clear()
+				->select($db->quoteName(array('dispenable')))
 				->from($db->quoteName('#__hdflv_site_settings'))
-				->where($db->quoteName('id') . '1');
+				->where($db->quote('id') . ' = ' . $db->quote('1'));
 		$db->setQuery($query);
 		$setting_res = $db->loadResult();
 		$dispenable = unserialize($setting_res);
@@ -189,7 +191,8 @@ class UploadFfmpegHelper
 					$conditions = array(
 						$db->quoteName('id') . '=' . $idval
 					);
-					$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+					$query->clear()
+							->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 					$db->setQuery($query);
 					$db->query();
 				}
@@ -205,7 +208,8 @@ class UploadFfmpegHelper
 					$conditions = array(
 						$db->quoteName('id') . '=' . $idval
 					);
-					$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+					$query->clear()
+							->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 					$db->setQuery($query);
 					$db->query();
 				}
@@ -223,7 +227,8 @@ class UploadFfmpegHelper
 					$conditions = array(
 						$db->quoteName('id') . '=' . $idval
 					);
-					$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+					$query->clear()
+							->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 					$db->setQuery($query);
 					$db->query();
 				}
@@ -241,7 +246,8 @@ class UploadFfmpegHelper
 					$conditions = array(
 						$db->quoteName('id') . '=' . $idval
 					);
-					$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+					$query->clear()
+							->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 					$db->setQuery($query);
 					$db->query();
 				}
@@ -316,7 +322,8 @@ class UploadFfmpegHelper
 					$conditions = array(
 						$db->quoteName('id') . '=' . $idval
 					);
-					$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+					$query->clear()
+							->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 					$db->setQuery($query);
 					$db->query();
 				}
@@ -334,7 +341,8 @@ class UploadFfmpegHelper
 					$conditions = array(
 						$db->quoteName('id') . '=' . $idval
 					);
-					$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+					$query->clear()
+							->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 					$db->setQuery($query);
 					$db->query();
 				}
@@ -352,7 +360,8 @@ class UploadFfmpegHelper
 					$conditions = array(
 						$db->quoteName('id') . '=' . $idval
 					);
-					$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+					$query->clear()
+							->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 					$db->setQuery($query);
 					$db->query();
 				}
@@ -377,7 +386,8 @@ class UploadFfmpegHelper
 		);
 
 		// To update the video file name in database table
-		$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+		$query->clear()
+				->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 		$db->setQuery($query);
 		$db->query();
 

@@ -48,7 +48,8 @@ class UploadEmbedHelper
 		$conditions = array(
 			$db->quoteName('id') . '=' . $idval
 		);
-		$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+		$query->clear()
+				->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 		$db->setQuery($query);
 		$db->query();
 

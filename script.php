@@ -113,8 +113,9 @@ class Com_ContushdvideoshareInstallerScript
 				}
 			}
 
-			$query->select('*')
-					->from($db->nameQuote('#__hdflv_player_settings'));
+			$query->clear()
+					->select('*')
+					->from($db->quoteName('#__hdflv_player_settings'));
 			$db->setQuery($query);
 			$playersettingstabeResult = $db->loadObject();
 
@@ -139,10 +140,9 @@ class Com_ContushdvideoshareInstallerScript
 					'zoom' => $playersettingstabeResult->zoom,
 					'timer' => $playersettingstabeResult->timer,
 					'showTag' => 0,
-					'shareurl' => $playersettingstabeResult->shareurl,
+					'shareurl' => $db->quote($playersettingstabeResult->shareurl),
 					'emailenable' => 1,
-					'login_page_url' => $playersettingstabeResult->login_page_url,
-					'volumevisible' => 1,
+					'login_page_url' => $db->quote($playersettingstabeResult->login_page_url),
 					'embedVisible' => 1,
 					'progressControl' => 1,
 					'skinvisible' => 0,
@@ -182,24 +182,24 @@ class Com_ContushdvideoshareInstallerScript
 					'fullscreenscale' => $playersettingstabeResult->fullscreenscale,
 					'volume' => $playersettingstabeResult->volume,
 					'nrelated' => $playersettingstabeResult->nrelated,
-					'ffmpegpath' => $playersettingstabeResult->ffmpegpath,
+					'ffmpegpath' => $db->quote($playersettingstabeResult->ffmpegpath),
 					'stagecolor' => $playersettingstabeResult->stagecolor,
-					'licensekey' => $playersettingstabeResult->licensekey,
-					'logourl' => $playersettingstabeResult->logourl,
+					'licensekey' => $db->quote($playersettingstabeResult->licensekey),
+					'logourl' => $db->quote($playersettingstabeResult->logourl),
 					'logoalpha' => $playersettingstabeResult->logoalpha,
-					'logoalign' => $playersettingstabeResult->logoalign,
+					'logoalign' => $db->quote($playersettingstabeResult->logoalign),
 					'adsSkipDuration' => 5,
 					'skin_opacity' => 1,
 					'subTitleColor' => '',
 					'subTitleBgColor' => '',
 					'subTitleFontFamily' => '',
 					'subTitleFontSize' => '',
-					'googleanalyticsID' => $playersettingstabeResult->googleanalyticsID,
+					'googleanalyticsID' => $db->quote($playersettingstabeResult->googleanalyticsID),
 					'midbegin' => $playersettingstabeResult->midbegin,
 					'midinterval' => $playersettingstabeResult->midinterval,
 					'related_videos' => $playersettingstabeResult->related_videos,
-					'relatedVideoView' => 'side',
-					'login_page_url' => $playersettingstabeResult->login_page_url
+					'relatedVideoView' => $db->quote('side'),
+					'login_page_url' => $db->quote($playersettingstabeResult->login_page_url)
 				);
 				$arrplayer_values = serialize($updateplayer_values);
 				$query->clear()
@@ -237,8 +237,9 @@ class Com_ContushdvideoshareInstallerScript
 				}
 			}
 
-			$query->select('*')
-					->from($db->nameQuote('#__hdflv_site_settings'));
+			$query->clear()
+					->select('*')
+					->from($db->quoteName('#__hdflv_site_settings'));
 			$db->setQuery($query);
 			$settingstabeResult = $db->loadObject();
 
@@ -341,8 +342,9 @@ class Com_ContushdvideoshareInstallerScript
 			}
 			else
 			{
-				$query->select('sidethumbview')
-						->from($db->nameQuote('#__hdflv_site_settings'));
+				$query->clear()
+						->select('sidethumbview')
+						->from($db->quoteName('#__hdflv_site_settings'));
 				$db->setQuery($query);
 				$sidethumbviewResult = $db->loadResult();
 				$upgradesidethumbview = unserialize($sidethumbviewResult);
@@ -388,16 +390,16 @@ class Com_ContushdvideoshareInstallerScript
 					'seo_option' => $settingstabeResult->seo_option,
 					'adminapprove' => 0,
 					'categoryplayer' => 0,
-					'upload_methods' => 'Upload,Youtube,URL,RTMP',
-					'language_settings' => 'English.php',
+					'upload_methods' => $db->quote('Upload,Youtube,URL,RTMP'),
+					'language_settings' => $db->quote('English.php'),
 					'disqusapi' => '',
 					'amazons3' => 0,
 					'amazons3name' => '',
 					'amazons3accesskey' => '',
 					'amazons3accesssecretkey_area' => '',
-					'facebookapi' => $settingstabeResult->facebookapi,
-					'comment' => $settingstabeResult->comment,
-					'facebooklike' => $settingstabeResult->facebooklike
+					'facebookapi' => $db->quote($settingstabeResult->facebookapi),
+					'comment' => $db->quote($settingstabeResult->comment),
+					'facebooklike' => $db->quote($settingstabeResult->facebooklike)
 				);
 				$arrdispenable = serialize($sitedispenable);
 				$query->clear()
@@ -408,8 +410,9 @@ class Com_ContushdvideoshareInstallerScript
 			}
 			else
 			{
-				$query->select('dispenable')
-						->from($db->nameQuote('#__hdflv_site_settings'));
+				$query->clear()
+						->select('dispenable')
+						->from($db->quoteName('#__hdflv_site_settings'));
 				$db->setQuery($query);
 				$dispenableResult = $db->loadResult();
 				$upgradedisp = unserialize($dispenableResult);
@@ -788,7 +791,9 @@ class Com_ContushdvideoshareInstallerScript
 							implode(
 									',',
 									array(
-										1, '', 1, 10, '0', 0, 10, 0, '0', '0'
+										$db->quote('1'), $db->quote(''), $db->quote('1'), $db->quote('10'),
+										$db->quote('0'), $db->quote('0'), $db->quote('10'), $db->quote('0'),
+										$db->quote('0'), $db->quote('0')
 										)
 									)
 							);
@@ -811,28 +816,28 @@ class Com_ContushdvideoshareInstallerScript
 			$db->query();
 
 			// Create sample data for player settings table
-			$player_colors = 'a:18:{s:21:"sharepanel_up_BgColor";s:0:"";s:23:"sharepanel_down_BgColor";s:0:"";
-				s:19:"sharepaneltextColor";s:0:"";s:15:"sendButtonColor";s:0:"";s:19:"sendButtonTextColor";s:0:"";
-				s:9:"textColor";s:0:"";s:11:"skinBgColor";s:0:"";s:13:"seek_barColor";s:0:"";s:15:"buffer_barColor";
-				s:0:"";s:13:"skinIconColor";s:0:"";s:11:"pro_BgColor";s:0:"";s:15:"playButtonColor";s:0:"";
-				s:17:"playButtonBgColor";s:0:"";s:17:"playerButtonColor";s:0:"";s:19:"playerButtonBgColor";s:0:"";
-				s:19:"relatedVideoBgColor";s:0:"";s:15:"scroll_barColor";s:0:"";s:14:"scroll_BgColor";s:0:"";}';
-			$player_icons = 'a:28:{s:8:"autoplay";s:1:"1";s:17:"playlist_autoplay";s:1:"0";s:13:"playlist_open";
-				s:1:"1";s:13:"skin_autohide";s:1:"1";s:10:"fullscreen";s:1:"1";s:4:"zoom";s:1:"1";s:5:"timer";
-				s:1:"1";s:7:"showTag";s:1:"1";s:8:"shareurl";s:1:"1";s:11:"emailenable";s:1:"1";s:14:"login_page_url";
-				s:0:"";s:13:"volumevisible";N;s:12:"embedVisible";s:1:"1";s:15:"progressControl";s:1:"1";
-				s:11:"skinvisible";s:1:"0";s:9:"hddefault";s:1:"1";s:12:"imageDefault";s:1:"1";s:14:"enabledownload";
-				s:1:"1";s:10:"prerollads";N;s:11:"postrollads";N;s:6:"imaads";N;s:13:"volumecontrol";s:1:"1";
-				s:7:"adsSkip";N;s:10:"midrollads";s:1:"0";s:8:"midbegin";s:0:"";s:9:"midrandom";s:1:"0";
-				s:11:"midadrotate";s:1:"0";s:17:"googleana_visible";N;}';
-			$player_values = 'a:25:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"700";s:6:"height";s:3:"500";
-				s:11:"normalscale";s:1:"1";s:15:"fullscreenscale";s:1:"1";s:6:"volume";s:2:"50";s:8:"nrelated";
-				i:8;s:10:"ffmpegpath";s:15:"/usr/bin/ffmpeg";s:12:"skin_opacity";s:1:"1";s:13:"subTitleColor";
-				s:0:"";s:15:"subTitleBgColor";s:0:"";s:18:"subTitleFontFamily";s:0:"";s:16:"subTitleFontSize";
-				s:0:"";s:10:"stagecolor";s:8:"0x000000";s:10:"licensekey";s:0:"";s:7:"logourl";s:0:"";s:9:"logoalpha";
-				s:3:"100";s:9:"logoalign";s:2:"TR";s:15:"adsSkipDuration";s:0:"";s:17:"googleanalyticsID";s:0:"";
-				s:8:"midbegin";s:0:"";s:11:"midinterval";s:0:"";s:14:"related_videos";s:1:"1";s:16:"relatedVideoView";
-				s:4:"side";s:14:"login_page_url";s:0:"";}';
+			$player_colors = 'a:18:{s:21:"sharepanel_up_BgColor";s:0:"";s:23:"sharepanel_down_BgColor";s:0:"";'
+					. 's:19:"sharepaneltextColor";s:0:"";s:15:"sendButtonColor";s:0:"";s:19:"sendButtonTextColor";s:0:"";'
+					. 's:9:"textColor";s:0:"";s:11:"skinBgColor";s:0:"";s:13:"seek_barColor";s:0:"";s:15:"buffer_barColor";'
+					. 's:0:"";s:13:"skinIconColor";s:0:"";s:11:"pro_BgColor";s:0:"";s:15:"playButtonColor";s:0:"";'
+					. 's:17:"playButtonBgColor";s:0:"";s:17:"playerButtonColor";s:0:"";s:19:"playerButtonBgColor";s:0:"";'
+					. 's:19:"relatedVideoBgColor";s:0:"";s:15:"scroll_barColor";s:0:"";s:14:"scroll_BgColor";s:0:"";}';
+			$player_icons = 'a:27:{s:8:"autoplay";s:1:"1";s:17:"playlist_autoplay";s:1:"0";s:13:"playlist_open";'
+					. 's:1:"1";s:13:"skin_autohide";s:1:"1";s:10:"fullscreen";s:1:"1";s:4:"zoom";s:1:"1";s:5:"timer";'
+					. 's:1:"1";s:7:"showTag";s:1:"1";s:8:"shareurl";s:1:"1";s:11:"emailenable";s:1:"1";s:14:"login_page_url";'
+					. 's:0:"";s:12:"embedVisible";s:1:"1";s:15:"progressControl";s:1:"1";'
+					. 's:11:"skinvisible";s:1:"0";s:9:"hddefault";s:1:"1";s:12:"imageDefault";s:1:"1";s:14:"enabledownload";'
+					. 's:1:"1";s:10:"prerollads";N;s:11:"postrollads";N;s:6:"imaads";N;s:13:"volumecontrol";s:1:"1";'
+					. 's:7:"adsSkip";N;s:10:"midrollads";s:1:"0";s:8:"midbegin";s:0:"";s:9:"midrandom";s:1:"0";'
+					. 's:11:"midadrotate";s:1:"0";s:17:"googleana_visible";N;}';
+			$player_values = 'a:25:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"700";s:6:"height";s:3:"500";'
+					. 's:11:"normalscale";s:1:"1";s:15:"fullscreenscale";s:1:"1";s:6:"volume";s:2:"50";s:8:"nrelated";'
+					. 'i:8;s:10:"ffmpegpath";s:15:"/usr/bin/ffmpeg";s:12:"skin_opacity";s:1:"1";s:13:"subTitleColor";'
+					. 's:0:"";s:15:"subTitleBgColor";s:0:"";s:18:"subTitleFontFamily";s:0:"";s:16:"subTitleFontSize";'
+					. 's:0:"";s:10:"stagecolor";s:8:"0x000000";s:10:"licensekey";s:0:"";s:7:"logourl";s:0:"";s:9:"logoalpha";'
+					. 's:3:"100";s:9:"logoalign";s:2:"TR";s:15:"adsSkipDuration";s:0:"";s:17:"googleanalyticsID";s:0:"";'
+					. 's:8:"midbegin";s:0:"";s:11:"midinterval";s:0:"";s:14:"related_videos";s:1:"1";s:16:"relatedVideoView";'
+					. 's:4:"side";s:14:"login_page_url";s:0:"";}';
 
 			$column_settings = array(
 				'id', 'published', 'uploadmaxsize', 'logopath', 'player_colors', 'player_icons', 'player_values'
@@ -844,7 +849,8 @@ class Com_ContushdvideoshareInstallerScript
 							implode(
 									',',
 									array(
-										1, 1, 100, '', $db->quote($player_colors), $db->quote($player_icons),
+										$db->quote('1'), $db->quote('1'), $db->quote('100'), $db->quote(''),
+										$db->quote($player_colors), $db->quote($player_icons),
 										$db->quote($player_values)
 										)
 									)
@@ -868,31 +874,31 @@ class Com_ContushdvideoshareInstallerScript
 			$db->query();
 
 			// Create sample data for site settings table
-			$homethumbview = 'a:15:{s:16:"homepopularvideo";s:1:"1";s:19:"homepopularvideorow";s:1:"1";
-				s:19:"homepopularvideocol";s:1:"4";s:17:"homefeaturedvideo";s:1:"1";s:20:"homefeaturedvideorow";
-				s:1:"1";s:20:"homefeaturedvideocol";s:1:"4";s:15:"homerecentvideo";s:1:"1";s:18:"homerecentvideorow";
-				s:1:"1";s:18:"homerecentvideocol";s:1:"4";s:21:"homepopularvideoorder";s:1:"1";
-				s:22:"homefeaturedvideoorder";s:1:"2";s:20:"homerecentvideoorder";s:1:"3";s:21:"homepopularvideowidth";
-				s:2:"20";s:22:"homefeaturedvideowidth";s:2:"20";s:20:"homerecentvideowidth";s:2:"20";}';
-			$disenable = 'a:18:{s:11:"allowupload";s:1:"1";s:12:"adminapprove";s:1:"1";s:10:"user_login";s:1:"1";
-				s:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:11:"reportvideo";s:1:"0";
-				s:14:"categoryplayer";s:1:"0";s:10:"seo_option";s:1:"0";s:14:"upload_methods";
-				s:23:"Upload,Youtube,URL,RTMP";s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:0:"";
-				s:11:"facebookapi";s:0:"";s:7:"comment";s:1:"2";s:8:"amazons3";s:1:"0";s:12:"amazons3name";s:0:"";
-				s:17:"amazons3accesskey";s:0:"";s:28:"amazons3accesssecretkey_area";s:0:"";s:12:"facebooklike";
-				s:1:"1";}';
-			$thumbview = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";
-				s:9:"recentcol";s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";
-				s:1:"3";s:10:"popularcol";s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";
-				s:1:"3";s:10:"relatedcol";s:1:"4";s:11:"featurwidth";s:2:"20";s:11:"recentwidth";s:2:"20";
-				s:13:"categorywidth";s:2:"20";s:12:"popularwidth";s:2:"20";s:11:"searchwidth";s:2:"20";
-				s:12:"relatedwidth";s:2:"20";s:15:"memberpagewidth";s:2:"20";s:13:"memberpagerow";s:1:"3";
-				s:13:"memberpagecol";s:1:"4";s:10:"myvideorow";s:1:"4";s:10:"myvideocol";s:1:"2";s:12:"myvideowidth";
-				s:2:"20";}';
-			$sidethumbview = 'a:10:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideocol";s:1:"1";
-				s:20:"sidefeaturedvideorow";s:1:"2";s:20:"sidefeaturedvideocol";s:1:"1";s:19:"siderelatedvideorow";
-				s:1:"3";s:19:"siderelatedvideocol";s:1:"1";s:18:"siderecentvideorow";s:1:"3";s:18:"siderecentvideocol";
-				s:1:"1";s:18:"siderandomvideorow";s:1:"3";s:18:"siderandomvideocol";s:1:"1";}';
+			$homethumbview = 'a:15:{s:16:"homepopularvideo";s:1:"1";s:19:"homepopularvideorow";s:1:"1";'
+					. 's:19:"homepopularvideocol";s:1:"4";s:17:"homefeaturedvideo";s:1:"1";s:20:"homefeaturedvideorow";'
+					. 's:1:"1";s:20:"homefeaturedvideocol";s:1:"4";s:15:"homerecentvideo";s:1:"1";s:18:"homerecentvideorow";'
+					. 's:1:"1";s:18:"homerecentvideocol";s:1:"4";s:21:"homepopularvideoorder";s:1:"1";'
+					. 's:22:"homefeaturedvideoorder";s:1:"2";s:20:"homerecentvideoorder";s:1:"3";s:21:"homepopularvideowidth";'
+					. 's:2:"20";s:22:"homefeaturedvideowidth";s:2:"20";s:20:"homerecentvideowidth";s:2:"20";}';
+			$disenable = 'a:18:{s:11:"allowupload";s:1:"1";s:12:"adminapprove";s:1:"1";s:10:"user_login";s:1:"1";'
+					. 's:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:11:"reportvideo";s:1:"0";'
+					. 's:14:"categoryplayer";s:1:"0";s:10:"seo_option";s:1:"0";s:14:"upload_methods";'
+					. 's:23:"Upload,Youtube,URL,RTMP";s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:0:"";'
+					. 's:11:"facebookapi";s:0:"";s:7:"comment";s:1:"2";s:8:"amazons3";s:1:"0";s:12:"amazons3name";s:0:"";'
+					. 's:17:"amazons3accesskey";s:0:"";s:28:"amazons3accesssecretkey_area";s:0:"";s:12:"facebooklike";'
+					. 's:1:"1";}';
+			$thumbview = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";'
+					. 's:9:"recentcol";s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";'
+					. 's:1:"3";s:10:"popularcol";s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";'
+					. 's:1:"3";s:10:"relatedcol";s:1:"4";s:11:"featurwidth";s:2:"20";s:11:"recentwidth";s:2:"20";'
+					. 's:13:"categorywidth";s:2:"20";s:12:"popularwidth";s:2:"20";s:11:"searchwidth";s:2:"20";'
+					. 's:12:"relatedwidth";s:2:"20";s:15:"memberpagewidth";s:2:"20";s:13:"memberpagerow";s:1:"3";'
+					. 's:13:"memberpagecol";s:1:"4";s:10:"myvideorow";s:1:"4";s:10:"myvideocol";s:1:"2";s:12:"myvideowidth";'
+					. 's:2:"20";}';
+			$sidethumbview = 'a:10:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideocol";s:1:"1";'
+					. 's:20:"sidefeaturedvideorow";s:1:"2";s:20:"sidefeaturedvideocol";s:1:"1";s:19:"siderelatedvideorow";'
+					. 's:1:"3";s:19:"siderelatedvideocol";s:1:"1";s:18:"siderecentvideorow";s:1:"3";s:18:"siderecentvideocol";'
+					. 's:1:"1";s:18:"siderandomvideorow";s:1:"3";s:18:"siderandomvideocol";s:1:"1";}';
 			$column_site_settings = array(
 						'id', 'published', 'homethumbview', 'dispenable', 'thumbview', 'sidethumbview'
 						);
@@ -984,11 +990,13 @@ class Com_ContushdvideoshareInstallerScript
 										1, $db->quote($userid), 1,
 										$db->quote('The Hobbit: The Desolation of Smaug International Trailer'),
 										$db->quote('The-Hobbit-The-Desolation-of-Smaug-International-Trailer'), 1, 0, 9,
-										2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0',
-										'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg',
-										'http://img.youtube.com/vi/TeGb5XGk2U0/maxresdefault.jpg', '', 0, 9, '', 0, '',
-										'', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',
-										$groupname, 0, 0, 0, ''
+										2, 3, $db->quote(''), $db->quote('Youtube'),
+										$db->quote('http://www.youtube.com/watch?v=TeGb5XGk2U0'),
+										$db->quote('http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg'),
+										$db->quote('http://img.youtube.com/vi/TeGb5XGk2U0/maxresdefault.jpg'),
+										$db->quote(''), 0, 9, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+										$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:06'),
+										$db->quote('2010-06-28 16:26:39'), $groupname, 0, 0, 0, $db->quote('')
 										)
 									)
 							)
@@ -996,12 +1004,16 @@ class Com_ContushdvideoshareInstallerScript
 							implode(
 									',',
 									array(
-										2, $db->quote($userid), 1, $db->quote('Iron Man 3'), $db->quote('Iron-Man-3'),
-										1, 0, 0, 0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc',
-										'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg',
-										'http://img.youtube.com/vi/Ke1Y3P9D0Bc/maxresdefault.jpg', '', 0, 14, '', 0,
-										'', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',
-										$groupname, 0, 0, 0, ''
+										2, $db->quote($userid), 1,
+										$db->quote('Iron Man 3'),
+										$db->quote('Iron-Man-3'), 1, 0, 0,
+										0, 95, $db->quote(''), $db->quote('Youtube'),
+										$db->quote('http://www.youtube.com/watch?v=Ke1Y3P9D0Bc'),
+										$db->quote('http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg'),
+										$db->quote('http://img.youtube.com/vi/Ke1Y3P9D0Bc/maxresdefault.jpg'),
+										$db->quote(''), 0, 14, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+										$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:28'),
+										$db->quote('2010-06-28 16:45:59'), $groupname, 0, 0, 0, $db->quote('')
 										)
 									)
 							)
@@ -1009,13 +1021,16 @@ class Com_ContushdvideoshareInstallerScript
 							implode(
 									',',
 									array(
-										3, $db->quote($userid), 1, $db->quote('GI JOE 2 Retaliation Trailer 2'),
-										$db->quote('GI-JOE-2-Retaliation-Trailer-2'), 1, 0, 5, 1, 9, '', 'Youtube',
-										'http://www.youtube.com/watch?v=mKNpy-tGwxE',
-										'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg',
-										'http://img.youtube.com/vi/mKNpy-tGwxE/maxresdefault.jpg', '', 0, 5, '', 0, '', '',
-										0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39', $groupname, 0,
-										0, 0, ''
+										3, $db->quote($userid), 1,
+										$db->quote('GI JOE 2 Retaliation Trailer 2'),
+										$db->quote('GI-JOE-2-Retaliation-Trailer-2'), 1, 0, 5,
+										1, 9, $db->quote(''), $db->quote('Youtube'),
+										$db->quote('http://www.youtube.com/watch?v=mKNpy-tGwxE'),
+										$db->quote('http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg'),
+										$db->quote('http://img.youtube.com/vi/mKNpy-tGwxE/maxresdefault.jpg'),
+										$db->quote(''), 0, 5, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+										$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:25'),
+										$db->quote('2010-06-28 16:29:39'), $groupname, 0, 0, 0, $db->quote('')
 										)
 									)
 							)
@@ -1023,13 +1038,16 @@ class Com_ContushdvideoshareInstallerScript
 							implode(
 									',',
 									array(
-										4, $db->quote($userid), 1, $db->quote('UP HD 1080p Trailer'),
-										$db->quote('UP-HD-1080p-Trailer'),
-										1, 0, 0, 0, 29, '', 'Youtube', 'http://www.youtube.com/watch?v=1cRuA64m_lY',
-										'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg',
-										'http://img.youtube.com/vi/1cRuA64m_lY/maxresdefault.jpg', '', 0, 5, '', 0, '',
-										'', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57', '2010-06-28 17:09:46',
-										$groupname, 0, 0, 0, ''
+										4, $db->quote($userid), 1,
+										$db->quote('UP HD 1080p Trailer'),
+										$db->quote('UP-HD-1080p-Trailer'), 1, 0, 0,
+										0, 29, $db->quote(''), $db->quote('Youtube'),
+										$db->quote('http://www.youtube.com/watch?v=1cRuA64m_lY'),
+										$db->quote('http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg'),
+										$db->quote('http://img.youtube.com/vi/1cRuA64m_lY/maxresdefault.jpg'),
+										$db->quote(''), 0, 5, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+										$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:57'),
+										$db->quote('2010-06-28 17:09:46'), $groupname, 0, 0, 0, $db->quote('')
 										)
 									)
 							)
@@ -1037,13 +1055,16 @@ class Com_ContushdvideoshareInstallerScript
 							implode(
 									',',
 									array(
-										5, $db->quote($userid), 1, $db->quote('Chipwrecked: Survival Tips'),
-										$db->quote('Chipwrecked-Survival-Tips', 1, 0, 0, 0, 8), '', 'Youtube',
-										'http://www.youtube.com/watch?v=dLIEKGNYbVU',
-										'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg',
-										'http://img.youtube.com/vi/dLIEKGNYbVU/maxresdefault.jpg', '', 0, 5, '', 0,
-										'', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46',
-										'2010-06-28 16:16:11', $groupname, 0, 0, 0, ''
+										5, $db->quote($userid), 1,
+										$db->quote('Chipwrecked: Survival Tips'),
+										$db->quote('Chipwrecked-Survival-Tips'), 1, 0, 0,
+										0, 8, $db->quote(''), $db->quote('Youtube'),
+										$db->quote('http://www.youtube.com/watch?v=dLIEKGNYbVU'),
+										$db->quote('http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg'),
+										$db->quote('http://img.youtube.com/vi/dLIEKGNYbVU/maxresdefault.jpg'),
+										$db->quote(''), 0, 5, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+										$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:46'),
+										$db->quote('2010-06-28 16:16:11'), $groupname, 0, 0, 0, $db->quote('')
 										)
 									)
 							)
@@ -1051,12 +1072,16 @@ class Com_ContushdvideoshareInstallerScript
 							implode(
 									',',
 									array(
-										6, $db->quote($userid), 1, $db->quote('THE TWILIGHT SAGA: BREAKING DAWN PART 2'),
-										$db->quote('THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2'), 1, 0, 0, 0, 8, '', 'Youtube',
-										'http://www.youtube.com/watch?v=ey0aA3YY0Mo',
-										'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg',
-										'http://img.youtube.com/vi/ey0aA3YY0Mo/maxresdefault.jpg', '', 0, 11, '', 0, '', '', 0, 0, '',
-										'', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26', $groupname, 0, 0, 0, ''
+										6, $db->quote($userid), 1,
+										$db->quote('THE TWILIGHT SAGA: BREAKING DAWN PART 2'),
+										$db->quote('THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2'), 1, 0, 0,
+										0, 8, $db->quote(''), $db->quote('Youtube'),
+										$db->quote('http://www.youtube.com/watch?v=ey0aA3YY0Mo'),
+										$db->quote('http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg'),
+										$db->quote('http://img.youtube.com/vi/ey0aA3YY0Mo/maxresdefault.jpg'),
+										$db->quote(''), 0, 11, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+										$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2011-01-24 06:01:26'),
+										$db->quote('2011-01-24 11:31:26'), $groupname, 0, 0, 0, $db->quote('')
 										)
 									)
 							);
@@ -1281,7 +1306,7 @@ PRIMARY KEY (`member_id`)
 			</tfoot>
 			<tbody>
 				<tr class="row0">
-					<td class="key" colspan="2"><?php echo JText::_('HDVideoShare - Component'); ?></td>
+					<td class="key" colspan="2"><?php echo 'HD Video Share - Component'; ?></td>
 					<td style="text-align: center;">
 					</td>
 				</tr>
@@ -1292,7 +1317,7 @@ PRIMARY KEY (`member_id`)
 						// Check installed modules
 						$query->clear()
 								->select('extension_id')
-								->from('#__extensions')
+								->from($db->quoteName('#__extensions'))
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
 
@@ -1318,7 +1343,7 @@ PRIMARY KEY (`member_id`)
 						// Check installed modules
 						$query->clear()
 								->select('extension_id')
-								->from('#__extensions')
+								->from($db->quoteName('#__extensions'))
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
 
@@ -1344,7 +1369,7 @@ PRIMARY KEY (`member_id`)
 					// Check installed modules
 						$query->clear()
 								->select('extension_id')
-								->from('#__extensions')
+								->from($db->quoteName('#__extensions'))
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRandom'));
 
@@ -1370,7 +1395,7 @@ PRIMARY KEY (`member_id`)
 						// Check installed modules
 						$query->clear()
 								->select('extension_id')
-								->from('#__extensions')
+								->from($db->quoteName('#__extensions'))
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
 
@@ -1396,7 +1421,7 @@ PRIMARY KEY (`member_id`)
 						// Check installed modules
 						$query->clear()
 								->select('extension_id')
-								->from('#__extensions')
+								->from($db->quoteName('#__extensions'))
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
 
@@ -1422,7 +1447,7 @@ PRIMARY KEY (`member_id`)
 						// Check installed modules
 						$query->clear()
 								->select('extension_id')
-								->from('#__extensions')
+								->from($db->quoteName('#__extensions'))
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
 
@@ -1447,7 +1472,7 @@ PRIMARY KEY (`member_id`)
 						// Check installed modules
 						$query->clear()
 								->select('extension_id')
-								->from('#__extensions')
+								->from($db->quoteName('#__extensions'))
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
 
@@ -1472,7 +1497,7 @@ PRIMARY KEY (`member_id`)
 						// Check installed modules
 						$query->clear()
 								->select('extension_id')
-								->from('#__extensions')
+								->from($db->quoteName('#__extensions'))
 								->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'))
 								->where($db->quoteName('folder') . ' = ' . $db->quote('content'));

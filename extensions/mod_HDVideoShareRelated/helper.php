@@ -56,28 +56,31 @@ class Modrelatedvideos
 					}
 				}
 
-				$query->select('playlistid')
-				->from('#__hdflv_upload')
-				->where($db->quoteName('seotitle') . ' = ' . $db->quote($videoid));
+				$query->clear()
+						->select('playlistid')
+						->from('#__hdflv_upload')
+						->where($db->quoteName('seotitle') . ' = ' . $db->quote($videoid));
+				$db->setQuery($query);
+				$video = $db->loadResult();
 			}
 			else
 			{
 				$videoid = JRequest::getInt('video');
-				$query->select('playlistid')
-				->from('#__hdflv_upload')
-				->where($db->quoteName('id') . ' = ' . $db->quote($videoid));
+				$query->clear()
+						->select('playlistid')
+						->from('#__hdflv_upload')
+						->where($db->quoteName('id') . ' = ' . $db->quote($videoid));
+				$db->setQuery($query);
+				$video = $db->loadResult();
 			}
 		}
 		elseif (isset($id) && $id != '')
 		{
 			$videoid = JRequest::getInt('id');
-			$query->select('playlistid')
-				->from('#__hdflv_upload')
-				->where($db->quoteName('id') . ' = ' . $db->quote($videoid));
-		}
-
-		if (isset($query))
-		{
+			$query->clear()
+					->select('playlistid')
+					->from('#__hdflv_upload')
+					->where($db->quoteName('id') . ' = ' . $db->quote($videoid));
 			$db->setQuery($query);
 			$video = $db->loadResult();
 		}

@@ -111,7 +111,8 @@ class ContushdvideoshareModelshowads extends ContushdvideoshareModel
 		// Pagination starts here
 		$limit = $mainframe->getUserStateFromRequest($option . 'limit', 'limit', $mainframe->getCfg('list_limit'), 'int');
 		$limitstart = $mainframe->getUserStateFromRequest($option . 'limitstart', 'limitstart', 0, 'int');
-		$query->select(
+		$query->clear()
+				->select(
 				$db->quoteName(
 								array(
 									'id', 'published', 'adsname', 'filepath', 'postvideopath', 'targeturl', 'clickurl',
@@ -145,21 +146,11 @@ class ContushdvideoshareModelshowads extends ContushdvideoshareModel
 				$strFilterStatusval = -2;
 			}
 
-			if ($strSearchAds)
-			{
-				$query->where(' AND ');
-			}
-
 			$query->where(' published = ' . $strFilterStatusval);
 			$arrAdsFilter['ads_status'] = $strFilterAdsStatus;
 		}
 		else
 		{
-			if ($strSearchAds)
-			{
-				$query->where(' AND ');
-			}
-
 			$query->where(' published != -2');
 		}
 
@@ -272,7 +263,8 @@ class ContushdvideoshareModelshowads extends ContushdvideoshareModel
 		if ($strFileOption == "Url")
 		{
 			$postvideopath = $arrFormData['posturl-value'];
-			$query->update($db->quoteName('#__hdflv_ads'))
+			$query->clear()
+					->update($db->quoteName('#__hdflv_ads'))
 					->set($db->quoteName('filepath') . ' = ' . $db->quote($strFileOption))
 					->set($db->quoteName('postvideopath') . ' = ' . $db->quote($postvideopath))
 					->where($db->quoteName('id') . ' = ' . $db->quote($strAdId));

@@ -113,7 +113,8 @@ $result = '';
 
 if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
-	$query->select('*')
+	$query->clear()
+			->select('*')
 			->from($db->nameQuote('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('com_contushdvideoshare'));
@@ -303,7 +304,7 @@ PRIMARY KEY (`id`)
 	$query->clear()
 			->insert($db->quoteName('#__hdflv_googlead'))
 			->columns($column_googlead)
-			->values(implode(',', array(1, '', 1, 10, '0', 0, 10, 0, '0', '0')));
+			->values(implode(',', array(1, $db->quote(''), 1, 10, '0', 0, 10, 0, '0', '0')));
 	$db->setQuery($query);
 	$db->query();
 
@@ -321,26 +322,28 @@ PRIMARY KEY (`id`)
 	$db->query();
 
 	// Create sample data for player settings table
-	$player_colors = 'a:18:{s:21:"sharepanel_up_BgColor";s:0:"";s:23:"sharepanel_down_BgColor";s:0:"";
-		s:19:"sharepaneltextColor";s:0:"";s:15:"sendButtonColor";s:0:"";s:19:"sendButtonTextColor";s:0:"";
-		s:9:"textColor";s:0:"";s:11:"skinBgColor";s:0:"";s:13:"seek_barColor";s:0:"";s:15:"buffer_barColor";
-		s:0:"";s:13:"skinIconColor";s:0:"";s:11:"pro_BgColor";s:0:"";s:15:"playButtonColor";s:0:"";
-		s:17:"playButtonBgColor";s:0:"";s:17:"playerButtonColor";s:0:"";s:19:"playerButtonBgColor";
-		s:0:"";s:19:"relatedVideoBgColor";s:0:"";s:15:"scroll_barColor";s:0:"";s:14:"scroll_BgColor";s:0:"";}';
-	$player_icons = 'a:28:{s:8:"autoplay";s:1:"1";s:17:"playlist_autoplay";s:1:"0";s:13:"playlist_open";s:1:"1";
-		s:13:"skin_autohide";s:1:"1";s:10:"fullscreen";s:1:"1";s:4:"zoom";s:1:"1";s:5:"timer";s:1:"1";s:7:"showTag";
-		s:1:"1";s:8:"shareurl";s:1:"1";s:11:"emailenable";s:1:"1";s:14:"login_page_url";s:0:"";s:13:"volumevisible";N;
-		s:12:"embedVisible";s:1:"1";s:15:"progressControl";s:1:"1";s:11:"skinvisible";s:1:"0";s:9:"hddefault";s:1:"1";
-		s:12:"imageDefault";s:1:"1";s:14:"enabledownload";s:1:"1";s:10:"prerollads";N;s:11:"postrollads";N;
-		s:6:"imaads";N;s:13:"volumecontrol";s:1:"1";s:7:"adsSkip";N;s:10:"midrollads";s:1:"0";s:8:"midbegin";s:0:"";
-		s:9:"midrandom";s:1:"0";s:11:"midadrotate";s:1:"0";s:17:"googleana_visible";N;}';
-	$player_values = 'a:25:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"700";s:6:"height";s:3:"500";s:11:"normalscale";
-		s:1:"1";s:15:"fullscreenscale";s:1:"1";s:6:"volume";s:2:"50";s:8:"nrelated";i:8;s:10:"ffmpegpath";
-		s:15:"/usr/bin/ffmpeg";s:12:"skin_opacity";s:1:"1";s:13:"subTitleColor";s:0:"";s:15:"subTitleBgColor";
-		s:0:"";s:18:"subTitleFontFamily";s:0:"";s:16:"subTitleFontSize";s:0:"";s:10:"stagecolor";s:8:"0x000000";
-		s:10:"licensekey";s:0:"";s:7:"logourl";s:0:"";s:9:"logoalpha";s:3:"100";s:9:"logoalign";s:2:"TR";
-		s:15:"adsSkipDuration";s:0:"";s:17:"googleanalyticsID";s:0:"";s:8:"midbegin";s:0:"";s:11:"midinterval";
-		s:0:"";s:14:"related_videos";s:1:"1";s:16:"relatedVideoView";s:4:"side";s:14:"login_page_url";s:0:"";}';
+	$player_colors = 'a:18:{s:21:"sharepanel_up_BgColor";s:0:"";s:23:"sharepanel_down_BgColor";s:0:"";'
+					. 's:19:"sharepaneltextColor";s:0:"";s:15:"sendButtonColor";s:0:"";s:19:"sendButtonTextColor";s:0:"";'
+					. 's:9:"textColor";s:0:"";s:11:"skinBgColor";s:0:"";s:13:"seek_barColor";s:0:"";s:15:"buffer_barColor";'
+					. 's:0:"";s:13:"skinIconColor";s:0:"";s:11:"pro_BgColor";s:0:"";s:15:"playButtonColor";s:0:"";'
+					. 's:17:"playButtonBgColor";s:0:"";s:17:"playerButtonColor";s:0:"";s:19:"playerButtonBgColor";s:0:"";'
+					. 's:19:"relatedVideoBgColor";s:0:"";s:15:"scroll_barColor";s:0:"";s:14:"scroll_BgColor";s:0:"";}';
+	$player_icons = 'a:27:{s:8:"autoplay";s:1:"1";s:17:"playlist_autoplay";s:1:"0";s:13:"playlist_open";'
+			. 's:1:"1";s:13:"skin_autohide";s:1:"1";s:10:"fullscreen";s:1:"1";s:4:"zoom";s:1:"1";s:5:"timer";'
+			. 's:1:"1";s:7:"showTag";s:1:"1";s:8:"shareurl";s:1:"1";s:11:"emailenable";s:1:"1";s:14:"login_page_url";'
+			. 's:0:"";s:12:"embedVisible";s:1:"1";s:15:"progressControl";s:1:"1";'
+			. 's:11:"skinvisible";s:1:"0";s:9:"hddefault";s:1:"1";s:12:"imageDefault";s:1:"1";s:14:"enabledownload";'
+			. 's:1:"1";s:10:"prerollads";N;s:11:"postrollads";N;s:6:"imaads";N;s:13:"volumecontrol";s:1:"1";'
+			. 's:7:"adsSkip";N;s:10:"midrollads";s:1:"0";s:8:"midbegin";s:0:"";s:9:"midrandom";s:1:"0";'
+			. 's:11:"midadrotate";s:1:"0";s:17:"googleana_visible";N;}';
+	$player_values = 'a:25:{s:6:"buffer";s:1:"3";s:5:"width";s:3:"700";s:6:"height";s:3:"500";'
+			. 's:11:"normalscale";s:1:"1";s:15:"fullscreenscale";s:1:"1";s:6:"volume";s:2:"50";s:8:"nrelated";'
+			. 'i:8;s:10:"ffmpegpath";s:15:"/usr/bin/ffmpeg";s:12:"skin_opacity";s:1:"1";s:13:"subTitleColor";'
+			. 's:0:"";s:15:"subTitleBgColor";s:0:"";s:18:"subTitleFontFamily";s:0:"";s:16:"subTitleFontSize";'
+			. 's:0:"";s:10:"stagecolor";s:8:"0x000000";s:10:"licensekey";s:0:"";s:7:"logourl";s:0:"";s:9:"logoalpha";'
+			. 's:3:"100";s:9:"logoalign";s:2:"TR";s:15:"adsSkipDuration";s:0:"";s:17:"googleanalyticsID";s:0:"";'
+			. 's:8:"midbegin";s:0:"";s:11:"midinterval";s:0:"";s:14:"related_videos";s:1:"1";s:16:"relatedVideoView";'
+			. 's:4:"side";s:14:"login_page_url";s:0:"";}';
 
 	$column_settings = array(
 		'id', 'published', 'uploadmaxsize', 'logopath',
@@ -353,7 +356,7 @@ PRIMARY KEY (`id`)
 					implode(
 							',',
 							array(
-								1, 1, 100, '', $db->quote($player_colors),
+								1, 1, 100, $db->quote(''), $db->quote($player_colors),
 								$db->quote($player_icons), $db->quote($player_values)
 								)
 							)
@@ -377,29 +380,31 @@ PRIMARY KEY (`id`)
 	$db->query();
 
 	// Create sample data for site settings tabele
-	$homethumbview = 'a:15:{s:16:"homepopularvideo";s:1:"1";s:19:"homepopularvideorow";s:1:"1";s:19:"homepopularvideocol";
-		s:1:"4";s:17:"homefeaturedvideo";s:1:"1";s:20:"homefeaturedvideorow";s:1:"1";s:20:"homefeaturedvideocol";s:1:"4";
-		s:15:"homerecentvideo";s:1:"1";s:18:"homerecentvideorow";s:1:"1";s:18:"homerecentvideocol";s:1:"4";
-		s:21:"homepopularvideoorder";s:1:"1";s:22:"homefeaturedvideoorder";s:1:"2";s:20:"homerecentvideoorder";
-		s:1:"3";s:21:"homepopularvideowidth";s:2:"20";s:22:"homefeaturedvideowidth";s:2:"20";
-		s:20:"homerecentvideowidth";s:2:"20";}';
-	$disenable = 'a:18:{s:11:"allowupload";s:1:"1";s:12:"adminapprove";s:1:"1";s:10:"user_login";s:1:"1";
-		s:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:11:"reportvideo";s:1:"0";s:14:"categoryplayer";
-		s:1:"0";s:10:"seo_option";s:1:"0";s:14:"upload_methods";s:23:"Upload,Youtube,URL,RTMP";
-		s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:0:"";s:11:"facebookapi";s:0:"";s:7:"comment";
-		s:1:"2";s:8:"amazons3";s:1:"0";s:12:"amazons3name";s:0:"";s:17:"amazons3accesskey";s:0:"";
-		s:28:"amazons3accesssecretkey_area";s:0:"";s:12:"facebooklike";s:1:"1";}';
-	$thumbview = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";s:9:"recentcol";
-		s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";s:1:"3";s:10:"popularcol";
-		s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";s:1:"3";s:10:"relatedcol";s:1:"4";
-		s:11:"featurwidth";s:2:"20";s:11:"recentwidth";s:2:"20";s:13:"categorywidth";s:2:"20";s:12:"popularwidth";
-		s:2:"20";s:11:"searchwidth";s:2:"20";s:12:"relatedwidth";s:2:"20";s:15:"memberpagewidth";s:2:"20";
-		s:13:"memberpagerow";s:1:"3";s:13:"memberpagecol";s:1:"4";s:10:"myvideorow";s:1:"4";s:10:"myvideocol";
-		s:1:"2";s:12:"myvideowidth";s:2:"20";}';
-	$sidethumbview = 'a:10:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideocol";s:1:"1";
-		s:20:"sidefeaturedvideorow";s:1:"2";s:20:"sidefeaturedvideocol";s:1:"1";s:19:"siderelatedvideorow";
-		s:1:"3";s:19:"siderelatedvideocol";s:1:"1";s:18:"siderecentvideorow";s:1:"3";s:18:"siderecentvideocol";
-		s:1:"1";s:18:"siderandomvideorow";s:1:"3";s:18:"siderandomvideocol";s:1:"1";}';
+	$homethumbview = 'a:15:{s:16:"homepopularvideo";s:1:"1";s:19:"homepopularvideorow";s:1:"1";'
+					. 's:19:"homepopularvideocol";s:1:"4";s:17:"homefeaturedvideo";s:1:"1";s:20:"homefeaturedvideorow";'
+					. 's:1:"1";s:20:"homefeaturedvideocol";s:1:"4";s:15:"homerecentvideo";s:1:"1";s:18:"homerecentvideorow";'
+					. 's:1:"1";s:18:"homerecentvideocol";s:1:"4";s:21:"homepopularvideoorder";s:1:"1";'
+					. 's:22:"homefeaturedvideoorder";s:1:"2";s:20:"homerecentvideoorder";s:1:"3";s:21:"homepopularvideowidth";'
+					. 's:2:"20";s:22:"homefeaturedvideowidth";s:2:"20";s:20:"homerecentvideowidth";s:2:"20";}';
+	$disenable = 'a:18:{s:11:"allowupload";s:1:"1";s:12:"adminapprove";s:1:"1";s:10:"user_login";s:1:"1";'
+			. 's:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:11:"reportvideo";s:1:"0";'
+			. 's:14:"categoryplayer";s:1:"0";s:10:"seo_option";s:1:"0";s:14:"upload_methods";'
+			. 's:23:"Upload,Youtube,URL,RTMP";s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:0:"";'
+			. 's:11:"facebookapi";s:0:"";s:7:"comment";s:1:"2";s:8:"amazons3";s:1:"0";s:12:"amazons3name";s:0:"";'
+			. 's:17:"amazons3accesskey";s:0:"";s:28:"amazons3accesssecretkey_area";s:0:"";s:12:"facebooklike";'
+			. 's:1:"1";}';
+	$thumbview = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";'
+			. 's:9:"recentcol";s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";'
+			. 's:1:"3";s:10:"popularcol";s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";'
+			. 's:1:"3";s:10:"relatedcol";s:1:"4";s:11:"featurwidth";s:2:"20";s:11:"recentwidth";s:2:"20";'
+			. 's:13:"categorywidth";s:2:"20";s:12:"popularwidth";s:2:"20";s:11:"searchwidth";s:2:"20";'
+			. 's:12:"relatedwidth";s:2:"20";s:15:"memberpagewidth";s:2:"20";s:13:"memberpagerow";s:1:"3";'
+			. 's:13:"memberpagecol";s:1:"4";s:10:"myvideorow";s:1:"4";s:10:"myvideocol";s:1:"2";s:12:"myvideowidth";'
+			. 's:2:"20";}';
+	$sidethumbview = 'a:10:{s:19:"sidepopularvideorow";s:1:"3";s:19:"sidepopularvideocol";s:1:"1";'
+			. 's:20:"sidefeaturedvideorow";s:1:"2";s:20:"sidefeaturedvideocol";s:1:"1";s:19:"siderelatedvideorow";'
+			. 's:1:"3";s:19:"siderelatedvideocol";s:1:"1";s:18:"siderecentvideorow";s:1:"3";s:18:"siderecentvideocol";'
+			. 's:1:"1";s:18:"siderandomvideorow";s:1:"3";s:18:"siderandomvideocol";s:1:"1";}';
 
 	$column_site_settings = array(
 		'id', 'published', 'homethumbview', 'dispenable',
@@ -477,7 +482,8 @@ PRIMARY KEY (`id`)
 		$user = JFactory::getUser();
 		$userid = $user->get('id');
 		$query = $db->getQuery(true);
-		$query->select('g.id AS group_id')
+		$query->clear()
+				->select('g.id AS group_id')
 				->from('#__usergroups AS g')
 				->leftJoin('#__user_usergroup_map AS map ON map.group_id = g.id')
 				->where('map.user_id = ' . (int) $userid);
@@ -504,11 +510,14 @@ PRIMARY KEY (`id`)
 									1, $db->quote($userid), 1,
 									$db->quote('The Hobbit: The Desolation of Smaug International Trailer'),
 									$db->quote('The-Hobbit-The-Desolation-of-Smaug-International-Trailer'), 1, 0, 9,
-									2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0',
-									'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg',
-									'http://img.youtube.com/vi/TeGb5XGk2U0/maxresdefault.jpg', '', 0, 9, '', 0, '',
-									'', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',
-									$groupname, 0, 0, 0, ''
+									2, 3, $db->quote(''), $db->quote('Youtube'),
+									$db->quote('http://www.youtube.com/watch?v=TeGb5XGk2U0'),
+									$db->quote('http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/TeGb5XGk2U0/maxresdefault.jpg'),
+									$db->quote(''), 0, 9, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0,
+									$db->quote('2010-06-05 01:06:06'), $db->quote('2010-06-28 16:26:39'),
+									$groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -517,12 +526,14 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									2, $db->quote($userid), 1, $db->quote('Iron Man 3'),
-									$db->quote('Iron-Man-3'), 1, 0, 0, 0, 95, '',
-									'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc',
-									'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg',
-									'http://img.youtube.com/vi/Ke1Y3P9D0Bc/maxresdefault.jpg', '', 0, 14,
-									'', 0, '', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28',
-									'2010-06-28 16:45:59', $groupname, 0, 0, 0, ''
+									$db->quote('Iron-Man-3'), 1, 0, 0, 0, 95, $db->quote(''),
+									$db->quote('Youtube'), $db->quote('http://www.youtube.com/watch?v=Ke1Y3P9D0Bc'),
+									$db->quote('http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/Ke1Y3P9D0Bc/maxresdefault.jpg'),
+									$db->quote(''), 0, 14, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0,
+									$db->quote('2010-06-05 01:06:28'), $db->quote('2010-06-28 16:45:59'),
+									$groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -531,12 +542,13 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									3, $db->quote($userid), 1, $db->quote('GI JOE 2 Retaliation Trailer 2'),
-									$db->quote('GI-JOE-2-Retaliation-Trailer-2'), 1, 0, 5, 1, 9, '', 'Youtube',
-									'http://www.youtube.com/watch?v=mKNpy-tGwxE',
-									'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg',
-									'http://img.youtube.com/vi/mKNpy-tGwxE/maxresdefault.jpg', '', 0, 5, '', 0, '',
-									'', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',
-									$groupname, 0, 0, 0, ''
+									$db->quote('GI-JOE-2-Retaliation-Trailer-2'), 1, 0, 5, 1, 9, $db->quote(''),
+									$db->quote('Youtube'), $db->quote('http://www.youtube.com/watch?v=mKNpy-tGwxE'),
+									$db->quote('http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/mKNpy-tGwxE/maxresdefault.jpg'), $db->quote(''), 0, 5,
+									$db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0, $db->quote(''),
+									$db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:25'),
+									$db->quote('2010-06-28 16:29:39'), $groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -545,12 +557,13 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									4, $db->quote($userid), 1, $db->quote('UP HD 1080p Trailer'),
-									$db->quote('UP-HD-1080p-Trailer'), 1, 0, 0, 0, 29, '', 'Youtube',
-									'http://www.youtube.com/watch?v=1cRuA64m_lY',
-									'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg',
-									'http://img.youtube.com/vi/1cRuA64m_lY/maxresdefault.jpg', '', 0, 5, '', 0,
-									'', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57',
-									'2010-06-28 17:09:46', $groupname, 0, 0, 0, ''
+									$db->quote('UP-HD-1080p-Trailer'), 1, 0, 0, 0, 29, $db->quote(''),
+									$db->quote('Youtube'), $db->quote('http://www.youtube.com/watch?v=1cRuA64m_lY'),
+									$db->quote('http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/1cRuA64m_lY/maxresdefault.jpg'),
+									$db->quote(''), 0, 5, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:57'),
+									$db->quote('2010-06-28 17:09:46'), $groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -559,12 +572,13 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									5, $db->quote($userid), 1, $db->quote('Chipwrecked: Survival Tips'),
-									$db->quote('Chipwrecked-Survival-Tips', 1, 0, 0, 0, 8), '', 'Youtube',
-									'http://www.youtube.com/watch?v=dLIEKGNYbVU',
-									'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg',
-									'http://img.youtube.com/vi/dLIEKGNYbVU/maxresdefault.jpg', '', 0, 5, '', 0,
-									'', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',
-									$groupname, 0, 0, 0, ''
+									$db->quote('Chipwrecked-Survival-Tips', 1, 0, 0, 0, 8), $db->quote(''),
+									$db->quote('Youtube'), $db->quote('http://www.youtube.com/watch?v=dLIEKGNYbVU'),
+									$db->quote('http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/dLIEKGNYbVU/maxresdefault.jpg'),
+									$db->quote(''), 0, 5, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:46'),
+									$db->quote('2010-06-28 16:16:11'), $groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -573,12 +587,14 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									6, $db->quote($userid), 1, $db->quote('THE TWILIGHT SAGA: BREAKING DAWN PART 2'),
-									$db->quote('THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2'), 1, 0, 0, 0, 8, '', 'Youtube',
-									'http://www.youtube.com/watch?v=ey0aA3YY0Mo',
-									'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg',
-									'http://img.youtube.com/vi/ey0aA3YY0Mo/maxresdefault.jpg', '', 0, 11, '', 0,
-									'', '', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26',
-									$groupname, 0, 0, 0, ''
+									$db->quote('THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2'), 1, 0, 0, 0, 8, $db->quote(''),
+									$db->quote('Youtube'), $db->quote('http://www.youtube.com/watch?v=ey0aA3YY0Mo'),
+									$db->quote('http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/ey0aA3YY0Mo/maxresdefault.jpg'),
+									$db->quote(''), 0, 11, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0,
+									$db->quote('2011-01-24 06:01:26'), $db->quote('2011-01-24 11:31:26'),
+									$groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						);
@@ -608,11 +624,14 @@ PRIMARY KEY (`id`)
 									1, 62, 1,
 									$db->quote('The Hobbit: The Desolation of Smaug International Trailer'),
 									$db->quote('The-Hobbit-The-Desolation-of-Smaug-International-Trailer'), 1, 0, 9,
-									2, 3, '', 'Youtube', 'http://www.youtube.com/watch?v=TeGb5XGk2U0',
-									'http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg',
-									'http://img.youtube.com/vi/TeGb5XGk2U0/maxresdefault.jpg', '', 0, 9, '', 0, '',
-									'', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:06', '2010-06-28 16:26:39',
-									$groupname, 0, 0, 0, ''
+									2, 3, $db->quote(''), $db->quote('Youtube'),
+									$db->quote('http://www.youtube.com/watch?v=TeGb5XGk2U0'),
+									$db->quote('http://img.youtube.com/vi/TeGb5XGk2U0/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/TeGb5XGk2U0/maxresdefault.jpg'),
+									$db->quote(''), 0, 9, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0,
+									$db->quote('2010-06-05 01:06:06'), $db->quote('2010-06-28 16:26:39'),
+									$groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -621,10 +640,13 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									2, 62, 1, $db->quote('Iron Man 3'), $db->quote('Iron-Man-3'), 1, 0, 0,
-									0, 95, '', 'Youtube', 'http://www.youtube.com/watch?v=Ke1Y3P9D0Bc',
-									'http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg',
-									'http://img.youtube.com/vi/Ke1Y3P9D0Bc/maxresdefault.jpg', '', 0, 14, '', 0, '',
-									'', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:28', '2010-06-28 16:45:59',
+									0, 95, $db->quote(''), $db->quote('Youtube'),
+									$db->quote('http://www.youtube.com/watch?v=Ke1Y3P9D0Bc'),
+									$db->quote('http://img.youtube.com/vi/Ke1Y3P9D0Bc/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/Ke1Y3P9D0Bc/maxresdefault.jpg'),
+									$db->quote(''), 0, 14, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0,
+									$db->quote('2010-06-05 01:06:28'), $db->quote('2010-06-28 16:45:59'),
 									$groupname, 0, 0, 0, ''
 									)
 								)
@@ -634,12 +656,14 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									3, 62, 1, $db->quote('GI JOE 2 Retaliation Trailer 2'),
-									$db->quote('GI-JOE-2-Retaliation-Trailer-2'), 1, 0, 5, 1, 9, '', 'Youtube',
-									'http://www.youtube.com/watch?v=mKNpy-tGwxE',
-									'http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg',
-									'http://img.youtube.com/vi/mKNpy-tGwxE/maxresdefault.jpg', '', 0, 5, '', 0, '',
-									'', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:25', '2010-06-28 16:29:39',
-									$groupname, 0, 0, 0, ''
+									$db->quote('GI-JOE-2-Retaliation-Trailer-2'), 1, 0, 5, 1, 9, $db->quote(''),
+									$db->quote('Youtube'), $db->quote('http://www.youtube.com/watch?v=mKNpy-tGwxE'),
+									$db->quote('http://img.youtube.com/vi/mKNpy-tGwxE/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/mKNpy-tGwxE/maxresdefault.jpg'),
+									$db->quote(''), 0, 5, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0,
+									$db->quote('2010-06-05 01:06:25'), $db->quote('2010-06-28 16:29:39'),
+									$groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -648,12 +672,13 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									4, 62, 1, $db->quote('UP HD 1080p Trailer'),
-									$db->quote('UP-HD-1080p-Trailer'), 1, 0, 0, 0, 29, '',
-									'Youtube', 'http://www.youtube.com/watch?v=1cRuA64m_lY',
-									'http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg',
-									'http://img.youtube.com/vi/1cRuA64m_lY/maxresdefault.jpg', '', 0, 5, '', 0,
-									'', '', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:57',
-									'2010-06-28 17:09:46', $groupname, 0, 0, 0, ''
+									$db->quote('UP-HD-1080p-Trailer'), 1, 0, 0, 0, 29, $db->quote(''),
+									$db->quote('Youtube'), $db->quote('http://www.youtube.com/watch?v=1cRuA64m_lY'),
+									$db->quote('http://img.youtube.com/vi/1cRuA64m_lY/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/1cRuA64m_lY/maxresdefault.jpg'),
+									$db->quote(''), 0, 5, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0, $db->quote('2010-06-05 01:06:57'),
+									$db->quote('2010-06-28 17:09:46'), $groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -662,12 +687,14 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									5, 62, 1, $db->quote('Chipwrecked: Survival Tips'),
-									$db->quote('Chipwrecked-Survival-Tips'), 1, 0, 0, 0, 8, '', 'Youtube',
-									'http://www.youtube.com/watch?v=dLIEKGNYbVU',
-									'http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg',
-									'http://img.youtube.com/vi/dLIEKGNYbVU/maxresdefault.jpg', '', 0, 5, '', 0, '',
-									'', 0, 0, '', '', 0, 0, 0, '2010-06-05 01:06:46', '2010-06-28 16:16:11',
-									$groupname, 0, 0, 0, ''
+									$db->quote('Chipwrecked-Survival-Tips'), 1, 0, 0, 0, 8, $db->quote(''),
+									$db->quote('Youtube'), $db->quote('http://www.youtube.com/watch?v=dLIEKGNYbVU'),
+									$db->quote('http://img.youtube.com/vi/dLIEKGNYbVU/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/dLIEKGNYbVU/maxresdefault.jpg'),
+									$db->quote(''), 0, 5, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0,
+									$db->quote('2010-06-05 01:06:46'), $db->quote('2010-06-28 16:16:11'),
+									$groupname, 0, 0, 0, $db->quote('')
 									)
 								)
 						)
@@ -676,12 +703,15 @@ PRIMARY KEY (`id`)
 								',',
 								array(
 									6, 62, 1, $db->quote('THE TWILIGHT SAGA: BREAKING DAWN PART 2'),
-									$db->quote('THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2'), 1, 0, 0, 0, 8, '', 'Youtube',
-									'http://www.youtube.com/watch?v=ey0aA3YY0Mo',
-									'http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg',
-									'http://img.youtube.com/vi/ey0aA3YY0Mo/maxresdefault.jpg', '', 0, 11, '', 0, '',
-									'', 0, 0, '', '', 0, 0, 0, '2011-01-24 06:01:26', '2011-01-24 11:31:26', $groupname,
-									0, 0, 0, ''
+									$db->quote('THE-TWILIGHT-SAGA-BREAKING-DAWN-PART-2'), 1, 0, 0, 0, 8,
+									$db->quote(''), $db->quote('Youtube'),
+									$db->quote('http://www.youtube.com/watch?v=ey0aA3YY0Mo'),
+									$db->quote('http://img.youtube.com/vi/ey0aA3YY0Mo/mqdefault.jpg'),
+									$db->quote('http://img.youtube.com/vi/ey0aA3YY0Mo/maxresdefault.jpg'),
+									$db->quote(''), 0, 11, $db->quote(''), 0, $db->quote(''), $db->quote(''), 0, 0,
+									$db->quote(''), $db->quote(''), 0, 0, 0,
+									$db->quote('2011-01-24 06:01:26'), $db->quote('2011-01-24 11:31:26'), $groupname,
+									0, 0, 0, $db->quote('')
 									)
 								)
 						);
@@ -809,7 +839,7 @@ else
 	// Update site settings table
 	$query->clear()
 			->select('*')
-			->from('#__hdflv_site_settings');
+			->from($db->quoteName('#__hdflv_site_settings'));
 	$db->setQuery($query);
 	$settingstabeResult = $db->loadObject();
 
@@ -821,7 +851,7 @@ else
 	{
 		$query->clear()
 				->select('thumbview')
-				->from('#__hdflv_site_settings');
+				->from($db->quoteName('#__hdflv_site_settings'));
 		$db->setQuery($query);
 		$thumbviewResult = $db->loadResult();
 
@@ -871,7 +901,7 @@ else
 	{
 		$query->clear()
 				->select('homethumbview')
-				->from('#__hdflv_site_settings');
+				->from($db->quoteName('#__hdflv_site_settings'));
 		$db->setQuery($query);
 		$homethumbviewResult = $db->loadResult();
 
@@ -913,7 +943,7 @@ else
 	{
 		$query->clear()
 				->select('sidethumbview')
-				->from('#__hdflv_site_settings');
+				->from($db->quoteName('#__hdflv_site_settings'));
 		$db->setQuery($query);
 		$sidethumbviewResult = $db->loadResult();
 		$upgradesidethumbview = unserialize($sidethumbviewResult);
@@ -971,7 +1001,7 @@ else
 	{
 		$query->clear()
 				->select('dispenable')
-				->from('#__hdflv_site_settings');
+				->from($db->quoteName('#__hdflv_site_settings'));
 		$db->setQuery($query);
 		$dispenableResult = $db->loadResult();
 		$upgradedisp = unserialize($dispenableResult);
@@ -1065,7 +1095,7 @@ else
 	// Update player settings table
 	$query->clear()
 			->select('*')
-			->from('#__hdflv_player_settings');
+			->from($db->quoteName('#__hdflv_player_settings'));
 	$db->setQuery($query);
 	$playersettingstabeResult = $db->loadObject();
 
@@ -1082,7 +1112,7 @@ else
 	{
 		$query->clear()
 				->select('player_icons')
-				->from('#__hdflv_player_settings');
+				->from($db->quoteName('#__hdflv_player_settings'));
 		$db->setQuery($query);
 		$player_iconsResult = $db->loadResult();
 
@@ -1101,7 +1131,6 @@ else
 				'shareurl' => $playersettingstabeResult->shareurl,
 				'emailenable' => 1,
 				'login_page_url' => $playersettingstabeResult->login_page_url,
-				'volumevisible' => 1,
 				'embedVisible' => 1,
 				'progressControl' => 1,
 				'skinvisible' => 0,
@@ -1136,7 +1165,7 @@ else
 	{
 		$query->clear()
 				->select('player_values')
-				->from('#__hdflv_player_settings');
+				->from($db->quoteName('#__hdflv_player_settings'));
 		$db->setQuery($query);
 		$player_valuesResult = $db->loadResult();
 
@@ -1338,13 +1367,13 @@ if (version_compare(JVERSION, '2.5.0', 'ge')
 	</tfoot>
 	<tbody>
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo JText::_('HDVideoShare - Component'); ?></td>
+			<td class="key" colspan="2"><?php echo 'HD Video Share - Component'; ?></td>
 			<td style="text-align: center;">
 <?php
 // Check installed components
 $query->clear()
 		->select('id')
-		->from('#__hdflv_player_settings');
+		->from($db->quoteName('#__hdflv_player_settings'));
 
 $db->setQuery($query, 1);
 $settings_id = $db->loadResult();
@@ -1375,7 +1404,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
 	$query->clear()
 			->select('extension_id')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
 
@@ -1385,7 +1414,7 @@ else
 {
 	$query->clear()
 			->select('id')
-			->from('#__modules')
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
 
 	$db->setQuery($query, 1);
@@ -1420,7 +1449,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
 	$query->clear()
 			->select('extension_id')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
 
@@ -1430,7 +1459,7 @@ else
 {
 	$query->clear()
 			->select('id')
-			->from('#__modules')
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
 
 	$db->setQuery($query, 1);
@@ -1465,7 +1494,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
 	$query->clear()
 			->select('extension_id')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRandom'));
 
@@ -1475,7 +1504,7 @@ else
 {
 	$query->clear()
 			->select('id')
-			->from('#__modules')
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRandom'));
 
 	$db->setQuery($query, 1);
@@ -1510,7 +1539,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
 	$query->clear()
 			->select('extension_id')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
 
@@ -1520,7 +1549,7 @@ else
 {
 	$query->clear()
 			->select('id')
-			->from('#__modules')
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
 
 	$db->setQuery($query, 1);
@@ -1555,7 +1584,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
 	$query->clear()
 			->select('extension_id')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
 
@@ -1565,7 +1594,7 @@ else
 {
 	$query->clear()
 			->select('id')
-			->from('#__modules')
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
 
 	$db->setQuery($query, 1);
@@ -1600,7 +1629,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
 	$query->clear()
 			->select('extension_id')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
 
@@ -1610,7 +1639,7 @@ else
 {
 	$query->clear()
 			->select('id')
-			->from('#__modules')
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
 
 	$db->setQuery($query, 1);
@@ -1646,7 +1675,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
 	$query->clear()
 			->select('extension_id')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
 
@@ -1656,7 +1685,7 @@ else
 {
 	$query->clear()
 			->select('id')
-			->from('#__modules')
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
 
 	$db->setQuery($query, 1);
@@ -1690,7 +1719,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 {
 	$query->clear()
 			->select('extension_id')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
 
@@ -1700,7 +1729,7 @@ else
 {
 	$query->clear()
 			->select('id')
-			->from('#__plugins')
+			->from($db->quoteName('#__plugins'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
 
 	$db->setQuery($query, 1);

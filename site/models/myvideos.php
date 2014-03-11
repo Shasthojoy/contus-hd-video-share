@@ -119,13 +119,13 @@ class Modelcontushdvideosharemyvideos extends ContushdvideoshareModel
 		if ($search)
 		{
 			$where = '(' . $db->quoteName('a.title') . ' LIKE '
-					. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-					. $db->quoteName('a.description') . ' LIKE '
-					. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-					. $db->quoteName('a.tags') . ' LIKE '
-					. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
-					. $db->quoteName('b.category') . ' LIKE '
-					. $db->quote('%' . $db->getEscaped($search, true) . '%', false)
+					. $db->quote('%' . $search . '%', false)
+					. ' || ' . $db->quoteName('a.description') . ' LIKE '
+					. $db->quote('%' . $search . '%', false)
+					. ' || ' . $db->quoteName('a.tags') . ' LIKE '
+					. $db->quote('%' . $search . '%', false)
+					. ' || ' . $db->quoteName('b.category') . ' LIKE '
+					. $db->quote('%' . $search . '%', false)
 					. ')';
 		}
 
@@ -135,10 +135,15 @@ class Modelcontushdvideosharemyvideos extends ContushdvideoshareModel
 				->from('#__hdflv_upload AS a')
 				->leftJoin('#__users AS d ON a.memberid=d.id')
 				->leftJoin('#__hdflv_category AS b ON b.id=a.playlistid')
-				->where($db->quoteName('a.published') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
 				->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
-				->where($db->quoteName('a.memberid') . ' = ' . $db->quote($memberid))
-				->where($where);
+				->where($db->quoteName('a.memberid') . ' = ' . $db->quote($memberid));
+
+		if (!empty($where))
+		{
+			$query->where($where);
+		}
+
 		$db->setQuery($query);
 		$total = $db->loadResult();
 
@@ -211,11 +216,16 @@ class Modelcontushdvideosharemyvideos extends ContushdvideoshareModel
 				->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
 				->leftJoin('#__hdflv_category AS b ON b.id=e.catid')
 				->leftJoin('#__hdflv_comments AS f ON f.videoid=a.id')
-				->where($db->quoteName('a.published') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
 				->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
-				->where($db->quoteName('a.memberid') . ' = ' . $db->quote($memberid))
-				->where($where)
-				->group($db->escape('a.id'))
+				->where($db->quoteName('a.memberid') . ' = ' . $db->quote($memberid));
+
+		if (!empty($where))
+		{
+			$query->where($where);
+		}
+
+		$query->group($db->escape('a.id'))
 				->order($order);
 		$db->setQuery($query, $start, $length);
 		$rows = $db->LoadObjectList();

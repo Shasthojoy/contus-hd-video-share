@@ -36,7 +36,8 @@ class ContushdvideoshareModeleditvideos extends ContushdvideoshareModel
 		$query = $db->getQuery(true);
 
 		// Query to fetch category list
-		$query->select($db->quoteName(array('id','category')))
+		$query->clear()
+				->select($db->quoteName(array('id','category')))
 					->from($db->quoteName('#__hdflv_category'))
 					->where('published = 1')
 					->order('id DESC');
@@ -44,9 +45,12 @@ class ContushdvideoshareModeleditvideos extends ContushdvideoshareModel
 		$rs_play = $db->loadObjectList();
 
 		// Query to fetch pre/post roll ads
-		$query->select($db->quoteName(array('id','adsname')))
+		$query->clear()
+				->select($db->quoteName(array('id','adsname')))
 					->from($db->quoteName('#__hdflv_ads'))
-					->where('published = 1 AND typeofadd <> \'mid\' AND typeofadd <> \'ima\'')
+					->where('published = 1')
+					->where('typeofadd <> \'mid\'')
+					->where('typeofadd <> \'ima\'')
 					->order('adsname ASC');
 		$db->setQuery($query);
 		$rs_ads = $db->loadObjectList();
@@ -72,7 +76,8 @@ class ContushdvideoshareModeleditvideos extends ContushdvideoshareModel
 		}
 
 		// Query to fetch user groups
-		$query->select($db->quoteName(array('id as id',$strName . ' AS title')))
+		$query->clear()
+				->select('id AS id', $strName . ' AS title')
 					->from($db->quoteName($strTable))
 					->order('id ASC');
 		$db->setQuery($query);
@@ -93,7 +98,8 @@ class ContushdvideoshareModeleditvideos extends ContushdvideoshareModel
 		$query = $db->getQuery(true);
 
 		// Query to fetch player settings
-		$query->select($db->quoteName(array('player_values')))
+		$query->clear()
+				->select($db->quoteName('player_values'))
 			->from($db->quoteName('#__hdflv_player_settings'));
 		$db->setQuery($query);
 
@@ -118,7 +124,8 @@ class ContushdvideoshareModeleditvideos extends ContushdvideoshareModel
 		if (count($cid))
 		{
 			// Query to fetch video details for selected videos
-			$query->select($db->quoteName(array('videourl','thumburl','previewurl','hdurl')))
+			$query->clear()
+					->select($db->quoteName(array('videourl','thumburl','previewurl','hdurl')))
 					->from($db->quoteName('#__hdflv_upload'))
 					->where('filepath = \'File\' OR filepath <> \'FFmpeg\' AND id IN ( ' . $cids . ' )');
 			$db->setQuery($query);
@@ -159,8 +166,9 @@ class ContushdvideoshareModeleditvideos extends ContushdvideoshareModel
 				$db->quoteName('id') . 'IN ( ' . $cids . ' )'
 			);
 
-			$query->delete($db->quoteName('#__hdflv_upload'));
-			$query->where($conditions);
+			$query->clear()
+					->delete($db->quoteName('#__hdflv_upload'))
+					->where($conditions);
 			$db->setQuery($query);
 
 			if (!$db->query())
@@ -174,8 +182,9 @@ class ContushdvideoshareModeleditvideos extends ContushdvideoshareModel
 				$db->quoteName('vid') . 'IN ( ' . $cids . ' )'
 			);
 
-			$query->delete($db->quoteName('#__hdflv_video_category'));
-			$query->where($conditions);
+			$query->clear()
+					->delete($db->quoteName('#__hdflv_video_category'))
+					->where($conditions);
 			$db->setQuery($query);
 			}
 		}

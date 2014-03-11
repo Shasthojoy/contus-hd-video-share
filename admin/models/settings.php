@@ -39,7 +39,8 @@ class ContushdvideoshareModelsettings extends ContushdvideoshareModel
 		$query = $db->getQuery(true);
 
 		// Query to fetch player settings
-		$query->select($db->quoteName(array('id', 'player_colors', 'player_icons', 'player_values', 'logopath')))
+		$query->clear()
+				->select($db->quoteName(array('id', 'player_colors', 'player_icons', 'player_values', 'logopath')))
 				->from($db->quoteName('#__hdflv_player_settings'));
 		$db->setQuery($query);
 		$arrPlayerSettings = $db->loadObjectList();
@@ -117,6 +118,51 @@ class ContushdvideoshareModelsettings extends ContushdvideoshareModel
 		$arrFormData['player_values'] = serialize($player_values);
 
 		// Get player icon options and serialize data
+		if (isset($arrFormData['googleana_visible']))
+		{
+			$googleana_visible = $arrFormData['googleana_visible'];
+		}
+		else
+		{
+			$googleana_visible = 0;
+		}
+
+		if (isset($arrFormData['adsSkip']))
+		{
+			$adsSkip = $arrFormData['adsSkip'];
+		}
+		else
+		{
+			$adsSkip = 0;
+		}
+
+		if (isset($arrFormData['imaads']))
+		{
+			$imaads = $arrFormData['imaads'];
+		}
+		else
+		{
+			$imaads = 0;
+		}
+
+		if (isset($arrFormData['postrollads']))
+		{
+			$postrollads = $arrFormData['postrollads'];
+		}
+		else
+		{
+			$postrollads = 0;
+		}
+
+		if (isset($arrFormData['prerollads']))
+		{
+			$prerollads = $arrFormData['prerollads'];
+		}
+		else
+		{
+			$prerollads = 0;
+		}
+
 		$player_icons = array(
 			'autoplay' => $arrFormData['autoplay'],
 			'playlist_autoplay' => $arrFormData['playlist_autoplay'],
@@ -129,23 +175,22 @@ class ContushdvideoshareModelsettings extends ContushdvideoshareModel
 			'shareurl' => $arrFormData['shareurl'],
 			'emailenable' => $arrFormData['emailenable'],
 			'login_page_url' => $arrFormData['login_page_url'],
-			'volumevisible' => $arrFormData['volumevisible'],
 			'embedVisible' => $arrFormData['embedVisible'],
 			'progressControl' => $arrFormData['progressControl'],
 			'skinvisible' => $arrFormData['skinvisible'],
 			'hddefault' => $arrFormData['hddefault'],
 			'imageDefault' => $arrFormData['imageDefault'],
 			'enabledownload' => $arrFormData['enabledownload'],
-			'prerollads' => $arrFormData['prerollads'],
-			'postrollads' => $arrFormData['postrollads'],
-			'imaads' => $arrFormData['imaads'],
+			'prerollads' => $prerollads,
+			'postrollads' => $postrollads,
+			'imaads' => $imaads,
 			'volumecontrol' => $arrFormData['volumecontrol'],
-			'adsSkip' => $arrFormData['adsSkip'],
+			'adsSkip' => $adsSkip,
 			'midrollads' => $arrFormData['midrollads'],
 			'midbegin' => $arrFormData['midbegin'],
 			'midrandom' => $arrFormData['midrandom'],
 			'midadrotate' => $arrFormData['midadrotate'],
-			'googleana_visible' => $arrFormData['googleana_visible']
+			'googleana_visible' => $googleana_visible
 		);
 		$arrFormData['player_icons'] = serialize($player_icons);
 

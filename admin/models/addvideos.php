@@ -36,7 +36,8 @@ class ContushdvideoshareModeladdvideos extends ContushdvideoshareModel
 		$query = $db->getQuery(true);
 
 		// Query to get ffmpegpath & file max upload size from #__hdflv_player_settings
-		$query->select($db->quoteName(array('uploadmaxsize')))
+		$query->clear()
+				->select($db->quoteName(array('uploadmaxsize')))
 				->from($db->quoteName('#__hdflv_player_settings'));
 		$db->setQuery($query);
 		$rs_playersettings = $db->loadObjectList();
@@ -56,7 +57,8 @@ class ContushdvideoshareModeladdvideos extends ContushdvideoshareModel
 		$rs_editupload = JTable::getInstance('adminvideos', 'Table');
 
 		// Query to fetch category list
-		$query->select($db->quoteName(array('id','member_id','category','seo_category','parent_id','ordering')))
+		$query->clear()
+				->select($db->quoteName(array('id','member_id','category','seo_category','parent_id','ordering')))
 				->from($db->quoteName('#__hdflv_category'))
 				->where($db->quoteName('published') . '= 1')
 				->order('category ASC');
@@ -64,17 +66,22 @@ class ContushdvideoshareModeladdvideos extends ContushdvideoshareModel
 		$rs_play = $db->loadObjectList();
 
 		// Query to fetch pre/post roll ads
-		$query->select($db->quoteName(array('id','adsname')))
+		$query->clear()
+				->select($db->quoteName(array('id','adsname')))
 				->from($db->quoteName('#__hdflv_ads'))
-				->where($db->quoteName('published') . '= 1' . 'AND typeofadd != \'mid\'' . 'AND typeofadd != \'ima\'')
+				->where($db->quoteName('published') . '= 1')
+				->where('typeofadd != \'mid\'')
+				->where('typeofadd != \'ima\'')
 				->order('adsname ASC');
 		$db->setQuery($query);
 		$rs_ads = $db->loadObjectList();
 
 		// Query to fetch mid roll ads
-		$query->select($db->quoteName(array('id','adsname')))
+		$query->clear()
+				->select($db->quoteName(array('id','adsname')))
 				->from($db->quoteName('#__hdflv_ads'))
-				->where($db->quoteName('published') . '= 1' . 'AND typeofadd = \'mid\'')
+				->where($db->quoteName('published') . '= 1')
+				->where('typeofadd = \'mid\'')
 				->order('adsname ASC');
 		$db->setQuery($query);
 		$rs_midads = $db->loadObjectList();
@@ -91,7 +98,8 @@ class ContushdvideoshareModeladdvideos extends ContushdvideoshareModel
 		}
 
 		// Query to fetch user groups
-		$query->select($db->quoteName(array('id',$strName . ' AS title')))
+		$query->clear()
+				->select('id', $strName . ' AS title')
 				->from($db->quoteName($strTable))
 				->order('id ASC');
 		$db->setQuery($query);
@@ -102,8 +110,8 @@ class ContushdvideoshareModeladdvideos extends ContushdvideoshareModel
 		// Query to get group id of logged user
 		if (version_compare(JVERSION, '1.6.0', 'ge'))
 		{
-			$query = $db->getQuery(true);
-			$query->select('g.id AS group_id')
+			$query->clear()
+					->select('g.id AS group_id')
 					->from('#__usergroups AS g')
 					->leftJoin('#__user_usergroup_map AS map ON map.group_id = g.id')
 					->where('map.user_id = ' . (int) $userid);
@@ -112,7 +120,8 @@ class ContushdvideoshareModeladdvideos extends ContushdvideoshareModel
 		}
 		else
 		{
-			$query->select('gid AS group_id')
+			$query->clear()
+					->select('gid AS group_id')
 					->from('#__users')
 					->where('id = ' . (int) $userid);
 			$db->setQuery($query);
@@ -138,7 +147,8 @@ class ContushdvideoshareModeladdvideos extends ContushdvideoshareModel
 		$query = $db->getQuery(true);
 
 		// Query to fetch player settings
-		$query->select('player_values')
+		$query->clear()
+				->select('player_values')
 				->from('#__hdflv_player_settings');
 		$db->setQuery($query);
 

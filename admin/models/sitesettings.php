@@ -35,7 +35,8 @@ class ContushdvideoshareModelsitesettings extends ContushdvideoshareModel
 		// Query to fetch site settings
 		$db = $this->getDBO();
 		$query = $db->getQuery(true);
-		$query->select(array('id', 'published', 'thumbview', 'dispenable', 'homethumbview', 'sidethumbview'))
+		$query->clear()
+				->select(array('id', 'published', 'thumbview', 'dispenable', 'homethumbview', 'sidethumbview'))
 				->from('#__hdflv_site_settings')
 				->where($db->quoteName('id') . ' = ' . $db->quote('1'));
 		$db->setQuery($query);

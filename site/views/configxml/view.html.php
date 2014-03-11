@@ -37,7 +37,7 @@ class ContushdvideoshareViewconfigxml extends ContushdvideoshareView
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		$model = & $this->getModel();
+		$model = $this->getModel();
 		$detail = $model->configgetrecords();
 		$this->assignRef('detail', $detail);
 		$this->setLayout('playerlayout');

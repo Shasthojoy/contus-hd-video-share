@@ -34,15 +34,17 @@ class ContushdvideoshareModelcontrolpanel extends ContushdvideoshareModel
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName(array('COUNT(b.memberid) AS count','a.username AS username')))
-				->from($db->quoteName('#__users a'))
+		$query->clear()
+				->select('COUNT(b.memberid) AS count, a.username AS username')
+				->from('#__users a')
 				->leftJoin('#__hdflv_upload b ON b.memberid = a.id')
 				->group($db->escape('a.id'));
 		$db->setQuery($query);
 		$member_detail = $db->loadObjectList();
 
 		// Query is to display the top 5 popular videos
-		$query->select($db->quoteName(array('id','title','times_viewed')))
+		$query->clear()
+				->select($db->quoteName(array('id','title','times_viewed')))
 				->from($db->quoteName('#__hdflv_upload'))
 				->where('published=1 and type=0')
 				->order('times_viewed DESC');
@@ -50,7 +52,8 @@ class ContushdvideoshareModelcontrolpanel extends ContushdvideoshareModel
 		$popularvideos = $db->LoadObjectList();
 
 		// Query is to display the last 5 added videos
-		$query->select($db->quoteName(array('id','title','created_date')))
+		$query->clear()
+				->select($db->quoteName(array('id','title','created_date')))
 				->from($db->quoteName('#__hdflv_upload'))
 				->where('published=1 and type=0')
 				->order('id DESC');

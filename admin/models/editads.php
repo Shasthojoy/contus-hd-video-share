@@ -59,7 +59,8 @@ class ContushdvideoshareModeleditads extends ContushdvideoshareModel
 		if (count($cid))
 		{
 			// Query to fetch ad details for selected ads
-			$query->select($db->quoteName(array('postvideopath')))
+			$query->clear()
+					->select($db->quoteName(array('postvideopath')))
 					->from($db->quoteName('#__hdflv_ads'))
 					->where('id  IN ( ' . $cids . ' )');
 			$db->setQuery($query);
@@ -85,8 +86,9 @@ class ContushdvideoshareModeleditads extends ContushdvideoshareModel
 				$db->quoteName('id') . 'IN ( ' . $cids . ' )'
 			);
 
-			$query->delete($db->quoteName('#__hdflv_ads'));
-			$query->where($conditions);
+			$query->clear()
+					->delete($db->quoteName('#__hdflv_ads'))
+					->where($conditions);
 			$db->setQuery($query);
 
 			if (!$db->query())

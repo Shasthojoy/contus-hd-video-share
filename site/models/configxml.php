@@ -35,7 +35,7 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel
 		$base = JURI::base();
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('id', 'published', 'player_colors', 'player_icons', 'player_values', 'logopath')
+		$query->select(array('player_colors', 'player_icons', 'player_values', 'logopath'))
 				->from('#__hdflv_player_settings');
 		$db->setQuery($query);
 		$settingsrows = $db->loadObjectList();
@@ -335,9 +335,6 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel
 		// Ad xml path
 		$adsxml = JURI::base() . "index.php?option=com_contushdvideoshare&view=adsxml";
 
-		// Send email in player
-		$emailpath = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=emailuser');
-
 		// Logo path for purchased user
 		$logopath = $base . "components/com_contushdvideoshare/videos/" . $settingsrows[0]->logopath;
 
@@ -351,6 +348,9 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel
 
 		// Generate base url
 		$baseUrl1 = $baseUrl1['scheme'] . '://' . $baseUrl1['host'];
+
+		// Send email in player
+		$emailpath = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=emailuser');
 
 		// Video download file path
 		$downloadpath = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=downloadfile');

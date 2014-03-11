@@ -89,18 +89,10 @@ class ContushdvideoshareModelmemberdetails extends ContushdvideoshareModel
 		$db = $this->getDBO();
 		$query = $db->getQuery(true);
 
-		if (version_compare(JVERSION, '3.0.0', 'ge'))
-		{
-			$query->select($db->quoteName(array('a.id','a.name','a.username','a.email','a.registerDate','a.block','a.allowupload')))
-					->from($db->quoteName('#__users a'))
-					->leftJoin('#__hdflv_user b ON b.member_id = a.id');
-		}
-		else
-		{
-			$query->select($db->quoteName(array('a.id','a.name','a.username','a.email','a.registerDate','a.block','a.allowupload')))
-					->from($db->quoteName('#__users a'))
-					->leftJoin('#__hdflv_user b ON b.member_id = a.id');
-		}
+		$query->clear()
+				->select($db->quoteName(array('a.id','a.name','a.username','a.email','a.registerDate','a.block','b.allowupload')))
+				->from($db->quoteName('#__users') . ' AS a')
+				->leftJoin($db->quoteName('#__hdflv_user') . ' AS b ON b.member_id = a.id');
 
 		// Filter variable for member order
 		$strMemberOrder = $mainframe->getUserStateFromRequest($option . 'filter_order_member', 'filter_order', 'name', 'cmd');
@@ -134,7 +126,7 @@ class ContushdvideoshareModelmemberdetails extends ContushdvideoshareModel
 
 		if ($strMemberSearch && $strMemberStatus)
 		{
-			$query->where(' AND');
+			$query->where('');
 		}
 		elseif (!$strMemberSearch && $strMemberStatus)
 		{
@@ -168,7 +160,8 @@ class ContushdvideoshareModelmemberdetails extends ContushdvideoshareModel
 		$db->setQuery($query, $pageNav->limitstart, $pageNav->limit);
 		$memberdetails = $db->loadObjectList();
 
-		$query->select('dispenable')
+		$query->clear()
+				->select('dispenable')
 				->from('#__hdflv_site_settings');
 		$db->setQuery($query);
 		$res_disenable = $db->loadResult();
@@ -215,13 +208,15 @@ class ContushdvideoshareModelmemberdetails extends ContushdvideoshareModel
 
 		if (version_compare(JVERSION, '3.0.0', 'ge'))
 		{
-			$query->update($db->quoteName('#__users'))
+			$query->clear()
+				->update($db->quoteName('#__users'))
 				->set($db->quoteName('block') . ' = ' . $db->quote($publish))
 				->where($db->quoteName('id') . ' IN ( ' . $cids . ' )');
 		}
 		else
 		{
-			$query->update($db->quoteName('#__users'))
+			$query->clear()
+				->update($db->quoteName('#__users'))
 				->set($db->quoteName('block') . ' = ' . $db->quote($publish))
 				->where($db->quoteName('usertype') . ' <> ' . $db->quote('Super Administrator'))
 				->where($db->quoteName('id') . ' IN ( ' . $cids . ' )');

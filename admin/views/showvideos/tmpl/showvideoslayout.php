@@ -549,8 +549,7 @@ echo JHTML::_('grid.sort', 'ID', 'Id', @$videolist1['lists']['order_Dir'], @$vid
 						$str1 = explode('administrator', JURI::base());
 						$videopath = $str1[0] . "components/com_contushdvideoshare/videos/";
 						?>
-						<tr id="listItem_
-							<?php
+						<tr id="listItem_<?php
 							echo $row_showupload->id;
 							?>" class="
 								<?php
@@ -768,8 +767,7 @@ onclick="window.open('<?php echo $videolink; ?>', '',
 								<?php echo $midrollads; ?>
 							</td>
 							<td id="<?php echo $row_showupload->id; ?>">
-								<p style="padding:6px;" id="ordertd_
-									<?php
+								<p style="padding:6px;" id="ordertd_<?php
 									echo $row_showupload->id;
 									?>"> 
 										<?php

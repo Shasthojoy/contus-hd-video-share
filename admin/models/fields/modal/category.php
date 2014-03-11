@@ -50,7 +50,8 @@ class JFormFieldModal_Category extends JFormField
 		$link = 'index.php?layout=categorylist&option=com_contushdvideoshare&categorylist=1&amp;tmpl=component&amp;function=jSelectArticle_' . $this->id;
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select(array('category'))
+		$query->clear()
+				->select(array('category'))
 				->from('#__hdflv_category')
 				->where($db->quoteName('id') . ' = ' . (int) $this->value);
 		$db->setQuery($query);

@@ -99,13 +99,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 
 		$lists['order_Dir'] = $filter_order_Dir;
 		$lists['order'] = $filter_order;
-		$where = ' WHERE ';
+		$where = '';
 		$search = $this->phpSlashes($search);
-
-		if ($search || $state_filter)
-		{
-			$where = ' WHERE';
-		}
 
 		// Query to fetch sub categories
 		if ($search)
@@ -148,8 +143,16 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 			$where .= " a.published != -2";
 		}
 
-		$query->select($db->quoteName(array('a.id AS value','a.category AS text','a.ordering','a.published','COUNT(DISTINCT b.id) AS level')))
-				->from($db->quoteName('#__hdflv_category AS a'))
+		$fields = array(
+			$db->quoteName('a.id') . ' AS value',
+			$db->quoteName('a.category') . ' AS text',
+			$db->quoteName('a.ordering'),
+			$db->quoteName('a.published'),
+			'COUNT(DISTINCT b.id) AS level'
+			);
+		$query->clear()
+				->select($fields)
+				->from($db->quoteName('#__hdflv_category') . ' AS a')
 				->leftJoin('#__hdflv_category AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 				->where($where)
 				->group($db->escape('a.id' . ' ,' . 'a.category' . ' , ' . 'a.lft' . ' , ' . 'a.rgt'))
@@ -161,12 +164,6 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		// Set pagination
 		$pageNav = new JPagination($categoryCount, $limitstart, $limit);
 
-		$query->select($db->quoteName(array('a.id AS value','a.category AS text','a.ordering','a.published','COUNT(DISTINCT b.id) AS level')))
-				->from($db->quoteName('#__hdflv_category AS a'))
-				->leftJoin('#__hdflv_category AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-				->where($where)
-				->group($db->escape('a.id' . ' ,' . 'a.category' . ' , ' . 'a.lft' . ' , ' . 'a.rgt'))
-				->order($filter_order . ' ' . $filter_order_Dir);
 		$db->setQuery($query, $pageNav->limitstart, $pageNav->limit);
 		$categorylist = $db->loadObjectList();
 
@@ -191,17 +188,24 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 
 		// Query to fetch details of selected category
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName(array('id','member_id','category','seo_category','parent_id','ordering','published')))
+		$query->clear()
+				->select($db->quoteName(array('id','member_id','category','seo_category','parent_id','ordering','published')))
 				->from($db->quoteName('#__hdflv_category'))
-				->leftJoin('#__hdflv_category AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 				->where($db->quoteName('id') . '= ' . $id);
 		$db->setQuery($query);
 		$category = $db->loadObject();
 
-		$query->select($db->quoteName(array('a.id AS value','a.category AS text','COUNT(DISTINCT b.id) AS level')))
-				->from($db->quoteName('#__hdflv_category AS a'))
+		$fields = array(
+			$db->quoteName('a.id') . ' AS value',
+			$db->quoteName('a.category') . ' AS text',
+			'COUNT(DISTINCT b.id) AS level'
+			);
+		$query->clear()
+				->select($fields)
+				->from($db->quoteName('#__hdflv_category') . ' AS a')
 				->leftJoin('#__hdflv_category AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-				->where($db->quoteName('a.published = 1 AND a.id !=') . $id)
+				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('a.id') . ' != ' . $db->quote($id))
 				->group($db->escape('a.id' . ' ,' . 'a.category' . ' , ' . 'a.lft' . ' , ' . 'a.rgt'))
 				->order('a.lft ASC');
 		$db->setQuery($query);
@@ -229,10 +233,16 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 	{
 		global $db;
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName(array('a.id AS value','a.category AS text','COUNT(DISTINCT b.id) AS level')))
-				->from($db->quoteName('#__hdflv_category AS a'))
+		$fields = array(
+			$db->quoteName('a.id') . ' AS value',
+			$db->quoteName('a.category') . ' AS text',
+			'COUNT(DISTINCT b.id) AS level'
+			);
+		$query->clear()
+				->select($fields)
+				->from($db->quoteName('#__hdflv_category') . ' AS a')
 				->leftJoin('#__hdflv_category AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-				->where($db->quoteName('a.published = 1'))
+				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
 				->group($db->escape('a.id' . ' ,' . 'a.category' . ' , ' . 'a.lft' . ' , ' . 'a.rgt'))
 				->order('a.lft ASC');
 		$db->setQuery($query);
@@ -277,7 +287,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		// Code for seo category name
 		$seo_category = $arrFormData['category'];
 		$category_id = $arrFormData['id'];
-		$query->select($db->quoteName(array('id','published')))
+		$query->clear()
+				->select($db->quoteName(array('id','published')))
 				->from($db->quoteName('#__hdflv_category'))
 				->where($db->quoteName('category') . '=\'' . $seo_category . '\'');
 		$db->setQuery($query);
@@ -320,7 +331,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		else
 		{
 			$parent_id = $arrFormData['parent_id'];
-			$query->select($db->quoteName(array('ordering')))
+			$query->clear()
+					->select($db->quoteName(array('ordering')))
 				->from($db->quoteName('#__hdflv_category'))
 				->where($db->quoteName('parent_id') . '=\'' . $parent_id . '\'');
 			$db->setQuery($query);
@@ -367,7 +379,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		$query = $db->getQuery(true);
 
 		// Get all children of this node
-		$query->select($db->quoteName(array('id')))
+		$query->clear()
+				->select($db->quoteName(array('id')))
 				->from($db->quoteName('#__hdflv_category'))
 				->where($db->quoteName('parent_id') . '=\'' . (int) $parent_id . '\'')
 				->order('category ASC');
@@ -402,7 +415,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		);
 
 		//  Update streamer option,thumb url and file path
-		$query->update($db->quoteName('#__hdflv_category'))->set($fields)->where($conditions);
+		$query->clear()
+				->update($db->quoteName('#__hdflv_category'))->set($fields)->where($conditions);
 		$db->setQuery($query);
 
 		// If there is an update failure, return false to break out of the recursion
@@ -430,7 +444,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		if (count($arrayIDs))
 		{
 			$cids = implode(',', $arrayIDs);
-			$query->select($db->quoteName(array('lft','rgt')))
+			$query->clear()
+				->select($db->quoteName(array('lft','rgt')))
 				->from($db->quoteName('#__hdflv_category'))
 				->where($db->quoteName('id') . 'IN (\'' . $cids . '\')');
 			$db->setQuery($query);
@@ -444,7 +459,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 					$db->quoteName('lft') . 'BETWEEN ' . $lft . ' AND ' . $rgt
 				);
 
-				$query->delete($db->quoteName('#__hdflv_category'))
+				$query->clear()
+						->delete($db->quoteName('#__hdflv_category'))
 						->where($conditions);
 				$db->setQuery($query);
 				$db->query();
@@ -484,7 +500,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		$cids1 = $arrayIDs['cid'];
 		$categoryTable = & JTable::getInstance('category', 'Table');
 		$cids = implode(',', $arrayIDs['cid']);
-		$query->select($db->quoteName(array('parent_id')))
+		$query->clear()
+				->select($db->quoteName(array('parent_id')))
 				->from($db->quoteName('#__hdflv_category'))
 				->where($db->quoteName('id') . 'IN (\'' . $cids . '\')');
 		$db->setQuery($query);
@@ -492,7 +509,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 
 		if ($options != 0)
 		{
-			$query->select($db->quoteName(array('published')))
+			$query->clear()
+				->select($db->quoteName(array('published')))
 				->from($db->quoteName('#__hdflv_category'))
 				->where($db->quoteName('id') . 'IN (\'' . $options . '\')');
 			$db->setQuery($query);
@@ -519,7 +537,8 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		);
 
 		//  Update streamer option,thumb url and file path
-		$query->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+		$query->clear()
+			->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
 		$db->setQuery($query);
 		$db->query();
 		$link = 'index.php?option=com_contushdvideoshare&layout=category';

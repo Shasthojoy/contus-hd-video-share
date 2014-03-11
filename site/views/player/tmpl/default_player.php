@@ -984,6 +984,7 @@ if (isset($ratestar)
 						for (var i = 0; i < reportvideotype.length; i++) {
 							if (reportvideotype[i].checked) {
 								repmsg = reportvideotype[i].value;
+								break;
 							} else {
 								repmsg = '';
 							}
@@ -1237,11 +1238,11 @@ echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport
 		$embed_code = '<embed id="player" src="' . $playerpath . '" flashvars="id='
 				. $this->videodetails->id . '&amp;baserefJHDV=' . JURI::base()
 				. '&amp;playlist_auto=false&amp;Preview=' . $video_preview
-. '&amp;showPlaylist=false&amp;embedplayer=true&amp;shareIcon=false&amp;email=false&amp;zoomIcon=false&amp;
-	playlist_autoplay=false"
-style="width:' . $player_values['width'] . 'px;height:' . $player_values['height'] . 'px"
-	allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"
-	wmode="transparent"></embed>';
+				. '&amp;showPlaylist=false&amp;embedplayer=true&amp;shareIcon=false&amp;email=false&amp;'
+				. 'zoomIcon=false&amp;playlist_autoplay=false" '
+				. 'style="width:' . $player_values['width'] . 'px;height:' . $player_values['height']
+				. 'px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"'
+				. 'wmode="transparent"></embed>';
 	}
 	?>
 	<textarea onclick="this.select()" dir="LTR" id="embedcode" name="embedcode" style="display:none;width:<?php

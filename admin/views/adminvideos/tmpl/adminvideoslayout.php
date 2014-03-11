@@ -663,14 +663,12 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 				<td><?php echo JHTML::tooltip('Enter Youtube/Vimeo/Video URL', 'Video URL', '', 'Video URL'); ?></td>
 				<td>
 					<input type="text" name="videourl"  id="videourl" size="100" onkeyup="generate12(this.value);" 
-						   maxlength="250" value="
-						   						   <?php
+						   maxlength="250" value="<?php
 if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload']->filepath == 'Youtube')
 {
 	echo $editVideo['rs_editupload']->videourl;
 }
-?>
-						   "/>
+?>"/>
 					&nbsp;&nbsp
 					<input id="generate" type="submit" name="youtube_media" class="button-primary"
 						   value="Generate details" onclick="generateyoutubedetail();" />
@@ -678,8 +676,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 			</tr>
 			<tr id="ffmpeg_disable_new8" name="ffmpeg_disable_edit8"><td>
 				<?php echo JHTML::tooltip('Enter HD Video URL (Eg:http://www.yourdomain.com/video.flv)', 'HD URL', '', 'HD URL'); ?></td>
-				<td><input type="text" name="hdurl"  id="hdurl" size="100" maxlength="250" value="
-					<?php
+				<td><input type="text" name="hdurl"  id="hdurl" size="100" maxlength="250" value="<?php
 					if ($editVideo['rs_editupload']->filepath == 'Url')
 					{
 						echo $editVideo['rs_editupload']->hdurl;
@@ -688,8 +685,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 				</td></tr>
 			<tr id="ffmpeg_disable_new6" name="ffmpeg_disable_edit6"><td>
 				<?php echo JHTML::tooltip('Enter Video Thumb URL (Eg:http://www.yourdomain.com/images)', 'Thumb URL', '', 'Thumb URL'); ?></td>
-				<td><input type="text" name="thumburl"  id="thumburl" size="100" maxlength="250" value="
-					<?php
+				<td><input type="text" name="thumburl"  id="thumburl" size="100" maxlength="250" value="<?php
 					if ($editVideo['rs_editupload']->filepath == 'Url')
 					{
 						echo $editVideo['rs_editupload']->thumburl;
@@ -698,8 +694,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 				</td></tr>
 			<tr id="ffmpeg_disable_new7" name="ffmpeg_disable_edit7"><td>
 				<?php echo JHTML::tooltip('Enter Video Preview URL (Eg:http://www.yourdomain.com/images)', 'Preview URL', '', 'Preview URL'); ?></td>
-				<td><input type="text" name="previewurl"  id="previewurl" size="100" maxlength="250" value="
-					<?php
+				<td><input type="text" name="previewurl"  id="previewurl" size="100" maxlength="250" value="<?php
 					if ($editVideo['rs_editupload']->filepath == 'Url')
 					{
 						echo $editVideo['rs_editupload']->previewurl;
@@ -713,8 +708,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 					<div id="f5-upload-form" >
 						<form name="ffmpegform" method="post" enctype="multipart/form-data" >
 							<input type="file" name="myfile" id="myfile4"  onchange="enableUpload(this.form.name);" />
-							<input type="button" name="uploadBtn" value="Upload Video" disabled="disabled"
-								<?php
+							<input type="button" name="uploadBtn" value="Upload Video" disabled="disabled" <?php
 								if (version_compare(JVERSION, '3.0.0', 'ge'))
 								{
 									echo 'class="modal btn"';
@@ -764,8 +758,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 						<form name="subtitle_video_srt1form" method="post" enctype="multipart/form-data" >
 
 							<input type="file" name="myfile" id="myfile7"  onchange="enableUpload(this.form.name);" />
-							<input type="button" name="uploadBtn"
-								<?php
+							<input type="button" name="uploadBtn" <?php
 								if (version_compare(JVERSION, '3.0.0', 'ge'))
 								{
 									echo 'class="modal btn"';
@@ -822,8 +815,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 						<form name="subtitle_video_srt2form" method="post" enctype="multipart/form-data" >
 
 							<input type="file" name="myfile" id="myfile8"  onchange="enableUpload(this.form.name);" />
-							<input type="button" name="uploadBtn"
-								<?php
+							<input type="button" name="uploadBtn" <?php
 								if (version_compare(JVERSION, '3.0.0', 'ge'))
 								{
 									echo 'class="modal btn"';
@@ -894,61 +886,58 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 					{
 					if (http.readyState == 4)
 							{
-							var result = http.responseText;
-									var resarray = JSON.parse(result);
-									document.getElementById('title').value = resarray.title;
-									document.getElementById('videourl').value = resarray.urlpath;
-									document.getElementById('description').innerHTML = resarray.description;
-									if (typeof resarray.tags === 'undefined'){
-							document.getElementById('tags').value = '';
-									} else {
-							document.getElementById('tags').value = resarray.tags;
-									}
+								var result = http.responseText;
+								var resarray = JSON.parse(result);
+								document.getElementById('title').value = resarray.title;
+								document.getElementById('videourl').value = resarray.urlpath;
+								document.getElementById('description').innerHTML = resarray.description;
+								if (typeof resarray.tags === 'undefined'){
+									document.getElementById('tags').value = '';
+								} else {
+									document.getElementById('tags').value = resarray.tags;
+								}
 							}
 					}
 			function generateyoutubedetail(){
-			var videourl = document.getElementById('videourl').value;
+					var videourl = document.getElementById('videourl').value;
 					nocache = Math.random();
 					var index = videourl.indexOf("&");
 					var result;
 					if (index < 0) {
-			result = videourl;
+						result = videourl;
 					} else {
-			result = videourl.substr(0, index);
+						result = videourl.substr(0, index);
 					}
-
-
-			videourl = result.split('').reverse().join('');
-					http.open(
-							'get',
-					'<?php echo JURI::base(); ?>index.php?option=com_contushdvideoshare&layout=adminvideos&task=youtubeurl&tmpl=component&videourl=' + videourl,
-					true
-		);
+					videourl = result.split('').reverse().join('');
+					http.open('get','<?php
+					echo JURI::base();
+					?>index.php?option=com_contushdvideoshare&layout=adminvideos&task=youtubeurl&tmpl=component&videourl=' + videourl,
+					true);
 					http.onreadystatechange = insertReply;
 					http.send(null);
-					}
+			}
 			function generate12(str1)
-					{
-					var theurl = str1;
-							var theurl = document.getElementById("videourl").value;
-							var youtubeoccr1 = theurl.indexOf("youtube");
-							var youtubeoccr2 = theurl.indexOf("youtu.be");
-							if (youtubeoccr1 !== - 1 || youtubeoccr2 !== - 1){
+			{
+				var theurl = str1;
+				var theurl = document.getElementById("videourl").value;
+				var youtubeoccr1 = theurl.indexOf("youtube");
+				var youtubeoccr2 = theurl.indexOf("youtu.be");
+				if (youtubeoccr1 !== - 1 || youtubeoccr2 !== - 1){
 					document.getElementById('generate').style.visibility = "visible";
-							} else {
+				} else {
 					document.getElementById('generate').style.visibility = "hidden";
-							}
-					var vimeooccr = theurl.indexOf("vimeo");
-							var viddleroccr = theurl.indexOf("viddler");
-							var dailymotionoccr = theurl.indexOf("dailymotion");
-							if (vimeooccr !== - 1 || viddleroccr != - 1 || dailymotionoccr != - 1){
+				}
+				var vimeooccr = theurl.indexOf("vimeo");
+				var viddleroccr = theurl.indexOf("viddler");
+				var dailymotionoccr = theurl.indexOf("dailymotion");
+				if (vimeooccr !== - 1 || viddleroccr != - 1 || dailymotionoccr != - 1){
 					document.getElementById('subtitle_video_srt1').style.display = 'none';
-							document.getElementById('subtitle_video_srt2').style.display = 'none';
-							} else {
+					document.getElementById('subtitle_video_srt2').style.display = 'none';
+				} else {
 					document.getElementById('subtitle_video_srt1').style.display = '';
-							document.getElementById('subtitle_video_srt2').style.display = '';
-							}
-					}
+					document.getElementById('subtitle_video_srt2').style.display = '';
+				}
+			}
 </script>
 <!-- video fields end -->
 
@@ -1025,12 +1014,12 @@ for ($i = 0; $i < count($editVideo['rs_play']); $i++)
 	$playlistnames = $editVideo['rs_play'][$i];
 	?>
 							user[<?php echo $i; ?>] = new Array(2);
-									user[<?php echo $i; ?>][1] = "<?php 
-									echo $playlistnames->id;
-									?>";
-									user[<?php echo $i; ?>][0] = "<?php
-									echo $playlistnames->category;
-									?>";
+							user[<?php echo $i; ?>][1] = "<?php 
+							echo $playlistnames->id;
+							?>";
+							user[<?php echo $i; ?>][0] = "<?php
+							echo $playlistnames->category;
+							?>";
 	<?php
 }
 ?>
@@ -1070,10 +1059,9 @@ for ($i = 0; $i < count($editVideo['rs_play']); $i++)
 								echo $row_play->id;
 								?>" id="<?php
 								echo $row_play->id;
-								?>">
-									<?php
-									echo $row_play->category;
-											?></option>
+								?>"><?php
+								echo $row_play->category;
+								?></option>
 								<?php
 							}
 						}
@@ -1161,15 +1149,13 @@ if ($count >= 1)
 		?>
 								<option value="<?php
 								echo $row_Ads->id;
-								?>"
-										id="5<?php
-										echo $row_Ads->id;
-										?>" name="<?php
-										echo $row_Ads->id;
-										?>" >
-											<?php
-											echo $row_Ads->adsname;
-											?>
+								?>"id="5<?php
+								echo $row_Ads->id;
+								?>" name="<?php
+								echo $row_Ads->id;
+								?>" ><?php
+								echo $row_Ads->adsname;
+								?>
 								</option>
 								<?php
 	}
@@ -1226,10 +1212,9 @@ if ($count >= 1)
 								echo $row_Ads->id;
 								?>" name="<?php
 								echo $row_Ads->id;
-								?>">
-									<?php
-									echo $row_Ads->adsname;
-									?>
+								?>"><?php
+								echo $row_Ads->adsname;
+								?>
 								</option>
 							<?php
 						}
@@ -1382,18 +1367,21 @@ else
 	<input type="hidden" name="subtile_lang2" id="subtile_lang2" value="" />
 	<input type="hidden" name="thumbimageform-value" id="thumbimageform-value" value="" />
 	<input type="hidden" name="previewimageform-value" id="previewimageform-value" value="" />
-	<input type="hidden" name="subtitle_video_srt1form-value" id="subtitle_video_srt1form-value"
-		   value="<?php echo $editVideo['rs_editupload']->subtitle1; ?>" />
-	<input type="hidden" name="subtitle_video_srt2form-value" id="subtitle_video_srt2form-value"
-		   value="<?php echo $editVideo['rs_editupload']->subtitle2; ?>" />
+	<input type="hidden" name="subtitle_video_srt1form-value" id="subtitle_video_srt1form-value" value="<?php
+	echo $editVideo['rs_editupload']->subtitle1;
+	?>" />
+	<input type="hidden" name="subtitle_video_srt2form-value" id="subtitle_video_srt2form-value" value="<?php
+	echo $editVideo['rs_editupload']->subtitle2;
+	?>" />
 	<input type="hidden" name="ffmpegform-value" id="ffmpegform-value" value="<?php echo $editVideo['rs_editupload']->videourl; ?>" />
 	<input type="hidden" name="videourl-value" id="videourl-value" value="" />
 	<input type="hidden" name="embedcode" id="embedcode" value="" />
 	<input type="hidden" name="thumburl-value" id="thumburl-value" value="" />
 	<input type="hidden" name="previewurl-value" id="previewurl-value" value="" />
 	<input type="hidden" name="hdurl-value" id="hdurl-value" value="" />
-	<input type="hidden" name="streameroption-value" id="streameroption-value"
-		   value="<?php echo $editVideo['rs_editupload']->streameroption; ?>" />
+	<input type="hidden" name="streameroption-value" id="streameroption-value" value="<?php
+	echo $editVideo['rs_editupload']->streameroption;
+	?>" />
 	<input type="hidden" name="streamerpath-value" id="streamerpath-value" value="" />
 	<input type="hidden" name="islive-value" id="islive-value" value="" />
 	<input type="hidden" name="usergroupid" id="usergroupid" value="<?php echo $videostype; ?>" />

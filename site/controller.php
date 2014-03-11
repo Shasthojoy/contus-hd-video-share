@@ -95,9 +95,10 @@ class ContushdvideoshareController extends ContusvideoshareController
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
-		$query->update($db->quoteName('#__hdflv_upload'))
+		$query->clear()
+				->update($db->quoteName('#__hdflv_upload'))
 				->set($db->quoteName('times_viewed') . ' = 1+times_viewed')
-				->where($db->quoteName('id') . ' = ' . $db->quote('$vid'));
+				->where($db->quoteName('id') . ' = ' . $db->quote($vid));
 		$db->setQuery($query);
 		$db->query();
 	}
@@ -123,7 +124,7 @@ class ContushdvideoshareController extends ContusvideoshareController
 		$query = $db->getQuery(true);
 
 		//  Query is to display recent videos in home page
-		$query->select(array('d.email','d.username'))
+		$query->select(array('email','username'))
 				->from('#__users')
 				->where($db->quoteName('id') . ' = ' . $db->quote($memberid));
 		$db->setQuery($query);

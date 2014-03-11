@@ -157,12 +157,11 @@ else
 			?>>
 				<tr>
 					<td class="key" ><?php echo JHTML::tooltip('Recommended value is 3', 'Buffer Time', '', 'Buffer Time'); ?></td>
-					<td><input type="text" name="buffer" value="
-						<?php
-						if (isset($player_values['buffer']))
-						{
-							echo $player_values['buffer'];
-						}
+					<td><input type="text" name="buffer" value="<?php
+if (isset($player_values['buffer']))
+{
+	echo $player_values['buffer'];
+}
 						?>" /> secs </td>
 					<td class="key"><?php echo JHTML::tooltip('Select Enable to auto hide skin', 'Skin Auto Hide', '', 'Skin Auto Hide'); ?></td>
 					<td <?php
@@ -171,15 +170,13 @@ else
 						echo 'class="radio_algin"';
 					}
 						?>>
-						<input type="radio" name="skin_autohide" 
-						<?php
-						if (isset($player_icons['skin_autohide']) && $player_icons['skin_autohide'] == 1)
-						{
-							echo 'checked="checked" ';
-						}
-						?> value="1" />Enable 
-						<input type="radio" name="skin_autohide"
-<?php
+						<input type="radio" name="skin_autohide" <?php
+if (isset($player_icons['skin_autohide']) && $player_icons['skin_autohide'] == 1)
+{
+	echo 'checked="checked" ';
+}
+							?> value="1" />Enable 
+						<input type="radio" name="skin_autohide" <?php
 if (isset($player_icons['skin_autohide']) && $player_icons['skin_autohide'] == 0)
 {
 	echo 'checked="checked" ';
@@ -191,45 +188,41 @@ if (isset($player_icons['skin_autohide']) && $player_icons['skin_autohide'] == 0
 						<?php echo JHTML::tooltip('Minimum width of the player is 300px.
 							To have smaller than 300px then have to disable couple of controls (eg: Timer, Zoom).',
 								'Width', '', 'Width'); ?></td>
-					<td ><input type="text" id="player_width" name="width" value="
-						<?php
-						if (isset($player_values['width']))
-							{
-								echo $player_values['width'];
-						}
+					<td ><input type="text" id="player_width" name="width" value="<?php
+if (isset($player_values['width']))
+{
+	echo $player_values['width'];
+}
 						?>" /> px </td>
 					<td class="key" >
 						<?php echo JHTML::tooltip('Recommended value is 400', 'Height', '', 'Height'); ?></td>
-					<td><input type="text" name="height" value="
-						<?php
-						if (isset($player_values['height']))
-						{
-							echo $player_values['height'];
-						}
+					<td><input type="text" name="height" value="<?php
+if (isset($player_values['height']))
+{
+	echo $player_values['height'];
+}
 						?>" id="player_height" /> px</td>
 				</tr>
 				<tr>
 					<td class="key">
 						<?php echo JHTML::tooltip('Set the background color for the player in the format ffffff',
 								'Stage Color', '', 'Stage Color'); ?></td>
-					<td>#<input type="text" name="stagecolor" value="
-						<?php
-						if (isset($player_values['stagecolor']))
-						{
-							echo $player_values['stagecolor'];
-						}
+					<td>#<input type="text" name="stagecolor" value="<?php
+if (isset($player_values['stagecolor']))
+{
+	echo $player_values['stagecolor'];
+}
 						?>" />
 					</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Enter FFMpeg Binary Path', 'FFMpeg Binary Path', '',
 								'FFMpeg Binary Path'); ?></td>
 					<td>
-						<input style="width: 150px;" type="text" name="ffmpegpath" value="
-							<?php
-							if (isset($player_values['ffmpegpath']))
-							{
-								echo $player_values['ffmpegpath'];
-							}
+						<input style="width: 150px;" type="text" name="ffmpegpath" value="<?php
+if (isset($player_values['ffmpegpath']))
+{
+	echo $player_values['ffmpegpath'];
+}
 							?>" /> </td>
 
 				</tr>
@@ -275,71 +268,58 @@ if (isset($player_values['fullscreenscale']) && $player_values['fullscreenscale'
 							echo 'class="radio_algin"';
 						}
 						?>>
-						<input type="radio" name="fullscreen"
-						<?php
-						if (isset($player_icons['fullscreen']) && $player_icons['fullscreen'] == 1)
-						{
-							echo 'checked="checked" ';
-						}
-						?>
-							   value="1" />Enable <input type="radio" name="fullscreen"
-<?php
+						<input type="radio" name="fullscreen" <?php
+if (isset($player_icons['fullscreen']) && $player_icons['fullscreen'] == 1)
+{
+	echo 'checked="checked" ';
+}
+							?> value="1" />Enable <input type="radio" name="fullscreen" <?php
 if (isset($player_icons['fullscreen']) && $player_icons['fullscreen'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+								?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to play the videos one by one continuously without clicking on next video',
 								'Autoplay', '', 'Autoplay'); ?></td>
-					<td <?php
+					<td <?php 
 					if (version_compare(JVERSION, '3.0.0', 'ge'))
 					{
 						echo 'class="radio_algin"';
 					}
 					?>>
-						<input type="radio" name="autoplay"
-						<?php
-						if (isset($player_icons['autoplay']) && $player_icons['autoplay'] == 1)
-						{
-							echo 'checked="checked" ';
-						}
-						?>
-							   value="1" />Enable <input type="radio" name="autoplay"
-						<?php
-						if (isset($player_icons['autoplay']) && $player_icons['autoplay'] == 0)
-						{
-							echo 'checked="checked" ';
-						}
-						?>
-							   value="0" />Disable</td>
+						<input type="radio" name="autoplay" <?php
+if (isset($player_icons['autoplay']) && $player_icons['autoplay'] == 1)
+{
+	echo 'checked="checked" ';
+}
+							?> value="1" />Enable <input type="radio" name="autoplay" <?php
+if (isset($player_icons['autoplay']) && $player_icons['autoplay'] == 0)
+{
+	echo 'checked="checked" ';
+}
+								?> value="0" />Disable</td>
 				</tr>
 				<tr>
 					<td class="key"><?php echo JHTML::tooltip('Zoom button on the player control can be disable / enable here', 'Zoom', '', 'Zoom'); ?></td>
-					<td
-						<?php
-						if (version_compare(JVERSION, '3.0.0', 'ge'))
-						{
-							echo 'class="radio_algin"';
-						}
-						?>>
-						<input type="radio" name="zoom"
-						<?php
-						if (isset($player_icons['zoom']) && $player_icons['zoom'] == 1)
-						{
-							echo 'checked="checked" ';
-						}
-						?>
-							   value="1" />Enable 
-						<input type="radio" name="zoom"
-						<?php
-						if (isset($player_icons['zoom']) && $player_icons['zoom'] == 0)
-						{
-							echo 'checked="checked" ';
-						}
-						?>
-							   value="0" />Disable</td>
+					<td <?php
+if (version_compare(JVERSION, '3.0.0', 'ge'))
+{
+	echo 'class="radio_algin"';
+}
+				?>>
+						<input type="radio" name="zoom" <?php
+if (isset($player_icons['zoom']) && $player_icons['zoom'] == 1)
+{
+	echo 'checked="checked" ';
+}
+							?> value="1" />Enable 
+						<input type="radio" name="zoom" <?php
+if (isset($player_icons['zoom']) && $player_icons['zoom'] == 0)
+{
+	echo 'checked="checked" ';
+}
+							?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to set enable / disable timer control on player',
 								'Timer', '', 'Timer'); ?></td>
@@ -349,81 +329,67 @@ if (isset($player_icons['fullscreen']) && $player_icons['fullscreen'] == 0)
 						echo 'class="radio_algin"';
 					}
 					?>>
-						<input type="radio" name="timer"
-<?php
+						<input type="radio" name="timer" <?php
 if (isset($player_icons['timer']) && $player_icons['timer'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="1" />Enable 
-						<input type="radio" name="timer"
-<?php
+?> value="1" />Enable 
+						<input type="radio" name="timer" <?php
 if (isset($player_icons['timer']) && $player_icons['timer'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+?> value="0" />Disable</td>
 				</tr>
 				<tr>
 					<td class="key">
 						<?php echo JHTML::tooltip('Recommended value is 50', 'Volume', '', 'Volume'); ?></td>
 					<td>
-						<input type="text" name="volume" value="
-<?php
+						<input type="text" name="volume" value="<?php
 if (isset($player_values['volume']))
 {
 	echo $player_values['volume'];
 }
-?>"
-							   /> %
+							?>" /> %
 					</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Enter Login Page URL', 'Login Page URL', '', 'Login Page URL'); ?></td>
-					<td 
-						<?php
-						if (version_compare(JVERSION, '3.0.0', 'ge'))
-						{
-							echo 'class="radio_algin"';
-						}
-						?>>
-						<input type="text" name="login_page_url" value="
-<?php
+					<td <?php
+if (version_compare(JVERSION, '3.0.0', 'ge'))
+{
+	echo 'class="radio_algin"';
+}
+				?>>
+						<input type="text" name="login_page_url" value="<?php
 if (isset($player_icons['login_page_url']))
 {
 	echo $player_icons['login_page_url'];
 }
-?>"
-						   />
+							?>"/>
 					</td>
 
 				</tr>
 				<tr>
 					<td class="key">
 						<?php echo JHTML::tooltip('Share button on the player can be enabled/disabled from here', 'Share Button', '', 'Share Button'); ?></td>
-					<td 
-						<?php
-						if (version_compare(JVERSION, '3.0.0', 'ge'))
-						{
-							echo 'class="radio_algin"';
-						}
-						?>>
-						<input type="radio" name="shareurl"
-						<?php
-						if (isset($player_icons['shareurl']) && $player_icons['shareurl'] == 1)
-						{
-							echo 'checked="checked" ';
-						}
-						?>
-							   value="1" />Enable <input type="radio" name="shareurl"
-						<?php
-						if (isset($player_icons['shareurl']) && $player_icons['shareurl'] == 0)
-						{
-							echo 'checked="checked" ';
-						}
-						?>
-							   value="0" />Disable</td>
+					<td <?php
+if (version_compare(JVERSION, '3.0.0', 'ge'))
+{
+	echo 'class="radio_algin"';
+}
+?>>
+						<input type="radio" name="shareurl" <?php
+if (isset($player_icons['shareurl']) && $player_icons['shareurl'] == 1)
+{
+	echo 'checked="checked" ';
+}
+							?> value="1" />Enable <input type="radio" name="shareurl" <?php
+if (isset($player_icons['shareurl']) && $player_icons['shareurl'] == 0)
+{
+	echo 'checked="checked" ';
+}
+								?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to select related videos view', 'Related Videos View', '', 'Related Videos View'); ?></td>
 					<td><select name="relatedVideoView">
@@ -442,27 +408,23 @@ if (isset($player_icons['login_page_url']))
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to play all the videos from playlist continuously',
 								'Playlist Autoplay', '', 'Playlist Autoplay'); ?></td>
-					<td
+					<td 
 						<?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'class="radio_algin"';
 						}
-						?>><input type="radio" name="playlist_autoplay"
-					<?php
+						?>><input type="radio" name="playlist_autoplay" <?php
 					if (isset($player_icons['playlist_autoplay']) && $player_icons['playlist_autoplay'] == 1)
 					{
 						echo 'checked="checked" ';
 					}
-					?>
-					value="1" />Enable <input type="radio" name="playlist_autoplay"
-						<?php
+					?> value="1" />Enable <input type="radio" name="playlist_autoplay" <?php
 						if (isset($player_icons['playlist_autoplay']) && $player_icons['playlist_autoplay'] == 0)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-					value="0" />Disable</td>
+						?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to set the HD videos to play by default', 'HD Default', '', 'HD Default'); ?>
 					</td>
@@ -473,46 +435,37 @@ if (isset($player_icons['login_page_url']))
 						echo 'class="radio_algin"';
 					}
 					?>>
-						<input type="radio" name="hddefault"
-<?php
+						<input type="radio" name="hddefault" <?php
 if (isset($player_icons['hddefault']) && $player_icons['hddefault'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="1" />Enable <input type="radio" name="hddefault"
-						<?php
+?> value="1" />Enable <input type="radio" name="hddefault" <?php
 						if (isset($player_icons['hddefault']) && $player_icons['hddefault'] == 0)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-							   value="0" />Disable</td>
+						?> value="0" />Disable</td>
 				</tr>
 				<tr>
 					<td class="key">
 						<?php echo JHTML::tooltip('Set playlist to open / close always by enable / disable this option', 'Playlist Open', '', 'Playlist Open'); ?></td>
-					<td
-						<?php
+					<td <?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'class="radio_algin"';
 						}
-						?>><input type="radio" name="playlist_open"
-						<?php
+						?>><input type="radio" name="playlist_open" <?php
 						if (isset($player_icons['playlist_open']) && $player_icons['playlist_open'] == 1)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-						value="1" />Enable <input type="radio" name="playlist_open"
-						<?php
+						?> value="1" />Enable <input type="radio" name="playlist_open" <?php
 						if (isset($player_icons['playlist_open']) && $player_icons['playlist_open'] == 0)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-						value="0" />Disable</td>
+						?> value="0" />Disable</td>
 					<td class="key"><?php echo JHTML::tooltip('Option to set enable/disable related videos display within player',
 							'Related Videos', '', 'Related Videos'); ?></td>
 					<td><select name="related_videos">
@@ -537,21 +490,17 @@ if (isset($player_values['related_videos']) && $player_values['related_videos'])
 						echo 'class="radio_algin"';
 					}
 					?>>
-						<input type="radio" name="imageDefault"
-						<?php
+						<input type="radio" name="imageDefault" <?php
 						if (isset($player_icons['imageDefault']) && $player_icons['imageDefault'] == 1)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-							   value="1" />Enable <input type="radio" name="imageDefault"
-<?php
+						?> value="1" />Enable <input type="radio" name="imageDefault" <?php
 if (isset($player_icons['imageDefault']) && $player_icons['imageDefault'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to enable/disable Embed option on player', 'Embed visible',
 								'', 'Embed visible'); ?></td>
@@ -561,21 +510,17 @@ if (isset($player_icons['imageDefault']) && $player_icons['imageDefault'] == 0)
 						echo 'class="radio_algin"';
 					}
 					?>>
-						<input type="radio" name="embedVisible"
-						<?php
+						<input type="radio" name="embedVisible" <?php
 						if (isset($player_icons['embedVisible']) && $player_icons['embedVisible'] == 1)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-							   value="1" />Enable <input type="radio" name="embedVisible"
-							   <?php
+						?> value="1" />Enable <input type="radio" name="embedVisible" <?php
 if (isset($player_icons['embedVisible']) && $player_icons['embedVisible'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+?> value="0" />Disable</td>
 				</tr>
 				<tr>
 
@@ -587,21 +532,17 @@ if (isset($player_icons['embedVisible']) && $player_icons['embedVisible'] == 0)
 						echo 'class="radio_algin"';
 					}
 					?>>
-						<input type="radio" name="enabledownload"
-						<?php
+						<input type="radio" name="enabledownload" <?php
 						if (isset($player_icons['enabledownload']) && $player_icons['enabledownload'] == 1)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-							   value="1" />Enable <input type="radio" name="enabledownload"
-<?php
+						?> value="1" />Enable <input type="radio" name="enabledownload" <?php
 if (isset($player_icons['enabledownload']) && $player_icons['enabledownload'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to enable/disable email option to be displayed on player',
 								'Display Email', '', 'Display Email'); ?></td>
@@ -612,73 +553,59 @@ if (isset($player_icons['enabledownload']) && $player_icons['enabledownload'] ==
 							echo 'class="radio_algin"';
 						}
 						?>>
-						<input type="radio" name="emailenable"
-<?php
+						<input type="radio" name="emailenable" <?php
 if (isset($player_icons['emailenable']) && $player_icons['emailenable'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="1" />Enable <input type="radio" name="emailenable"
-<?php
+?> value="1" />Enable <input type="radio" name="emailenable" <?php
 if (isset($player_icons['emailenable']) && $player_icons['emailenable'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+?> value="0" />Disable</td>
 				</tr>
 				<tr>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to enable/disable Description to be displayed on player',
 								'Description visible', '', 'Description visible'); ?></td>
-					<td
-						<?php
+					<td <?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'class="radio_algin"';
 						}
 						?>>
-						<input type="radio" name="showTag"
-<?php
+						<input type="radio" name="showTag" <?php
 if (isset($player_icons['showTag']) && $player_icons['showTag'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="1" />Enable <input type="radio" name="showTag"
-						<?php
+?> value="1" />Enable <input type="radio" name="showTag" <?php
 						if (isset($player_icons['showTag']) && $player_icons['showTag'] == 0)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-							   value="0" />Disable</td>
+						?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to enable/disable Volume control to be displayed on player',
 								'Volume visible', '', 'Volume visible'); ?></td>
-					<td 
-						<?php
+					<td <?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'class="radio_algin"';
 						}
 						?>>
-						<input type="radio" name="volumecontrol"
-<?php
+						<input type="radio" name="volumecontrol" <?php
 if (isset($player_icons['volumecontrol']) && $player_icons['volumecontrol'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="1" />Enable <input type="radio" name="volumecontrol"
-<?php
+?> value="1" />Enable <input type="radio" name="volumecontrol" <?php
 if (isset($player_icons['volumecontrol']) && $player_icons['volumecontrol'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+?> value="0" />Disable</td>
 				</tr>
 				<tr>
 					<td class="key">
@@ -691,52 +618,42 @@ if (isset($player_icons['volumecontrol']) && $player_icons['volumecontrol'] == 0
 							echo 'class="radio_algin"';
 						}
 						?>>
-						<input type="radio" name="progressControl"
-<?php
+						<input type="radio" name="progressControl" <?php
 if (isset($player_icons['progressControl']) && $player_icons['progressControl'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="1" />Enable <input type="radio" name="progressControl"
-<?php
+?> value="1" />Enable <input type="radio" name="progressControl" <?php
 if (isset($player_icons['progressControl']) && $player_icons['progressControl'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to enable/disable Skin to be displayed on player',
 								'Display Skin', '', 'Display Skin'); ?></td>
-					<td 
-						<?php
+					<td <?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'class="radio_algin"';
 						}
 						?>>
-						<input type="radio" name="skinvisible"
-<?php
+						<input type="radio" name="skinvisible" <?php
 if (isset($player_icons['skinvisible']) && $player_icons['skinvisible'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Enable <input type="radio" name="skinvisible"
-<?php
+?> value="0" />Enable <input type="radio" name="skinvisible" <?php
 if (isset($player_icons['skinvisible']) && $player_icons['skinvisible'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="1" />Disable</td>
+?> value="1" />Disable</td>
 				</tr>
 				<tr>
 					<td class="key" >
 						<?php echo JHTML::tooltip('Option to set Skin Opacity', 'Skin Opacity', '', 'Skin Opacity'); ?></td>
-					<td ><input type="text" id="skin_opacity" name="skin_opacity" value="
-						<?php
+					<td ><input type="text" id="skin_opacity" name="skin_opacity" value="<?php
 						if (isset($player_values['skin_opacity']))
 						{
 							echo $player_values['skin_opacity'];
@@ -745,8 +662,7 @@ if (isset($player_icons['skinvisible']) && $player_icons['skinvisible'] == 1)
 					<td class="key" >
 						<?php echo JHTML::tooltip('Option to set Subtitle Text Color',
 								'Subtitle Text Color', '', 'Subtitle Text Color'); ?></td>
-					<td><input type="text" name="subTitleColor" value="
-						<?php
+					<td><input type="text" name="subTitleColor" value="<?php
 						if (isset($player_values['subTitleColor']))
 						{
 							echo $player_values['subTitleColor'];
@@ -757,8 +673,7 @@ if (isset($player_icons['skinvisible']) && $player_icons['skinvisible'] == 1)
 					<td class="key" >
 						<?php echo JHTML::tooltip('Option to set Subtitle Background Color',
 								'Subtitle Background Color', '', 'Subtitle Background Color'); ?></td>
-					<td ><input type="text" id="subTitleBgColor" name="subTitleBgColor" value="
-						<?php
+					<td ><input type="text" id="subTitleBgColor" name="subTitleBgColor" value="<?php
 						if (isset($player_values['subTitleBgColor']))
 						{
 							echo $player_values['subTitleBgColor'];
@@ -767,8 +682,7 @@ if (isset($player_icons['skinvisible']) && $player_icons['skinvisible'] == 1)
 					<td class="key" >
 						<?php echo JHTML::tooltip('Option to set Subtitle Font Family',
 								'Subtitle Font Family', '', 'Subtitle Font Family'); ?></td>
-					<td><input type="text" name="subTitleFontFamily" value="
-						<?php
+					<td><input type="text" name="subTitleFontFamily" value="<?php
 						if (isset($player_values['subTitleFontFamily']))
 						{
 							echo $player_values['subTitleFontFamily'];
@@ -779,8 +693,7 @@ if (isset($player_icons['skinvisible']) && $player_icons['skinvisible'] == 1)
 					<td class="key" >
 						<?php echo JHTML::tooltip('Option to set Subtitle Font Size',
 								'Subtitle Font Size', '', 'Subtitle Font Size'); ?></td>
-					<td ><input type="text" id="subTitleFontSize" name="subTitleFontSize" value="
-						<?php
+					<td ><input type="text" id="subTitleFontSize" name="subTitleFontSize" value="<?php
 						if (isset($player_values['subTitleFontSize']))
 						{
 							echo $player_values['subTitleFontSize'];
@@ -826,8 +739,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Share Popup Header Color',
 								'Share Popup Header Color', '', 'Share Popup Header Color'); ?></td>
-					<td><input name="sharepanel_up_BgColor" id="sharepanel_up_BgColor" maxlength="100" value="
-						<?php
+					<td><input name="sharepanel_up_BgColor" id="sharepanel_up_BgColor" maxlength="100" value="<?php
 						echo $player_colors['sharepanel_up_BgColor'];
 						?>">
 					</td>
@@ -836,8 +748,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Share Popup Background Color',
 								'Share Popup Background Color', '', 'Share Popup Background Color'); ?></td>
-					<td><input name="sharepanel_down_BgColor" id="sharepanel_down_BgColor" maxlength="100" value="
-						<?php
+					<td><input name="sharepanel_down_BgColor" id="sharepanel_down_BgColor" maxlength="100" value="<?php
 						echo $player_colors['sharepanel_down_BgColor'];
 						?>">
 					</td>
@@ -846,8 +757,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Share Popup Text Color',
 								'Share Popup Text Color', '', 'Share Popup Text Color'); ?></td>
-					<td><input name="sharepaneltextColor" id="sharepaneltextColor" maxlength="100" value="
-						<?php
+					<td><input name="sharepaneltextColor" id="sharepaneltextColor" maxlength="100" value="<?php
 						echo $player_colors['sharepaneltextColor'];
 						?>">
 					</td>
@@ -855,8 +765,7 @@ else
 				<tr>
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Send Button Color', 'Send Button Color', '', 'Send Button Color'); ?></td>
-					<td><input name="sendButtonColor" id="sendButtonColor" maxlength="100" value="
-						<?php
+					<td><input name="sendButtonColor" id="sendButtonColor" maxlength="100" value="<?php
 						echo $player_colors['sendButtonColor'];
 						?>">
 					</td>
@@ -865,8 +774,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Send Button Text Color',
 								'Send Button Text Color', '', 'Send Button Text Color'); ?></td>
-					<td><input name="sendButtonTextColor" id="sendButtonTextColor" maxlength="100" value="
-						<?php
+					<td><input name="sendButtonTextColor" id="sendButtonTextColor" maxlength="100" value="<?php
 						echo $player_colors['sendButtonTextColor'];
 						?>">
 					</td>
@@ -875,8 +783,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Player Text Color',
 								'Player Text Color', '', 'Player Text Color'); ?></td>
-					<td><input name="textColor" id="textColor" maxlength="100" value="
-						<?php
+					<td><input name="textColor" id="textColor" maxlength="100" value="<?php
 						echo $player_colors['textColor'];
 						?>">
 					</td>
@@ -885,8 +792,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Skin Background Color',
 								'Skin Background Color', '', 'Skin Background Color'); ?></td>
-					<td><input name="skinBgColor" id="skinBgColor" maxlength="100" value="
-						<?php
+					<td><input name="skinBgColor" id="skinBgColor" maxlength="100" value="<?php
 						echo $player_colors['skinBgColor'];
 						?>">
 					</td>
@@ -895,8 +801,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Seek Bar Color',
 								'Seek Bar Color', '', 'Seek Bar Color'); ?></td>
-					<td><input name="seek_barColor" id="seek_barColor" maxlength="100" value="
-						<?php
+					<td><input name="seek_barColor" id="seek_barColor" maxlength="100" value="<?php
 						echo $player_colors['seek_barColor'];
 						?>">
 					</td>
@@ -905,8 +810,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Buffer Bar Color',
 								'Buffer Bar Color', '', 'Buffer Bar Color'); ?></td>
-					<td><input name="buffer_barColor" id="buffer_barColor" maxlength="100" value="
-						<?php
+					<td><input name="buffer_barColor" id="buffer_barColor" maxlength="100" value="<?php
 						echo $player_colors['buffer_barColor'];
 						?>">
 					</td>
@@ -915,8 +819,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Skin Icons Color',
 								'Skin Icons Color', '', 'Skin Icons Color'); ?></td>
-					<td><input name="skinIconColor" id="skinIconColor" maxlength="100" value="
-						<?php
+					<td><input name="skinIconColor" id="skinIconColor" maxlength="100" value="<?php
 						echo $player_colors['skinIconColor'];
 						?>">
 					</td>
@@ -925,8 +828,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Progress Bar Background Color',
 								'Progress Bar Background Color', '', 'Progress Bar Background Color'); ?></td>
-					<td><input name="pro_BgColor" id="pro_BgColor" maxlength="100" value="
-						<?php
+					<td><input name="pro_BgColor" id="pro_BgColor" maxlength="100" value="<?php
 						echo $player_colors['pro_BgColor'];
 						?>">
 					</td>
@@ -935,8 +837,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Play Button Color',
 								'Play Button Color', '', 'Play Button Color'); ?></td>
-					<td><input name="playButtonColor" id="playButtonColor" maxlength="100" value="
-						<?php
+					<td><input name="playButtonColor" id="playButtonColor" maxlength="100" value="<?php
 						echo $player_colors['playButtonColor'];
 						?>">
 					</td>
@@ -945,8 +846,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Play Button Background Color',
 								'Play Button Background Color', '', 'Play Button Background Color'); ?></td>
-					<td><input name="playButtonBgColor" id="playButtonBgColor" maxlength="100" value="
-						<?php
+					<td><input name="playButtonBgColor" id="playButtonBgColor" maxlength="100" value="<?php
 						echo $player_colors['playButtonBgColor'];
 						?>">
 					</td>
@@ -955,8 +855,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Player Buttons Color',
 								'Player Buttons Color', '', 'Player Buttons Color'); ?></td>
-					<td><input name="playerButtonColor" id="playerButtonColor" maxlength="100" value="
-						<?php
+					<td><input name="playerButtonColor" id="playerButtonColor" maxlength="100" value="<?php
 						echo $player_colors['playerButtonColor'];
 						?>">
 					</td>
@@ -966,8 +865,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Player Buttons Background Color',
 								'Player Buttons Background Color', '', 'Player Buttons Background Color'); ?></td>
-					<td><input name="playerButtonBgColor" id="playerButtonBgColor" maxlength="100" value="
-						<?php
+					<td><input name="playerButtonBgColor" id="playerButtonBgColor" maxlength="100" value="<?php
 						echo $player_colors['playerButtonBgColor'];
 						?>">
 					</td>
@@ -977,8 +875,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Related Videos Background Color',
 								'Related Videos Background Color', '', 'Related Videos Background Color'); ?></td>
-					<td><input name="relatedVideoBgColor" id="relatedVideoBgColor" maxlength="100" value="
-						<?php
+					<td><input name="relatedVideoBgColor" id="relatedVideoBgColor" maxlength="100" value="<?php
 						echo $player_colors['relatedVideoBgColor'];
 						?>">
 					</td>
@@ -988,8 +885,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Related Videos Scroll Bar Color',
 								'Related Videos Scroll Bar', '', 'Related Videos Scroll Bar'); ?></td>
-					<td><input name="scroll_barColor" id="scroll_barColor" maxlength="100" value="
-						<?php
+					<td><input name="scroll_barColor" id="scroll_barColor" maxlength="100" value="<?php
 						echo $player_colors['scroll_barColor'];
 						?>">
 					</td>
@@ -999,8 +895,7 @@ else
 					<td>
 						<?php echo JHTML::tooltip('Enter the color for Related Videos Scroll Bar Background Color',
 								'Related Videos Scroll Bar Background', '', 'Related Videos Scroll Bar Background'); ?></td>
-					<td><input name="scroll_BgColor" id="scroll_BgColor" maxlength="100" value="
-						<?php
+					<td><input name="scroll_BgColor" id="scroll_BgColor" maxlength="100" value="<?php
 						echo $player_colors['scroll_BgColor'];
 						?>">
 					</td>
@@ -1053,21 +948,17 @@ else
 						{
 							echo 'class="radio_algin" ';
 						}
-					?> ><input type="radio" name="postrollads"
-						<?php
+					?> ><input type="radio" name="postrollads" <?php
 						if (isset($player_icons['postrollads']) && $player_icons['postrollads'] == 1)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-						value="1" />Enable <input type="radio" name="postrollads"
-<?php
+						?> value="1" />Enable <input type="radio" name="postrollads" <?php
 if (isset($player_icons['postrollads']) && $player_icons['postrollads'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-						value="0" />Disable</td>
+?> value="0" />Disable</td>
 							<?php
 							if (version_compare(JVERSION, '3.0.0', 'ge'))
 							{
@@ -1077,8 +968,7 @@ if (isset($player_icons['postrollads']) && $player_icons['postrollads'] == 0)
 					<td class="key" >
 						<?php echo JHTML::tooltip('Option to enable/disable pre-roll ads',
 								'Pre-roll Ad', '', 'Pre-roll Ad'); ?></td>
-					<td
-						<?php
+					<td <?php
 					if (version_compare(JVERSION, '3.0.0', 'ge'))
 					{
 						echo 'colspan="3"';
@@ -1089,21 +979,17 @@ if (isset($player_icons['postrollads']) && $player_icons['postrollads'] == 0)
 						echo 'class="radio_algin" ';
 					}
 					?>>
-						<input type="radio" name="prerollads"
-					<?php
+						<input type="radio" name="prerollads" <?php
 					if (isset($player_icons['prerollads']) && $player_icons['prerollads'] == 1)
 					{
 						echo 'checked="checked" ';
 					}
-					?>
-					value="1" />Enable <input type="radio" name="prerollads"
-<?php
+					?> value="1" />Enable <input type="radio" name="prerollads" <?php
 if (isset($player_icons['prerollads']) && $player_icons['prerollads'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="0" />Disable</td>
+?> value="0" />Disable</td>
 <?php
 if (version_compare(JVERSION, '3.0.0', 'ge'))
 {
@@ -1113,8 +999,7 @@ if (version_compare(JVERSION, '3.0.0', 'ge'))
 					<td class="key" >
 						<?php echo JHTML::tooltip('Option to enable/disable IMA ads', 'IMA Ad', '', 'IMA Ad'); ?>
 					</td>
-					<td 
-						<?php
+					<td <?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'colspan="3"';
@@ -1125,21 +1010,17 @@ if (version_compare(JVERSION, '3.0.0', 'ge'))
 							echo 'class="radio_algin" ';
 						}
 ?>>
-						<input type="radio" name="imaads"
-<?php
+						<input type="radio" name="imaads" <?php
 if (isset($player_icons['imaads']) && $player_icons['imaads'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-							   value="1" />Enable <input type="radio" name="imaads"
-			<?php
+?> value="1" />Enable <input type="radio" name="imaads" <?php
 			if (isset($player_icons['imaads']) && $player_icons['imaads'] == 0)
 			{
 				echo 'checked="checked" ';
 			}
-			?>
-							   value="0" />Disable</td>
+			?> value="0" />Disable</td>
 				</tr>
 				<tr>
 					<td class="key"  >
@@ -1152,26 +1033,22 @@ if (isset($player_icons['imaads']) && $player_icons['imaads'] == 1)
 						echo 'class="radio_algin"';
 					}
 					?> >
-						<input type="radio" name="adsSkip"
-						<?php
+						<input type="radio" name="adsSkip" <?php
 						if (isset($player_icons['adsSkip']) && $player_icons['adsSkip'] == 1)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-							   value="1" />Enable <input type="radio" name="adsSkip"
+						?> value="1" />Enable <input type="radio" name="adsSkip"
 						<?php
 						if (isset($player_icons['adsSkip']) && $player_icons['adsSkip'] == 0)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-							   value="0" />Disable</td>
+						?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Enter the time interval for Ad Skip Duration',
 								'Ad Skip Duration', '', 'Ad Skip Duration'); ?></td>
-					<td colspan="3"><input type="text" name="adsSkipDuration"  value="
-						<?php
+					<td colspan="3"><input type="text" name="adsSkipDuration"  value="<?php
 						if (isset($player_values['adsSkipDuration']))
 						{
 							echo $player_values['adsSkipDuration'];
@@ -1209,23 +1086,19 @@ if (isset($player_icons['imaads']) && $player_icons['imaads'] == 1)
 	}
 	?>
 						<input type="radio" style="float: none;" onclick="Toggle('shows')"
-							   name="googleana_visible" id="googleana_visible" 
-						<?php
+							   name="googleana_visible" id="googleana_visible" <?php
 						if (isset($player_icons['googleana_visible']) && $player_icons['googleana_visible'] == 1)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-							   value="1" />Enable 
+						?> value="1" />Enable 
 						<input type="radio" style="float: none;" onclick="Toggle('unshow')" name="googleana_visible"
-							   id="googleana_visible"
-					<?php
+							   id="googleana_visible" <?php
 					if (isset($player_icons['googleana_visible']) && $player_icons['googleana_visible'] == 0)
 					{
 						echo 'checked="checked" ';
 					}
-					?>
-								   value="0" />Disable
+					?> value="0" />Disable
 	<?php
 	if (!version_compare(JVERSION, '3.0.0', 'ge'))
 	{
@@ -1235,8 +1108,7 @@ if (isset($player_icons['imaads']) && $player_icons['imaads'] == 1)
 							<div id="show" class="google_analytics" style="display: none;">
 	<?php echo JHTML::tooltip('Enter Google Analytics ID', 'Google Analytics ID', '', 'Google Analytics ID'); ?>
 								<input style="margin: 0;" name="googleanalyticsID" id="googleanalyticsID"
-									  maxlength="100" value="
-									<?php
+									  maxlength="100" value="<?php
 									if (isset($player_values['googleanalyticsID']))
 									{
 										echo $player_values['googleanalyticsID'];
@@ -1260,22 +1132,18 @@ else
 						}
 						?> >
 						<input type="radio" style="float: none;" onclick="Toggle('shows')" name="googleana_visible"
-							   id="googleana_visible" 
-						<?php
+							   id="googleana_visible" <?php
 						if (isset($player_icons['googleana_visible']) && $player_icons['googleana_visible'] == 1)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-						value="1" />Enable <input type="radio" style="float: none;" onclick="Toggle('unshow')"
-						name="googleana_visible" id="googleana_visible" 
-						<?php
+						?> value="1" />Enable <input type="radio" style="float: none;" onclick="Toggle('unshow')"
+						name="googleana_visible" id="googleana_visible" <?php
 						if (isset($player_icons['googleana_visible']) && $player_icons['googleana_visible'] == 0)
 						{
 							echo 'checked="checked" ';
 						}
-						?>
-						value="0" />Disable</td>
+						?> value="0" />Disable</td>
 					</tr>
 					<tr>
 						<td class="key">
@@ -1285,8 +1153,7 @@ else
 						</td>
 						<td>
 							<div id="show1" style="display: none;">
-								<input name="googleanalyticsID" id="googleanalyticsID" maxlength="100" value="
-									<?php
+								<input name="googleanalyticsID" id="googleanalyticsID" maxlength="100" value="<?php
 									if (isset($player_values['googleanalyticsID']))
 									{
 										echo $player_values['googleanalyticsID'];
@@ -1336,31 +1203,25 @@ else
 					<td  class="key">
 						<?php echo JHTML::tooltip('Option to enable/disable Mid-roll ads', 'Mid-roll Ad', '',
 								'Mid-roll Ad'); ?></td>
-					<td 
-						<?php
+					<td <?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'class="radio_algin"';
 						}
-						?>><input type="radio" name="midrollads"
-					<?php
+						?>><input type="radio" name="midrollads" <?php
 					if (isset($player_icons['midrollads']) && $player_icons['midrollads'] == 1)
 					{
 						echo 'checked="checked" ';
 					}
-					?>
-																													 value="1" />Enable <input type="radio" name="midrollads"
-<?php
+					?> value="1" />Enable <input type="radio" name="midrollads" <?php
 if (isset($player_icons['midrollads']) && $player_icons['midrollads'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-																													 value="0" />Disable</td>
+?> value="0" />Disable</td>
 					<td class="key"  >
 						<?php echo JHTML::tooltip('Enter begin time for mid roll ad', 'Begin', '', 'Begin'); ?></td>
-					<td ><input type="text" name="midbegin" value="
-						<?php
+					<td ><input type="text" name="midbegin" value="<?php
 						if (isset($player_values['midbegin']))
 						{
 							echo $player_values['midbegin'];
@@ -1370,60 +1231,48 @@ if (isset($player_icons['midrollads']) && $player_icons['midrollads'] == 0)
 					<td class="key" >
 						<?php echo JHTML::tooltip('Option to enable/disable rotation of ads', 'Ad Rotate', '',
 								'Ad Rotate'); ?></td>
-					<td 
-						<?php
+					<td <?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'class="radio_algin"';
 						}
-						?> ><input type="radio" name="midadrotate"
-<?php
+						?> ><input type="radio" name="midadrotate" <?php
 if (isset($player_icons['midadrotate']) && $player_icons['midadrotate'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-						value="1" />Enable <input type="radio" name="midadrotate"
-<?php
+?> value="1" />Enable <input type="radio" name="midadrotate" <?php
 if (isset($player_icons['midadrotate']) && $player_icons['midadrotate'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-						value="0" />Disable</td>
+?> value="0" />Disable</td>
 				</tr>
 				<tr>
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to enable/disable random display of ads',
 								'Mid-roll Ads Random', '', 'Mid-roll Ads Random'); ?></td>
-					<td 
-						<?php
+					<td <?php
 						if (version_compare(JVERSION, '3.0.0', 'ge'))
 						{
 							echo 'class="radio_algin"';
 						}
-						?>
-						><input type="radio" name="midrandom"
-<?php
+						?>><input type="radio" name="midrandom" <?php
 if (isset($player_icons['midrandom']) && $player_icons['midrandom'] == 1)
 {
 	echo 'checked="checked" ';
 }
-?>
-						value="1" />Enable <input type="radio" name="midrandom"
-<?php
+?> value="1" />Enable <input type="radio" name="midrandom" <?php
 if (isset($player_icons['midrandom']) && $player_icons['midrandom'] == 0)
 {
 	echo 'checked="checked" ';
 }
-?>
-						value="0" />Disable</td>
+?> value="0" />Disable</td>
 					<td class="key">
 						<?php echo JHTML::tooltip('Enter the time interval between ads', 'Ad Interval',
 								'', 'Ad Interval');
 ?></td>
-					<td colspan="3"><input type="text" name="midinterval" value="
-						<?php
+					<td colspan="3"><input type="text" name="midinterval" value="<?php
 						if (isset($player_values['midinterval']))
 						{
 							echo $player_values['midinterval'];
@@ -1457,14 +1306,12 @@ if (isset($player_icons['midrandom']) && $player_icons['midrandom'] == 0)
 						<?php echo JHTML::tooltip('Enter Licence Key', 'Licence Key', '', 'Licence Key'); ?></td>
 					<td>
 						<input type="text" name="licensekey" id="licensekey" style="float: left;" size="60" maxlength="200" 
-							   value="
-<?php
+							   value="<?php
 if (isset($player_values['licensekey']))
 {
 	echo $player_values['licensekey'];
 }
-?>"
-								   />
+?>"/>
 <?php
 if (isset($player_values['licensekey']) && $player_values['licensekey'] == '')
 {
@@ -1483,14 +1330,12 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] == '')
 						<div id="var_logo">
 							<input name="logopath" id="logopath" maxlength="100"
 								   readonly="readonly"
-								   value="
-<?php
+								   value="<?php
 if (isset($rs_editsettings[0]->logopath))
 {
 	echo $rs_editsettings[0]->logopath;
 }
-?>
-								   "> <input
+?>"> <input
 								   type="button" name="change1" value="Change" maxlength="100"
 								   onclick="getFileUpload()">
 						</div>
@@ -1507,8 +1352,7 @@ if (version_compare(JVERSION, '3.0.0', 'ge'))
 				<tr>
 					<td class="key">
 						<?php echo JHTML::tooltip('Enter Logo Target URL', 'Logo Target URL', '', 'Logo Target URL'); ?></td>
-					<td><input style="width: 150px;" type="text" name="logourl" value="
-						<?php
+					<td><input style="width: 150px;" type="text" name="logourl" value="<?php
 						if (isset($player_values['logourl']))
 						{
 							echo $player_values['logourl'];
@@ -1528,8 +1372,7 @@ if (version_compare(JVERSION, '3.0.0', 'ge'))
 					<td class="key" >
 						<?php echo JHTML::tooltip('Edit the value to have transparency depth of logo',
 								'Logo Alpha', '', 'Logo Alpha'); ?></td>
-					<td ><input type="text" name="logoalpha" value="
-						<?php
+					<td ><input type="text" name="logoalpha" value="<?php
 						if (isset($player_values['logoalpha']))
 						{
 								echo $player_values['logoalpha'];
@@ -1567,8 +1410,7 @@ if (version_compare(JVERSION, '3.0.0', 'ge'))
 	</div>
 	<!-- Logo Settings Fields End -->
 
-	<input type="hidden" name="id" value="
-		<?php
+	<input type="hidden" name="id" value="<?php
 		if (isset($rs_editsettings[0]->id))
 		{
 			echo $rs_editsettings[0]->id;

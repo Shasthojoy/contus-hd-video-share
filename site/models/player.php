@@ -304,8 +304,8 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 		$query->clear()
 				->select('*')
 				->from('#__hdflv_googlead')
-				->where($db->quoteName('published') . ' = ' . $db->quote('1'))
-				->where($db->quoteName('id') . ' = ' . $db->quote('1') . ')');
+				->where($db->quoteName('publish') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('id') . ' = ' . $db->quote('1'));
 		$db->setQuery($query);
 		$fields = $db->loadObjectList();
 
@@ -368,7 +368,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 					->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
 					->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
 					->where($db->quoteName('a.featured') . ' = ' . $db->quote('1'))
-					->where($db->quoteName('d.type') . ' = ' . $db->quote('0'))
+					->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
 					->group($db->escape('e.vid'))
 					->order($db->escape('a.ordering' . ' ' . 'ASC'));
 
@@ -632,7 +632,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 				->order('rand()');
 
 		// Query is to display featured videos in home page randomly
-		$db->setQuery($query . 0, $featurelimit);
+		$db->setQuery($query, 0, $featurelimit);
 
 		// $featuredvideos contains the results
 		$featuredvideos = $db->loadobjectList();
@@ -720,6 +720,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 	 */
 	public function getHTMLVideoDetails($videoId)
 	{
+		$db = $this->getDBO();
 		$query = $db->getQuery(true);
 		$adminview = JRequest::getString('adminview');
 
@@ -732,27 +733,30 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 			$publish = $db->quoteName('a.published') . ' = ' . $db->quote('1');
 		}
 
+		if ($publish != '')
+		{
+			$query->where($publish);
+		}
+
 		if (isset($videoId) && $videoId != '')
 		{
-			$condition = $publish . ' ' . $db->quoteName('b.published') . ' = ' . $db->quote('1');
-			$condition .= ' AND ' . $db->quoteName('a.id') . ' = ' . $db->quote($videoId);
-			$query->order($db->escape('a.ordering' . ' ' . 'ASC'));
+			$query->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('a.id') . ' = ' . $db->quote($videoId))
+				->order($db->escape('a.ordering' . ' ' . 'ASC'));
 		}
 		else
 		{
-			$condition = $publish . ' ' . $db->quoteName('b.published') . ' = ' . $db->quote('1');
-			$condition .= ' AND ' . $db->quoteName('a.type') . ' = ' . $db->quote('0');
-			$condition .= ' AND ' . $db->quoteName('a.featured') . ' = ' . $db->quote('1');
-			$query->group($db->escape('e.vid'))
-					->order($db->escape('a.ordering' . ' ' . 'ASC'));
+			$query->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('a.featured') . ' = ' . $db->quote('1'))
+				->group($db->escape('e.vid'))
+				->order($db->escape('a.ordering' . ' ' . 'ASC'));
 		}
 
-		$db = $this->getDBO();
 		$query->select('a.*')
 				->from('#__hdflv_upload AS a')
 				->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
-				->leftJoin('#__hdflv_category AS b ON e.catid=b.id')
-				->where($condition);
+				->leftJoin('#__hdflv_category AS b ON e.catid=b.id');
 
 		// Query is to select the popular videos row
 		$db->setQuery($query);

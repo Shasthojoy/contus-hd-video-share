@@ -89,14 +89,12 @@ if (version_compare(JVERSION, '3.0.0', 'ge'))
 					}
 					?>
 					">
-					<textarea rows="9" cols="40" name="code" id="name">
-						<?php
+					<textarea rows="9" cols="40" name="code" id="name"><?php
 						if (isset($googleadDetails->code))
 						{
 							echo trim($googleadDetails->code);
 						}
-						?>
-					</textarea>
+						?></textarea>
 				</td>
 				<td><label> Default size 468 x 60 </label></td>
 			</tr>

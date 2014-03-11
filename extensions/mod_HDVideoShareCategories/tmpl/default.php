@@ -50,9 +50,9 @@ $seoOption = $dispenable['seo_option'];
 				}
 				?>
 				<li class="item27">
-					<a href="
-						<?php 
-						echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&" . $featureCategoryVal); ?>">
+					<a href="<?php 
+						echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&" . $featureCategoryVal);
+						?>">
 						<span><?php echo $row->category; ?></span></a>
 					<?php
 					if (count($result1) > 0)

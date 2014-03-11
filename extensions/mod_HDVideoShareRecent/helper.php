@@ -69,7 +69,7 @@ class Modrecentvideos
 		// Query is to select the recent videos settings
 		$query->select(array('dispenable', 'sidethumbview'))
 				->from('#__hdflv_site_settings');
-		$db->setQuery($featurequery);
+		$db->setQuery($query);
 		$rows = $db->LoadObjectList();
 
 		return $rows;

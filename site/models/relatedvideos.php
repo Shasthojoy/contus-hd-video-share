@@ -132,10 +132,12 @@ class Modelcontushdvideosharerelatedvideos extends ContushdvideoshareModel
 			$query->clear()
 					->select(
 							array(
-								'a.id', 'a.filepath', 'a.thumburl', 'a.title', 'a.description', 'a.times_viewed',
-								'a.ratecount', 'a.rate',
-								'a.amazons3', 'a.seotitle',
-								'b.category', 'b.seo_category', 'd.username', 'e.catid', 'e.vid'
+								$db->quoteName('a.id'), $db->quoteName('a.filepath'), $db->quoteName('a.thumburl'),
+								$db->quoteName('a.title'), $db->quoteName('a.description'),
+								$db->quoteName('a.times_viewed'), $db->quoteName('a.ratecount'),
+								$db->quoteName('a.rate'), $db->quoteName('a.amazons3'), $db->quoteName('a.seotitle'),
+								$db->quoteName('b.id') . ' AS catid', $db->quoteName('b.category'),
+								$db->quoteName('b.seo_category'), $db->quoteName('e.catid'), $db->quoteName('e.vid')
 							)
 					)
 					->from('#__hdflv_upload AS a')
@@ -144,7 +146,7 @@ class Modelcontushdvideosharerelatedvideos extends ContushdvideoshareModel
 					->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
 					->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
 					->where($db->quoteName('a.playlistid') . ' = ' . $db->quote($video))
-					->group($db->escape('a.vid'))
+					->group($db->escape('a.id'))
 					->order('rand()');
 			$db->setQuery($query, $start, $length);
 			$rows = $db->loadObjectList();
