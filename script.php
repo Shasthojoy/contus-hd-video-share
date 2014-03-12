@@ -791,7 +791,7 @@ class Com_ContushdvideoshareInstallerScript
 							implode(
 									',',
 									array(
-										$db->quote('1'), $db->quote(''), $db->quote('1'), $db->quote('10'),
+										$db->quote('1'), '', $db->quote('1'), $db->quote('10'),
 										$db->quote('0'), $db->quote('0'), $db->quote('10'), $db->quote('0'),
 										$db->quote('0'), $db->quote('0')
 										)
