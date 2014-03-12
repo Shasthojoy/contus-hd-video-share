@@ -787,16 +787,7 @@ class Com_ContushdvideoshareInstallerScript
 			$query->clear()
 					->insert($db->quoteName('#__hdflv_googlead'))
 					->columns($column_googlead)
-					->values(
-							implode(
-									',',
-									array(
-										$db->quote('1'), '', $db->quote('1'), $db->quote('10'),
-										$db->quote('0'), $db->quote('0'), $db->quote('10'), $db->quote('0'),
-										$db->quote('0'), $db->quote('0')
-										)
-									)
-							);
+					->values(implode(',', array(1, '""', 1, 10, '0', 0, 10, 0, '0', '0')));
 			$db->setQuery($query);
 			$db->query();
 

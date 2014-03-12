@@ -304,7 +304,7 @@ PRIMARY KEY (`id`)
 	$query->clear()
 			->insert($db->quoteName('#__hdflv_googlead'))
 			->columns($column_googlead)
-			->values(implode(',', array(1, '', 1, 10, '0', 0, 10, 0, '0', '0')));
+			->values(implode(',', array(1, '""', 1, 10, '0', 0, 10, 0, '0', '0')));
 	$db->setQuery($query);
 	$db->query();
 
