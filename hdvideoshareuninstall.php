@@ -67,7 +67,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 	$query->select('extension_id')
 			->from($db->nameQuote('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareCategories'));
 
 	$db->setQuery($query, 1);
 }
@@ -75,7 +75,7 @@ else
 {
 	$query->select('id')
 			->from($db->nameQuote('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareCategories'));
 
 	$db->setQuery($query, 1);
 }
@@ -94,7 +94,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->select('extension_id')
 			->from($db->nameQuote('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareFeatured'));
 
 	$db->setQuery($query, 1);
 }
@@ -103,7 +103,7 @@ else
 	$query->clear()
 			->select('id')
 			->from($db->nameQuote('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareFeatured'));
 	$db->setQuery($query, 1);
 }
 
@@ -121,7 +121,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->select('extension_id')
 			->from($db->nameQuote('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video SharePopular'));
 	$db->setQuery($query, 1);
 }
 else
@@ -129,7 +129,7 @@ else
 	$query->clear()
 			->select('id')
 			->from($db->nameQuote('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video SharePopular'));
 	$db->setQuery($query, 1);
 }
 
@@ -147,7 +147,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->select('extension_id')
 			->from($db->nameQuote('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareRecent'));
 
 	$db->setQuery($query, 1);
 }
@@ -156,7 +156,7 @@ else
 	$query->clear()
 			->select('id')
 			->from($db->nameQuote('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareRecent'));
 	$db->setQuery($query, 1);
 }
 
@@ -174,7 +174,8 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->select('extension_id')
 			->from($db->nameQuote('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareRandom'));
+
 	$db->setQuery($query, 1);
 }
 else
@@ -182,7 +183,7 @@ else
 	$query->clear()
 			->select('id')
 			->from($db->nameQuote('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareRandom'));
 	$db->setQuery($query, 1);
 }
 
@@ -200,7 +201,33 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->select('extension_id')
 			->from($db->nameQuote('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareRelated'));
+	$db->setQuery($query, 1);
+}
+else
+{
+	$query->clear()
+			->select('id')
+			->from($db->nameQuote('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareRelated'));
+	$db->setQuery($query, 1);
+}
+
+$id = $db->loadResult();
+
+if ($id)
+{
+	$installer = new JInstaller;
+	$installer->uninstall('module', $id);
+}
+
+if (version_compare(JVERSION, '1.6.0', 'ge'))
+{
+	$query->clear()
+			->select('extension_id')
+			->from($db->nameQuote('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareSearch'));
 
 	$db->setQuery($query, 1);
 }
@@ -209,7 +236,7 @@ else
 	$query->clear()
 			->select('id')
 			->from($db->nameQuote('#__modules'))
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareSearch'));
 
 	$db->setQuery($query, 1);
 }
@@ -265,7 +292,7 @@ if ($id)
 	</tfoot>
 	<tbody>        
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo JText::_('HDVideoShare - Component'); ?></td>
+			<td class="key" colspan="2"><?php echo JText::_('HD Video Share - Component'); ?></td>
 			<td style="text-align: center;">
 				<?php
 				// Check installed components
@@ -287,7 +314,7 @@ if ($id)
 			</td>
 		</tr>        
 		<tr class="row1">
-			<td class="key" colspan="2"><?php echo 'HDVideoShare Categories - ' . JText::_('Module'); ?></td>
+			<td class="key" colspan="2"><?php echo 'HD Video Share Categories - ' . JText::_('Module'); ?></td>
 			<td style="text-align: center;">
 				<?php
 				// Check installed modules
@@ -297,7 +324,7 @@ if ($id)
 							->select('extension_id')
 							->from($db->nameQuote('#__extensions'))
 							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareCategories'));
 
 					$db->setQuery($query, 1);
 				}
@@ -306,7 +333,7 @@ if ($id)
 					$query->clear()
 							->select('id')
 							->from($db->nameQuote('#__modules'))
-							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareCategories'));
 
 					$db->setQuery($query, 1);
 				}
@@ -326,7 +353,7 @@ if ($id)
 		</tr>
 
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo 'HDVideoShare Featured - ' . JText::_('Module'); ?></td>
+			<td class="key" colspan="2"><?php echo 'HD Video Share Featured - ' . JText::_('Module'); ?></td>
 			<td style="text-align: center;">
 				<?php
 				// Check installed modules
@@ -336,7 +363,7 @@ if ($id)
 							->select('extension_id')
 							->from($db->nameQuote('#__extensions'))
 							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareFeatured'));
 					$db->setQuery($query, 1);
 				}
 				else
@@ -344,7 +371,7 @@ if ($id)
 					$query->clear()
 							->select('id')
 							->from($db->nameQuote('#__modules'))
-							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareFeatured'));
 
 					$db->setQuery($query, 1);
 				}
@@ -364,7 +391,7 @@ if ($id)
 		</tr>
 
 		<tr class="row1">
-			<td class="key" colspan="2"><?php echo 'HDVideoShare Related - ' . JText::_('Module'); ?></td>
+			<td class="key" colspan="2"><?php echo 'HD Video Share Related - ' . JText::_('Module'); ?></td>
 			<td style="text-align: center;">
 				<?php
 				// Check installed modules
@@ -374,7 +401,7 @@ if ($id)
 							->select('extension_id')
 							->from($db->nameQuote('#__extensions'))
 							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareRelated'));
 					$db->setQuery($query, 1);
 				}
 				else
@@ -382,7 +409,7 @@ if ($id)
 					$query->clear()
 							->select('id')
 							->from($db->nameQuote('#__modules'))
-							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareRelated'));
 					$db->setQuery($query, 1);
 				}
 
@@ -401,7 +428,7 @@ if ($id)
 		</tr>
 
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo 'HDVideoShare Popular - ' . JText::_('Module'); ?></td>
+			<td class="key" colspan="2"><?php echo 'HD Video Share Popular - ' . JText::_('Module'); ?></td>
 			<td style="text-align: center;">
 				<?php
 				// Check installed modules
@@ -411,7 +438,7 @@ if ($id)
 							->select('extension_id')
 							->from($db->nameQuote('#__extensions'))
 							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video SharePopular'));
 					$db->setQuery($query, 1);
 				}
 				else
@@ -419,7 +446,7 @@ if ($id)
 					$query->clear()
 							->select('id')
 							->from($db->nameQuote('#__modules'))
-							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video SharePopular'));
 					$db->setQuery($query, 1);
 				}
 
@@ -438,7 +465,7 @@ if ($id)
 		</tr>
 
 		<tr class="row1">
-			<td class="key" colspan="2"><?php echo 'HDVideoShare Recent - ' . JText::_('Module'); ?></td>
+			<td class="key" colspan="2"><?php echo 'HD Video Share Recent - ' . JText::_('Module'); ?></td>
 			<td style="text-align: center;">
 				<?php
 				// Check installed modules
@@ -448,7 +475,7 @@ if ($id)
 							->select('extension_id')
 							->from($db->nameQuote('#__extensions'))
 							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareRecent'));
 
 					$db->setQuery($query, 1);
 				}
@@ -457,7 +484,45 @@ if ($id)
 					$query->clear()
 							->select('id')
 							->from($db->nameQuote('#__modules'))
-							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareRecent'));
+					$db->setQuery($query, 1);
+				}
+
+				$id = $db->loadResult();
+
+				if (!$id)
+				{
+					echo "<strong>" . JText::_('Uninstalled successfully') . "</strong>";
+				}
+				else
+				{
+					echo "<strong>" . JText::_('Remove Manually') . "</strong>";
+				}
+				?>
+			</td>
+		</tr>
+
+		<tr class="row1">
+			<td class="key" colspan="2"><?php echo 'HD Video Share Random - ' . JText::_('Module'); ?></td>
+			<td style="text-align: center;">
+				<?php
+				// Check installed modules
+				if (version_compare(JVERSION, '1.6.0', 'ge'))
+				{
+					$query->clear()
+							->select('extension_id')
+							->from($db->nameQuote('#__extensions'))
+							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareRandom'));
+
+					$db->setQuery($query, 1);
+				}
+				else
+				{
+					$query->clear()
+							->select('id')
+							->from($db->nameQuote('#__modules'))
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareRandom'));
 					$db->setQuery($query, 1);
 				}
 
@@ -478,7 +543,7 @@ if ($id)
 
 
 		<tr class="row0">
-			<td class="key" colspan="2"><?php echo 'HDVideoShare Search - ' . JText::_('Module'); ?></td>
+			<td class="key" colspan="2"><?php echo 'HD Video Share Search - ' . JText::_('Module'); ?></td>
 			<td style="text-align: center;">
 				<?php
 				// Check installed modules
@@ -488,7 +553,7 @@ if ($id)
 							->select('extension_id')
 							->from($db->nameQuote('#__extensions'))
 							->where($db->quoteName('type') . ' = ' . $db->quote('module'))
-							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
+							->where($db->quoteName('element') . ' = ' . $db->quote('mod_HD Video ShareSearch'));
 					$db->setQuery($query, 1);
 				}
 				else
@@ -496,7 +561,7 @@ if ($id)
 					$query->clear()
 							->select('id')
 							->from($db->nameQuote('#__modules'))
-							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
+							->where($db->quoteName('module') . ' = ' . $db->quote('mod_HD Video ShareSearch'));
 					$db->setQuery($query, 1);
 				}
 

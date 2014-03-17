@@ -137,8 +137,7 @@ foreach ($this->membercollection as $rows)
 		{
 			if (isset($this->membercollection[$i]->amazons3) && $this->membercollection[$i]->amazons3 == 1)
 			{
-				$src_path = "http://" . $dispenable['amazons3name']
-						. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/"
+				$src_path = $dispenable['amazons3link']
 						. $this->membercollection[$i]->thumburl;
 			}
 			else

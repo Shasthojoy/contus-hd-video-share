@@ -318,8 +318,7 @@ if ($totalrecords <= 0)
 										if (isset($this->categoryview[0]->amazons3)
 											&& $this->categoryview[0]->amazons3 == 1)
 										{
-											$video = "http:// " . $dispenable['amazons3name']
-													. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/"
+											$video = $dispenable['amazons3link']
 													. $this->categoryview[0]->videourl;
 										}
 										else
@@ -497,8 +496,7 @@ echo $player_values['height'];
 						{
 							if (isset($this->categoryview[0]->amazons3) && $this->categoryview[0]->amazons3 == 1)
 							{
-								$src_path = "http:// " . $dispenable['amazons3name']
-										. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/"
+								$src_path = $dispenable['amazons3link']
 										. $this->categoryview[$i]->thumburl;
 							}
 							else

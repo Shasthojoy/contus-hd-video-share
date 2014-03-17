@@ -65,8 +65,7 @@ echo JText::_('HDVS_FEATURED_VIDEOS');
 								if (isset($this->rs_playlist1[0][$i]->amazons3)
 									&& $this->rs_playlist1[0][$i]->amazons3 == 1)
 								{
-									$src_path = "http://" . $dispenable['amazons3name']
-											. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/"
+									$src_path = $dispenable['amazons3link']
 											. $this->rs_playlist1[0][$i]->thumburl;
 								}
 								else
@@ -251,8 +250,7 @@ echo JHTML::_(
 							{
 								if (isset($this->rs_playlist1[2][$i]->amazons3) && $this->rs_playlist1[2][$i]->amazons3 == 1)
 								{
-									$src_path = "http://" . $dispenable['amazons3name']
-											. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/"
+									$src_path = $dispenable['amazons3link']
 											. $this->rs_playlist1[2][$i]->thumburl;
 								}
 								else
@@ -434,8 +432,7 @@ echo JHTML::_(
 								if (isset($this->rs_playlist1[1][$i]->amazons3)
 									&& $this->rs_playlist1[1][$i]->amazons3 == 1)
 								{
-									$src_path = "http://" . $dispenable['amazons3name']
-											. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/"
+									$src_path = $dispenable['amazons3link']
 											. $this->rs_playlist1[1][$i]->thumburl;
 								}
 								else

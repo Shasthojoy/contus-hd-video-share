@@ -33,7 +33,7 @@ class UploadFileHelper
 	 *
 	 * @return	uploadFile
 	 */
-	public function uploadFile($arrFormData, $idval)
+	public static function uploadFile($arrFormData, $idval)
 	{
 		//  Get video and set video name
 		$strVideoName = $arrFormData['normalvideoform-value'];
@@ -153,20 +153,20 @@ class UploadFileHelper
 	 * 
 	 * @return	uploadVideoProcessing
 	 */
-	public function uploadVideoProcessing(
+	public static function uploadVideoProcessing(
 		$subtile_lang1, $subtile_lang2, $idval, $file_video, $file_timage,
 		$file_pimage, $file_str1, $file_str2, $file_hvideo, $newupload, $filepath)
 	{
 		$strTargetPath = VPATH . "/";
 
 		//  For videos
-		$db = $this->getDBO();
+		$db = JFactory::getDBO();
 		$s3bucket_video = $s3bucket_thumb = $s3bucket_pre = $s3bucket_srt1 = $s3bucket_srt2 = $s3bucket_hdurl = 0;
 		$query = $db->getQuery(true);
 		$query->clear()
 				->select($db->quoteName(array('dispenable')))
 				->from($db->quoteName('#__hdflv_site_settings'))
-				->where($db->quote('id') . ' = ' . $db->quote('1'));
+				->where($db->quoteName('id') . ' = ' . $db->quote('1'));
 		$db->setQuery($query);
 		$setting_res = $db->loadResult();
 		$dispenable = unserialize($setting_res);
@@ -182,7 +182,7 @@ class UploadFileHelper
 			{
 				$s3bucket_video = 1;
 				require_once FVPATH . DS . 'helpers' . DS . 's3_config.php';
-				$strVids3TargetPath = 'components/com_contushdvideoshare/videos/' . $fv;
+				$strVids3TargetPath = $dispenable['amazons3path'] . $fv;
 
 				if ($s3->putObjectFile($strVidTempPath, $bucket, $strVids3TargetPath, S3::ACL_PUBLIC_READ))
 				{
@@ -213,7 +213,7 @@ class UploadFileHelper
 			{
 				$s3bucket_thumb = 1;
 				require_once FVPATH . DS . 'helpers' . DS . 's3_config.php';
-				$strthumbs3TargetPath = 'components/com_contushdvideoshare/videos/' . $ft;
+				$strthumbs3TargetPath = $dispenable['amazons3path'] . $ft;
 
 				if ($s3->putObjectFile($strThumbImgTempPath, $bucket, $strthumbs3TargetPath, S3::ACL_PUBLIC_READ))
 				{
@@ -244,7 +244,7 @@ class UploadFileHelper
 			{
 				$s3bucket_pre = 1;
 				require_once FVPATH . DS . 'helpers' . DS . 's3_config.php';
-				$strpreviews3TargetPath = 'components/com_contushdvideoshare/videos/' . $fp;
+				$strpreviews3TargetPath = $dispenable['amazons3path'] . $fp;
 
 				if ($s3->putObjectFile($strPreImgTempPath, $bucket, $strpreviews3TargetPath, S3::ACL_PUBLIC_READ))
 				{
@@ -275,7 +275,7 @@ class UploadFileHelper
 			{
 				$s3bucket_srt1 = 1;
 				require_once FVPATH . DS . 'helpers' . DS . 's3_config.php';
-				$strstr1s3TargetPath = 'components/com_contushdvideoshare/videos/' . $fp;
+				$strstr1s3TargetPath = $dispenable['amazons3path'] . $fp;
 
 				if ($s3->putObjectFile($strstr1TempPath, $bucket, $strstr1s3TargetPath, S3::ACL_PUBLIC_READ))
 				{
@@ -306,7 +306,7 @@ class UploadFileHelper
 			{
 				$s3bucket_srt2 = 1;
 				require_once FVPATH . DS . 'helpers' . DS . 's3_config.php';
-				$strstr2s3TargetPath = 'components/com_contushdvideoshare/videos/' . $fp;
+				$strstr2s3TargetPath = $dispenable['amazons3path'] . $fp;
 
 				if ($s3->putObjectFile($strstr2TempPath, $bucket, $strstr2s3TargetPath, S3::ACL_PUBLIC_READ))
 				{
@@ -337,7 +337,7 @@ class UploadFileHelper
 			{
 				$s3bucket_hdurl = 1;
 				require_once FVPATH . DS . 'helpers' . DS . 's3_config.php';
-				$strhds3TargetPath = 'components/com_contushdvideoshare/videos/' . $fh;
+				$strhds3TargetPath = $dispenable['amazons3path'] . $fh;
 
 				if ($s3->putObjectFile($strHdVidTempPath, $bucket, $strhds3TargetPath, S3::ACL_PUBLIC_READ))
 				{
@@ -368,7 +368,7 @@ class UploadFileHelper
 	 * 
 	 * @return	amazons3update
 	 */
-	public function amazons3update($strFileTempPath, $vmfile, $idval, $dbname, $filepath)
+	public static function amazons3update($strFileTempPath, $vmfile, $idval, $dbname, $filepath)
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
@@ -415,7 +415,7 @@ class UploadFileHelper
 	 * 
 	 * @return	copytovideos
 	 */
-	public function copytovideos($strFileTempPath, $strFileTargetPath, $vmfile, $idval, $dbname, $newupload, $filepath)
+	public static function copytovideos($strFileTempPath, $strFileTargetPath, $vmfile, $idval, $dbname, $newupload, $filepath)
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
@@ -476,7 +476,7 @@ class UploadFileHelper
 	 * 
 	 * @return	unlinkUploadedTmpFiles
 	 */
-	public function unlinkUploadedTmpFiles($strFileName)
+	public static function unlinkUploadedTmpFiles($strFileName)
 	{
 		$strFilePath = FVPATH . "/images/uploads/$strFileName";
 
@@ -493,7 +493,7 @@ class UploadFileHelper
 	 * 
 	 * @return	getFileExtension
 	 */
-	public function getFileExtension($strFileName)
+	public static function getFileExtension($strFileName)
 	{
 		$strFileName = strtolower($strFileName);
 

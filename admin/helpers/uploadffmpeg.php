@@ -49,7 +49,7 @@ class UploadFfmpegHelper
 		$query->clear()
 				->select($db->quoteName(array('dispenable')))
 				->from($db->quoteName('#__hdflv_site_settings'))
-				->where($db->quote('id') . ' = ' . $db->quote('1'));
+				->where($db->quoteName('id') . ' = ' . $db->quote('1'));
 		$db->setQuery($query);
 		$setting_res = $db->loadResult();
 		$dispenable = unserialize($setting_res);
@@ -135,10 +135,10 @@ class UploadFfmpegHelper
 				{
 					$s3bucket_videurl = $s3bucket_hdurl = $s3bucket_thumburl = $s3bucket_previewurl = 1;
 					require_once FVPATH . DS . 'helpers' . DS . 's3_config.php';
-					$strVids3TargetPath = 'components/com_contushdvideoshare/videos/' . $video_name;
-					$strhdVids3TargetPath = 'components/com_contushdvideoshare/videos/' . $hd_name;
-					$strthumbs3TargetPath = 'components/com_contushdvideoshare/videos/' . $idval . '_thumb' . ".jpeg";
-					$strpreviews3TargetPath = 'components/com_contushdvideoshare/videos/' . $idval . '_preview' . ".jpeg";
+					$strVids3TargetPath = $dispenable['amazons3path'] . $video_name;
+					$strhdVids3TargetPath = $dispenable['amazons3path'] . $hd_name;
+					$strthumbs3TargetPath = $dispenable['amazons3path'] . $idval . '_thumb' . ".jpeg";
+					$strpreviews3TargetPath = $dispenable['amazons3path'] . $idval . '_preview' . ".jpeg";
 
 					if ($s3->putObjectFile($flvpath, $bucket, $strVids3TargetPath, S3::ACL_PUBLIC_READ))
 					{
@@ -272,10 +272,10 @@ class UploadFfmpegHelper
 				{
 					$s3bucket_videurl = $s3bucket_hdurl = $s3bucket_thumburl = $s3bucket_previewurl = 1;
 					require_once FVPATH . DS . 'helpers' . DS . 's3_config.php';
-					$strVids3TargetPath = 'components/com_contushdvideoshare/videos/' . $video_name;
-					$strhdVids3TargetPath = 'components/com_contushdvideoshare/videos/' . $hd_name;
-					$strthumbs3TargetPath = 'components/com_contushdvideoshare/videos/' . $idval . '_thumb' . ".jpeg";
-					$strpreviews3TargetPath = 'components/com_contushdvideoshare/videos/' . $idval . '_preview' . ".jpeg";
+					$strVids3TargetPath = $dispenable['amazons3path'] . $video_name;
+					$strhdVids3TargetPath = $dispenable['amazons3path'] . $hd_name;
+					$strthumbs3TargetPath = $dispenable['amazons3path'] . $idval . '_thumb' . ".jpeg";
+					$strpreviews3TargetPath = $dispenable['amazons3path'] . $idval . '_preview' . ".jpeg";
 
 					if ($s3->putObjectFile($strTargetPath . $video_name, $bucket, $strVids3TargetPath, S3::ACL_PUBLIC_READ))
 				{

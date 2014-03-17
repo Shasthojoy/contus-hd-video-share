@@ -440,8 +440,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 					{
 						if (isset($rows->amazons3) && $rows->amazons3 == 1)
 						{
-							$video = "http://" . $dispenable['amazons3name']
-									. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->videourl;
+							$video = $dispenable['amazons3link'] . $rows->videourl;
 						}
 						else
 						{
@@ -451,8 +450,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 
 					if (isset($rows->amazons3) && $rows->amazons3 == 1)
 					{
-						$video = "http://" . $dispenable['amazons3name']
-								. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->videourl;
+						$video = $dispenable['amazons3link'] . $rows->videourl;
 					}
 					else
 					{
@@ -463,8 +461,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 					{
 						if (isset($rows->amazons3) && $rows->amazons3 == 1)
 						{
-							$hdvideo = "http://" . $dispenable['amazons3name']
-									. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->hdurl;
+							$hdvideo = $dispenable['amazons3link'] . $rows->hdurl;
 						}
 						else
 						{
@@ -483,8 +480,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 
 					if (isset($rows->amazons3) && $rows->amazons3 == 1 && !empty($rows->previewurl))
 					{
-						$previewimage = "http://" . $dispenable['amazons3name']
-								. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->previewurl;
+						$previewimage = $dispenable['amazons3link'] . $rows->previewurl;
 					}
 					else
 					{
@@ -493,8 +489,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 
 					if (isset($rows->amazons3) && $rows->amazons3 == 1)
 					{
-						$timage = "http://" . $dispenable['amazons3name']
-								. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->thumburl;
+						$timage = $dispenable['amazons3link'] . $rows->thumburl;
 					}
 					else
 					{

@@ -207,6 +207,7 @@ class ContushdvideoshareModelsitesettings extends ContushdvideoshareModel
 			'comment' => $arrFormData['comment'],
 			'amazons3' => $arrFormData['amazons3'],
 			'amazons3name' => $arrFormData['amazons3name'],
+			'amazons3link' => $arrFormData['amazons3link'],
 			'amazons3accesskey' => $arrFormData['amazons3accesskey'],
 			'amazons3accesssecretkey_area' => $arrFormData['amazons3accesssecretkey_area'],
 			'facebooklike' => $arrFormData['facebooklike']

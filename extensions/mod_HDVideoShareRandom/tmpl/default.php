@@ -64,7 +64,7 @@ $seoOption = $dispenable['seo_option'];
 			{
 				if (isset($result[$i]->amazons3) && $result[$i]->amazons3 == 1)
 				{
-					$src_path = "http://" . $dispenable['amazons3name'] . ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $result[$i]->thumburl;
+					$src_path = $dispenable['amazons3link'] . $result[$i]->thumburl;
 				}
 				else
 				{

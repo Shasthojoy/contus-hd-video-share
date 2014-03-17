@@ -37,12 +37,9 @@ if (isset($this->htmlVideoDetails) && $this->htmlVideoDetails != '')
 
 		if (isset($this->htmlVideoDetails->amazons3) && $this->htmlVideoDetails->amazons3 == 1)
 		{
-			$video_url = "http://" . $dispenable['amazons3name']
-					. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->htmlVideoDetails->videourl;
-			$video_thumb = "http://" . $dispenable['amazons3name']
-					. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->htmlVideoDetails->thumburl;
-			$video_preview = "http://" . $dispenable['amazons3name']
-					. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $this->htmlVideoDetails->previewurl;
+			$video_url = $dispenable['amazons3link'] . $this->htmlVideoDetails->videourl;
+			$video_thumb = $dispenable['amazons3link'] . $this->htmlVideoDetails->thumburl;
+			$video_preview = $dispenable['amazons3link'] . $this->htmlVideoDetails->previewurl;
 		}
 		else
 		{
@@ -536,8 +533,7 @@ function Detect_mobile()
 							{
 								if (isset($htmlVideoDetails->amazons3) && $htmlVideoDetails->amazons3 == 1)
 								{
-									$video = "http://" . $dispenable['amazons3name']
-											. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/"
+									$video = $dispenable['amazons3link']
 											. $htmlVideoDetails->videourl;
 								}
 								else

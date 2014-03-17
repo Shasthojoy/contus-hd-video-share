@@ -392,11 +392,12 @@ class Com_ContushdvideoshareInstallerScript
 					'categoryplayer' => 0,
 					'upload_methods' => $db->quote('Upload,Youtube,URL,RTMP'),
 					'language_settings' => $db->quote('English.php'),
-					'disqusapi' => '',
+					'disqusapi' => '""',
 					'amazons3' => 0,
-					'amazons3name' => '',
-					'amazons3accesskey' => '',
-					'amazons3accesssecretkey_area' => '',
+					'amazons3name' => '""',
+					'amazons3link' => '""',
+					'amazons3accesskey' => '""',
+					'amazons3accesssecretkey_area' => '""',
 					'facebookapi' => $db->quote($settingstabeResult->facebookapi),
 					'comment' => $db->quote($settingstabeResult->comment),
 					'facebooklike' => $db->quote($settingstabeResult->facebooklike)
@@ -871,13 +872,13 @@ class Com_ContushdvideoshareInstallerScript
 					. 's:1:"1";s:18:"homerecentvideocol";s:1:"4";s:21:"homepopularvideoorder";s:1:"1";'
 					. 's:22:"homefeaturedvideoorder";s:1:"2";s:20:"homerecentvideoorder";s:1:"3";s:21:"homepopularvideowidth";'
 					. 's:2:"20";s:22:"homefeaturedvideowidth";s:2:"20";s:20:"homerecentvideowidth";s:2:"20";}';
-			$disenable = 'a:18:{s:11:"allowupload";s:1:"1";s:12:"adminapprove";s:1:"1";s:10:"user_login";s:1:"1";'
+			$disenable = 'a:19:{s:11:"allowupload";s:1:"1";s:12:"adminapprove";s:1:"1";s:10:"user_login";s:1:"1";'
 					. 's:14:"ratingscontrol";s:1:"1";s:13:"viewedconrtol";s:1:"1";s:11:"reportvideo";s:1:"0";'
 					. 's:14:"categoryplayer";s:1:"0";s:10:"seo_option";s:1:"0";s:14:"upload_methods";'
 					. 's:23:"Upload,Youtube,URL,RTMP";s:17:"language_settings";s:11:"English.php";s:9:"disqusapi";s:0:"";'
 					. 's:11:"facebookapi";s:0:"";s:7:"comment";s:1:"2";s:8:"amazons3";s:1:"0";s:12:"amazons3name";s:0:"";'
-					. 's:17:"amazons3accesskey";s:0:"";s:28:"amazons3accesssecretkey_area";s:0:"";s:12:"facebooklike";'
-					. 's:1:"1";}';
+					. 's:12:"amazons3link";s:0:"";s:17:"amazons3accesskey";s:0:"";'
+					. 's:28:"amazons3accesssecretkey_area";s:0:"";s:12:"facebooklike";s:1:"1";}';
 			$thumbview = 'a:24:{s:9:"featurrow";s:1:"3";s:9:"featurcol";s:1:"4";s:9:"recentrow";s:1:"3";'
 					. 's:9:"recentcol";s:1:"4";s:11:"categoryrow";s:1:"3";s:11:"categorycol";s:1:"4";s:10:"popularrow";'
 					. 's:1:"3";s:10:"popularcol";s:1:"4";s:9:"searchrow";s:1:"3";s:9:"searchcol";s:1:"4";s:10:"relatedrow";'

@@ -122,8 +122,7 @@ echo JRoute::_(
 			{
 				if (isset($this->relatedvideos[$i]->amazons3) && $this->relatedvideos[$i]->amazons3 == 1)
 				{
-					$src_path = "http://" . $dispenable['amazons3name']
-							. ".s3.amazonaws.com/components/com_contushdvideoshare/videos/"
+					$src_path = $dispenable['amazons3link']
 							. $this->relatedvideos[$i]->thumburl;
 				}
 				else

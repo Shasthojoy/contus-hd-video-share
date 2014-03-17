@@ -81,7 +81,6 @@ else
 			if (document.adminForm.elements[i].value == "" || document.adminForm.elements[i].value == 0) {
 			alert('Please make sure all fields are entered');
 					return;
-					}
 			}
 			}
 
@@ -89,7 +88,7 @@ else
 					return;
 					}
 	}
-
+}
 </script>
 <!-- sitesettings form start -->
 <form
@@ -986,14 +985,27 @@ if (isset($dispenable['amazons3']) && $dispenable['amazons3'] == '0')
 				<td>
 					<input type="text" name="amazons3name" style="display: none;"
 						   id="amazons3name" maxlength="100"
-							value="
-<?php
+							value="<?php
 if (isset($dispenable['amazons3name']))
 {
 	echo $dispenable['amazons3name'];
 }
-?>
-						   ">
+?>">
+				</td>
+			</tr>
+			<tr id="amazons3link_area" style="display: none;">
+				<td>
+					<?php echo JHTML::tooltip('Option to get Amazon S3 bucket link', 'Enter Amazon S3 bucket link', '', 'Enter Amazon S3 bucket link');
+?></td>
+				<td>
+					<input type="text" name="amazons3link" style="display: none;"
+						   id="amazons3link" maxlength="100"
+							value="<?php
+if (isset($dispenable['amazons3link']))
+{
+	echo $dispenable['amazons3link'];
+}
+?>">
 				</td>
 			</tr>
 			<tr id="amazons3accesskey_area" style="display: none;">
@@ -1003,14 +1015,12 @@ if (isset($dispenable['amazons3name']))
 				<td>
 					<input type="text" name="amazons3accesskey" style="display: none;"
 						   id="amazons3accesskey" maxlength="100"
-						   value="
-<?php
+						   value="<?php
 if (isset($dispenable['amazons3accesskey']))
 {
 	echo $dispenable['amazons3accesskey'];
 }
-?>
-						   ">
+?>">
 				</td>
 			</tr>
 			<tr id="amazons3accesssecretkey" style="display: none;">
@@ -1021,14 +1031,12 @@ if (isset($dispenable['amazons3accesskey']))
 				<td>
 					<input type="text" name="amazons3accesssecretkey_area" style="display: none;"
 						   id="amazons3accesssecretkey_area" maxlength="100"
-						   value="
-<?php
+						   value="<?php
 if (isset($dispenable['amazons3accesssecretkey_area']))
 {
 	echo $dispenable['amazons3accesssecretkey_area'];
 }
-?>
-						   ">
+?>">
 				</td>
 			</tr>
 			<tr>
@@ -1108,7 +1116,7 @@ for ($i = 0; $i < count($separate_values); $i++)
 			{
 	enablefbapi('1');
 			}
-	elseif (<?php echo $dispenable['comment']; ?> == 5)
+	else if (<?php echo $dispenable['comment']; ?> == 5)
 	{
 	enablefbapi('5');
 	}
@@ -1130,7 +1138,11 @@ else
 	if (status == 1)
 			{
 			document.getElementById("amazons3name_area").style.display = '';
+			document.getElementById("amazons3link_area").style.display = '';
+			document.getElementById("amazons3path_area").style.display = '';
 					document.getElementById("amazons3name").style.display = '';
+					document.getElementById("amazons3link").style.display = '';
+					document.getElementById("amazons3path").style.display = '';
 					document.getElementById("amazons3accesskey_area").style.display = '';
 					document.getElementById("amazons3accesskey").style.display = '';
 					document.getElementById("amazons3accesssecretkey").style.display = '';
@@ -1139,7 +1151,9 @@ else
 	else
 			{
 			document.getElementById("amazons3name_area").style.display = "none";
+			document.getElementById("amazons3link_area").style.display = "none";
 					document.getElementById("amazons3name").style.display = "none";
+					document.getElementById("amazons3link").style.display = "none";
 					document.getElementById("amazons3accesskey_area").style.display = "none";
 					document.getElementById("amazons3accesskey").style.display = "none";
 					document.getElementById("amazons3accesssecretkey").style.display = "none";

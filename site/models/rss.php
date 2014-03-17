@@ -142,7 +142,7 @@ class Modelcontushdvideosharerss extends ContushdvideoshareModel
 					{
 						if (isset($rows->amazons3) && $rows->amazons3 == 1)
 						{
-							$video = "http://" . $dispenable['amazons3name'] . ".s3.amazonaws.com/components/com_contushdvideoshare/videos/" . $rows->videourl;
+							$video = $dispenable['amazons3link'] . $rows->videourl;
 						}
 						else
 						{
