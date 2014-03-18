@@ -41,7 +41,7 @@ class Modelcontushdvideoshareimaadxml extends ContushdvideoshareModel
 				->where($db->quoteName('typeofadd') . ' = ' . $db->quote('ima'))
 				->order($db->escape('id' . ' ' . 'DESC'));
 
-		$db->setQuery($query, 1);
+		$db->setQuery($query);
 		$rs_ads = $db->loadObject();
 		$rows = unserialize($rs_ads->imaaddet);
 
