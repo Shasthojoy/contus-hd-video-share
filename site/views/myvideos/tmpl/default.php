@@ -187,7 +187,7 @@ else
 			{
 				if ((($i) % $thumbview['myvideocol']) == 0)
 				{
-					echo '</ul><ul  class="myvideos_tab">';
+					echo '</ul><ul class="myvideos_tab clearfix">';
 				}
 				?>
 				<li class="rightrate">
