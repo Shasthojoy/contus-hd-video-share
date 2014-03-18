@@ -143,11 +143,9 @@ if (version_compare(JVERSION, '3.0.0', 'ge'))
 					?>
 						/>&nbsp;&nbsp;Re-open
 					After : <input type="text" name="ropen"
-								   value="
-<?php
+								   value="<?php
 echo $googleadDetails->ropen;
-?>
-								   " />&nbsp;Sec</td>
+?>" />&nbsp;Sec</td>
 <?php
 if (version_compare(JVERSION, '3.0.0', 'ge'))
 {
@@ -157,22 +155,18 @@ if (version_compare(JVERSION, '3.0.0', 'ge'))
 			</tr>
 			<tr>
 				<td class="key">Published</td>
-				<td 
-					<?php
+				<td <?php
 					if (version_compare(JVERSION, '3.0.0', 'ge'))
 					{
 						echo 'colspan="2"';
 					}
-					?>><input type="radio" name="publish" value=1
-<?php
+					?>><input type="radio" name="publish" value=1 <?php
 if ($googleadDetails->publish == '1' || $googleadDetails->publish == '')
 {
 	echo 'checked';
 }
-?>
-						/>Yes
-					<input type="radio" name="publish" value="0" 
-				<?php
+?>/>Yes
+					<input type="radio" name="publish" value="0" <?php
 				if ($googleadDetails->publish == '0' && $googleadDetails->publish != '')
 				{
 					echo 'checked';

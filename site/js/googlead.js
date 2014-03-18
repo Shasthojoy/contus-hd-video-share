@@ -38,7 +38,7 @@ function googleclose()
     }
     else
     {
-        frames['IFrameName'].location.href="";
+        document.getElementById("IFrameName").src="";
     }
     document.getElementById('lightm').style.display="none";
     clearTimeout();
@@ -98,7 +98,7 @@ function bindpage(pageno)
     }
     else
     {
-        parent.frames['IFrameName'].location.href=pagearray[pageno];
+        document.getElementById("IFrameName").src=pagearray[pageno];
     }
 
     document.getElementById('closeimgm').style.display="block";
