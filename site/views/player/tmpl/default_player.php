@@ -1178,13 +1178,12 @@ echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport
 		<!--Social Sharing icons ends here-->
 
 		<div class="vido_info_container">
-			<div class="clearfix">
 				<div class="video-cat-thumb commentpost">
 	<?php
 	if ($player_icons['embedVisible'] == 1 && ($mobile === false))
 	{
 		?>
-	<a class="utility-link" class="embed" id="allowEmbed" href="javascript:void(0)" onclick="enableEmbed()" >
+	<a class="utility-link embed" class="embed" id="allowEmbed" href="javascript:void(0)" onclick="enableEmbed()" >
 		<?php echo JText::_('HDVS_EMBED'); ?> </a>
 	<?php
 	}
@@ -1300,7 +1299,6 @@ echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport
 				<div style="clear: both;"></div>
 				<div class="video-page-desc"><?php echo $this->htmlVideoDetails->description; ?></div>
 			</div>
-		</div>
 <?php
 		}
 ?>
