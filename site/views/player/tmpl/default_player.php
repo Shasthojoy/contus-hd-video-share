@@ -131,6 +131,34 @@ $style = '#face-comments iframe{width:  ' . $player_values['width'] . 'px !impor
 #video-grid-container_rec .ulvideo_thumb .featured_gutterwidth{margin-left:' . $thumbview['homefeaturedvideowidth'] . 'px; }
 #video-grid-container_rec .ulvideo_thumb .recent_gutterwidth{margin-left:' . $thumbview['homerecentvideowidth'] . 'px; }';
 $document->addStyleDeclaration($style);
+
+$seoOption = $dispenable['seo_option'];
+
+if (isset($this->videodetails))
+{
+	if ($seoOption == 1)
+	{
+		$featuredCategoryVal = "category=" . $this->videodetails->seo_category;
+		$featuredVideoVal = "video=" . $this->videodetails->seotitle;
+	}
+	else
+	{
+		$featuredCategoryVal = "catid=" . $this->videodetails->playlistid;
+		$featuredVideoVal = "id=" . $this->videodetails->id;
+	}
+
+	$current_url = 'index.php?option=com_contushdvideoshare&view=player&' . $featuredCategoryVal . '&' . $featuredVideoVal;
+
+	if (version_compare(JVERSION, '1.6.0', 'ge'))
+	{
+		$login_url = JURI::base() . "index.php?option=com_users&amp;view=login&return=" . base64_encode($current_url);
+	}
+	else
+	{
+		$login_url = JURI::base() . "index.php?option=com_user&amp;view=login&return=" . base64_encode($current_url);
+	}
+}
+
 ?>
 <!--Rich snippet starts here -->
 <div id="video-container" class="" itemscope itemid="" itemtype="http://schema.org/VideoObject" >
@@ -255,28 +283,24 @@ echo JRoute::_(
 		if (version_compare(JVERSION, '1.6.0', 'ge'))
 		{
 			$register_url = "index.php?option=com_users&amp;view=registration";
-			$login_url = "index.php?option=com_users&amp;view=login";
 		}
 		else
 		{
 			$register_url = "index.php?option=com_user&amp;view=register";
-			$login_url = "index.php?option=com_user&amp;view=login";
 		}
 		?>
 		<div class="toprightmenu">
-			<a href="
-<?php
-echo $register_url;
-?>"><?php
-echo JText::_('HDVS_REGISTER');
-?>
+			<a href="<?php
+			echo $register_url;
+			?>"><?php
+			echo JText::_('HDVS_REGISTER');
+			?>
 			</a> |
-			<a  href="
-<?php
-echo $login_url;
-?>"> <?php
-echo JText::_('HDVS_LOGIN');
-?>
+			<a  href="<?php
+			echo $login_url;
+			?>"> <?php
+			echo JText::_('HDVS_LOGIN');
+			?>
 			</a>
 		</div>
 		<?php
@@ -1578,14 +1602,6 @@ document.getElementById(parentid).innerHTML = "<div class='clsreply'><span  clas
 			}
 				elseif ($dispenable['comment'] != 5 && $dispenable['comment'] != 1 && $dispenable['comment'] != 0)
 				{
-					if (version_compare(JVERSION, '1.6.0', 'ge'))
-					{
-						$login_url = "index.php?option=com_users&amp;view=login";
-					}
-					else
-					{
-						$login_url = "index.php?option=com_user&amp;view=login";
-					}
 					?>
 						<!--Ask user to login to post comment-->
 						<div class="commentpost floatright" style="padding-top: 15px;"><a href="<?php
