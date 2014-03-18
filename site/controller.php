@@ -90,7 +90,7 @@ class ContushdvideoshareController extends ContusvideoshareController
 	 * 
 	 * @return  videohitCount_function
 	 */
-	public function videohitCount_function($vid)
+	public static function videohitCount_function($vid)
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);

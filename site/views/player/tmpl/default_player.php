@@ -824,7 +824,7 @@ if (isset($this->htmlVideoDetails->created_date))
 					?>
 						<div class="viewsubname"><span class="uploadedby"><strong>
 							<?php echo JText::_('HDVS_UPLOADED_BY'); ?> : </strong></span>  <a 
-								href="#" title="<?php echo $username; ?>" class="namelink cursor_pointer"
+								title="<?php echo $username; ?>" class="namelink cursor_pointer"
 								onclick="membervalue('<?php
 								echo $mid;
 								?>')" ><?php
