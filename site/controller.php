@@ -357,11 +357,11 @@ class ContushdvideoshareController extends ContusvideoshareController
 
 		if (mail($to, $title, $message, $headers))
 		{
-			$returnmessage = "sent";
+			$returnmessage = "success=sent";
 		}
 		else
 		{
-			$returnmessage = "error";
+			$returnmessage = "success=error";
 		}
 
 		echo $returnmessage;
