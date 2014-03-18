@@ -51,18 +51,13 @@ if (JRequest::getVar('task') == 'edit' || JRequest::getVar('task') == 'add')
 									$selected = 'selected="selected"';
 								}
 								?>
-								<option id="
-									<?php
+								<option id="<?php
 								echo $val->value;
-								?>"
-										value="
-											<?php
-										echo $val->value;
-										?>"
-											<?php
-										echo $selected;
-										?>
-										>
+								?>" value="<?php
+								echo $val->value;
+								?>"<?php
+								echo $selected;
+								?>>
 		<?php echo $val->text; ?>
 								</option>
 										<?php
@@ -80,30 +75,24 @@ if (JRequest::getVar('task') == 'edit' || JRequest::getVar('task') == 'add')
 					<td class="key">Status</td>
 					<td>
 						<select name="published" id="published">					
-							<option value="1"
-							<?php
+							<option value="1" <?php
 							if ($this->category->published == 1 || $this->category->published == '')
 							{
 								echo 'selected';
 							}
-							?>
-							>Published</option>
-							<option value="0"
-							<?php
+							?>>Published</option>
+							<option value="0" <?php
 							if ($this->category->published == 0 && $this->category->published != '')
 							{
 								echo 'selected';
 							}
-							?>
-							>Unpublished</option>
-							<option value="-2"
-							<?php
+							?>>Unpublished</option>
+							<option value="-2" <?php
 							if ($this->category->published == -2)
 							{
 								echo 'selected';
 							}
-							?>
-							>Trashed</option>
+							?>>Trashed</option>
 						</select>				
 					</td>
 				</tr>
@@ -126,8 +115,7 @@ else
 	<!-- form for display category begin -->	
 	<form action='index.php?option=com_contushdvideoshare&layout=category'
 		  method="POST" name="adminForm" id="adminForm">
-		<fieldset id="filter-bar"
-			<?php
+		<fieldset id="filter-bar" <?php
 			if (version_compare(JVERSION, '3.0.0', 'ge'))
 			{
 				echo 'class="btn-toolbar"';
@@ -139,8 +127,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 {
 		?>
 					<label for="category_search" class="filter-search-lbl">Filter:</label>
-					<input type="text" title="Search in module title." value="
-						<?php
+					<input type="text" title="Search in module title." value="<?php
 						if (isset($arrCategoryFilter['category_search']))
 						{
 							echo $arrCategoryFilter['category_search'];
@@ -169,22 +156,19 @@ else
 			<div class="filter-select fltrt" style="float: right;">
 				<select onchange="this.form.submit()" class="inputbox" name="category_status">
 					<option selected="selected" value="0">- Select Status -</option>
-					<option value="1"
-						<?php
+					<option value="1" <?php
 						if (isset($arrCategoryFilter['category_status']) && $arrCategoryFilter['category_status'] == '1')
 						{
 							echo 'selected=selected';
 						}
 						?>>Published</option>
-					<option value="2" 
-						<?php
+					<option value="2" <?php
 						if (isset($arrCategoryFilter['category_status']) && $arrCategoryFilter['category_status'] == '2')
 						{
 							echo 'selected=selected';
 						}
 						?>>Unpublished</option>
-					<option value="3"
-						<?php
+					<option value="3" <?php
 						if (isset($arrCategoryFilter['category_status']) && $arrCategoryFilter['category_status'] == '3')
 						{
 							echo 'selected=selected';
@@ -193,8 +177,7 @@ else
 				</select>
 			</div>
 		</fieldset>	
-		<table class="adminlist 
-			<?php
+		<table class="adminlist <?php
 			if (version_compare(JVERSION, '3.0.0', 'ge'))
 			{
 				echo 'table table-striped';
@@ -204,8 +187,7 @@ else
 				<tr>
 					<th>#</th>
 					<th width="10"><input type="checkbox" name="toggle" value=""
-										  onclick="
-	<?php
+										  onclick="<?php
 if (!version_compare(JVERSION, '3.0.0', 'ge'))
 {
 ?>
@@ -218,8 +200,7 @@ else
 			Joomla.checkAll(this)
 <?php
 }
-?>
-					" />
+?>" />
 					</th>
 					<th>
 	<?php echo JHTML::_('grid.sort', 'Category', @$arrCategoryFilter['order'], @$arrCategoryFilter['order_Dir']); ?>
