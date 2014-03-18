@@ -538,7 +538,7 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 
 		//  Update streamer option,thumb url and file path
 		$query->clear()
-			->update($db->quoteName('#__hdflv_upload'))->set($fields)->where($conditions);
+			->update($db->quoteName('#__hdflv_category'))->set($fields)->where($conditions);
 		$db->setQuery($query);
 		$db->query();
 		$link = 'index.php?option=com_contushdvideoshare&layout=category';
