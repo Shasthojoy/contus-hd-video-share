@@ -134,17 +134,17 @@ $document->addStyleDeclaration($style);
 
 $seoOption = $dispenable['seo_option'];
 
-if (isset($this->videodetails))
+if (isset($this->htmlVideoDetails))
 {
 	if ($seoOption == 1)
 	{
-		$featuredCategoryVal = "category=" . $this->videodetails->seo_category;
-		$featuredVideoVal = "video=" . $this->videodetails->seotitle;
+		$featuredCategoryVal = "category=" . $this->htmlVideoDetails->seo_category;
+		$featuredVideoVal = "video=" . $this->htmlVideoDetails->seotitle;
 	}
 	else
 	{
-		$featuredCategoryVal = "catid=" . $this->videodetails->playlistid;
-		$featuredVideoVal = "id=" . $this->videodetails->id;
+		$featuredCategoryVal = "catid=" . $this->htmlVideoDetails->playlistid;
+		$featuredVideoVal = "id=" . $this->htmlVideoDetails->id;
 	}
 
 	$current_url = 'index.php?option=com_contushdvideoshare&view=player&' . $featuredCategoryVal . '&' . $featuredVideoVal;
