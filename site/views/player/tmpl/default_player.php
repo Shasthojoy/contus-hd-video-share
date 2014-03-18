@@ -1297,7 +1297,12 @@ echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport
 					}
 				</script>
 				<div style="clear: both;"></div>
-				<div class="video-page-desc"><?php echo $this->htmlVideoDetails->description; ?></div>
+				<div class="video-page-desc"><?php
+				if ($player_icons['showTag'] == 1)
+				{
+					echo $this->htmlVideoDetails->description;
+				}
+				?></div>
 			</div>
 <?php
 		}
