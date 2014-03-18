@@ -982,7 +982,7 @@ if (isset($dispenable['amazons3']) && $dispenable['amazons3'] == '0')
 				<td>
 					<?php echo JHTML::tooltip('Option to get Amazon S3 bucket name', 'Enter Amazon S3 bucket name', '', 'Enter Amazon S3 bucket name');
 ?></td>
-				<td>
+				<td colspan="4">
 					<input type="text" name="amazons3name" style="display: none;"
 						   id="amazons3name" maxlength="100"
 							value="<?php
@@ -997,7 +997,7 @@ if (isset($dispenable['amazons3name']))
 				<td>
 					<?php echo JHTML::tooltip('Option to get Amazon S3 bucket link', 'Enter Amazon S3 bucket link', '', 'Enter Amazon S3 bucket link');
 ?></td>
-				<td>
+				<td colspan="4">
 					<input type="text" name="amazons3link" style="display: none;"
 						   id="amazons3link" maxlength="100"
 							value="<?php
@@ -1012,7 +1012,7 @@ if (isset($dispenable['amazons3link']))
 				<td>
 <?php echo JHTML::tooltip('Option to get Amazon S3 bucket access key', 'Enter Amazon S3 bucket access key', '', 'Enter Amazon S3 bucket access key');
 ?></td>
-				<td>
+				<td colspan="4">
 					<input type="text" name="amazons3accesskey" style="display: none;"
 						   id="amazons3accesskey" maxlength="100"
 						   value="<?php
@@ -1028,7 +1028,7 @@ if (isset($dispenable['amazons3accesskey']))
 <?php echo JHTML::tooltip('Option to get Amazon S3 bucket access secret key',
 		'Enter Amazon S3 bucket access secret key', '', 'Enter Amazon S3 bucket access secret key');
 ?></td>
-				<td>
+				<td colspan="4">
 					<input type="text" name="amazons3accesssecretkey_area" style="display: none;"
 						   id="amazons3accesssecretkey_area" maxlength="100"
 						   value="<?php
@@ -1065,7 +1065,7 @@ if ($dispenable['seo_option'] == 0)
 <?php echo JHTML::tooltip('Option to limit upload method for front end users',
 		'Select upload method(s) for users', '', 'Select upload method(s) for users');
 ?></td>
-				<td >
+				<td colspan="4">
 <?php
 $separate_values = explode(',', $dispenable['upload_methods']);
 
