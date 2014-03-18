@@ -198,11 +198,11 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 				{
 					if ($arrUserGroup->gid == 25)
 					{
-						$query->where($db->quote('c.gid') . ' = ' . $db->quote('25'));
+						$query->where($db->quoteName('c.gid') . ' = ' . $db->quote('25'));
 					}
 					elseif ($arrUserGroup->gid == 24)
 					{
-						$query->where($db->quote('c.gid') . ' = ' . $db->quote('24'));
+						$query->where($db->quoteName('c.gid') . ' = ' . $db->quote('24'));
 					}
 				}
 				// For videos added by member
@@ -242,25 +242,25 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 				$state_filterval = -2;
 			}
 
-			$query->where($db->quote('a.published') . ' = ' . $db->quote('$state_filterval'));
+			$query->where($db->quoteName('a.published') . ' = ' . $db->quote($state_filterval));
 			$lists['state_filter'] = $state_filter;
 		}
 		else
 		{
-			$query->where($db->quote('a.published') . ' != ' . $db->quote('-2'));
+			$query->where($db->quoteName('a.published') . ' != ' . $db->quote('-2'));
 		}
 
 		// Filtering based on featured status
 		if ($featured_filter)
 		{
 			$featured_filterval = ($featured_filter == '1') ? '1' : '0';
-			$query->where($db->quote('a.featured') . ' = ' . $db->quote($featured_filterval));
+			$query->where($db->quoteName('a.featured') . ' = ' . $db->quote($featured_filterval));
 			$lists['featured_filter'] = $featured_filter;
 		}
 
 		if ($category_filter)
 		{
-			$query->where($db->quote('a.playlistid') . ' = ' . $db->quote($category_filter));
+			$query->where($db->quoteName('a.playlistid') . ' = ' . $db->quote($category_filter));
 			$lists['category_filter'] = $category_filter;
 		}
 
@@ -314,7 +314,7 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 			$query->clear()
 					->select('dispenable')
 					->from('#__hdflv_site_settings')
-					->where($db->quote('id') . ' = ' . $db->quote('1'));
+					->where($db->quoteName('id') . ' = ' . $db->quote('1'));
 			$db->setQuery($query);
 			$setting_res = $db->loadResult();
 			$dispenable = unserialize($setting_res);
@@ -324,11 +324,11 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 				// Query is to display recent videos in home page
 				$query->clear()
 						->select(array('d.email', 'b.seo_category', 'a.seotitle', 'e.catid', 'a.id', 'd.username'))
-						->from('#__hdflv_upload')
-						->leftJoin('#__hdflv_user d ON a.memberid=d.id')
+						->from('#__hdflv_upload a')
+						->leftJoin('#__users d ON a.memberid=d.id')
 						->leftJoin('#__hdflv_video_category e ON e.vid=a.id')
 						->leftJoin('#__hdflv_category b ON e.catid=b.id')
-						->where($db->quote('a.id') . ' = ' . $db->quote($videoid))
+						->where($db->quoteName('a.id') . ' = ' . $db->quote($videoid))
 						->group($db->escape('e.vid'));
 				$db->setQuery($query);
 				$user_details = $db->loadObject();
@@ -414,7 +414,7 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 		$query->clear()
 				->select('count(id)')
 				->from('#__hdflv_upload')
-				->where($db->quote('title') . ' = ' . $db->quote($seoTitle));
+				->where($db->quoteName('title') . ' = ' . $db->quote($seoTitle));
 		$db->setQuery($query);
 		$total_title = $db->loadResult();
 
@@ -504,7 +504,7 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 		$query->clear()
 				->select('count(vid)')
 				->from('#__hdflv_video_category')
-				->where($db->quote('vid') . ' = ' . $db->quote($idval));
+				->where($db->quoteName('vid') . ' = ' . $db->quote($idval));
 		$db->setQuery($query);
 		$total = $db->loadResult();
 
@@ -570,7 +570,7 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 		$query->clear()
 				->update($db->quoteName('#__hdflv_upload'))
 				->set($db->quoteName('featured') . ' = ' . $db->quote($publish))
-				->where($db->quoteName('id') . ' IN ' . $db->quote($strVideoIds));
+				->where($db->quoteName('id') . ' IN (' . $strVideoIds . ')');
 		$db->setQuery($query);
 		$db->query();
 		$strRedirectPage = 'index.php?layout=adminvideos&option=' . JRequest::getVar('option') . '&user=' . JRequest::getVar('user');
