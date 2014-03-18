@@ -118,9 +118,9 @@ class UploadFfmpegHelper
 			if ($hdfile == "h264")
 			{
 				$exts = uploadFfmpegHelper::getFileExtension($strTmpVidName);
-				$video_name = $idval . '_hd' . ".mp4";
-				$flvpath = $strTargetPath . $idval . '_hd' . ".mp4";
-				exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-vcodec libx264  -sameq" . ' ' . $strTargetPath . $idval . "_hd.mp4");
+				$video_name = $idval . '_hd' . ".flv";
+				$flvpath = $strTargetPath . $idval . '_hd' . ".flv";
+				exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-sameq" . ' ' . $strTargetPath . $idval . "_hd.flv");
 				exec(
 						$strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -s 120x68 -f image2"
 						. ' ' . $strTargetPath . $idval . "_thumb.jpeg"
@@ -254,7 +254,7 @@ class UploadFfmpegHelper
 			}
 			else
 				{
-				exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-vcodec libx264  -sameq" . ' ' . $strTargetPath . $idval . "_video.mp4");
+				exec($strFfmpegPath . ' ' . "-i" . ' ' . $strTmpPath . ' ' . "-sameq" . ' ' . $strTargetPath . $idval . "_video.flv");
 				exec(
 				$strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -s 120x68 -f image2"
 				. ' ' . $strTargetPath . $idval . "_thumb.jpeg"
@@ -265,7 +265,7 @@ class UploadFfmpegHelper
 				);
 
 				// To get Thumb image & Preview image from the original video file
-				$video_name = $idval . '_video' . ".mp4";
+				$video_name = $idval . '_video' . ".flv";
 				$hd_name = "";
 
 				if ($dispenable['amazons3'] == 1)

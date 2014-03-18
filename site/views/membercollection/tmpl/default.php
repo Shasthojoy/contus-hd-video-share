@@ -34,14 +34,12 @@ if (USER_LOGIN == '1')
 			?>
 			<span class="toprightmenu">
 				<a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
-				<a href="
-					<?php
+				<a href="<?php
 					echo JRoute::_(
 							'index.php?option=com_users&task=user.logout&'
 							. JSession::getFormToken() . '=1&return=' . base64_encode(JUri::root())
 							);
-					?>
-				   ">
+					?>">
 							<?php echo JText::_('HDVS_LOGOUT'); ?></a>
 			</span>
 		<?php
@@ -157,8 +155,7 @@ foreach ($this->membercollection as $rows)
 				<li class="video-item">
 					<div class="home-thumb" id="member_thread">
 						<div class="list_video_thumb">
-							<a class="featured_vidimg" rel="htmltooltip" href="
-								<?php echo JRoute::_(
+							<a class="featured_vidimg" rel="htmltooltip" href="<?php echo JRoute::_(
 										"index.php?option=com_contushdvideoshare&amp;view=player&amp;"
 										. $memberCategoryVal . "&amp;" . $memberVideoVal
 										);
