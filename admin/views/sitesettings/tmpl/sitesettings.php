@@ -1139,10 +1139,8 @@ else
 			{
 			document.getElementById("amazons3name_area").style.display = '';
 			document.getElementById("amazons3link_area").style.display = '';
-			document.getElementById("amazons3path_area").style.display = '';
 					document.getElementById("amazons3name").style.display = '';
 					document.getElementById("amazons3link").style.display = '';
-					document.getElementById("amazons3path").style.display = '';
 					document.getElementById("amazons3accesskey_area").style.display = '';
 					document.getElementById("amazons3accesskey").style.display = '';
 					document.getElementById("amazons3accesssecretkey").style.display = '';
