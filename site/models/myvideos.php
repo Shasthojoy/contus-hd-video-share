@@ -278,7 +278,7 @@ class Modelcontushdvideosharemyvideos extends ContushdvideoshareModel
 	 * 
 	 * @return  getmyvideocomment
 	 */
-	public function getmyvideocomment($vid)
+	public static function getmyvideocomment($vid)
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);

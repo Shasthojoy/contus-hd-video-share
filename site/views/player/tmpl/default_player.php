@@ -1184,12 +1184,13 @@ echo JURI::base(); ?>index.php?option=com_contushdvideoshare&amp;task=sendreport
 	if ($player_icons['embedVisible'] == 1 && ($mobile === false))
 	{
 		?>
-	<a class="utility-link embed" class="embed" id="allowEmbed" href="javascript:void(0)" onclick="enableEmbed()" >
+	<a class="utility-link" class="embed" id="allowEmbed" href="javascript:void(0)" onclick="enableEmbed()" >
 		<?php echo JText::_('HDVS_EMBED'); ?> </a>
 	<?php
 	}
 
 	if ($player_icons['enabledownload'] == 1
+		&& $this->htmlVideoDetails->download == 1
 		&& $this->htmlVideoDetails->filepath != "Youtube"
 		&& $this->htmlVideoDetails->filepath != "Embed"
 		&& $this->htmlVideoDetails->streameroption != "rtmp")
