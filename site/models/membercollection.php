@@ -92,7 +92,7 @@ class Modelcontushdvideosharemembercollection extends ContushdvideoshareModel
 				->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
 				->leftJoin('#__hdflv_category AS b ON e.catid=b.id')
 				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
-				->where($db->quoteName('b.published') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
 				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
 				->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
 				->where($db->quoteName('a.memberid') . ' = ' . $db->quote($session->get('memberid', 'empty')))
