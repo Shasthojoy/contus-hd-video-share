@@ -376,6 +376,16 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 			$db->setQuery($query);
 			$rs_video = $db->loadObjectList();
 
+			if(empty($rs_video))
+			{
+				$query->clear('where')
+					->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
+					->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
+					->where($db->quoteName('a.type') . ' = ' . $db->quote('0'));
+				$db->setQuery($query);
+				$rs_video = $db->loadObjectList();
+			}
+			
 			if (isset($rs_video[0]) && $rs_video[0] != '')
 			{
 				$id = $rs_video[0]->id;
@@ -769,7 +779,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 				$query->clear()
 						->select(array('a.*', 'b.category', 'd.username', 'e.*'))
 						->from('#__hdflv_upload AS a')
-						->leftJoin('#__hdflv_user d ON a.memberid=d.id')
+						->leftJoin('#__users d ON a.memberid=d.id')
 						->leftJoin('#__hdflv_video_category e ON e.vid=a.id')
 						->leftJoin('#__hdflv_category b ON e.catid=b.id');
 
@@ -778,7 +788,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 					$query->where($publish);
 				}
 
-				$query->where($db->quote('b.published') . ' = ' . $db->quote('1'))
+				$query->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
 						->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
 						->group($db->escape('e.vid'))
 						->order($db->escape('a.ordering' . ' ' . 'ASC'));
