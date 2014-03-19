@@ -376,16 +376,16 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 			$db->setQuery($query);
 			$rs_video = $db->loadObjectList();
 
-			if(empty($rs_video))
+			if (empty($rs_video))
 			{
 				$query->clear('where')
-					->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
-					->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
-					->where($db->quoteName('a.type') . ' = ' . $db->quote('0'));
+						->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
+						->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
+						->where($db->quoteName('a.type') . ' = ' . $db->quote('0'));
 				$db->setQuery($query);
 				$rs_video = $db->loadObjectList();
 			}
-			
+
 			if (isset($rs_video[0]) && $rs_video[0] != '')
 			{
 				$id = $rs_video[0]->id;
