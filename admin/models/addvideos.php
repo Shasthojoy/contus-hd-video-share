@@ -99,7 +99,7 @@ class ContushdvideoshareModeladdvideos extends ContushdvideoshareModel
 
 		// Query to fetch user groups
 		$query->clear()
-				->select('id', $strName . ' AS title')
+				->select(array('id', $strName . ' AS title'))
 				->from($db->quoteName($strTable))
 				->order('id ASC');
 		$db->setQuery($query);
