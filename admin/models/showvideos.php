@@ -418,9 +418,19 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 		$db->setQuery($query);
 		$total_title = $db->loadResult();
 
-		if (!empty($total_title) || $total_title > 0)
+		if (empty($arrFormData['id']) && (!empty($total_title) || $total_title > 0))
 		{
 			$seoTitle = $seoTitle . rand();
+		}
+
+		if (empty($arrFormData['id']))
+		{
+			$query->clear()
+				->select('count(ordering)')
+				->from('#__hdflv_upload');
+			$db->setQuery($query);
+			$total_ordering = $db->loadResult();
+			$arrFormData['ordering'] = $total_ordering + 1;
 		}
 
 		$replace_with_plus_title = strtolower(stripslashes(str_replace("+", "", $seoTitle)));

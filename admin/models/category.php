@@ -445,28 +445,10 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		{
 			$cids = implode(',', $arrayIDs);
 			$query->clear()
-				->select($db->quoteName(array('lft','rgt')))
-				->from($db->quoteName('#__hdflv_category'))
-				->where($db->quoteName('id') . 'IN (\'' . $cids . '\')');
-			$db->setQuery($query);
-			$options = $db->loadObjectList();
-
-			foreach ($options as &$option)
-			{
-				$lft = $option->lft;
-				$rgt = $option->rgt;
-				$conditions = array(
-					$db->quoteName('lft') . 'BETWEEN ' . $lft . ' AND ' . $rgt
-				);
-
-				$query->clear()
 						->delete($db->quoteName('#__hdflv_category'))
-						->where($conditions);
+						->where($db->quoteName('id') . 'IN (' . $cids . ')');
 				$db->setQuery($query);
 				$db->query();
-			}
-
-			$this->rebuild(0, 0);
 		}
 	}
 
