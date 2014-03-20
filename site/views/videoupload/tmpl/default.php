@@ -99,26 +99,6 @@ if ($user->get('id') != '')
 <?php
 	}
 }
-else
-{
-	if (version_compare(JVERSION, '1.6.0', 'ge'))
-	{
-		?><div class="toprightmenu">
-			<a href="index.php?option=com_users&view=registration"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
-			<a  href="index.php?option=com_users&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
-		</div>
-	<?php
-	}
-	else
-	{
-		?>
-		<div class="toprightmenu">
-			<a href="index.php?option=com_user&view=register"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
-			<a  href="index.php?option=com_user&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
-		</div>
-		<?php
-	}
-}
 ?>
 
 <div class="player clearfix" id="clsdetail">

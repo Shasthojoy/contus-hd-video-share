@@ -256,14 +256,12 @@ if (isset($this->videodetails->id))
 			if (version_compare(JVERSION, '1.6.0', 'ge'))
 			{
 				?>
-				<a href="
-<?php
+				<a href="<?php
 echo JRoute::_(
 		'index.php?option=com_users&task=user.logout&'
 		. JSession::getFormToken() . '=1&return=' . base64_encode(JUri::root())
 		);
-?>
-				   ">
+?>">
 							<?php echo JText::_('HDVS_LOGOUT'); ?></a>
 		<?php
 			}

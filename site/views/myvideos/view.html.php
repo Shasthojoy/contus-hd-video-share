@@ -41,7 +41,7 @@ class ContushdvideoshareViewmyvideos extends ContushdvideoshareView
 
 		if ($user->get('id') == '')
 		{
-			$url = $baseurl . "index.php?option=com_contushdvideoshare&view=player";
+			$url = JURI::base() . "index.php?option=com_contushdvideoshare&view=player";
 			header("Location: $url");
 		}
 		else

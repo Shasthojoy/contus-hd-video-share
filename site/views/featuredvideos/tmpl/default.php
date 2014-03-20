@@ -57,11 +57,26 @@ echo JRoute::_(
 	}
 	else
 	{
+		$current_url = 'index.php?option=com_contushdvideoshare&view=featuredvideos';
+
+		if (version_compare(JVERSION, '1.6.0', 'ge'))
+		{
+			$login_url = JURI::base() . "index.php?option=com_users&amp;view=login&return=" . base64_encode($current_url);
+		}
+		else
+		{
+			$login_url = JURI::base() . "index.php?option=com_user&amp;view=login&return=" . base64_encode($current_url);
+		}
+
 		if (version_compare(JVERSION, '1.6.0', 'ge'))
 		{
 			?><span class="toprightmenu">
 				<a href="index.php?option=com_users&view=registration"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
-				<a  href="index.php?option=com_users&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+				<a href="<?php
+				echo $login_url;
+				?>"> <?php
+				echo JText::_('HDVS_LOGIN');
+				?></a>
 			</span>
 		<?php
 		}
@@ -70,7 +85,11 @@ echo JRoute::_(
 		?>
 			<span class="toprightmenu">
 				<a href="index.php?option=com_user&view=register"><?php echo JText::_('HDVS_REGISTER'); ?></a> |
-				<a  href="index.php?option=com_user&view=login"> <?php echo JText::_('HDVS_LOGIN'); ?></a>
+				<a href="<?php
+				echo $login_url;
+				?>"> <?php
+				echo JText::_('HDVS_LOGIN');
+				?></a>
 			</span>
 			<?php
 		}
