@@ -395,19 +395,19 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 			</tr>
 			<tr id="islive_visible" name="islive_visible">
 				<td>Is Live</td>
-				<td>
+				<td class="radio_algin">
 					<input type="radio" style="float:none;" name="islive[]"  id="islive2" <?php
 					if ($editVideo['rs_editupload']->islive == '1')
 					{
 						echo 'checked="checked" ';
 					}
-			?>  value="1" />Yes
+					?>  value="1" /><span>Yes</span>
 					<input type="radio" style="float:none;" name="islive[]"  id="islive1"  <?php
 					if ($editVideo['rs_editupload']->islive == '0' || $editVideo['rs_editupload']->islive == '')
 					{
 						echo 'checked="checked" ';
 					}
-			?>  value="0" />No
+			?>  value="0" /><span>No</span>
 				</td>
 			</tr>
 			<tr><td width="200px;"><?php echo JHTML::tooltip('Select file path', 'File Option', '', 'File Option');
@@ -441,14 +441,12 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 			<tr id="ffmpeg_disable_new9" name="ffmpeg_disable_edit9" style="display: none">
 				<td><?php echo JHTML::tooltip('Enter Embed Code', 'Embed Code', '', 'Embed Code'); ?></td>
 				<td>
-					<textarea id="embed_code" name="embed_code" rows="5" cols="60">
-						<?php
+					<textarea id="embed_code" name="embed_code" rows="5" cols="60" style="width:300px"><?php
 						if (isset($editVideo['rs_editupload']->embedcode))
 						{
 							echo stripslashes($editVideo['rs_editupload']->embedcode);
 						}
-						?>
-					</textarea>
+						?></textarea>
 				</td></tr>
 			<tr id="ffmpeg_disable_new1" name="ffmpeg_disable_new1">
 				<td><?php echo JHTML::tooltip('Select video to upload', 'Upload Video', '', 'Upload Video');?></td>
@@ -662,7 +660,7 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 			<tr id="ffmpeg_disable_new5" name="ffmpeg_disable_edit5" style="width:200px;">
 				<td><?php echo JHTML::tooltip('Enter Youtube/Vimeo/Video URL', 'Video URL', '', 'Video URL'); ?></td>
 				<td>
-					<input type="text" name="videourl"  id="videourl" size="100" onkeyup="generate12(this.value);" 
+					<input type="text" name="videourl" style="width:300px" id="videourl" size="100" onkeyup="generate12(this.value);" 
 						   maxlength="250" value="<?php
 if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload']->filepath == 'Youtube')
 {
@@ -676,7 +674,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 			</tr>
 			<tr id="ffmpeg_disable_new8" name="ffmpeg_disable_edit8"><td>
 				<?php echo JHTML::tooltip('Enter HD Video URL (Eg:http://www.yourdomain.com/video.flv)', 'HD URL', '', 'HD URL'); ?></td>
-				<td><input type="text" name="hdurl"  id="hdurl" size="100" maxlength="250" value="<?php
+				<td><input type="text" name="hdurl" style="width:300px" id="hdurl" size="100" maxlength="250" value="<?php
 					if ($editVideo['rs_editupload']->filepath == 'Url')
 					{
 						echo $editVideo['rs_editupload']->hdurl;
@@ -685,7 +683,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 				</td></tr>
 			<tr id="ffmpeg_disable_new6" name="ffmpeg_disable_edit6"><td>
 				<?php echo JHTML::tooltip('Enter Video Thumb URL (Eg:http://www.yourdomain.com/images)', 'Thumb URL', '', 'Thumb URL'); ?></td>
-				<td><input type="text" name="thumburl"  id="thumburl" size="100" maxlength="250" value="<?php
+				<td><input type="text" name="thumburl" style="width:300px" id="thumburl" size="100" maxlength="250" value="<?php
 					if ($editVideo['rs_editupload']->filepath == 'Url')
 					{
 						echo $editVideo['rs_editupload']->thumburl;
@@ -694,7 +692,7 @@ if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload'
 				</td></tr>
 			<tr id="ffmpeg_disable_new7" name="ffmpeg_disable_edit7"><td>
 				<?php echo JHTML::tooltip('Enter Video Preview URL (Eg:http://www.yourdomain.com/images)', 'Preview URL', '', 'Preview URL'); ?></td>
-				<td><input type="text" name="previewurl"  id="previewurl" size="100" maxlength="250" value="<?php
+				<td><input type="text" name="previewurl" style="width:300px" id="previewurl" size="100" maxlength="250" value="<?php
 					if ($editVideo['rs_editupload']->filepath == 'Url')
 					{
 						echo $editVideo['rs_editupload']->previewurl;

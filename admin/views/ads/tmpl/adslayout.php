@@ -357,22 +357,19 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 <?php
 		}
 			?>
-		<table class="adminlist">
-			<thead>
-				<tr>
-					<th style="width: 20%;">Settings</th>
-					<th style="text-align: left;">Value</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="2">&#160;</td>
-				</tr>
-			</tfoot>
+		<table <?php
+		if (version_compare(JVERSION, '3.0.0', 'ge'))
+				{
+	echo 'class="adminlist table table-striped"';
+		}
+else
+	{
+	echo 'class="admintable"';
+}
+?>>
 			<tbody>
 				<tr>
-					<td class="key" width="200px;"><?php echo JHTML::tooltip('Choose the IMA Ad option', 'IMA Ad type', '', 'IMA Ad type'); ?>
-					</td>
+					<td class="key" width="200px;">IMA Ad type</td>
 					<td>
 						<input type="radio" style="float: none; margin-right: 3px;" name="imaadtype"
 							   id="textad" checked="checked" value="textad" onclick="imaads('textad');" />Text/Overlay
@@ -381,8 +378,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 					</td>
 				</tr>
 				<tr id="adimapublisher" name="adimapublisher">
-					<td class="key"><?php echo JHTML::tooltip('Enter IMA Ad Publisher Id', 'IMA Ad Publisher Id', '', 'Publisher Id'); ?>
-					</td>
+					<td class="key">Publisher Id</td>
 					<td>
 						<input type="text" name="publisherId" id="publisherId" style="width: 300px" maxlength="250"
 							   value="<?php
@@ -395,8 +391,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 
 				</tr>
 				<tr id="adimacontentid" name="adimacontentid">
-					<td class="key"><?php echo JHTML::tooltip('Enter IMA Ad Content Id', 'IMA Ad Content Id', '', 'Content Id'); ?>
-					</td>
+					<td class="key">Content Id</td>
 					<td>
 						<input type="text" name="contentId" id="contentId" style="width: 300px" maxlength="250"
 							   value="<?php
@@ -409,8 +404,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 
 				</tr>
 				<tr id="adimachannels" name="adimachannels">
-					<td class="key"><?php echo JHTML::tooltip('Enter IMA Ad Channel', 'Ad Channel', '', 'Channel'); ?>
-					</td>
+					<td class="key">Channel</td>
 					<td>
 						<input type="text" name="channels" id="channels" style="width: 300px" maxlength="250"
 							   value="<?php
@@ -423,9 +417,7 @@ if (!version_compare(JVERSION, '3.0.0', 'ge'))
 
 				</tr>
 				<tr id="imavideoad">
-					<td class="key"><?php echo JHTML::tooltip('Enter IMA Ad Path', 'IMA Ad Path', '', 'IMA Ad Path'); ?>
-
-					</td>
+					<td class="key">IMA Ad Path</td>
 					<td><input type="text" name="imaadpath" id="imaadpath" style="width: 300px" maxlength="250"
 							   value="<?php
 						if (isset($imaaddetail['imaadpath']))
