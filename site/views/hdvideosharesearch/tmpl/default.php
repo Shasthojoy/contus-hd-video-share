@@ -40,14 +40,12 @@ $document->addStyleDeclaration($style);
 				?>
 				<div class="toprightmenu">
 					<a href="index.php?option=com_contushdvideoshare&view=myvideos"><?php echo JText::_('HDVS_MY_VIDEOS'); ?></a> |
-					<a href="
-<?php
+					<a href="<?php
 echo JRoute::_(
 		'index.php?option=com_users&task=user.logout&'
 		. JSession::getFormToken() . '=1&return=' . base64_encode(JUri::root())
 		);
-?>
-					   ">
+?>">
 								<?php echo JText::_('HDVS_LOGOUT'); ?></a>
 				</div>
 		<?php
@@ -178,8 +176,7 @@ echo JRoute::_(
 								$ratestar = 0;
 							}
 							?>
-									<a class="featured_vidimg" rel="htmltooltip" href="
-										<?php
+									<a class="featured_vidimg" rel="htmltooltip" href="<?php
 echo JRoute::_(
 "index.php?option=com_contushdvideoshare&amp;view=player&amp;"
 . $searchCategoryVal . "&amp;" . $searchVideoVal
@@ -190,13 +187,11 @@ echo JRoute::_(
 
 								</div>
 								<div class="show-title-container">
-									<a href="index.php?option=com_contushdvideoshare&view=player&
-										<?php
+									<a href="index.php?option=com_contushdvideoshare&view=player&<?php
 										echo $searchCategoryVal;
 										?>&<?php
 										echo $searchVideoVal;
-										?>"
-										class="show-title-gray info_hover"><?php
+										?>" class="show-title-gray info_hover"><?php
 						if (strlen($this->search[$i]->title) > 50)
 						{
 							echo JHTML::_('string.truncate', ($this->search[$i]->title), 50);
@@ -397,8 +392,9 @@ echo JRoute::_(
 		}
 		?>
 
-<form name="memberidform" id="memberidform" action="
-	<?php echo JRoute::_('index.php?option=com_contushdvideoshare&view=membercollection'); ?>" method="post">
+<form name="memberidform" id="memberidform" action="<?php
+echo JRoute::_('index.php?option=com_contushdvideoshare&view=membercollection');
+?>" method="post">
 	<input type="hidden" id="memberidvalue" name="memberidvalue" value="<?php echo $memberidvalue; ?>" />
 </form>
 <?php
