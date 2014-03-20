@@ -763,7 +763,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 				->order($db->escape('a.ordering' . ' ' . 'ASC'));
 		}
 
-		$query->select('a.*')
+		$query->select(array('a.*', 'b.seo_category'))
 				->from('#__hdflv_upload AS a')
 				->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
 				->leftJoin('#__hdflv_category AS b ON e.catid=b.id');
@@ -777,7 +777,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 			if (count($rows) == 0)
 			{
 				$query->clear()
-						->select(array('a.*', 'b.category', 'd.username', 'e.*'))
+						->select(array('a.*', 'b.seo_category', 'b.category', 'd.username', 'e.*'))
 						->from('#__hdflv_upload AS a')
 						->leftJoin('#__users d ON a.memberid=d.id')
 						->leftJoin('#__hdflv_video_category e ON e.vid=a.id')
