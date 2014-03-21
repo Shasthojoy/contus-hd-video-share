@@ -6,7 +6,7 @@
  * @package       : apptha
  * @since         : Joomla 1.5
  * @author        : Apptha - http://www.apptha.com
- * @copyright     : Copyright (C) 2011 Powered by Apptha
+ * @copyright     : Copyright (C) 2014 Powered by Apptha
  * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component tool_tip.js file
  * @Creation Date : March 2010

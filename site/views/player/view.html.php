@@ -4,7 +4,7 @@
  * @SVN        3.5.1
  * @package    Com_Contushdvideoshare
  * @author     Apptha <assist@apptha.com>
- * @copyright  Copyright (C) 2011 Powered by Apptha
+ * @copyright  Copyright (C) 2014 Powered by Apptha
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
@@ -43,12 +43,14 @@ class ContushdvideoshareViewplayer extends ContushdvideoshareView
 
 		// CODE FOR SEO OPTION OR NOT - START
 		$video = JRequest::getVar('video');
+		$categoryname = JRequest::getVar('category');
 		$id = JRequest::getInt('id');
 		$flagVideo = is_numeric($video);
+		$flagcat      = is_numeric($categoryname);
 
 		if (isset($video) && $video != "")
 		{
-			if ($flagVideo != 1)
+			if ($flagVideo != 1 || $flagcat != 1)
 			{
 				// Joomla router replaced to : from - in query string
 				$videoTitle = JRequest::getString('video');
