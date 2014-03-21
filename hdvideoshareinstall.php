@@ -1376,7 +1376,7 @@ $query->clear()
 		->select('id')
 		->from($db->quoteName('#__hdflv_player_settings'));
 
-$db->setQuery($query, 1);
+$db->setQuery($query);
 $settings_id = $db->loadResult();
 
 if ($settings_id)
@@ -1409,7 +1409,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 else
 {
@@ -1418,7 +1418,7 @@ else
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 
 $category_id = $db->loadResult();
@@ -1454,7 +1454,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 else
 {
@@ -1463,7 +1463,7 @@ else
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 
 $featured_id = $db->loadResult();
@@ -1499,7 +1499,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRandom'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 else
 {
@@ -1508,7 +1508,7 @@ else
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRandom'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 
 $Random_id = $db->loadResult();
@@ -1544,7 +1544,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 else
 {
@@ -1553,7 +1553,7 @@ else
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 
 $related_id = $db->loadResult();
@@ -1589,7 +1589,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 else
 {
@@ -1598,7 +1598,7 @@ else
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 
 $popular_id = $db->loadResult();
@@ -1634,7 +1634,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 else
 {
@@ -1643,7 +1643,7 @@ else
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 
 $recent_id = $db->loadResult();
@@ -1680,7 +1680,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 else
 {
@@ -1689,7 +1689,7 @@ else
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 
 $search_id = $db->loadResult();
@@ -1724,7 +1724,7 @@ if (version_compare(JVERSION, '1.6.0', 'ge'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 else
 {
@@ -1733,7 +1733,7 @@ else
 			->from($db->quoteName('#__plugins'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'));
 
-	$db->setQuery($query, 1);
+	$db->setQuery($query);
 }
 
 $id = $db->loadResult();

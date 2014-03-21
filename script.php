@@ -1313,7 +1313,7 @@ PRIMARY KEY (`member_id`)
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareCategories'));
 
-						$db->setQuery($query, 1);
+						$db->setQuery($query);
 						$category_id = $db->loadResult();
 
 						if ($category_id)
@@ -1339,7 +1339,7 @@ PRIMARY KEY (`member_id`)
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareFeatured'));
 
-						$db->setQuery($query, 1);
+						$db->setQuery($query);
 						$featured_id = $db->loadResult();
 
 						if ($featured_id)
@@ -1365,7 +1365,7 @@ PRIMARY KEY (`member_id`)
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRandom'));
 
-						$db->setQuery($query, 1);
+						$db->setQuery($query);
 						$Random_id = $db->loadResult();
 
 						if ($Random_id)
@@ -1391,7 +1391,7 @@ PRIMARY KEY (`member_id`)
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRelated'));
 
-						$db->setQuery($query, 1);
+						$db->setQuery($query);
 						$related_id = $db->loadResult();
 
 						if ($related_id)
@@ -1417,7 +1417,7 @@ PRIMARY KEY (`member_id`)
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoSharePopular'));
 
-						$db->setQuery($query, 1);
+						$db->setQuery($query);
 						$popular_id = $db->loadResult();
 
 						if ($popular_id)
@@ -1443,7 +1443,7 @@ PRIMARY KEY (`member_id`)
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareRecent'));
 
-						$db->setQuery($query, 1);
+						$db->setQuery($query);
 						$recent_id = $db->loadResult();
 
 						if ($recent_id)
@@ -1468,7 +1468,7 @@ PRIMARY KEY (`member_id`)
 								->where($db->quoteName('type') . ' = ' . $db->quote('module'))
 								->where($db->quoteName('element') . ' = ' . $db->quote('mod_HDVideoShareSearch'));
 
-						$db->setQuery($query, 1);
+						$db->setQuery($query);
 						$search_id = $db->loadResult();
 
 						if ($search_id)
@@ -1494,7 +1494,7 @@ PRIMARY KEY (`member_id`)
 								->where($db->quoteName('element') . ' = ' . $db->quote('hvsarticle'))
 								->where($db->quoteName('folder') . ' = ' . $db->quote('content'));
 
-						$db->setQuery($query, 1);
+						$db->setQuery($query);
 						$article_id = $db->loadResult();
 
 						if ($article_id)
