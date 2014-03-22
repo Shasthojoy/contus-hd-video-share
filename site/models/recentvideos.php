@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -36,16 +36,21 @@ class Modelcontushdvideosharerecentvideos extends ContushdvideoshareModel
 		$query = $db->getQuery(true);
 
 		// Query is to get the pagination for recent videos
-		$query->select('count(a.id)')
+		$query->clear()
+				->select('a.id')
 				->from('#__hdflv_upload AS a')
-				->leftJoin('#__hdflv_category AS b ON a.playlistid=b.id')
 				->leftJoin('#__users AS d ON a.memberid=d.id')
+				->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
+				->leftJoin('#__hdflv_category AS b ON e.catid=b.id')
 				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
 				->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
 				->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
-				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'));
+				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
+				->group($db->escape('e.vid'))
+				->order($db->escape('e.vid' . ' ' . 'DESC'));
 		$db->setQuery($query);
-		$total = $db->loadResult();
+		$total_query = $db->LoadObjectList();
+		$total = count($total_query);
 		$pageno = 1;
 
 		if (JRequest::getVar('page', '', 'post', 'int'))

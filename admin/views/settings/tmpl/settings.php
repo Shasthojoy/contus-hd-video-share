@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access
 defined('_JEXEC') or die('Restricted access');
@@ -113,6 +113,7 @@ else
 			playerHeight = parseInt(playerHeight);
 			var googleana_visible = document.getElementById('googleana_visible').checked;
 			var googleanalyticsID = document.getElementById('googleanalyticsID').value;
+			var volume = document.getElementById('volume').value;
 			if (!playerWidth || !playerHeight) {
 	alert('Please enter minimum width and height value for player');
 			return false;
@@ -121,6 +122,14 @@ else
 	alert('Please Enter Google Analytics ID');
 			return false;
 			}
+	if (!volume.match(/^[0-9]+$/)) {
+	alert('Enter only numbers');
+			return false;
+	}
+			else if(volume>100 || volume<0){
+				alert('Enter volume value between 1 to 100%');
+			return false;
+	}
 	}
 	submitform(pressbutton);
 			return;
@@ -346,7 +355,7 @@ if (isset($player_icons['timer']) && $player_icons['timer'] == 0)
 					<td class="key">
 						<?php echo JHTML::tooltip('Recommended value is 50', 'Volume', '', 'Volume'); ?></td>
 					<td>
-						<input type="text" name="volume" value="<?php
+						<input type="text" name="volume" id="volume" value="<?php
 if (isset($player_values['volume']))
 {
 	echo $player_values['volume'];
@@ -393,8 +402,8 @@ if (isset($player_icons['shareurl']) && $player_icons['shareurl'] == 0)
 					<td class="key">
 						<?php echo JHTML::tooltip('Option to select related videos view', 'Related Videos View', '', 'Related Videos View'); ?></td>
 					<td><select name="relatedVideoView">
-							<option value="side" id="side">side</option>
-							<option value="center" id="center">center</option>
+							<option value="side" id="side">Side</option>
+							<option value="center" id="center">Center</option>
 						</select> 
 						<?php
 						if (isset($player_values['relatedVideoView']) && $player_values['relatedVideoView'])

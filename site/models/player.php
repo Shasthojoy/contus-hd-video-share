@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -639,7 +639,7 @@ class Modelcontushdvideoshareplayer extends ContushdvideoshareModel
 				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
 				->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
 				->group($db->escape('c.vid'))
-				->order('rand()');
+				->order($db->escape('a.ordering' . ' ' . 'ASC'));
 
 		// Query is to display featured videos in home page randomly
 		$db->setQuery($query, 0, $featurelimit);

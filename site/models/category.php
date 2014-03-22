@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -74,29 +74,26 @@ class Modelcontushdvideosharecategory extends ContushdvideoshareModel
 
 		// Query to calculate total number of videos in paricular category
 		$query->clear()
-				->select(
-				array(
-					'a.*', 'b.id AS cid', 'b.category', 'b.seo_category', 'b.parent_id', 'c.*'
-					)
-				)
+				->select('a.id')
 				->from('#__hdflv_upload AS a')
 				->leftJoin('#__users AS d ON a.memberid=d.id')
-				->leftJoin('#__hdflv_video_category AS c ON c.vid=a.id')
-				->leftJoin('#__hdflv_category AS b ON c.catid=b.id')
+				->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
+				->leftJoin('#__hdflv_category AS b ON e.catid=b.id')
 				->where(
 						'('
-						. $db->quoteName('c.catid') . ' = ' . $db->quote($catid)
+						. $db->quoteName('e.catid') . ' = ' . $db->quote($catid)
 						. ' OR ' . $db->quoteName('b.parent_id') . ' = ' . $db->quote($catid)
 						. ' OR ' . $db->quoteName('a.playlistid') . ' = ' . $db->quote($catid)
 						. ')'
 						)
-				->where($db->quoteName('a.published') . ' = ' . $db->quote('1') . ' AND ' . $db->quoteName('b.published') . ' = ' . $db->quote('0'))
+				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
+				->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
 				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
-				->order($db->escape('b.id' . ' ' . 'ASC'));
+				->group($db->escape('e.vid'))
+				->order($db->escape('b.ordering' . ' ' . 'ASC'));
 		$db->setQuery($query);
 		$searchtotal = $db->loadObjectList();
-		$subtotal = count($searchtotal);
-		$total = $subtotal;
+		$total = count($searchtotal);
 		$pageno = 1;
 
 		if (JRequest::getVar('page', '', 'post', 'int'))

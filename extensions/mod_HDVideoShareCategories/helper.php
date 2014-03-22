@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
@@ -31,10 +31,19 @@ class Modcategorylist
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select(array('id', 'category', 'seo_category'))
-					->from('#__hdflv_category')
-					->where($db->quoteName('parent_id') . ' = ' . $db->quote('0') . ' AND ' . $db->quoteName('published') . ' = ' . $db->quote('1'))
-					->order($db->quoteName('category'));
+		$fields = array(
+			$db->quoteName('a.id'),
+			$db->quoteName('a.category'),
+			$db->quoteName('a.seo_category'),
+			'COUNT(DISTINCT b.id) AS level'
+			);
+		$query->clear()
+				->select($fields)
+				->from($db->quoteName('#__hdflv_category') . ' AS a')
+				->leftJoin('#__hdflv_category AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+				->where($db->quoteName('a.published') . ' = ' . $db->quote('1'))
+				->group($db->escape('a.id' . ' ,' . 'a.category' . ' , ' . 'a.lft' . ' , ' . 'a.rgt'))
+				->order($db->quoteName('a.lft'));
 		$db->setQuery($query);
 		$rs = $db->loadObjectList();
 

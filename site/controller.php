@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
@@ -318,13 +318,13 @@ class ContushdvideoshareController extends ContusvideoshareController
 	 */
 	public function downloadfile()
 	{
-		$url = JRequest::getInt('f');
+		$url = JRequest::getVar('f');
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 
 		$query->select(array('filepath', 'videourl'))
 				->from('#__hdflv_upload')
-				->where($db->quoteName('id') . ' = ' . $db->quote($url));
+				->where($db->quoteName('videourl') . ' = ' . $db->quote($url));
 		$db->setQuery($query);
 		$video_details = $db->loadObject();
 		$filename = JPATH_COMPONENT . "/videos/" . $video_details->videourl;

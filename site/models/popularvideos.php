@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -86,7 +86,7 @@ class Modelcontushdvideosharepopularvideos extends ContushdvideoshareModel
 				->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
 				->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
 				->group($db->escape('e.vid'))
-				->order($db->escape('a.times_viewed' . ' ' . 'ASC'));
+				->order($db->escape('a.times_viewed' . ' ' . 'DESC'));
 		$db->setQuery($query, $start, $length);
 		$rows = $db->LoadObjectList();
 

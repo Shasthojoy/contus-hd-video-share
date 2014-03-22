@@ -8,7 +8,7 @@
  * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share Component googlead.js file
  * @Creation Date : March 2010
- * @Modified Date : February 2014
+ * @Modified Date : March 2014
  * */
 
 var pagearray=new Array();

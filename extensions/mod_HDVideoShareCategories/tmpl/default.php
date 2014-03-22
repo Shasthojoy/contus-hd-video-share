@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access to this file
 defined('_JEXEC') or die('Restricted access');
@@ -50,49 +50,11 @@ $seoOption = $dispenable['seo_option'];
 				}
 				?>
 				<li class="item27">
+					<?php echo str_repeat('<span class="gi">|&mdash;</span>', $row->level) ?>	
 					<a href="<?php 
 						echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&" . $featureCategoryVal);
 						?>">
 						<span><?php echo $row->category; ?></span></a>
-					<?php
-					if (count($result1) > 0)
-					{
-						echo "<ul> ";
-
-						foreach ($result1 as $rows)
-						{
-							$oriname = $rows->category;
-
-							// Category name changed here for seo url purpose
-							$newrname = explode(' ', $oriname);
-							$link = implode('-', $newrname);
-							$link1 = explode('&', $link);
-							$category = implode('and', $link1);
-
-							if ($seoOption == 1)
-							{
-								$featureCategoryVal = "category=" . $rows->seo_category;
-							}
-							else
-							{
-								$featureCategoryVal = "catid=" . $rows->id;
-							}
-							?>
-							<?php echo" <li class='hd-item-sub'>"; ?>
-					<a href="<?php
-					echo JRoute::_("index.php?option=com_contushdvideoshare&view=category&" . $featureCategoryVal);
-					?>">
-						<span><?php
-						echo $rows->category;
-						?></span></a><?php
-						echo '</li>';
-						?>
-							<?php
-						}
-
-						echo "</ul>";
-					}
-					?>
 				</li>
 				<?php
 			}

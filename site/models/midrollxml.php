@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -124,7 +124,12 @@ class Modelcontushdvideosharemidrollxml extends ContushdvideoshareModel
 					$impressionpath = $rows->impressionurl;
 				}
 
-				echo '<midroll targeturl="' . $rows->targeturl . '" clickurl="' . $clickpath . '" impressionurl="' . $impressionpath . '" >';
+				if (!preg_match("~^(?:f|ht)tps?://~i", $rows->targeturl))
+				{
+					$targeturl = "http://" . $rows->targeturl;
+				}
+
+				echo '<midroll targeturl="' . $targeturl . '" clickurl="' . $clickpath . '" impressionurl="' . $impressionpath . '" >';
 				echo '<![CDATA[';
 				echo '<span class="heading">' . $rows->adsname;
 				echo '</span><br><span class="midroll">' . $rows->adsdesc;

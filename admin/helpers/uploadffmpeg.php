@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access to this file
 defined('_JEXEC') or die;
@@ -129,7 +129,7 @@ class UploadFfmpegHelper
 						$strFfmpegPath . " -i " . $strTmpPath . ' ' . "-an -ss 00:00:03 -an -r 1 -vframes 1 -y"
 						. ' ' . $strTargetPath . $idval . '_preview' . ".jpeg"
 						);
-				$hd_name = $idval . '_video.' . $exts;
+				$hd_name = '';
 
 				if ($dispenable['amazons3'] == 1)
 				{
@@ -147,15 +147,6 @@ class UploadFfmpegHelper
 					else
 					{
 						$s3bucket_videurl = 0;
-					}
-
-					if ($s3->putObjectFile($strTargetPath . $hd_name, $bucket, $strhdVids3TargetPath, S3::ACL_PUBLIC_READ))
-					{
-						UploadFileHelper::amazons3update($strTargetPath . $hd_name, $hd_name, $idval, 'hdurl', $fileoption);
-					}
-					else
-					{
-						$s3bucket_hdurl = 0;
 					}
 
 					if ($s3->putObjectFile($strTargetPath . $idval . '_thumb' . ".jpeg", $bucket, $strthumbs3TargetPath, S3::ACL_PUBLIC_READ))

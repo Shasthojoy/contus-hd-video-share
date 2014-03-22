@@ -7,7 +7,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 
 /*
@@ -186,6 +186,7 @@ function streamer1(streamername) {
 		document.getElementById("filepath1").disabled = false;
 		document.getElementById("filepath3").disabled = false;
 		document.getElementById("filepath4").disabled = false;
+		document.getElementById("filepath5").disabled = false;
 		document.getElementById('fileoption').value = 'File';
 		withoutflashvisible();
 		urlhide();
@@ -200,6 +201,7 @@ function streamer1(streamername) {
 		document.getElementById("filepath1").disabled = true;
 		document.getElementById("filepath3").disabled = true;
 		document.getElementById("filepath4").disabled = true;
+		document.getElementById("filepath5").disabled = true;
 		document.getElementById('fileoption').value = 'Url';
 		withoutflashhide();
 		urlvisible();
@@ -212,6 +214,7 @@ function streamer1(streamername) {
 		document.getElementById("filepath1").disabled = true;
 		document.getElementById("filepath3").disabled = true;
 		document.getElementById("filepath4").disabled = true;
+		document.getElementById("filepath5").disabled = true;
 		document.getElementById('fileoption').value = 'Url';
 		withoutflashhide();
 		urlvisible();

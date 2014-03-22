@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -153,7 +153,7 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 								'a.videourl', 'a.thumburl', 'a.previewurl', 'a.hdurl', 'a.home', 'a.playlistid', 'a.duration',
 								'a.ordering', 'a.streamerpath', 'a.streameroption', 'a.postrollads', 'a.prerollads', 'a.midrollads', 'a.imaads', 'a.embedcode',
 								'a.description', 'a.targeturl', 'a.download', 'a.prerollid', 'a.postrollid', 'a.created_date',
-								'a.addedon', 'a.usergroupid', 'a.tags', 'a.useraccess', 'b.category', 'c.username'
+								'a.addedon', 'a.usergroupid', 'a.tags', 'a.useraccess', 'b.category', 'c.username', 'a.amazons3'
 								)
 							)
 					->from('#__hdflv_upload a')
@@ -281,9 +281,18 @@ class ContushdvideoshareModelshowvideos extends ContushdvideoshareModel
 			JError::raiseWarning($db->getErrorNum(), $db->stderr());
 		}
 
-		return array(
+		$query->clear()
+					->select('dispenable')
+					->from('#__hdflv_site_settings')
+					->where($db->quoteName('id') . ' = ' . $db->quote('1'));
+			$db->setQuery($query);
+			$setting_res = $db->loadResult();
+			$dispenable = unserialize($setting_res);
+
+			return array(
 			'pageNav' => $pageNav, 'limit' => $limit, 'limitstart' => $limitstart,
-			'lists' => $lists, 'rs_showupload' => $arrVideoList, 'rs_showplaylistname' => $rs_showplaylistname
+			'lists' => $lists, 'rs_showupload' => $arrVideoList, 'rs_showplaylistname' => $rs_showplaylistname,
+			'dispenable' => $dispenable
 				);
 	}
 

@@ -8,7 +8,7 @@
  * @license       : http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @abstract      : Contus HD Video Share component stylesheet
  * @Creation Date : March 2010
- * @Modified Date : February 2014
+ * @Modified Date : March 2014
  * */
 /*LTL CSS*/
 
@@ -246,7 +246,7 @@ a{cursor:pointer;}
 .floatright{float:right;}
 #viewid h3{font-size:13px;}
 .comment_textcolumn h1{font-size:20px;}
-#player_page #viewtitle {padding-bottom:5px;font-size: 18px;}
+#player_page #viewtitle {padding-bottom:5px;font-size: 18px;word-wrap: break-word;width: 100%;}
 .featureright h1{font-size:13px;padding:0px;margin:0px;}
 .videostopspace{margin-top:-20px;}
 
@@ -733,7 +733,7 @@ ul#upload_thread li input[type="radio"]{margin: 0;}
 .video-page-container.shortcode .video-page-rating .floatleft .rateimgleft{ float: right;}
 
 .video-page-container .video-page-tag{ padding-bottom: 10px; margin-bottom: 5px; clear: both;}
-.video-page-container .video-page-category {}
+.video-page-container .video-page-desc p {word-wrap: break-word; }
 .video-page-info{clear: both; overflow: hidden; padding-bottom: 5px; }
 .video-page-info .video-page-rating{float: right; *width:30%;}
 .video-page-info .video-page-rating .rateimgleft{float: right; }

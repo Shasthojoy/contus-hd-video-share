@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access
 defined('_JEXEC') or die('Restricted access');
@@ -679,17 +679,24 @@ onclick="window.open('<?php echo $videolink; ?>', '',
 
 								<?php
 								$str1 = explode('administrator', JURI::base());
-								$thumbpath1 = $str1[0] . "/components/com_contushdvideoshare/videos/";
+								$thumbpath1 = $str1[0] . "components/com_contushdvideoshare/videos/";
 
-								if ($row_showupload->filepath == "File" || $row_showupload->filepath == "FFmpeg")
+								if ($row_showupload->filepath == "File" || $row_showupload->filepath == "FFmpeg" || $row_showupload->filepath == "Embed")
 								{
-									$thumblink2 = $row_showupload->thumburl;
+									if (isset($row_showupload->amazons3) && $row_showupload->amazons3 == 1)
+									{
+										$thumblink2 = $videolist1['dispenable']['amazons3link'] . $row_showupload->thumburl;
+									}
+									else
+									{
+										$thumblink2 = $thumbpath1 . $row_showupload->thumburl;
+									}
 
 									if ($thumblink2 != "")
 									{
 										?>
 										<a href="javascript:void(0)"
-										   onclick="window.open('<?php echo $thumbpath1 . $row_showupload->thumburl; ?>', '',
+										   onclick="window.open('<?php echo $thumblink2; ?>', '',
 													   'width=300,height=200,menubar=yes,status=yes,location=yes,toolbar=yes,scrollbars=yes')">
 											<?php echo $newtext = wordwrap($row_showupload->thumburl, 15, "\n", true); ?>
 										</a>

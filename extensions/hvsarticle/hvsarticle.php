@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   July 2013
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access to this file
 defined('_JEXEC') or die('Access Denied!');
@@ -129,18 +129,20 @@ class PlgContenthvsarticle extends JPlugin
 				// Get the video details from the database using id
 				if ($categoryid != '' && $idval != '')
 				{
-					$query->select(array('streamerpath', 'streameroption', 'filepath', 'videourl', 'thumburl', 'embedcode'))
-					->from('#__hdflv_upload')
-					->where('id = ' . (int) $idval)
-					->where('playlistid = ' . (int) $categoryid);
+					$query->clear()
+						->select(array('streamerpath', 'streameroption', 'filepath', 'videourl', 'thumburl', 'embedcode'))
+						->from('#__hdflv_upload')
+						->where('id = ' . (int) $idval)
+						->where('playlistid = ' . (int) $categoryid);
 					$db->setQuery($query);
 					$field = $db->loadObjectList();
 				}
 				elseif ($categoryid != '')
 				{
-					$query->select(array('streamerpath', 'streameroption', 'filepath', 'videourl', 'thumburl', 'embedcode'))
-					->from('#__hdflv_upload')
-					->where('playlistid = ' . (int) $categoryid);
+					$query->clear()
+						->select(array('streamerpath', 'streameroption', 'filepath', 'videourl', 'thumburl', 'embedcode'))
+						->from('#__hdflv_upload')
+						->where('playlistid = ' . (int) $categoryid);
 					$db->setQuery($query);
 					$field = $db->loadObjectList();
 
@@ -151,37 +153,39 @@ class PlgContenthvsarticle extends JPlugin
 				}
 				elseif ($idval != '')
 				{
-					$query->select(array('streamerpath', 'streameroption', 'filepath', 'videourl', 'thumburl', 'embedcode'))
-					->from('#__hdflv_upload')
-					->where('id = ' . (int) $idval);
+					$query->clear()
+						->select(array('streamerpath', 'streameroption', 'filepath', 'videourl', 'thumburl', 'embedcode'))
+						->from('#__hdflv_upload')
+						->where('id = ' . (int) $idval);
 					$db->setQuery($query);
 					$field = $db->loadObjectList();
 				}
 				elseif ($type != '')
 				{
-					$order = $query_type = null;
-
 					switch ($type)
 					{
 						case 'rec':
 							$order = " a.id DESC ";
 							break;
 						case 'fea':
-							$query_type = " AND a.featured=1 ";
+							$query->where($db->quoteName('a.featured') . ' = ' . $db->quote('1'));
+							$order = " a.id DESC ";
 							break;
 						case 'pop':
 							$order = " a.times_viewed DESC ";
 							break;
 					}
 
-					$query->select(array('a.streamerpath', 'a.streameroption', 'a.filepath', 'a.videourl', 'a.thumburl', 'a.embedcode'))
-					->from('#__hdflv_upload AS a')
-					->leftJoin('#__users AS d ON a.memberid=d.id')
-					->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
-					->leftJoin('#__hdflv_category AS b ON e.catid=b.id')
-					->where('a.published = ' . $db->quote('1') . ' AND b.published=' . $db->quote('1') . $query_type . ' AND a.type= ' . $db->quote('1'))
-					->group($db->escape('e.vid'))
-					->order($db->escape($order));
+					$query->clear()
+						->select(array('a.streamerpath', 'a.streameroption', 'a.filepath', 'a.videourl', 'a.thumburl', 'a.embedcode'))
+						->from('#__hdflv_upload AS a')
+						->leftJoin('#__users AS d ON a.memberid=d.id')
+						->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
+						->leftJoin('#__hdflv_category AS b ON e.catid=b.id')
+						->where($db->quoteName('a.published') . ' = ' . $db->quote('1') . ' AND ' . $db->quoteName('b.published') . ' = ' . $db->quote('1'))
+						->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
+						->group($db->escape('e.vid'))
+						->order($db->escape($order));
 					$db->setQuery($query);
 					$field = $db->loadObjectList();
 				}
@@ -235,7 +239,7 @@ class PlgContenthvsarticle extends JPlugin
 				$query->clear()
 					->select(array('player_icons', 'player_values'))
 					->from('#__hdflv_player_settings');
-				$db->setQuery($query, 1);
+				$db->setQuery($query);
 				$rs_settings = $db->loadObject();
 				$player_icons = unserialize($rs_settings->player_icons);
 				$player_values = unserialize($rs_settings->player_values);
@@ -541,7 +545,7 @@ class PlgContenthvsarticle extends JPlugin
 				if ($filepath == "File" || $filepath == "FFmpeg" || $filepath == "Url")
 				{
 					// Checks for File or FFMpeg or url
-					$replace .= '<video id="video" poster="' . $thumImg . '" src="' . $videos
+					$replace .= '<video id="video" style="width:100%" poster="' . $thumImg . '" src="' . $videos
 							. '" autobuffer controls onerror="failed(event)">
 Html5 Not support This video Format.
 </video>';

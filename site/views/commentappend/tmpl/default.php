@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 defined('_JEXEC') or die('Restricted access');
 ?>
@@ -363,9 +363,7 @@ if ($cmdid == 2)
 							<span class="label"><?php echo JText::_('HDVS_COMMENT'); ?>   : </span>
 							<textarea class="messagebox commenttxtarea" name="comment_message" id="comment_message"
 									  onKeyDown="CountLeft(this.form.comment_message, this.form.left, 500);"
-									  onKeyUp="CountLeft(this.form.comment_message, this.form.left, 500);" >
-								
-							</textarea>
+									  onKeyUp="CountLeft(this.form.comment_message, this.form.left, 500);" ></textarea>
 							<div   class="remaining_character"><div class="floatleft" style="margin-top: 2px;">
 									Remaining Characters:</div>
 								<div class="commenttxt"><input readonly type="text" name="left" size=1 maxlength=8

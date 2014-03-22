@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -78,8 +78,13 @@ class Modelcontushdvideoshareadsxml extends ContushdvideoshareModel
 					$postvideo = $rows->postvideopath;
 				}
 
+				if (!preg_match("~^(?:f|ht)tps?://~i", $rows->targeturl))
+				{
+					$targeturl = "http://" . $rows->targeturl;
+				}
+
 				echo '<ad id="' . $rows->id . '" url="' . $postvideo
-						. '" targeturl="' . $rows->targeturl
+						. '" targeturl="' . $targeturl
 						. '" clickurl="' . $clickpath . '" impressionurl="'
 						. $impressionpath . '">';
 				echo '<![CDATA[' . $rows->adsdesc . ']]>';

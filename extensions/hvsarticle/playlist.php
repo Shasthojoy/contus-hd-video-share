@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   July 2013
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access to this file
 define('_JEXEC', 1);
@@ -25,7 +25,7 @@ require_once JPATH_BASE . DS . 'libraries' . DS . 'joomla' . DS . 'factory.php';
 
 $type = JRequest::getVar('type');
 $playlistautoplay = $download = 'false';
-$order = $query = null;
+$order = null;
 $db = JFactory::getDbo();
 $query = $db->getQuery(true);
 $baseUrl = JURI::base();
@@ -41,7 +41,8 @@ switch ($type)
 		break;
 
 	case 'fea':
-		$query = "AND `featured`=1 ";
+		$query->where($db->quoteName('a.featured') . ' = ' . $db->quote('1'));
+		$order = " a.id DESC ";
 
 		break;
 
@@ -52,10 +53,11 @@ switch ($type)
 }
 
 // Get player settings
-$query->select('player_icons')
+$query->clear()
+		->select('player_icons')
 		->from('#__hdflv_player_settings');
 
-$db->setQuery($query, 1);
+$db->setQuery($query);
 $rs_settings = $db->loadResult();
 $player_icons = unserialize($rs_settings);
 
@@ -76,7 +78,10 @@ $query->clear()
 		->leftJoin('#__users AS d ON a.memberid=d.id')
 		->leftJoin('#__hdflv_video_category AS e ON e.vid=a.id')
 		->leftJoin('#__hdflv_category AS b ON e.catid=b.id')
-		->where('a.published = ' . $db->quote('1') . ' AND b.published=' . $db->quote('1') . $query . ' AND a.filepath != ' . $db->quote('Embed'))
+		->where($db->quoteName('a.published') . ' = ' . $db->quote('1') . ' AND ' . $db->quoteName('b.published') . ' = ' . $db->quote('1'))
+		->where($db->quoteName('a.type') . ' = ' . $db->quote('0'))
+		->where($db->quoteName('d.block') . ' = ' . $db->quote('0'))
+		->where($db->quoteName('a.filepath') . ' != ' . $db->quote('Embed'))
 		->group($db->escape('e.vid'))
 		->order($db->escape($order));
 $db->setQuery($query);
@@ -353,7 +358,15 @@ foreach ($records as $record)
 		$download = "false";
 	}
 
+	if ($dispenable['viewedconrtol'] == 1)
+	{
 	$views = $record->times_viewed;
+	}
+	else
+	{
+		$views = '';
+	}
+
 	$tags = $record->tags;
 
 	if ($streamername != "")

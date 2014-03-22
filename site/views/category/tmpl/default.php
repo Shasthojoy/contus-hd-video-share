@@ -8,7 +8,7 @@
  * @license    http:// www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct acesss
 defined('_JEXEC') or die('Restricted access');
@@ -536,7 +536,7 @@ echo $player_values['height'];
 							|| $this->categoryview[$i]->filepath == "FFmpeg"
 							|| $this->categoryview[$i]->filepath == "Embed")
 						{
-							if (isset($this->categoryview[0]->amazons3) && $this->categoryview[0]->amazons3 == 1)
+							if (isset($this->categoryview[$i]->amazons3) && $this->categoryview[$i]->amazons3 == 1)
 							{
 								$src_path = $dispenable['amazons3link']
 										. $this->categoryview[$i]->thumburl;

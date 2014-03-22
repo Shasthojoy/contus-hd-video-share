@@ -8,7 +8,7 @@
  * @license    http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  * @since      Joomla 1.5
  * @Creation Date   March 2010
- * @Modified Date   February 2014
+ * @Modified Date   March 2014
  * */
 // No direct access
 defined('_JEXEC') or die('Restricted access');
@@ -660,16 +660,18 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 			<tr id="ffmpeg_disable_new5" name="ffmpeg_disable_edit5" style="width:200px;">
 				<td><?php echo JHTML::tooltip('Enter Youtube/Vimeo/Video URL', 'Video URL', '', 'Video URL'); ?></td>
 				<td>
+					<div style="float: left;margin-right: 5px;">
 					<input type="text" name="videourl" style="width:300px" id="videourl" size="100" onkeyup="generate12(this.value);" 
 						   maxlength="250" value="<?php
 if ($editVideo['rs_editupload']->filepath == 'Url' || $editVideo['rs_editupload']->filepath == 'Youtube')
 {
 	echo $editVideo['rs_editupload']->videourl;
 }
-?>"/>
-					&nbsp;&nbsp
+?>"/></div>
+					<div style="float: left;margin-top: 2px;">
 					<input id="generate" type="submit" name="youtube_media" class="button-primary"
 						   value="Generate details" onclick="generateyoutubedetail();" />
+					</div>
 				</td>
 			</tr>
 			<tr id="ffmpeg_disable_new8" name="ffmpeg_disable_edit8"><td>
@@ -1410,18 +1412,21 @@ if ($editVideo['rs_editupload']->streameroption == 'None' || $editVideo['rs_edit
 {
 	?>
 				document.getElementById("streameroption1").checked = true;
+				streamer1('None');
 	<?php
 }
 elseif ($editVideo['rs_editupload']->streameroption == 'lighttpd')
 {
 	?>
 				document.getElementById("streameroption2").checked = true;
+				streamer1('lighttpd');
 <?php
 }
 elseif ($editVideo['rs_editupload']->streameroption == "rtmp")
 {
 	?>
 				document.getElementById("streameroption3").checked = true;
+				streamer1('rtmp');
 <?php
 }
 
