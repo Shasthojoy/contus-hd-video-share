@@ -76,6 +76,7 @@ class Modelcontushdvideosharemyvideos extends ContushdvideoshareModel
 		$query = $db->getQuery(true);
 		$where = $order = $search = $hidden_page = '';
 		$pageno = 1;
+		$allowupload_user = 0;
 
 		if (JRequest::getVar('deletevideo', '', 'post', 'int'))
 		{
