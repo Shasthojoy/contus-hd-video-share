@@ -353,12 +353,16 @@ class Modelcontushdvideoshareconfigxml extends ContushdvideoshareModel
 		$emailpath = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=emailuser');
 
 		// Video download file path
-		$downloadpath = $baseUrl1 . JRoute::_('index.php?option=com_contushdvideoshare&task=downloadfile');
+		$downloadpath = '';
 
 		// Add http in URL if not exist
 		$logotarget = $player_values['logourl'];
 
-		if (!preg_match("~^(?:f|ht)tps?://~i", $logotarget))
+		if (empty($logotarget))
+		{
+			$logotarget = $baseUrl;
+		}
+		elseif (!preg_match("~^(?:f|ht)tps?://~i", $logotarget))
 		{
 			$logotarget = "http://" . $logotarget;
 		}
