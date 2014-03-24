@@ -162,12 +162,19 @@ class Modelcontushdvideosharemyvideos extends ContushdvideoshareModel
 
 		if (count($row) != 0)
 		{
-			$allowupload = $row[0]->allowupload;
+			$allowupload_user = $row[0]->allowupload;
+		}
+
+		$dispenable = unserialize($limitrow[0]->dispenable);
+		$allowupload_settings = $dispenable['allowupload'];
+
+		if ($allowupload_settings == 1)
+		{
+			$allowupload = $allowupload_user;
 		}
 		else
 		{
-			$dispenable = unserialize($limitrow[0]->dispenable);
-			$allowupload = $dispenable['allowupload'];
+			$allowupload = $allowupload_settings;
 		}
 
 		$pages = ceil($total / $length);

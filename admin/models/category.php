@@ -34,6 +34,7 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 	public function __construct()
 	{
 		global $mainframe, $db, $option;
+		global $cateid;
 		parent::__construct();
 		$mainframe = JFactory::getApplication();
 		$db = JFactory::getDBO();
@@ -453,6 +454,36 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 	}
 
 	/**
+	 * Function to fetch category parent ids
+	 * 
+	 * @param   array  $id  category id
+	 * 
+	 * @return  array
+	 */
+	public function getcategoryids($id)
+	{
+		global $db,$cateid;
+		$categoryid = '';
+		$query = $db->getQuery(true);
+		$query->clear()
+				->select($db->quoteName(array('id')))
+				->from($db->quoteName('#__hdflv_category'))
+				->where($db->quoteName('parent_id') . 'IN (' . $id . ') AND published != -2');
+		$db->setQuery($query);
+		$categoryids = $db->loadColumn();
+		$cateid .= $id;
+
+		if (!empty($categoryids))
+		{
+			$cids = implode(',', $categoryids);
+			$cateid .= ',';
+			$categoryid = self::getcategoryids($cids);
+		}
+
+		return $cateid;
+	}
+
+	/**
 	 * Function to fetch categories,ads and adding new video
 	 * 
 	 * @param   array  $arrayIDs  category detail array
@@ -480,21 +511,32 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 		}
 
 		$cids1 = $arrayIDs['cid'];
-		$categoryTable = & JTable::getInstance('category', 'Table');
+		$categoryTable = JTable::getInstance('category', 'Table');
 		$cids = implode(',', $arrayIDs['cid']);
 		$query->clear()
 				->select($db->quoteName(array('parent_id')))
 				->from($db->quoteName('#__hdflv_category'))
-				->where($db->quoteName('id') . 'IN (\'' . $cids . '\')');
+				->where($db->quoteName('id') . 'IN (' . $cids . ') AND published != -2');
 		$db->setQuery($query);
 		$options = $db->loadResult();
+
+		// Recurse through children if they exist
+		$categoryid = array();
+
+		if (!empty($cids1))
+		{
+			foreach ($cids1 as $cids2)
+			{
+				$categoryid = self::getcategoryids($cids);
+			}
+		}
 
 		if ($options != 0)
 		{
 			$query->clear()
 				->select($db->quoteName(array('published')))
 				->from($db->quoteName('#__hdflv_category'))
-				->where($db->quoteName('id') . 'IN (\'' . $options . '\')');
+				->where($db->quoteName('id') . 'IN (' . $options . ') AND published != -2');
 			$db->setQuery($query);
 			$published = $db->loadResult();
 
@@ -510,12 +552,12 @@ class ContushdvideoshareModelcategory extends ContushdvideoshareModel
 
 		// Fields to update.
 		$fields = array(
-			$db->quoteName('published') . '=\'' . $publish . '\''
+			$db->quoteName('published') . '=' . $publish
 		);
 
 		// Conditions for which records should be updated.
 		$conditions = array(
-			$db->quoteName('parent_id') . ' IN (' . $cids . ' )'
+			$db->quoteName('parent_id') . ' IN (' . $categoryid . ' ) AND published != -2'
 		);
 
 		//  Update streamer option,thumb url and file path
