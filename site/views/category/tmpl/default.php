@@ -480,7 +480,7 @@ mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 	<embed wmode="opaque" src="<?php echo $playerpath; ?>" type="application/x-shockwave-flash"
 		   allowscriptaccess="always" allowfullscreen="true" flashvars="baserefJHDV=<?php echo $baseurl; ?>
 <?php
-echo '&amp;id=' . $this->categoryList[0]->vid . '&amp;catid=' . $this->categoryList[0]->id;
+echo '&mtype=playerModule&amp;id=' . $this->categoryList[0]->vid . '&amp;catid=' . $this->categoryList[0]->id;
 ?>"  style="width:<?php
 echo $player_values['width'];
 ?>px; height:<?php
