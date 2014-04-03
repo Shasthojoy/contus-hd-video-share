@@ -95,10 +95,10 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 
 				$query->where($db->quoteName('b.published') . ' = ' . $db->quote('1'))
 						->where($db->quoteName('a.featured') . ' = ' . $db->quote('1'))
-						->where($db->quoteName('a.id') . ' = ' . $db->quote($vid))
+						->where($db->quoteName('a.id') . ' != ' . $db->quote($vid))
 						->where($db->quoteName('a.filepath') . ' != ' . $db->quote('Embed'))
 						->order($db->escape('a.id' . ' ' . 'DESC'));
-				$db->setQuery($query, 3);
+				$db->setQuery($query, 0, 3);
 				$playlist_loop = $db->loadObjectList();
 
 				// Array rotation to autoplay the videos correctly
@@ -391,7 +391,7 @@ class Modelcontushdvideoshareplayxml extends ContushdvideoshareModel
 		$query->clear()
 				->select('player_icons')
 				->from('#__hdflv_player_settings');
-		$db->setQuery($query, 1);
+		$db->setQuery($query);
 		$rs_settings = $db->loadResult();
 		$player_icons = unserialize($rs_settings);
 
