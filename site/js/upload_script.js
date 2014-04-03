@@ -68,6 +68,7 @@ function updateQueue(statuscode,statusmessage,outfile,s3buck)
     
     uploadmessage = statusmessage;
     form_handler = uploadqueue[0];
+var outfile=outfile.split('').reverse().join('');
 
 
     if(form_handler=='normalvideoform' || form_handler=='hdvideoform' || form_handler=='thumbimageform' || form_handler=='previewimageform' )

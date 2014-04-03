@@ -32,7 +32,7 @@ class UploadYouTubeHelper
 	 */
 	public function uploadYouTube($arrFormData, $idval)
 	{
-		$videourl = $arrFormData['videourl-value'];
+		$videourl = strrev($arrFormData['videourl-value']);
 		$str1 = explode('administrator', JURI::base());
 		$videoshareurl = $str1[0] . "index.php?option=com_contushdvideoshare&view=videourl";
 		$timeout = $header = $hdurl = "";

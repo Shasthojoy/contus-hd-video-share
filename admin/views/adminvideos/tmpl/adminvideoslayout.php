@@ -153,9 +153,9 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 							}
 					document.getElementById('fileoption').value = 'Url';
 							if (document.getElementById('videourl').value != "")
-							document.getElementById('videourl-value').value = document.getElementById('videourl').value;
+							document.getElementById('videourl-value').value = document.getElementById('videourl').value.split("").reverse().join("");
 							if (document.getElementById('thumburl').value != "") {
-					document.getElementById('thumburl-value').value = document.getElementById('thumburl').value;
+					document.getElementById('thumburl-value').value = document.getElementById('thumburl').value.split("").reverse().join("");
 							thumbUrl = document.getElementById('thumburl').value;
 							var thumburlregex = thumbUrl.match("^(http:\/\/|https:\/\/|ftp:\/\/|www.){1}([0-9A-Za-z]+\.)");
 							if (thumburlregex == null) {
@@ -164,7 +164,7 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 							}
 					}
 					if (document.getElementById('previewurl').value != "") {
-					document.getElementById('previewurl-value').value = document.getElementById('previewurl').value;
+					document.getElementById('previewurl-value').value = document.getElementById('previewurl').value.split("").reverse().join("");
 							previewUrl = document.getElementById('previewurl').value;
 							var previewurlregex = previewUrl.match("^(http:\/\/|https:\/\/|ftp:\/\/|www.){1}([0-9A-Za-z]+\.)");
 							if (previewurlregex == null) {
@@ -173,7 +173,7 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 							}
 					}
 					if (document.getElementById('hdurl').value != "") {
-					document.getElementById('hdurl-value').value = document.getElementById('hdurl').value;
+					document.getElementById('hdurl-value').value = document.getElementById('hdurl').value.split("").reverse().join("");
 							hdUrl = document.getElementById('hdurl').value;
 							var hdurlregex = hdUrl.match("^(http:\/\/|https:\/\/|ftp:\/\/|www.){1}([0-9A-Za-z]+\.)");
 							if (hdurlregex == null) {
@@ -237,7 +237,7 @@ if (isset($player_values['licensekey']) && $player_values['licensekey'] != '')
 								{
 								document.getElementById('fileoption').value = 'Youtube';
 										if (document.getElementById('videourl').value != "")
-										document.getElementById('videourl-value').value = document.getElementById('videourl').value;
+										document.getElementById('videourl-value').value = document.getElementById('videourl').value.split("").reverse().join("");
 										}
 							else
 									{
@@ -1373,7 +1373,7 @@ else
 	<input type="hidden" name="subtitle_video_srt2form-value" id="subtitle_video_srt2form-value" value="<?php
 	echo $editVideo['rs_editupload']->subtitle2;
 	?>" />
-	<input type="hidden" name="ffmpegform-value" id="ffmpegform-value" value="<?php echo $editVideo['rs_editupload']->videourl; ?>" />
+	<input type="hidden" name="ffmpegform-value" id="ffmpegform-value" value="<?php echo strrev($editVideo['rs_editupload']->videourl); ?>" />
 	<input type="hidden" name="videourl-value" id="videourl-value" value="" />
 	<input type="hidden" name="embedcode" id="embedcode" value="" />
 	<input type="hidden" name="thumburl-value" id="thumburl-value" value="" />

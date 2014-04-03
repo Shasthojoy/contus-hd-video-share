@@ -83,7 +83,7 @@ class UploadFfmpegHelper
 		}
 
 		$fileoption = $arrFormData['fileoption'];
-		$ffmpeg_video = $arrFormData['ffmpegform-value'];
+		$ffmpeg_video = strrev($arrFormData['ffmpegform-value']);
 		$video_name = explode('uploads/', $ffmpeg_video);
 
 		if (!empty($video_name[1]))

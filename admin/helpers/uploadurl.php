@@ -46,25 +46,25 @@ class UploadUrlHelper
 		// Assign video url
 		if ($arrFormData['videourl-value'] != "")
 		{
-			$videourl = $arrFormData['videourl-value'];
+			$videourl = strrev($arrFormData['videourl-value']);
 		}
 
 		// Assign hd url
 		if ($arrFormData['hdurl-value'] != "")
 		{
-			$hdurl = $arrFormData['hdurl-value'];
+			$hdurl = strrev($arrFormData['hdurl-value']);
 		}
 
 		// Assign thumb image url
 		if ($arrFormData['thumburl-value'] != "")
 		{
-			$thumburl = $arrFormData['thumburl-value'];
+			$thumburl = strrev($arrFormData['thumburl-value']);
 		}
 
 		// Assign preview image url
 		if ($arrFormData['previewurl-value'] != "")
 		{
-			$previewurl = $arrFormData['previewurl-value'];
+			$previewurl = strrev($arrFormData['previewurl-value']);
 		}
 
 		// Assign streamer path

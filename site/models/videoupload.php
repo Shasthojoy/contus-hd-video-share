@@ -131,7 +131,7 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel
 		}
 
 		$videourl = JRequest::getVar('videourl', '', 'post', 'string');
-		$normalvideoformval = JRequest::getVar('normalvideoformval', '', 'post', 'string');
+		$normalvideoformval = strrev(JRequest::getVar('normalvideoformval', '', 'post', 'string'));
 		$normalvideoforms3status = JRequest::getVar('normalvideoforms3status', '', 'post', 'string');
 		$hdvideoforms3status = JRequest::getVar('hdvideoforms3status', '', 'post', 'string');
 		$thumbimageforms3status = JRequest::getVar('thumbimageforms3status', '', 'post', 'string');
@@ -249,22 +249,22 @@ class Modelcontushdvideosharevideoupload extends ContushdvideoshareModel
 
 				// Getting the hd video name
 				$hdvideo = substr(
-						JRequest::getVar('hdvideoformval', '', 'post', 'string'), 16,
-						strlen(JRequest::getVar('hdvideoformval', '', 'post', 'string'))
+						strrev(JRequest::getVar('hdvideoformval', '', 'post', 'string')), 16,
+						strlen(strrev(JRequest::getVar('hdvideoformval', '', 'post', 'string')))
 						);
 				$hd = substr($hdvideo, strrpos($hdvideo, '/') + 1, strlen($hdvideo));
 
 				// Getting the thumb image name
 				$thumimg = substr(
-						JRequest::getVar('thumbimageformval', '', 'post', 'string'), 16,
-						strlen(JRequest::getVar('thumbimageformval', '', 'post', 'string'))
+						strrev(JRequest::getVar('thumbimageformval', '', 'post', 'string')), 16,
+						strlen(strrev(JRequest::getVar('thumbimageformval', '', 'post', 'string')))
 						);
 				$img = substr($thumimg, strrpos($thumimg, '/') + 1, strlen($thumimg));
 
 				// Getting the preview image name
 				$previewimg = substr(
-						JRequest::getVar('previewimageformval', '', 'post', 'string'), 16,
-						strlen(JRequest::getVar('previewimageformval', '', 'post', 'string'))
+						strrev(JRequest::getVar('previewimageformval', '', 'post', 'string')), 16,
+						strlen(strrev(JRequest::getVar('previewimageformval', '', 'post', 'string')))
 						);
 				$previewurl = substr($previewimg, strrpos($previewimg, '/') + 1, strlen($previewimg));
 			}
